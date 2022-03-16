@@ -22,10 +22,6 @@
 * SECRET_KEY = < Your secret goes here >
 ```
 
-## Note to Self..
-Anytime you are creating code that will modify the database think from the server side first. A good application is lite and most of the work should be done by the server.
-
-
 ## Server Status System
 ```
 * "executed: false" --> Unexpected Error
