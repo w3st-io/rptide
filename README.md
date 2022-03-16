@@ -51,7 +51,9 @@ A Headless Content & Product Management System
 ## FILL-DATA should be done in the "collections" file
 
 ## ROUTE STRUCTURE
+```
 /< CLASSIFICATION (leave empty for public): "user" or "admin" >/< ITEM  >/:item_related_property/< FUNCTION: (create, read, read-all.. etc) >/:tab/:sort/:limit/:page/:other
+```
 
 ## TODO
 * ADD SCHEDULE SYSTEM!
