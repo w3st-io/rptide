@@ -2,7 +2,6 @@
 A Headless Content & Product Management System
 
 ## ENV File Example
-
 ```
 * ADMIN_FUNCTIONALITY = < true/false >
 * USER_FUNCTIONALITY = < true/false >
