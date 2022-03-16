@@ -1,7 +1,7 @@
 # RpTide
 
 ## ENV File Example
-# ADD SCHEDULE SYSTEM!
+
 ##### FUNCTIONALITY
 * ADMIN_FUNCTIONALITY = < true/false >
 * USER_FUNCTIONALITY = < true/false >
@@ -10,7 +10,7 @@
 * COMMENT_FUNCTIONALITY = < true/false >
 
 ##### URL
-* *BASE_URL = https://wwww.< (PRODUCTION ONLY) Url of Site >
+* *BASE_URL = https://www.< (PRODUCTION ONLY) Url of Site >
 
 ##### PORT
 * PORT = < Chosen port here >
@@ -61,3 +61,6 @@ Anytime you are creating code that will modify the database think from the serve
 
 ## ROUTE STRUCTURE
 /< CLASSIFICATION (leave empty for public): "user" or "admin" >/< ITEM  >/:item_related_property/< FUNCTION: (create, read, read-all.. etc) >/:tab/:sort/:limit/:page/:other
+
+## TODO
+* ADD SCHEDULE SYSTEM!
