@@ -1,0 +1,36 @@
+{
+  "name": "rptide-server",
+  "version": "0.9.1",
+  "engines": {
+    "node": "14.x"
+  },
+  "description": "This is the server for rptide",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --only=dev --prefix client && npm run build --prefix client"
+  },
+  "author": "aleem ahmed",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "coinbase-pro": "^0.9.0",
+    "cors": "^2.8.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.16.3",
+    "express-rate-limit": "^5.1.3",
+    "fuzzy-search": "^3.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.13",
+    "mongoose-fuzzy-searching": "^1.3.4",
+    "nodemon": "^2.0.15",
+    "sib-api-v3-sdk": "^8.2.1",
+    "socket.io": "^4.1.2",
+    "stripe": "^8.171.0",
+    "uuid": "^8.3.0",
+    "validator": "^13.1.1"
+  }
+}

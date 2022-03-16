@@ -1,0 +1,21 @@
+.vcc-row {
+	@extend .row;
+
+	.vcc-col {
+		@extend .col-sm;
+
+		.vcc-control {
+			@extend .form-control;
+			@extend .mb-3;
+			@extend .text-light;
+			@extend .bg-dark;
+			@extend .border-secondary;
+		
+			&[id=holder] { display: block; }
+		
+			&[id=expiryYear] { display: block; }
+		
+			&[id=cvv] { display: block; }
+		}
+	}
+}

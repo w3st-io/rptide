@@ -1,0 +1,136 @@
+<template>
+	<div id="app" :key="appKey">
+		<!-- Top Navbar & Side Menu -->
+		<NavBar v-if="$store.state.show.NavBar" />
+
+		<!-- Admin Bottom Bar -->
+		<AdminNavBar v-if="$store.state.admin.logged" />
+
+		<!-- Floating Pop Up Banner -->
+		<PopUpBanner
+			v-if="message"
+			:user_decoded="user_decoded"
+			:message="message"
+			BGColor="info"
+		/>
+
+		<!-- Pop Up Notifications -->
+		<PopUpNotifications v-if="$store.state.user.logged" />
+
+		<!-- Router -->
+		<RouterView :key="$route.name + ($route.params.id || '')" />
+
+		<!-- Bottom Footer -->
+		<Footer v-if="$store.state.show.Footer" />
+	</div>
+</template>
+
+<script>
+	// [IMPORT] Personal //
+	import PopUpBanner from '@/components/inform/PopUpBanner'
+	import PopUpNotifications from '@/components/notifications/PopUpNotifications'
+	import AdminNavBar from '@/components/UI/AdminNavBar'
+	import Footer from '@/components/UI/Footer'
+	import NavBar from '@/components/UI/NavBar'
+	import { EventBus } from '@/main'
+	import AdminService from '@/services/admin/AdminService'
+	import Service from '@/services/Service'
+	import UserService from '@/services/user/UserService'
+	import Socket from '@/socket'
+
+	export default {
+		name: 'App',
+
+		components: {
+			PopUpBanner,
+			PopUpNotifications,
+			AdminNavBar,
+			Footer,
+			NavBar
+		},
+
+		data() {
+			return {
+				appKey: 0,
+				reqData: {},
+				message: '',
+			}
+		},
+
+		methods: {
+			async initializeApp() {
+				try {
+					this.reqData = await Service.index()
+
+					if (this.reqData.status) {
+						// [local-storage] //
+						localStorage.setItem('node_env', this.reqData.node_env)
+
+						// [store] //
+						this.$store.state.node_env = this.reqData.node_env
+						this.$store.state.dashboard.webApps = this.reqData.webApps
+						this.$store.state.api.privateKey = this.reqData.api.privateKey
+					}
+
+					// [USER-LOGGED] //
+					if (localStorage.usertoken) {
+						this.$store.state.user.logged == true
+					}
+
+					// [ADMIN-LOGGED] //
+					if (localStorage.admin) {
+						this.$store.state.admin.logged == true
+					}
+				}
+				catch (err) { console.log(`App: Error --> ${err}`) }
+			},
+
+
+			log() {
+				console.log('%%% [APP] %%%')
+				console.log('usertoken:', localStorage.usertoken)
+				console.log('admintoken:', localStorage.admintoken)
+			}
+		},
+
+		async created() {
+			this.appKey++
+
+			// [INIT] //
+			await this.initializeApp()
+
+			// [USER] checkIn //
+			UserService.s_checkIn()
+
+			// [ADMIN] checkIn //
+			AdminService.s_checkIn()
+
+			// [SOCKET] //
+			Socket.initialize()
+			
+			EventBus.$on('force-rerender', () => { this.appKey++ })
+
+			// [LOG] //
+			//this.log()
+		},
+	}
+</script>
+
+<style lang="scss" scoped>
+	#app {
+		font-family:
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			Roboto,
+			Oxygen,
+			Ubuntu,
+			Cantarell,
+			'Open Sans',
+			'Helvetica Neue',
+			sans-serif
+		;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+</style>
