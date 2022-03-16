@@ -2,30 +2,25 @@
 
 ## ENV File Example
 
-##### FUNCTIONALITY
+```
 * ADMIN_FUNCTIONALITY = < true/false >
 * USER_FUNCTIONALITY = < true/false >
 * PAYMENT_SYSTEM = < true/false >
 * POST_FUNCTIONALITY = < true/false >
 * COMMENT_FUNCTIONALITY = < true/false >
 
-##### URL
 * *BASE_URL = https://www.< (PRODUCTION ONLY) Url of Site >
 
-##### PORT
 * PORT = < Chosen port here >
 
-##### MONGODB
 * MONGO_URI = < Mongo uri goes here >
 
-##### EMAIL
 * EMAIL_PASSWORD = < Email password >
 * EMAIL = < Email to send verification >
 * MAILER_URL = < Url for email >
 
-##### SECRET
 * SECRET_KEY = < Your secret goes here >
-
+```
 
 ## Note to Self..
 Anytime you are creating code that will modify the database think from the server side first. A good application is lite and most of the work should be done by the server.
