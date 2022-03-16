@@ -1,4 +1,5 @@
 # RpTide
+A Headless Content & Product Management System
 
 ## ENV File Example
 
