@@ -17,7 +17,7 @@ const router = express.Router().use(cors())
 
 
 // [INIT] //
-const location = '/s-routes/api/user/api-subscription'
+const location = '/s-route/api/user/api-subscription'
 
 
 router.post(
