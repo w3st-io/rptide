@@ -24,7 +24,7 @@ const router = express.Router().use(cors())
 
 
 // [INIT] //
-const location = '/s-routes/api/users'
+const location = '/s-route/api/users'
 
 
 /******************* [CRUD] *******************/

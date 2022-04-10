@@ -50,7 +50,6 @@ const noteSchemaID = await manager.createSchema(
 
 
 // Create the definition using the created schema ID
-
 const whatIsThis = await manager.createDefinition(
 	'myNote',
 	{

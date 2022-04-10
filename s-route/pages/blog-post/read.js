@@ -4,7 +4,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const SectionTextCollection = require('../../../s-collections/SectionTextCollection')
+const BlogPostCollection = require('../../../s-collections/BlogPostCollection')
 const Auth = require('../../../s-middlewares/Auth')
 
 
@@ -13,20 +13,20 @@ const router = express.Router().use(cors())
 
 
 // [INIT] //
-const location = '/s-routes/pages/blog-post/read'
+const location = '/s-route/pages/blog-post/read'
 
 
 router.get(
-	'/:sectionText_id',
+	'/:blogPost_id',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			const user_id = (req.user_decoded) ? req.user_decoded.user_id : undefined
 
-			// [READ][sectionText] //
-			const bPObj = await SectionTextCollection.c_read(
+			// [READ][BlogPost] //
+			const bPObj = await BlogPostCollection.c_read(
 				user_id,
-				req.params.sectionText_id
+				req.params.blogPost_id
 			)
 
 			res.send(bPObj)
