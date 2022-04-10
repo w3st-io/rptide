@@ -7,7 +7,7 @@ const WebAppCollection = require('../../s-collections/WebAppCollection')
 
 
 // [INIT] //
-const location = '/s-handler/web-app'
+const location = '/s-route-handler/web-app'
 
 
 module.exports = {

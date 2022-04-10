@@ -9,7 +9,7 @@ const SectionTextCollection = require('../../s-collections/SectionTextCollection
 
 
 // [INIT] //
-const location = '/s-handler/sectionText'
+const location = '/s-route-handler/sectionText'
 
 
 module.exports = {

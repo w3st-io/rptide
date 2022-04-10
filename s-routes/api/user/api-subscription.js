@@ -6,9 +6,9 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
-const h_apiSub = require('../../../s-handler/apiSubscription')
-const h_apiSub_paymentMethod = require('../../../s-handler/apiSubscription/paymentMethod')
-const h_apiSub_tierSwitcher = require('../../../s-handler/apiSubscription/tierSwitcher')
+const h_apiSub = require('../../../s-route-handler/apiSubscription')
+const h_apiSub_paymentMethod = require('../../../s-route-handler/apiSubscription/paymentMethod')
+const h_apiSub_tierSwitcher = require('../../../s-route-handler/apiSubscription/tierSwitcher')
 const Auth = require('../../../s-middlewares/Auth')
 
 

@@ -7,7 +7,7 @@ const validator = require('validator')
 const config = require('../s-config')
 const BanCollection = require('../s-collections/BanCollection')
 const UserCollection = require('../s-collections/UserCollection')
-const h_apiSubscription = require('../s-handler/apiSubscription')
+const h_apiSubscription = require('../s-route-handler/apiSubscription')
 
 
 // [INIT] //

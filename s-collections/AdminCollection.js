@@ -21,12 +21,12 @@ module.exports = {
 				}
 			}
 		
-			const user = await AdminModel.findOne({ email })
+			const admin = await AdminModel.findOne({ email })
 	
 			return {
 				executed: true,
 				status: true,
-				user: user
+				admin: admin
 			}
 		}
 		catch (err) {

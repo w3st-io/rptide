@@ -4,7 +4,7 @@ const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCo
 
 
 // [INIT] //
-const location = '/s-handler/apiSibscription/paymentMethod'
+const location = '/s-route-handler/apiSibscription/paymentMethod'
 
 
 module.exports = {

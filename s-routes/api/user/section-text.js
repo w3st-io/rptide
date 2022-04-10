@@ -5,7 +5,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../../s-rate-limiters')
-const h_sectionText = require('../../../s-handler/sectionText')
+const h_sectionText = require('../../../s-route-handler/sectionText')
 const Auth = require('../../../s-middlewares/Auth')
 const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
 

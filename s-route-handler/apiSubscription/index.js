@@ -1,7 +1,7 @@
 // [REQUIRE] Personal //
 const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection')
 const a_stripe_subscription = require('../../s-api/stripe/subscription')
-const h_stripe_apiSubscription_canceler = require('../../s-handler/apiSubscription/canceler')
+const h_stripe_apiSubscription_canceler = require('../../s-route-handler/apiSubscription/canceler')
 
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 
 		// [ERROR] //
 		if (!apiSubObj.status) {
-			console.log('/s-handler/apiSubscription Error:', apiSubObj.message)
+			console.log('/s-route-handler/apiSubscription Error:', apiSubObj.message)
 			return null
 		}
 
@@ -47,7 +47,7 @@ module.exports = {
 
 		// [ERROR] //
 		if (!apiSubObj.status) {
-			console.log('/s-handler/apiSubscription Error:', apiSubObj.message)
+			console.log('/s-route-handler/apiSubscription Error:', apiSubObj.message)
 			return
 		}
 

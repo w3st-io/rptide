@@ -10,7 +10,7 @@ const ProductOptionCollection = require('../../../s-collections/ProductOptionCol
 const ProductCollection = require('../../../s-collections/ProductCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
 const config_const = require('../../../s-config/const')
-const h_apiSubscription = require('../../../s-handler/apiSubscription')
+const h_apiSubscription = require('../../../s-route-handler/apiSubscription')
 const SectionTextCollection = require('../../../s-collections/SectionTextCollection')
 const Auth = require('../../../s-middlewares/Auth')
 

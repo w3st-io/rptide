@@ -6,7 +6,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const h_user = require('../../../s-handler/user')
+const h_user = require('../../../s-route-handler/user')
 const rateLimiters = require('../../../s-rate-limiters')
 const ActivityCollection = require('../../../s-collections/ActivityCollection')
 const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
