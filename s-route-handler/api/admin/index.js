@@ -1,23 +1,12 @@
 // [REQUIRE] //
 const bcrypt = require('bcryptjs')
-const cors = require('cors')
-const express = require('express')
 const jwt = require('jsonwebtoken')
 const validator = require('validator')
 
 
 // [REQUIRE] Personal //
 const config = require('../../../s-config')
-const rateLimiters = require('../../../s-rate-limiters')
 const AdminCollection = require('../../../s-collections/AdminCollection')
-
-
-// [INIT] //
-const secretKey = config.app.secretKey
-
-
-// [EXPRESS + USE] //
-const router = express.Router().use(cors())
 
 
 module.exports = {
@@ -97,8 +86,10 @@ module.exports = {
 					first_name: adminObj.admin.first_name,
 					last_name: adminObj.admin.last_name,
 				},
-				secretKey,
-				{/* expiresIn: 7200 */}
+				config.app.secretKey,
+				{
+					expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000
+				}
 			)
 	
 			// [SUCCESS] //

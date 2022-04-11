@@ -70,7 +70,9 @@ module.exports = {
 					verified: userObj.user.verified
 				},
 				config.app.secretKey,
-				{ expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000 }
+				{
+					expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000
+				}
 			)
 	
 			return {
