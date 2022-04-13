@@ -22,7 +22,8 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					message: `${location}: Invalid user_id`,
+					location: location,
+					message: 'Invalid user_id',
 				}
 			}
 		
@@ -33,9 +34,11 @@ module.exports = {
 				verificationCode: uuid.v4(),
 			}).save()
 	
+			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,
+				location: location,
 				verificationCode: verificationCode,
 			}
 		}
@@ -43,48 +46,93 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `${location}: Error --> ${err}`,
+				location: location,
+				message: `Error --> ${err}`,
 			}
 		}
 	},
 
 
 	// [READ] //
-	c_read: async ({ user_id }) => {
+	c_read_byUser_id: async ({ user_id }) => {
 		try {
 			// [VALIDATE] user_id //
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
 					status: false,
-					message: `${location}: Invalid user_id`,
+					location: location,
+					message: 'Invalid user_id',
 				}
 			}
 	
-			const vCode = await VerificationCodeModel.findOne({ user: user_id })
+			// [QUERY] //
+			const queryResult = await VerificationCodeModel.findOne({
+				user: user_id
+			})
 	
-			if (vCode) {
+			// [NOTHING-FOUND] //
+			if (!queryResult) {
 				return {
 					executed: true,
-					status: true,
-					message: '',
-					existance: true,
-					verificationCode: vCode,
+					status: false,
+					location: location,
+					message: 'No VerificationCode object found',
 				}
 			}
-			
+
+			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,
 				message: '',
-				existance: false,
+				location: location,
+				existance: true,
+				verificationCode: queryResult,
 			}
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `${location}: Error --> ${err}`,
+				location: location,
+				message: `Error --> ${err}`,
+			}
+		}
+	},
+
+
+	// [READ] //
+	c__read__query: async ({ query }) => {
+		try {
+			// [QUERY] //
+			const queryResult = await VerificationCodeModel.findOne(query)
+	
+			// [NOTHING-FOUND] //
+			if (!queryResult) {
+				return {
+					executed: true,
+					status: false,
+					location: location,
+					message: 'No VerificationCode object found',
+				}
+			}
+
+			// [SUCCESS] //
+			return {
+				executed: true,
+				status: true,
+				message: 'VerificationCode Object found',
+				location: location,
+				queryResult: queryResult,
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: location,
+				message: `Error --> ${err}`,
 			}
 		}
 	},
@@ -99,15 +147,19 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
+					location: location,
 					message: `${location}: Invalid user_id`,
 				}
 			}
 		
+			// [DELETE] //
 			const vCode = await VerificationCodeModel.deleteMany({ user: user_id })
 	
+			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,
+				location: location,
 				verificationCode: vCode,
 			}
 		}
@@ -115,99 +167,8 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
-	/******************* [VALIDATE] *******************/
-	c_validate: async ({ user_id, verificationCode }) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid user_id`,
-				}
-			}
-	
-			// [VALIDATE] verificationCode //
-			if (!validator.isAscii(verificationCode)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid verificationCode`,
-				}
-			}
-	
-			const vCode = await VerificationCodeModel.findOne({
-				user: user_id,
-				verificationCode: verificationCode,
-			})
-	
-			if (vCode) {
-				return {
-					executed: true,
-					status: true,
-					message: 'Valid verification code',
-					existance: true,
-				}
-			}
-	
-			return {
-				executed: true,
-				status: true,
-				message: 'Invalid verification code',
-				existance: false,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
-	/******************* [EXISTANCE] *******************/
-	c_existance: async (user_id) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid user_id`,
-				}
-			}
-	
-			const vCode = await VerificationCodeModel.findOne({ user: user_id })
-	
-			if (vCode) {
-				return {
-					executed: true,
-					status: true,
-					message: 'Valid verification code',
-					existance: true,
-				}
-			}
-	
-			return {
-				executed: true,
-				status: true,
-				message: 'Invalid verification code',
-				existance: false,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`,
+				location: location,
+				message: `Error --> ${err}`,
 			}
 		}
 	},

@@ -82,18 +82,8 @@ module.exports = {
 	},
 
 
-	c_update_cusId: async ({ apiSubscription_id, user_id, cusId }) => {
+	c_update__cusId__user_id: async ({ user_id, cusId }) => {
 		try {
-			// [VALIDATOR] apiSubscription_id //
-			if (!mongoose.isValidObjectId(apiSubscription_id)) {
-				return {
-					executed: true,
-					status: false,
-					location: location,
-					message: 'Invalid apiSubscription_id',
-				}
-			}
-
 			// [VALIDATE] user_id //
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
@@ -116,10 +106,7 @@ module.exports = {
 
 			// [UPDATE] Subscription //
 			const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
-				{
-					_id: apiSubscription_id,
-					user: user_id
-				},
+				{ user: user_id },
 				{
 					$set: {
 						"stripe.cusId": cusId,
@@ -127,6 +114,7 @@ module.exports = {
 				},
 			)
 
+			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,

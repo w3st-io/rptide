@@ -55,6 +55,7 @@ module.exports = {
 				metadata: { user_id: `${user_id}` },
 			})
 	
+			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,
@@ -67,13 +68,16 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: `${location}`,
-				message: `${location}: Error --> ${err}`,
+				message: `Error --> ${err}`,
 			}
 		}
 	},
 
+
+	a_readCustomer: async function ({ cusId }) {},
+
 	
-	a_setDefaultPaymentMethod: async function ({ cusId, pmId }) {
+	aa_setDefaultPaymentMethod: async function ({ cusId, pmId }) {
 		try {
 			const stripe_updatedCustomer = await Stripe.customers.update(
 				cusId,
@@ -84,6 +88,7 @@ module.exports = {
 				}
 			)
 
+			// [SUCCESS] //
 			return {
 				status: true,
 				executed: true,
@@ -95,7 +100,7 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: `${location}`,
-				message: `${location}: Error --> ${err}`,
+				message: `Error --> ${err}`,
 			}
 		}
 	},

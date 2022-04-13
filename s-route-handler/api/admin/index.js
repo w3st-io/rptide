@@ -9,6 +9,10 @@ const config = require('../../../s-config')
 const AdminCollection = require('../../../s-collections/AdminCollection')
 
 
+// [INIT] //
+const location = '/s-route-hander/api/admin'
+
+
 module.exports = {
 	login: async ({ req }) => {
 		try {
@@ -17,7 +21,7 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					location: '/api/admin/login',
+					location: `${location}/login`,
 					message: 'Invalid Params'
 				}
 			}
@@ -27,7 +31,7 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					location: '/api/admin/login',
+					location: `${location}/login`,
 					message: 'Invalid Params'
 				}
 			}
@@ -37,7 +41,7 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					location: '/api/admin/login',
+					location: `${location}/login`,
 					message: 'Invalid password',
 				}
 			}
@@ -47,7 +51,7 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					location: '/api/admin/login',
+					location: `${location}/login`,
 					message: 'Invalid password'
 				}
 			}
@@ -61,7 +65,7 @@ module.exports = {
 					executed: true,
 					status: true,
 					validation: false,
-					location: '/api/admin/login',
+					location: `${location}/login`,
 					message: 'Invalid email',
 				}
 			}
@@ -72,7 +76,7 @@ module.exports = {
 					executed: true,
 					status: true,
 					validation: false,
-					location: '/api/admin/login',
+					location: `${location}/login`,
 					message: 'Invalid password',
 				}
 			}
@@ -98,7 +102,7 @@ module.exports = {
 				status: true,
 				validation: true,
 				token: token,
-				location: '/api/admin/login',
+				location: `${location}/login`,
 				message: 'success',
 			}
 		}
@@ -106,9 +110,43 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				location: '/api/admin/login',
+				location: `${location}/login`,
 				message: `Error --> ${err}`,
 			}
 		}
-	}
+	},
+
+
+	register: async ({ req }) => {
+		try {
+			if (
+				!validator.isAscii(req.body.username) ||
+				!validator.isAscii(req.body.email) ||
+				!validator.isAscii(req.body.password)
+			) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/register`,
+					message: 'Invalid Params'
+				}
+			}
+
+			const returned = await AdminCollection.c_register(
+				req.body.username,
+				req.body.email,
+				req.body.password,
+			)
+
+			return returned
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}/register`,
+				message: `Error --> ${err}`,
+			}
+		}
+	},
 }
