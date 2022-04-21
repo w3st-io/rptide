@@ -57,7 +57,9 @@ router.post(
 /******************* [VERIFICATION] *******************/
 router.post(
 	'/resend-verification-email',
-	async (req, res) => { res.send(await rh_api_user.resendVerificationEmail({ req })) }
+	async (req, res) => {
+		res.send(await rh_api_user.resendVerificationEmail({ req }))
+	}
 )
 
 
@@ -90,8 +92,8 @@ router.post(
 						res.send({
 							executed: true,
 							status: false,
-							location: `${location}/reset-password`,
-							message: `${location}/reset-password: Invalid password`,
+							location: `${location}/change-password`,
+							message: `Invalid password`,
 						})
 					}
 				}
@@ -101,8 +103,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					location: `${location}/reset-password`,
-					message: `${location}/reset-password: Invalid Params`,
+					location: `${location}/change-password`,
+					message: `Invalid Params`,
 				})
 			}
 		}
@@ -110,8 +112,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				location: `${location}/reset-password`,
-				message: `${location}/reset-password: Error --> ${err}`,
+				location: `${location}/change-password`,
+				message: `Error --> ${err}`,
 			})
 		}
 	}
