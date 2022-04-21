@@ -30,27 +30,6 @@ module.exports = {
 	},
 
 
-	// Wrapper for creating a customer on stripe //
-	aa_readCustomer: async function ({ cusId }) {
-		try {
-			// [API][stripe] Create a customer //
-			const sCObj = await api_stripe_customer.a_readCustomer({
-				cusId
-			})
-
-			return sCObj
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
 	// wrapper for changing a paymentMethod for a customer on stripe //
 	aa_updatePaymentMethod: async function ({
 		cusId,

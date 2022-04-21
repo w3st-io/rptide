@@ -249,37 +249,38 @@ module.exports = {
 			if (!userObj.status) { return userObj }
 
 			// [UPDATE][ApiSubscription] //
-			const retrievedApiSubscriptionObj = await ApiSubscriptionCollection
-				.c_read_byUser({ user_id: userObj.user._id })
-
-			// [VALIDATE-STATUS] retrievedApiSubscriptionObj //
-			if (!retrievedApiSubscriptionObj.status) {
-				return retrievedApiSubscriptionObj
-			}
-
-			const stripeQuery = await api_stripe.aa_readCustomer()
-
-			// BROKEN! this function can be spammed causing mass creation of stripe customers
-			// solution: Write a check to see if the customer already exist given cusId
-			// [API][stripe] Create stripe customer //
-			const stripeObj = await api_stripe.aa_createCustomer({
-				user_id: userObj.user._id,
-				email: userObj.user.email,
-				username: userObj.user.username,
+			const apiSubObj_findOne = await ApiSubscriptionCollection.c_read_byUser({
+				user_id: userObj.user._id
 			})
 
-			// [VALIDATE-STATUS] stripeObj //
-			if (!stripeObj.status) { return stripeObj }
+			// [VALIDATE-STATUS] retrievedApiSubscriptionObj //
+			if (!apiSubObj_findOne.status) { return apiSubObj_findOne }
 
-			// [UPDATE][ApiSubscription] //
-			const apiSubscriptionObj = await ApiSubscriptionCollection
-				.c_update__cusId__user_id({
-					user_id: userObj.user._id,
-					cusId: stripeObj.createdStripeCustomer.id,
-				})
+			// if no cusId 
+			if (!apiSubObj_findOne.apiSubscription.stripe.cusId) {
+				const stripeObj = await api_stripe.aa_createCustomer(
+					{
+						user_id: userObj.user._id,
+						email: userObj.user.email,
+						username: userObj.user.username,
+					}
+				)
+	
+				// [VALIDATE-STATUS] stripeObj //
+				if (!stripeObj.status) { return stripeObj }
+	
+				// [UPDATE][ApiSubscription] //
+				const apiSubObj_updated = await ApiSubscriptionCollection.c_update__cusId__user_id(
+					{
+						user_id: userObj.user._id,
+						cusId: stripeObj.createdStripeCustomer.id,
+					}
+				)
+	
+				// [VALIDATE] updatedApiSubscriptionObj //
+				if (!apiSubObj_updated.status) { return apiSubObj_updated }
+			}
 
-			// [VALIDATE] updatedApiSubscriptionObj //
-			if (!apiSubscriptionObj.status) { return apiSubscriptionObj }
 
 			// [UPDATE][User] Verify //
 			await UserCollection.c_verify(req.body.user_id)
@@ -290,9 +291,6 @@ module.exports = {
 				status: true,
 				location: `${location}${subLocation}`,
 				existance: vCObj.existance,
-				createdStripeCustomer: stripeObj.createdStripeCustomer,
-				createdStripePaymentMethod: stripeObj.createdStripePaymentMethod,
-				attachedPaymentMethod: stripeObj.attachedPaymentMethod,
 			}		
 		}
 		catch (err) {

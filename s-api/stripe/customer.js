@@ -73,13 +73,10 @@ module.exports = {
 		}
 	},
 
-
-	a_readCustomer: async function ({ cusId }) {},
-
 	
 	aa_setDefaultPaymentMethod: async function ({ cusId, pmId }) {
 		try {
-			const stripe_updatedCustomer = await Stripe.customers.update(
+			const result = await Stripe.customers.update(
 				cusId,
 				{
 					invoice_settings: {
@@ -92,7 +89,7 @@ module.exports = {
 			return {
 				status: true,
 				executed: true,
-				stripe_updatedCustomer: stripe_updatedCustomer,
+				stripe_updatedCustomer: result,
 			}
 		}
 		catch (err) {
