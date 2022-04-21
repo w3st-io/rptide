@@ -206,7 +206,7 @@ module.exports = {
 		}
 	},
 
-	
+
 	completeRegistration: async ({ req }) => {
 		// [INIT] //
 		const subLocation = '/complete-registration'
@@ -293,6 +293,54 @@ module.exports = {
 				location: `${location}${subLocation}`,
 				existance: vCObj.existance,
 			}		
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}${subLocation}`,
+				message: `Error --> ${err}`,
+			}
+		}
+	},
+
+
+	resendVerificationEmail: async ({ req }) => {
+		const subLocation = '/resend-verification-email'
+
+		try {
+			// [VALIDATE] //
+			if (!validator.isAscii(req.body.email)) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}${subLocation}`,
+					message: `Invalid params`,
+				}
+			}
+
+			// [READ][User] Get User by Email //
+			const user = await UserCollection.c_read_byEmail(req.body.email)
+
+			// [READ][VerificationCode] by user_id //
+			const vCode = await VerificationCodeCollection.c_read_byUser_id({
+				user_id: user.user._id
+			})
+			
+			// [SEND-MAIL] //
+			mailerUtil.sendVerificationMail(
+				req.body.email,
+				user.user._id,
+				vCode.verificationCode.verificationCode
+			)
+
+			return {
+				executed: true,
+				status: true,
+				location: `${location}${subLocation}`,
+				message: `Verification email sent`,
+			}
+			
 		}
 		catch (err) {
 			return {

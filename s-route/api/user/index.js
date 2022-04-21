@@ -11,7 +11,6 @@ const rateLimiters = require('../../../s-rate-limiters')
 const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
 const UserReportCollection = require('../../../s-collections/UserReportCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
-const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection')
 const Auth = require('../../../s-middlewares/Auth')
 const mailerUtil = require('../../../s-utils/mailerUtil')
 
@@ -58,50 +57,7 @@ router.post(
 /******************* [VERIFICATION] *******************/
 router.post(
 	'/resend-verification-email',
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (validator.isAscii(req.body.email)) {
-				// [READ][User] Get User by Email //
-				const user = await UserCollection.c_read_byEmail(req.body.email)
-
-				// [READ][VerificationCode] by user_id //
-				const vCode = await VerificationCodeCollection.c_read_byUser_id({
-					user_id: user.user._id
-				})
-				
-				// [SEND-MAIL] //
-				mailerUtil.sendVerificationMail(
-					req.body.email,
-					user.user._id,
-					vCode.verificationCode.verificationCode
-				)
-
-				res.send({
-					executed: true,
-					status: true,
-					location: `${location}/resend-verification-email`,
-					message: `Verification email sent`,
-				})
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: `${location}/resend-verification-email`,
-					message: `${location}/resend-verification-email: Invalid params`,
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}/resend-verification-email`,
-				message: `${location}/resend-verification-email: Error --> ${err}`,
-			})
-		}
-	}
+	async (req, res) => { res.send(await rh_api_user.resendVerificationEmail({ req })) }
 )
 
 
