@@ -206,6 +206,7 @@ module.exports = {
 		}
 	},
 
+	
 	completeRegistration: async ({ req }) => {
 		// [INIT] //
 		const subLocation = '/complete-registration'

@@ -8,14 +8,10 @@ const validator = require('validator')
 // [REQUIRE] Personal //
 const rh_api_user = require('../../../s-route-handler/api/user')
 const rateLimiters = require('../../../s-rate-limiters')
-const PasswordRecoveryCollection = require(
-	'../../../s-collections/PasswordRecoveryCollection'
-)
+const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
 const UserReportCollection = require('../../../s-collections/UserReportCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
-const VerificationCodeCollection = require(
-	'../../../s-collections/VerificationCodeCollection'
-)
+const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection')
 const Auth = require('../../../s-middlewares/Auth')
 const mailerUtil = require('../../../s-utils/mailerUtil')
 
