@@ -25,6 +25,7 @@
 				<BRow class="mb-3 py-3 bg-primary">
 					<BCol cols="12" class="">
 						<h6 class="mb-3 text-center text-dark">Selected Web App</h6>
+
 						<SelectWebApp
 							@updatePage="$emit('updatePage')"
 							class="mb-3"
@@ -248,7 +249,7 @@
 				this.loading = true
 				
 				this.resData = await PageService.s_dashboard({
-					webapp: 'unset',
+					webapp: this.webApp,
 					tab: this.tab,
 					sort: this.sort,
 					limit: this.limit,
@@ -319,6 +320,21 @@
 		},
 
 		async created() {
+			if (this.webApp == 'unset' && localStorage.selectedWebApp) {
+				this.webApp = localStorage.selectedWebApp
+
+				router.push({
+					name: 'dashboard',
+					params: {
+						webapp: localStorage.selectedWebApp,
+						tab: this.tab,
+						sort: parseInt(this.sort),
+						limit: parseInt(this.limit),
+						page: parseInt(this.page),
+					},
+				})
+			}
+
 			await this.getPageData()
 		},
 	}

@@ -5,13 +5,14 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
+const api_stripe = require('../../../s-api/stripe')
 const ActivityCollection = require('../../../s-collections/ActivityCollection')
 const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
 const UserReportCollection = require('../../../s-collections/UserReportCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
 const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection')
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
-const api_stripe = require('../../../s-api/stripe')
+const config = require('../../../s-config')
 const mailerUtil = require('../../../s-utils/mailerUtil')
 
 
@@ -57,7 +58,7 @@ module.exports = {
 			if (
 				!validator.isEmail(req.body.email) ||
 				!validator.isAscii(req.body.email)
-				) {
+			) {
 				return {
 					executed: true,
 					status: false,
@@ -354,6 +355,6 @@ module.exports = {
 
 
 	changePassword: async ({ req }) => {
-		
+
 	},
 }
