@@ -133,10 +133,6 @@
 					v-if="$route.params.tab == 'web-app'"
 				/>
 
-
-
-
-
 				<!-- [TAB] Section TExt -->
 				<SectionText
 					v-if="$route.params.tab == 'section-text'"
