@@ -6,7 +6,6 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../../s-rate-limiters')
-const ActivityCollection = require('../../../s-collections/ActivityCollection')
 const BlogPostCollection = require('../../../s-collections/BlogPostCollection')
 const CommentCollection = require('../../../s-collections/CommentCollection')
 const Auth = require('../../../s-middlewares/Auth')
@@ -42,27 +41,13 @@ router.post(
 				})
 
 				if (bPObj.status) {
-					// [CREATE][Activity] //
-					const bPActivity = await ActivityCollection.c_create({
-						user_id: req.user_decoded.user_id,
-						type: 'blogPost',
-						blogPost_id: bPObj.createdBlogPost._id,
-						createdBlogPost_id: bPObj.createdBlogPost._id,
-						createdComment_id: undefined,
-						createdPost_id: undefined,
-						createdUser_id: undefined,
+					// [SUCCESS] //
+					res.send({
+						executed: true,
+						status: true,
+						createdBlogPost: bPObj.createdBlogPost,
+						blogPostActivity: bPActivity,
 					})
-
-					if (bPActivity.status) {
-						// [SUCCESS] //
-						res.send({
-							executed: true,
-							status: true,
-							createdBlogPost: bPObj.createdBlogPost,
-							blogPostActivity: bPActivity,
-						})
-					}
-					else { res.send(bPActivity) }
 				}
 				else { res.send(bPObj) }
 			}

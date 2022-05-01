@@ -1,93 +1,184 @@
 <template>
-	<BContainer class="my-5">
-		<!-- [PAGE] -->
-		<BRow v-if="!loading && !error" class="mb-3">
-			<BCol cols="lg-9" class="mb-3 p-0">
-				<BCard bg-variant="dark" text-variant="light">
-					<CatList
-						:categories="categories"
-						groupName="General"
-						class="mb-3"
-					/>
-				</BCard>				
-			</BCol>
+	<BContainer fluid class="p-0">
+		<main>
+			<BContainer class="py-5">
+				<BRow>
+					<BCol cols="12">
+						<header class="pb-3 mb-4 text-center">
+							<!-- Logo -->
+							<RouterLink to="/" class="navbar-brand">
+								<mark class="h2 px-5 bg-primary text-dark rounded">
+									{{ defaultData.name }}
+								</mark>
+							</RouterLink>
+						</header>
+					</BCol>
 
-			<!-- Side Content -->
-			<BCol cols="12" lg="3">
-				<TopPosts :topPosts="topPosts" />
-			</BCol>
-		</BRow>
+					<!-- 1 -->
+					<BCol cols="12" lg="9" class="py-3">
+						<div
+							class="
+								h-100
+								p-3 p-lg-5
+								bg-primary 
+								text-light
+								rounded-3
+								border
+								border-secondary
+								rounded-lg
+								shadow
+							"
+						>
+							<h1 class="display-3 display-5 text-center font-weight-bold text-light">
+								Your Content, Our Service.
+							</h1>
+							<h1 class="font-weight-light text-center text-dark">{{ caption1 }}</h1>
+							<h5 class="font-weight-light text-center text-dark">{{ caption2 }}</h5>
+							
+						</div>
+					</BCol>
 
-		<!-- [LOADING] -->
-		<BRow v-if="loading">
-			<BCol cols="12">
-				<Alert variant="dark" class="m-0" />
-			</BCol>
-		</BRow>
+					<!-- 2 -->
+					<BCol cols="12" lg="3" class="py-3">
+						<div
+							class="
+								h-100
+								p-5 p-lg-3 p-xl-5
+								bg-dark
+								text-light
+								rounded-3
+								border
+								border-secondary
+								rounded-lg
+								shadow
+							"
+						>
+							<h4 class="text-center text-primary">{{ caption3 }}</h4>
+							
+							<RouterLink to="/user/register">
+								<BButton
+									variant="primary"
+									size="lg"
+									type="button"
+									class="w-100 my-4 p-3"
+								><h5 class="m-0">Register</h5></BButton>
+							</RouterLink>
 
-		<!-- [ERROR] -->
-		<BRow v-if="error">
-			<BCol cols="12">
-				<Alert variant="danger" :message="error" class="m-0" />
-			</BCol>
-		</BRow>
+							<DatabaseIcon size="10x" stroke-width=".75" class="w-100 text-center text-primary" />
+						</div>
+					</BCol>
+				</BRow>
+
+				<BRow class="row align-items-md-stretch">
+					<!-- 3 -->
+					<BCol cols="12" md="6" lg="5" class="py-3">
+						<div
+							class="
+								h-100
+								p-3 p-lg-5
+								bg-dark
+								text-light
+								rounded-3
+								border
+								border-secondary
+								rounded-lg
+								shadow
+							"
+						>
+							<h3 class="text-center text-primary">Already have an account?</h3>
+							<hr class="bg-primary">
+
+							<RouterLink to="/user/login">
+								<BButton
+									variant="primary"
+									size="lg"
+									type="button"
+									class="w-100 my-4 p-3"
+								><h3 class="m-0">Login</h3></BButton>
+							</RouterLink>
+						</div>
+					</BCol>
+
+					<!-- 4 -->
+					<BCol cols="12" md="6" lg="7" class="py-3">
+						<div
+							class="
+								h-100
+								p-3 p-lg-5
+								bg-primary
+								text-light
+								rounded-3
+								border
+								border-secondary
+								rounded-lg
+								shadow
+							"
+						>
+							<h2 class="text-center text-dark">Check Out Our Plans!</h2>
+							<hr class="bg-dark">
+
+							<RouterLink to="/user/login">
+								<BButton
+									variant="dark"
+									size="lg"
+									type="button"
+									class="w-100 my-4 p-3 text-primary"
+								><h3 class="m-0">View</h3></BButton>
+							</RouterLink>
+						</div>
+					</BCol>
+				</BRow>
+			</BContainer>
+		</main>
 	</BContainer>
 </template>
 
 <script>
+	// [IMPORT] //
+	import { DatabaseIcon } from 'vue-feather-icons'
+
+
 	// [IMPORT] Personal //
-	import CatList from '@/components/cat/List'
-	import Alert from '@/components/inform/Alert'
-	import TopPosts from '@/components/home/TopPosts'
+	import defaultData from '@/defaults/companyInfo'
 	import router from '@/router'
-	import PageService from '@/services/PageService'
 
 	export default {
 		data() {
 			return {
-				loading: true,
-				error: '',
-				reqData: [],
-				categories: [],
-				topPosts: [],
-				newsObj: {},
+				defaultData: defaultData,
+				caption1: 'Its hard to manage your content in so many different places, we want to simplify that for you..',
+				caption2: 'Store all of your content on 1 platform and let all of your digital outlets come to us!',
+				caption3: 'Its Simple, Free, & Easy to Start!',
 			}
 		},
 
 		components: {
-			CatList,
-			Alert,
-			TopPosts,
+			DatabaseIcon
 		},
 
-		methods: {
-			async getPageData() {
-				try {
-					this.reqData = await PageService.s_home()
-					
-					// [REDIRECT] Custom Home Page Available //
-					if (this.reqData.customHome == true) {
-						router.push({ name: 'home' })
-					}
-
-					if (this.reqData.status) {
-						this.categories = this.reqData.categories
-
-						this.topPosts = this.reqData.topPosts
-					}
-					else { this.error = this.reqData.message }
-					
-					this.loading = false
-				}
-				catch (err) {
-					this.error = err
-					this.loading = false
-				}
-			},
+		created() {
+			// [USER-LOGGED][REDIRECT] //
+			if (localStorage.usertoken) {
+				router.push({
+					name: 'dashboard',
+					params: {
+						webapp: 'unset',
+						tab: 'web-app',
+						sort: 0,
+						limit: 5,
+						page: 1,
+					},
+				})
+			}
+			else {
+				this.$store.state.show.NavBar = false
+				this.$store.state.show.Footer = false
+			}
 		},
 
-		async created() {
-			await this.getPageData()
+		destroyed() {
+			this.$store.state.show.NavBar = true
+			this.$store.state.show.Footer = true
 		},
 	}
 </script>

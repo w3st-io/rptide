@@ -25,11 +25,6 @@ router.get(
 	Auth.userTokenByPassVerification(),
 	async (req, res) => {
 		try {
-			const timeFrame = 60
-			const timeInterval = 1
-
-			let activityData = []
-
 			const userObj = await UserCollection.c_read_select({
 				user_id: req.user_decoded.user_id,
 				select: '-password -api.publicKey'
@@ -56,25 +51,6 @@ router.get(
 					req.user_decoded.user_id
 				)
 
-				// Activity Order //
-				for (let i = timeFrame; i > 0; i = i - timeInterval) {
-					// timePointA & timePointB //
-					const timePointA = timeUtil.pastTimeByMinutes(i + timeInterval)
-					const timePointB = timeUtil.pastTimeByMinutes(i)
-
-					// [READ-ALL] timePointA < Activity < timePointB //
-					const { count: activityCount } = await ActivityCollection.c_count_byUserTimeFrame(
-						req.user_decoded.user_id,
-						timePointA,
-						timePointB
-					)
-
-					activityData.push({
-						time: timePointB.toLocaleTimeString(),
-						count: activityCount
-					})
-				}
-
 				res.send({
 					executed: true,
 					status: true,
@@ -83,7 +59,6 @@ router.get(
 					postLikeCount: pLCount.count,
 					commentCount: commentCount.count,
 					commentLikeCount: cLCount.count,
-					activityData: activityData,
 				})
 			}
 			else { res.send(userObj) }

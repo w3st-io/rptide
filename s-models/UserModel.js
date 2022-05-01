@@ -12,6 +12,13 @@ module.exports = mongoose.model(
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 
+		role: {
+			type: String,
+			enum: ['admin', ''],
+			default: '',
+			maxlength: 10,
+		},
+
 		email: {	
 			type: String,
 			required: [true, 'This is required'],

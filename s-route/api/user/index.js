@@ -8,7 +8,6 @@ const validator = require('validator')
 // [REQUIRE] Personal //
 const h_user = require('../../../s-route-handler/user')
 const rateLimiters = require('../../../s-rate-limiters')
-const ActivityCollection = require('../../../s-collections/ActivityCollection')
 const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
 const UserReportCollection = require('../../../s-collections/UserReportCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
@@ -108,16 +107,6 @@ router.post(
 					// [CREATE][ApiSubscription] //
 					const subscriptionObj = await ApiSubscriptionCollection.c_create({
 						user_id: userObj.user._id
-					})
-
-					// [CREATE][Activity] //
-					const activityObj = await ActivityCollection.c_create({
-						user_id: userObj.user._id,
-						type: 'user',
-						post_id: undefined,
-						createdUser_id: userObj.user._id,
-						createdPost_id: undefined,
-						createdComment_id: undefined,
 					})
 					
 					// [MAIL] Verification Email //

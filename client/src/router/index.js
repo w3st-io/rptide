@@ -7,8 +7,6 @@ import Router from 'vue-router'
 import companyInfo from '@/defaults/companyInfo'
 // Index //
 import index from '@/pages'
-// Activity //
-import activity from '@/pages/activity'
 // Admin //
 import admin from '@/pages/admin'
 import admin_function_commentReports from '@/pages/admin/function/comment-reports'
@@ -35,8 +33,6 @@ import documentation from '@/pages/documentation'
 import emailSent from '@/pages/email-sent'
 // Followed //
 import followed from '@/pages/followed'
-// Home //
-import home from '@/pages/home'
 // Notification //
 import notification from '@/pages/notification'
 // Product //
@@ -49,8 +45,6 @@ import post from '@/pages/post'
 import post_create from '@/pages/post/create'
 // User //
 import user from '@/pages/user'
-import user_activity from '@/pages/user/activity'
-import user_activity_lookup from '@/pages/user/activity/lookup'
 import user_login from '@/pages/user/login'
 import user_password_change from '@/pages/user/password/change'
 import user_password_request from '@/pages/user/password/request'
@@ -89,16 +83,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Home'
-			}
-		},
-		// Activity //
-		{
-			path: '/activity/:sort/:limit/:page',
-			name: 'activity',
-			component: activity,
-			meta: {
-				auth: true,
-				title: 'Activity'
 			}
 		},
 		// Admin //
@@ -271,16 +255,6 @@ const router = new Router ({
 				title: 'Posts You Are Following'
 			}
 		},
-		// Home //
-		{
-			path: '/home',
-			name: 'home',
-			component: home,
-			meta: {
-				auth: true,
-				title: 'Home'
-			},
-		},
 		// Notifications //
 		{
 			path: '/notification/:sort/:limit/:page',
@@ -347,24 +321,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Your Account'
-			}
-		},
-		{
-			path: '/user/activity/:sort/:limit/:page',
-			name: 'user_activity',
-			component: user_activity,
-			meta: {
-				auth: true,
-				title: 'Your Activity'
-			}
-		},
-		{
-			path: '/user/activity/lookup/:user_id/:sort/:limit/:page',
-			name: 'user_activity_lookup',
-			component: user_activity_lookup,
-			meta: {
-				auth: true,
-				title: 'Lookup Activity'
 			}
 		},
 		{

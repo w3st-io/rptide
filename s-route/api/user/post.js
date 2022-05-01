@@ -6,7 +6,6 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../../s-rate-limiters')
-const ActivityCollection = require('../../../s-collections/ActivityCollection')
 const PostCollection = require('../../../s-collections/PostCollection')
 const PostFollowCollection = require('../../../s-collections/PostFollowCollection')
 const PostLikeCollection = require('../../../s-collections/PostLikeCollection')
@@ -43,51 +42,23 @@ router.post(
 				)
 
 				if (post.status) {
-					// [CREATE][Activity] //
-					const pActivity = await ActivityCollection.c_create({
+					// [CREATE][Comment] //
+					const comment = await CommentCollection.c_create({
 						user_id: req.user_decoded.user_id,
-						type: 'post',
 						post_id: post.createdPost._id,
-						createdUser_id: undefined,
-						createdPost_id: post.createdPost._id,
-						createdComment_id: undefined,
+						cleanJSON: req.body.cleanJSON,
 					})
 
-					if (pActivity.status) {
-						// [CREATE][Comment] //
-						const comment = await CommentCollection.c_create({
-							user_id: req.user_decoded.user_id,
-							post_id: post.createdPost._id,
-							cleanJSON: req.body.cleanJSON,
+					if (comment.status) {
+						// [SUCCESS] //
+						res.send({
+							executed: true,
+							status: true,
+							post: post,
+							comment: comment,
 						})
-
-						if (comment.status) {
-							// [CREATE][Activity] //
-							const cActivity = await ActivityCollection.c_create({
-								user_id: req.user_decoded.user_id,
-								type: 'comment',
-								post_id: comment.comment.post,
-								createdUser_id: undefined,
-								createdPost_id: undefined,
-								createdComment_id: comment.comment._id,
-							})
-						
-							if (cActivity.status) {
-								// [SUCCESS] //
-								res.send({
-									executed: true,
-									status: true,
-									post: post,
-									comment: comment,
-									postActivity: pActivity,
-									commentActivity: cActivity,
-								})
-							}
-							else { res.send(cActivity) }
-						}
-						else { res.send(comment) }
 					}
-					else { res.send(pActivity) }
+					else { res.send(comment) }
 				}
 				else { res.send(post) }
 			}
