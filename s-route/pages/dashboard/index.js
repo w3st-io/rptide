@@ -5,13 +5,11 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const BlogPostCollection = require('../../../s-collections/BlogPostCollection')
 const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection')
 const ProductCollection = require('../../../s-collections/ProductCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
 const config_const = require('../../../s-config/const')
 const h_apiSubscription = require('../../../s-route-handler/apiSubscription')
-const SectionTextCollection = require('../../../s-collections/SectionTextCollection')
 const Auth = require('../../../s-middlewares/Auth')
 
 
@@ -62,20 +60,6 @@ router.get(
 						})
 					break
 
-					case 'blog-post':
-						const blogPostsObj = await BlogPostCollection.c_readAll_sorted_byUser({
-							user_id: req.user_decoded.user_id,
-							sort: sort,
-							limit: limit,
-							skip: skip,
-						})
-
-						blogPostsObj.limit = config_const.limit
-						blogPostsObj.apiSubscriptionTier = apiSubscriptionTier
-
-						res.send(blogPostsObj)
-					break
-
 					case 'dynamic-page':
 						res.send()
 					break
@@ -101,20 +85,6 @@ router.get(
 						productOptionssObj.apiSubscriptionTier = apiSubscriptionTier
 
 						res.send(productOptionssObj)
-					break
-
-					case 'section-text':
-						const STObj = await SectionTextCollection.c_readAll_sorted_byUser({
-							user_id: req.user_decoded.user_id,
-							sort: sort,
-							limit: limit,
-							skip: skip,
-						})
-
-						STObj.limit = config_const.limit
-						STObj.apiSubscriptionTier = apiSubscriptionTier
-
-						res.send(STObj)
 					break
 
 					case 'static-page':

@@ -4,14 +4,8 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const ActivityCollection = require('../../../../s-collections/ActivityCollection')
-const CommentCollection = require('../../../../s-collections/CommentCollection')
-const CommentLikeCollection = require('../../../../s-collections/CommentLikeCollection')
-const PostCollection = require('../../../../s-collections/PostCollection')
-const PostLikeCollection = require('../../../../s-collections/PostLikeCollection')
 const UserCollection = require('../../../../s-collections/UserCollection')
 const Auth = require('../../../../s-middlewares/Auth')
-const timeUtil = require('../../../../s-utils/timeUtil')
 
 
 // [EXPRESS + USE] //
@@ -31,34 +25,10 @@ router.get(
 			})
 			
 			if (userObj.status) {
-				// [COUNT][Post] //
-				const postCount = await PostCollection.c_count_byUser(
-					req.user_decoded.user_id
-				)
-
-				// [COUNT][PostLike] //
-				const pLCount = await PostLikeCollection.c_count_byPostUser(
-					req.user_decoded.user_id
-				)
-
-				// [COUNT][Comment] //
-				const commentCount = await CommentCollection.c_count_byUser(
-					req.user_decoded.user_id
-				)
-
-				// [COUNT][CommentLike] //
-				const cLCount = await CommentLikeCollection.c_countByCommentUser(
-					req.user_decoded.user_id
-				)
-
 				res.send({
 					executed: true,
 					status: true,
 					user: userObj.user,
-					postCount: postCount.count,
-					postLikeCount: pLCount.count,
-					commentCount: commentCount.count,
-					commentLikeCount: cLCount.count,
 				})
 			}
 			else { res.send(userObj) }

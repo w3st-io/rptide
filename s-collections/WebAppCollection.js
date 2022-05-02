@@ -6,6 +6,10 @@ const mongoose = require('mongoose')
 const WebAppModel = require('../s-models/WebAppModel')
 
 
+// [INIT] //
+const location = 'WebAppCollection'
+
+
 module.exports = {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
@@ -100,7 +104,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `PostCollection: Error --> ${err}`
+				message: `${location}: Error --> ${err}`
 			}
 		}
 	},
@@ -132,7 +136,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `PostCollection: Error --> ${err}`,
+				message: `${location}: Error --> ${err}`,
 				deleted: false,
 			}
 		}
@@ -214,7 +218,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `PostCollection: Error --> ${err}`,
+				message: `${location}: Error --> ${err}`,
 			}
 		}
 	},
@@ -290,7 +294,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `PostCollection: Error --> ${err}`,
+				message: `${location}: Error --> ${err}`,
 			}
 		}
 	},

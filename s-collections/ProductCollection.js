@@ -402,7 +402,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `postsCollection: Error --> ${err}`,
+				message: `productCollection: Error --> ${err}`,
 			}
 		}
 	},
