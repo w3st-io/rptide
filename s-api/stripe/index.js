@@ -13,13 +13,11 @@ module.exports = {
 	aa_createCustomer: async function ({ user_id, email, username }) {
 		try {
 			// [API][stripe] Create a customer //
-			const sCObj = await api_stripe_customer.a_createCustomer({
+			return await api_stripe_customer.a_createCustomer({
 				user_id,
 				email: email,
 				name: username,
 			})
-
-			return sCObj
 		}
 		catch (err) {
 			return {
@@ -63,7 +61,7 @@ module.exports = {
 				})
 				
 				if (PMAttachedToCusObj.status) {
-					const cSDPMObj = await api_stripe_customer.a_setDefaultPaymentMethod({
+					const cSDPMObj = await api_stripe_customer.aa_setDefaultPaymentMethod({
 						cusId: cusId,
 						pmId: pMObj.stripeCreatedPaymentMethod.id,
 					})

@@ -6,15 +6,12 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const h_user = require('../../../s-route-handler/user')
+const rh_api_user = require('../../../s-route-handler/api/user')
 const rateLimiters = require('../../../s-rate-limiters')
 const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
 const UserReportCollection = require('../../../s-collections/UserReportCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
-const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection')
-const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
 const Auth = require('../../../s-middlewares/Auth')
-const api_stripe = require('../../../s-api/stripe')
 const mailerUtil = require('../../../s-utils/mailerUtil')
 
 
@@ -31,36 +28,7 @@ const location = '/s-route/api/users'
 router.post(
 	'/update',
 	Auth.userToken(),
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (validator.isAscii(req.body.img_url)) {
-				const returned = await UserCollection.c_update({
-					user_id: req.user_decoded.user_id,
-					img_url: req.body.img_url,
-					bio: req.body.bio
-				})
-		
-				res.send(returned)
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: `${location}`,
-					message: 'Invalid params',
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}`,
-				message: `Error --> ${err}`,
-			})
-		}
-	}
+	async (req, res) => { res.send(await rh_api_user.update({ req })) }
 )
 
 
@@ -68,14 +36,7 @@ router.post(
 // [LOGIN] //
 router.post(
 	'/login',
-	async (req, res) => {
-		res.send(
-			await h_user.login({
-				email: req.body.email,
-				password: req.body.password
-			})
-		)
-	}
+	async (req, res) => { res.send(await rh_api_user.login({ req })) }
 )
 
 
@@ -83,154 +44,13 @@ router.post(
 router.post(
 	'/register',
 	rateLimiters.registration,
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				validator.isAscii(req.body.username) &&
-				validator.isAscii(req.body.email) &&
-				validator.isAscii(req.body.password)
-			) {
-				// [CREATE][User] //
-				const userObj = await UserCollection.c_register({
-					username: req.body.username,
-					email: req.body.email,
-					password: req.body.password,
-				})
-
-				if (userObj.status && userObj.created) {
-					// [CREATE][VerificationCode] //
-					const vCodeObj = await VerificationCodeCollection.c_create({
-						user_id: userObj.user._id
-					})
-
-					// [CREATE][ApiSubscription] //
-					const subscriptionObj = await ApiSubscriptionCollection.c_create({
-						user_id: userObj.user._id
-					})
-					
-					// [MAIL] Verification Email //
-					await mailerUtil.sendVerificationMail(
-						userObj.user.email,
-						userObj.user._id,
-						vCodeObj.verificationCode.verificationCode
-					)
-
-					res.send({
-						executed: true,
-						status: true,
-						created: true,
-					})
-				}
-				else { res.send(userObj) }
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: `${location}/register:`,
-					message: `${location}/register: Invalid Params`,
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}/register:`,
-				message: `${location}/register: Error --> ${err}`,
-			})
-		}
-	}
+	async (req, res) => { res.send(await rh_api_user.register({ req })) }
 )
 
 
 router.post(
 	'/complete-registration',
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				validator.isAscii(req.body.user_id) &&
-				validator.isAscii(req.body.verificationCode)
-			) {
-				// [EXISTANCE][VerificationCode] //
-				const vCObj = await VerificationCodeCollection.c_validate({
-					user_id: req.body.user_id,
-					verificationCode: req.body.verificationCode
-				})
-				
-				if (vCObj.status && vCObj.existance) {
-					// [READ][User] Verify //
-					const userObj = await UserCollection.c_read(req.body.user_id)
-
-					// [API][stripe] Create stripe customer //
-					const stripeObj = await api_stripe.aa_createCustomer({
-						user_id: userObj.user._id,
-						email: userObj.user.email,
-						username: userObj.user.username,
-					})
-
-					if (stripeObj.status) {
-						if (userObj.status && !userObj.user.verified) {
-							// [UPDATE][User] Verify //
-							await UserCollection.c_verify(req.body.user_id)
-
-							// [READ][ApiSubscription] //
-							const subscriptionObj = await ApiSubscriptionCollection.c_read_byUser({
-								user_id: req.body.user_id
-							})
-
-							// [UPDATE][ApiSubscription] //
-							const updatedApiSubscriptionObj = await ApiSubscriptionCollection.c_update_cusId({
-								apiSubscription_id: subscriptionObj.apiSubscription._id,
-								user_id: userObj.user._id,
-								cusId: stripeObj.createdStripeCustomer.id,
-							})
-
-							if (updatedApiSubscriptionObj.status) {
-								// [SUCCESS] //
-								res.send({
-									executed: true,	
-									status: true,
-									existance: vCObj.existance,
-									createdStripeCustomer: stripeObj.createdStripeCustomer,
-									createdStripePaymentMethod: stripeObj.createdStripePaymentMethod,
-									attachedPaymentMethod: stripeObj.attachedPaymentMethod,
-								})
-							}
-							else { res.send(updatedApiSubscriptionObj) }
-						}
-						else {
-							res.send({
-								executed: true,
-								status: false,
-								message: 'Something went wrong'
-							})
-						}
-					}
-					else { res.send(stripeObj) }
-				}
-				else { res.send(vCObj) }
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: `${location}/complete-registration`,
-					message: `${location}/complete-registration: Invalid params`,
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}/complete-registration`,
-				message: `${location}/complete-registration: Error --> ${err}`,
-			})
-		}
-	}
+	async (req, res) => { res.send(await rh_api_user.completeRegistration({ req })) }
 )
 
 
@@ -238,48 +58,7 @@ router.post(
 router.post(
 	'/resend-verification-email',
 	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (validator.isAscii(req.body.email)) {
-				// [READ][User] Get User by Email //
-				const user = await UserCollection.c_read_byEmail(req.body.email)
-
-				// [READ][VerificationCode] by user_id //
-				const vCode = await VerificationCodeCollection.c_read({
-					user_id: user.user._id
-				})
-				
-				// [SEND-MAIL] //
-				mailerUtil.sendVerificationMail(
-					req.body.email,
-					user.user._id,
-					vCode.verificationCode.verificationCode
-				)
-
-				res.send({
-					executed: true,
-					status: true,
-					location: `${location}/resend-verification-email`,
-					message: `Verification email sent`,
-				})
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: `${location}/resend-verification-email`,
-					message: `${location}/resend-verification-email: Invalid params`,
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}/resend-verification-email`,
-				message: `${location}/resend-verification-email: Error --> ${err}`,
-			})
-		}
+		res.send(await rh_api_user.resendVerificationEmail({ req }))
 	}
 )
 
@@ -313,21 +92,19 @@ router.post(
 						res.send({
 							executed: true,
 							status: false,
-							location: `${location}/reset-password`,
-							message: `${location}/reset-password: Invalid password`,
+							location: `${location}/change-password`,
+							message: `Invalid password`,
 						})
 					}
 				}
-				else {
-					res.send(userObj)
-				}
+				else { res.send(userObj) }
 			}
 			else {
 				res.send({
 					executed: true,
 					status: false,
-					location: `${location}/reset-password`,
-					message: `${location}/reset-password: Invalid Params`,
+					location: `${location}/change-password`,
+					message: `Invalid Params`,
 				})
 			}
 		}
@@ -335,8 +112,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				location: `${location}/reset-password`,
-				message: `${location}/reset-password: Error --> ${err}`,
+				location: `${location}/change-password`,
+				message: `Error --> ${err}`,
 			})
 		}
 	}
@@ -538,7 +315,6 @@ router.post(
 router.post(
 	'/generate-api-key',
 	Auth.userToken(),
-	//rateLimiters.generateApiKey,
 	async (req, res) => {
 		const userObj = await UserCollection.c_read_select({
 			user_id: req.user_decoded.user_id

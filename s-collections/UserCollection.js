@@ -71,25 +71,41 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					message: 'UserCollection: Invalid _id'
+					location: location,
+					message: 'Invalid _id'
 				}
 			}
 		
-			const user = await UserModel.findOne({ _id })
+			// [QUERY] //
+			const queryResult = await UserModel.findOne({ _id })
 				.select('-password -api.publicKey')
 				.exec()
 	
+			// [NOTHING-FOUND] //
+			if (!queryResult) {
+				return {
+					executed: true,
+					status: false,
+					location: location,
+					message: 'No User object found',
+				}
+			}
+
+			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,
-				user: user
+				location: location,
+				user: queryResult,
+				message: 'User object found',
 			}
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `${location}: Error --> ${err}`
+				location: location,
+				message: `Error --> ${err}`
 			}
 		}
 	},
@@ -103,7 +119,8 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					message: `${location}: Invalid user_id`
+					location: location,
+					message: `Invalid user_id`
 				}
 			}
 	

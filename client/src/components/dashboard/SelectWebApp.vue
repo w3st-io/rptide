@@ -11,9 +11,7 @@
 			"
 			@click="selectOrganization()"
 		>
-			<option disabled value="">
-				Choose a Web App
-			</option>
+			<option disabled value="">Choose a Web App</option>
 
 			<option
 				v-for="w in $store.state.dashboard.webApps"
@@ -30,6 +28,9 @@
 	export default {
 		methods: {
 			selectOrganization() {
+				// [LOCALSTORAGE] //
+				localStorage.selectedWebApp = this.$store.state.dashboard.webApp
+
 				router.push({
 					name: 'dashboard',
 					params: {
