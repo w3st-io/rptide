@@ -15,9 +15,6 @@
 					@click="toggle()"
 					class="d-block d-md-none"
 				><MenuIcon class="text-primary" /></BButton>
-
-				<!-- Search Form -->
-				<SearchForm class="d-none d-md-block ml-auto" />
 			</nav>
 	
 			<BNavbar class="px-0 py-2">
@@ -37,9 +34,6 @@
 				</div>
 
 				<div>
-					<!-- Logged In -->
-					<NotificationMenu v-if="$store.state.user.logged" />
-
 					<BButton
 						v-if="$store.state.user.logged"
 						variant="outline-primary"
@@ -77,8 +71,6 @@
 	import { MenuIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //
-	import NotificationMenu from '@/components/notifications/NotificationMenu'
-	import SearchForm from '@/components/search/SearchForm'
 	import SideMenu from '@/components/UI/SideMenu'
 	import defaultData from '@/defaults/companyInfo'
 	import buttons from '@/defaults/pageLinks'
@@ -87,8 +79,6 @@
 	export default {
 		components: {
 			MenuIcon,
-			NotificationMenu,
-			SearchForm,
 			SideMenu,
 		},
 

@@ -11,8 +11,6 @@
 			@click="closeMenu()"
 		><XIcon size="36" /></BButton>
 
-		<SearchForm class="mx-2 my-4" />
-
 		<!-- Menu Page Link -->
 		<RouterLink
 			v-show="$store.state.show.SideMenu"
@@ -30,21 +28,6 @@
 				<span v-else v-html="button.sideMenuIcon"></span>
 			</BButton>
 		</RouterLink>
-
-		<!-- Address -->
-		<a
-			v-show="$store.state.show.SideMenu"
-			:href="companyInfo.googleMapsLink"
-			class="text-center"
-		><h4 class="m-4 text-light">{{ companyInfo.address }}</h4></a>
-
-		<!-- Social Media -->
-		<SocialMediaPlug
-			v-show="$store.state.show.SideMenu"
-			size="2x"
-			variant="light"
-			class="m-4"
-		/>
 	</nav>
 </template>
 <script>
@@ -52,8 +35,6 @@
 	import { XIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //
-	import SearchForm from '@/components/search/SearchForm'
-	import SocialMediaPlug from '@/components/SocialMediaPlug'
 	import companyInfo from '@/defaults/companyInfo'
 	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'
@@ -61,8 +42,6 @@
 	export default {
 		components: {
 			XIcon,
-			SearchForm,
-			SocialMediaPlug,
 		},
 
 		data() {

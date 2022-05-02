@@ -39,12 +39,8 @@ module.exports = {
 	
 	// [FUNCTIONALITY] //
 	functionality: {
-		admin: process.env.FUNCTIONALITY__ADMIN || 'false',
-		blogPost: process.env.FUNCTIONALITY__BLOG_POST || 'false',
 		user: process.env.FUNCTIONALITY__USER || 'false',
 		payment: process.env.FUNCTIONALITY__PAYMENT || 'false',
-		post: process.env.FUNCTIONALITY__POST || 'false',
-		comment: process.env.FUNCTIONALITY__COMMENT || 'false',
 	},
 	
 	// [EMAIL] //

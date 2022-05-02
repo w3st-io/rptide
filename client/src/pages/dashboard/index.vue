@@ -133,20 +133,6 @@
 					v-if="$route.params.tab == 'web-app'"
 				/>
 
-				<!-- [TAB] Section TExt -->
-				<SectionText
-					v-if="$route.params.tab == 'section-text'"
-					:sectionTexts="sectionTexts"
-					:sectionTextsLimit="sectionTextsLimit"
-				/>
-
-				<!-- [TAB] Blog -->
-				<BlogPost
-					v-if="$route.params.tab == 'blog-post'"
-					:blogPosts="blogPosts"
-					:blogPostsLimit="blogPostsLimit"
-				/>
-
 				<!-- [TAB] Products -->
 				<Product
 					v-if="$route.params.tab == 'product'"
@@ -177,11 +163,9 @@
 	import { MenuIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //
-	import BlogPost from '@/components/dashboard/BlogPost'
 	import Product from '@/components/dashboard/Product'
 	import ProductOptions from '@/components/dashboard/ProductOptions'
 	import SelectWebApp from '@/components/dashboard/SelectWebApp.vue'
-	import SectionText from '@/components/dashboard/SectionText'
 	import WebApp from '@/components/dashboard/WebApp'
 	import PopUpWebApp from '@/components/popups/WebApp'
 	import defaultData from '@/defaults/companyInfo'
@@ -224,11 +208,9 @@
 
 		components: {
 			MenuIcon,
-			BlogPost,
 			Product,
 			ProductOptions,
 			SelectWebApp,
-			SectionText,
 			WebApp,
 			PopUpWebApp,
 		},

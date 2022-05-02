@@ -14,9 +14,6 @@
 			BGColor="info"
 		/>
 
-		<!-- Pop Up Notifications -->
-		<PopUpNotifications v-if="$store.state.user.logged" />
-
 		<!-- Router -->
 		<RouterView :key="$route.name + ($route.params.id || '')" />
 
@@ -28,7 +25,6 @@
 <script>
 	// [IMPORT] Personal //
 	import PopUpBanner from '@/components/inform/PopUpBanner'
-	import PopUpNotifications from '@/components/notifications/PopUpNotifications'
 	import AdminNavBar from '@/components/UI/AdminNavBar'
 	import Footer from '@/components/UI/Footer'
 	import NavBar from '@/components/UI/NavBar'
@@ -43,7 +39,6 @@
 
 		components: {
 			PopUpBanner,
-			PopUpNotifications,
 			AdminNavBar,
 			Footer,
 			NavBar

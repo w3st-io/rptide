@@ -348,25 +348,6 @@ export default {
 			}
 		}
 	},
-
-
-	// [NOTIFICATION] //
-	s_notification: async function (sort = 0, limit, page) {
-		try {
-			const authAxios = await this.authAxios()
-	
-			return (
-				await authAxios.get(`/notification/${sort}/${limit}/${page}`)
-			).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `PageService: Error --> ${err}`
-			}
-		}
-	},
 	
 	
 	// [USER] //
@@ -376,43 +357,6 @@ export default {
 	
 			return (
 				await authAxios.get(`/user/index`)
-			).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `PageService: Error --> ${err}`
-			}
-		}
-	},
-
-	s_user_activity: async function (sort = 0, limit, page) {
-		try {
-			const authAxios = await this.authAxios()
-	
-			return (
-				await authAxios.get(`/user/activity/index/${sort}/${limit}/${page}`)
-			).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `PageService: Error --> ${err}`
-			}
-		}
-	},
-	
-	
-	s_user_activity_lookup: async function (user_id, sort = 0, limit, page) {
-		try {
-			const authAxios = await this.authAxios()
-	
-			return (
-				await authAxios.get(
-					`/user/activity/lookup/${user_id}/${sort}/${limit}/${page}`
-				)
 			).data
 		}
 		catch (err) {
