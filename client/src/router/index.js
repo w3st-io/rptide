@@ -26,7 +26,6 @@ import user_password_request from '@/pages/user/password/request'
 import user_password_reset from '@/pages/user/password/reset'
 import user_profile from '@/pages/user/profile'
 import user_profile_edit from '@/pages/user/profile/edit'
-import user_profile_lookup from '@/pages/user/profile/lookup'
 import user_verify from '@/pages/user/verify'
 import user_register from '@/pages/user/register'
 import user_registered from '@/pages/user/registered'
@@ -174,15 +173,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Edit Your Profile'
-			}
-		},
-		{
-			path: '/user/profile/lookup/:user_id',
-			name: 'user_profile_lookup',
-			component: user_profile_lookup,
-			meta: {
-				auth: true,
-				title: ''
 			}
 		},
 		{

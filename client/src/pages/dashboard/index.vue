@@ -24,8 +24,6 @@
 				<!-- [TAB-BUTTON] Web App -->
 				<BRow class="mb-3 py-3 bg-primary">
 					<BCol cols="12" class="">
-						<h6 class="mb-3 text-center text-dark">Selected Web App</h6>
-
 						<SelectWebApp
 							@updatePage="$emit('updatePage')"
 							class="mb-3"
@@ -46,52 +44,21 @@
 				<!-- [TAB-BUTTON] Pages -->
 				<BRow class="pb-3">
 					<BCol cols="12">
-						<h6 class="mb-3 text-center text-light">Pages</h6>
 						<BButton
 							variant="none"
 							class="w-100 mb-3"
 							:class="{
-								'btn-primary': $route.params.tab == 'static-page',
-								'btn-outline-primary': $route.params.tab != 'static-page',
+								'btn-primary': $route.params.tab == 'page',
+								'btn-outline-primary': $route.params.tab != 'page',
 							}"
-							@click="switchTab('static-page')"
-						>Static Pages</BButton>
-
-						<BButton
-							variant="none"
-							class="w-100"
-							:class="{
-								'btn-primary': $route.params.tab == 'dynamic-page',
-								'btn-outline-primary': $route.params.tab != 'dynamic-page',
-							}"
-							@click="switchTab('dynamic-page')"
-						>Dynamic Pages</BButton>
+							@click="switchTab('page')"
+						>Pages</BButton>
 					</BCol>
 				</BRow>
 
 				<!-- [TAB-BUTTON] Content -->
 				<BRow class="pb-3">
 					<BCol cols="12">
-						<h6 class="mb-3 text-center text-light">Content</h6>
-						<BButton
-							variant="none"
-							class="w-100 mb-3"
-							:class="{
-								'btn-primary': $route.params.tab == 'section-text',
-								'btn-outline-primary': $route.params.tab != 'section-text',
-							}"
-							@click="switchTab('section-text')"
-						>Section Texts</BButton>
-					
-						<BButton
-							variant="none"
-							class="w-100"
-							:class="{
-								'btn-primary': $route.params.tab == 'blog-post',
-								'btn-outline-primary': $route.params.tab != 'blog-post',
-							}"
-							@click="switchTab('blog-post')"
-						>Blog Posts</BButton>
 					</BCol>
 				</BRow>
 
@@ -148,11 +115,9 @@
 				/>
 
 				<!-- [ERROR] -->
-				<BRow>
-					<BCol cols="12">
-						<h6 class="text-danger">{{ error }}</h6>
-					</BCol>
-				</BRow>
+				<BAlert v-if="error" variant="danger" show class="my-3">
+					Error: {{ error }}
+				</BAlert>
 			</BCol>
 		</BRow>
 	</BContainer>
@@ -178,6 +143,7 @@
 			return {
 				webApp: this.$route.params.webapp,
 				tab: this.$route.params.tab,
+
 				sort: parseInt(this.$route.params.sort),
 				limit: parseInt(this.$route.params.limit),
 				page: parseInt(this.$route.params.page),
@@ -235,24 +201,6 @@
 				})
 
 				if (this.resData.status) {
-					// [SECTION-TEXTS] //
-					if (this.resData.sectionTexts) {
-						this.sectionTexts = this.resData.sectionTexts
-
-						this.sectionTextsLimit = this.resData.limit.sectionText[
-							this.resData.apiSubscriptionTier
-						]
-					}
-
-					// [BLOG-POSTS] //
-					if (this.resData.blogPosts) {
-						this.blogPosts = this.resData.blogPosts
-
-						this.blogPostsLimit = this.resData.limit.blogPost[
-							this.resData.apiSubscriptionTier
-						]
-					}
-
 					// [PRODUCTS] //
 					if (this.resData.products) {
 						this.products = this.resData.products
@@ -281,6 +229,7 @@
 			},
 
 			async switchTab(tab) {
+				this.error = ''
 				this.tab = tab
 
 				router.push({

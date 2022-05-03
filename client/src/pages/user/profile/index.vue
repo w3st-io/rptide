@@ -136,32 +136,7 @@
 						</BCol>
 					</BRow>
 				</BCard>
-
-				<!-- [ACTIVITY] -->
-				<BCard bg-variant="dark" text-variant="light">
-					<BRow>
-						<!-- Wrapped Chart -->
-						<BCol cols="12" lg="12" class="mt-2">
-							<WrappedLineChart
-								:title="'Activity'"
-								:labels="activityLabels"
-								:data="activityValues"
-								:height="350"
-							/>
-						</BCol>
-
-						<BCol cols="12">
-							<BButton
-								variant="outline-primary"
-								class="w-100 mt-3"
-								@click="redirectYourActivity()"
-							>View Your Activity</BButton>
-						</BCol>
-					</BRow>
-				</BCard>
 			</BCol>
-
-			<BCol sm="12" lg="3"></BCol>
 		</BRow>
 
 		<!-- [ERROR] -->
@@ -175,7 +150,6 @@
 
 <script>
 	// [IMPORT] Personal //
-	import WrappedLineChart from '@/components/chartjs/WrappedLineChart'
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
 	import PageService from '@/services/PageService'
@@ -184,7 +158,6 @@
 
 	export default {
 		components: {
-			WrappedLineChart,
 			Alert,
 		},
 
@@ -234,17 +207,6 @@
 			redirectProfileEdit() { router.push({ name: 'user_profile_edit' }) },
 
 			redirectPasswordChange() { router.push({ name: 'password_change', }) },
-
-			redirectYourActivity() {
-				router.push({
-					name: 'user_activity',
-					params: {
-						sort: 1,
-						limit: 5,
-						page: 1,
-					}
-				})
-			},
 
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
