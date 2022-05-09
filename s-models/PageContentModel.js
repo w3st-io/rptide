@@ -48,7 +48,7 @@ function validate({ cleanJSON }) {
 }
 
 
-const comment = mongoose.Schema({
+const schema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -57,14 +57,57 @@ const comment = mongoose.Schema({
 		required: true,
 	},
 
+	WebApp: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'WebApp',
+		required: true,
+	},
+
+	PageContent_responseTo: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'PageContent',
+	},
+
+	createdTimeStamp: {
+		type: Date,
+		default: Date.now,
+	},
+
+	tags: [
+		{
+			type: String,
+			maxlength: 300,
+		}
+	],
+
+	name: {
+		type: String,
+		default: '',
+	},
+
+	likeCount: {
+		type: Number,
+		default: 0
+	},
+	
+	liked: {
+		type: Boolean,
+		default: false
+	},
+
 	cleanJSON: {
 		time: {
 			type: Number,
-			maxlength: 100,
+			default: Date.now,
 		},
 
 		blocks: [
 			{
+				id: {
+					type: String,
+					default: '',
+				},
+
 				type: {
 					type: String,
 					enum: [
@@ -110,9 +153,20 @@ const comment = mongoose.Schema({
 						maxlength: 300,
 					},
 
+					file: {
+						url: {
+							type: String,
+							default: '',
+						}
+					},
+
 					height: {
 						type: Number,
 						maxlength: 5,
+					},
+
+					html: {
+						type: String,
 					},
 
 					items: [
@@ -151,6 +205,20 @@ const comment = mongoose.Schema({
 						type: Number,
 						maxlength: 5,
 					},
+
+					withBackground: {
+						type: Boolean,
+					},
+
+
+					withBorder: {
+						type: Boolean,
+					},
+
+					withHeadings: {
+						type: Boolean,
+					},
+
 				},
 			}
 		],
@@ -160,31 +228,10 @@ const comment = mongoose.Schema({
 			maxlength: 15
 		}
 	},
-
-	responseTo: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'PageContent',
-		required: false,
-	},
-
-	likeCount: {
-		type: Number,
-		default: 0
-	},
-	
-	liked: {
-		type: Boolean,
-		default: null
-	},
-
-	createdTimeStamp: {
-		type: Date,
-		default: Date.now,
-	},
 })
 
 
-comment.pre('validate', function (next) {
+schema.pre('validate', function (next) {
 	const status = validate({ cleanJSON: this.cleanJSON })
 
 	if (status.status == false) { throw status.message }
@@ -193,7 +240,7 @@ comment.pre('validate', function (next) {
 })
 
 
-comment.pre('updateOne', function (next) {
+schema.pre('updateOne', function (next) {
 	const status = validate({ cleanJSON: this._update.$set.cleanJSON })
 
 	if (status.status == false) { throw status.message }
@@ -202,4 +249,4 @@ comment.pre('updateOne', function (next) {
 })
 
 
-module.exports = mongoose.model('PageContent', comment)
+module.exports = mongoose.model('PageContent', schema)
