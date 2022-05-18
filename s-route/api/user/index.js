@@ -71,6 +71,7 @@ router.post(
 	async (req, res) => { res.send(await rh.resetPassword({ req })) }
 )
 
+
 /******************* [API-KEY] *******************/
 router.post(
 	'/generate-api-key',
