@@ -16,7 +16,7 @@ const mailerUtil = require('../../../s-utils/mailerUtil')
 
 
 // [INIT] //
-const location = '/s-route-hander/api/user'
+const location = '/user/index'
 
 
 module.exports = {
