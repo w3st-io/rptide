@@ -3,7 +3,10 @@ const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptio
 const a_stripe_subscription = require('../../../s-api/stripe/subscription')
 
 
-// [CANCEL-FUNCTION] //
+// [INIT] //
+const location = '/user/api-subscription'
+
+
 async function cancel_tier1StripeSub ({ user_id, apiSubscription_id, tier1_active }) {
 	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable) //
 	const canceledSubObj = await api_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
@@ -36,6 +39,8 @@ async function cancel_tier1StripeSub ({ user_id, apiSubscription_id, tier1_activ
 	return {
 		executed: true,
 		status: true,
+		location: location,
+		message: 'Successfully canceled tier 1 Stripe subscription',
 	}
 }
 
@@ -72,6 +77,8 @@ async function cancel_tier2StripeSub ({ user_id, apiSubscription_id, tier2_activ
 	return {
 		executed: true,
 		status: true,
+		location: location,
+		message: 'Successfully canceled tier 2 Stripe subscription',
 	}
 }
 
@@ -112,6 +119,8 @@ async function archive_stripeSub ({ user_id, apiSubscription_id, subId }) {
 	return {
 		executed: true,
 		status: true,
+		location: location,
+		message: 'Successfully archived Stripe subscription',
 	}
 }
 
@@ -132,7 +141,7 @@ module.exports = {
 		// [ERROR] //
 		if (!apiSubObj.status) {
 			console.log('/apiSubscription Error:', apiSubObj.message)
-			return null
+			return
 		}
 
 		if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
@@ -289,25 +298,23 @@ module.exports = {
 				cardCvc,
 			})
 
-			if (apiStripe_updatedPM.status) {
-				// [UPDATE][ApiSubscription] update pmId //
-				const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
-					apiSubscription_id,
-					user_id,
-					pmId: apiStripe_updatedPM.stripeCreatedPaymentMethod.id,
-				})
+			if (!apiStripe_updatedPM.status) { return apiStripe_updatedPM }
 
-				if (updatedSubObj.status) {
-					return {
-						executed: true,
-						status: true,
-						message: '',
-						card: apiStripe_updatedPM.stripeCreatedPaymentMethod.card,
-					}
-				}
-				else { return updatedSubObj }
+			// [UPDATE][ApiSubscription] update pmId //
+			const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
+				apiSubscription_id,
+				user_id,
+				pmId: apiStripe_updatedPM.stripeCreatedPaymentMethod.id,
+			})
+
+			if (!updatedSubObj.status) { return updatedSubObj }
+			
+			return {
+				executed: true,
+				status: true,
+				card: apiStripe_updatedPM.stripeCreatedPaymentMethod.card,
+				message: '',
 			}
-			else { return apiStripe_updatedPM }
 		}
 		catch (err) {
 			return {
@@ -325,17 +332,16 @@ module.exports = {
 			// [API][stripe] Remove previous payment method //
 			const deleteStripePMObj = await api_stripe.aa_deletePaymentMethod({ pmId })
 
-			if (deleteStripePMObj.status) {
-				// [UPDATE][ApiSubscription] pmId //
-				const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
-					user_id,
-					apiSubscription_id,
-					pmId: '',
-				})
+			if (!deleteStripePMObj.status) { return deleteStripePMObj }
 
-				return updatedSubObj
-			}
-			else { return deleteStripePMObj }
+			// [UPDATE][ApiSubscription] pmId //
+			const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
+				user_id,
+				apiSubscription_id,
+				pmId: '',
+			})
+
+			return updatedSubObj
 		}
 		catch (err) {
 			return {
