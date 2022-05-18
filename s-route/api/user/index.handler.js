@@ -7,7 +7,6 @@ const validator = require('validator')
 // [REQUIRE] Personal //
 const api_stripe = require('../../../s-api/stripe')
 const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
-const UserReportCollection = require('../../../s-collections/UserReportCollection')
 const UserCollection = require('../../../s-collections/UserCollection')
 const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection')
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
@@ -344,6 +343,189 @@ module.exports = {
 
 
 	changePassword: async ({ req }) => {
+		try {
+			if (
+				!validator.isAscii(req.body.currentPassword) ||
+				!validator.isAscii(req.body.password)
+			) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/change-password`,
+					message: `Invalid Params`,
+				}
+			}
 
+			const userObj = await UserCollection.c_read(
+				req.user_decoded.user_id
+			)
+			
+			if (!userObj.status) { return userObj }
+
+			// [VALIDATE-PASSWORD] //
+			if (!bcrypt.compareSync(req.body.currentPassword, userObj.user.password)) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/change-password`,
+					message: `Invalid password`,
+				}
+			}
+
+			// [UPDATE][User] Password //
+			return await UserCollection.c_update_password(
+				req.user_decoded.user_id,
+				req.body.password
+			)
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}/change-password`,
+				message: `Error --> ${err}`,
+			}
+		}
+	},
+
+
+	requestResetPassword: async ({ req }) => {
+		try {
+			// [VALIDATE] //
+			if (!validator.isAscii(req.body.email)) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/request-reset-password:`,
+					message: `${location}/request-reset-password: Invalid params`,
+				}
+			}
+
+			const user = await UserCollection.c_read_byEmail(req.body.email)
+			
+			if (!user.status) { return user }
+
+			// [CREATE][PasswordRecovery] //
+			const passwordRecovery = await PasswordRecoveryCollection.c_create(
+				user.user._id
+			)
+			
+			if (!passwordRecovery.status || passwordRecovery.existance) {
+				return passwordRecovery
+			}
+
+			// [SEND-MAIL] //
+			return await mailerUtil.sendPasswordResetEmail(
+				req.body.email,
+				user.user._id,
+				passwordRecovery.passwordRecovery.verificationCode
+			)
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}/request-reset-password:`,
+				message: `${location}/request-reset-password: Error --> ${err}`,
+			}
+		}
+	},
+
+
+	resetPassword: async ({ req }) => {
+		try {
+			if (
+				!validator.isAscii(req.body.user_id) ||
+				!validator.isAscii(req.body.verificationCode) ||
+				!validator.isAscii(req.body.password)
+			) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/reset-password`,
+					message: 'Invalid params',
+				}
+			}
+
+			// [EXISTANCE][PasswordRecovery] //
+			const existance = await PasswordRecoveryCollection.c_existance(
+				req.body.user_id
+			)
+
+			if (!existance.existance) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/reset-password`,
+					message: 'You have not made a request to reset your password',
+				}
+			}
+
+			// [VALIDATE][PasswordRecovery] //
+			const pwdRecovery = await PasswordRecoveryCollection.c_validateToken(
+				req.body.user_id,
+				req.body.verificationCode
+			)
+
+			if (!pwdRecovery.status || !pwdRecovery.valid) { return pwdRecovery }
+
+			// [UPDATE][User] Password //
+			const updatedPwd = await UserCollection.c_update_password(
+				req.body.user_id,
+				req.body.password
+			)
+
+			if (!updatedPwd.status) { return updatedPwd }
+
+			// [DELETE][PasswordRecovery] //
+			const deletedPR = await PasswordRecoveryCollection.c_delete_byUser(
+				req.body.user_id
+			)
+
+			if (!deletedPR.status) { return deletedPR }
+
+			return {
+				executed: true,
+				status: true,
+				location: `${location}/reset-password`,
+				message: `Password reset`,
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}/reset-password`,
+				message: `Error --> ${err}`,
+			}
+		}
+	},
+
+
+	generateApiKey: async ({ req }) => {
+		try {
+			const userObj = await UserCollection.c_read_select({
+				user_id: req.user_decoded.user_id
+			})
+	
+			const pk = await UserCollection.c_create_apiPrivateKey({
+				user_id: userObj.user._id
+			})
+	
+			return {
+				executed: true,
+				status: true,
+				location: `${location}/generate-api-key`,
+				privateKey: pk.privateKey
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}/generate-api-key`,
+				message: `Error --> ${err}`,
+			}
+		}
 	},
 }
