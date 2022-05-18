@@ -6,9 +6,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
-const h_apiSub = require('../../../s-route-handler/apiSubscription')
-const h_apiSub_paymentMethod = require('../../../s-route-handler/apiSubscription/paymentMethod')
-const h_apiSub_tierSwitcher = require('../../../s-route-handler/apiSubscription/tierSwitcher')
+const h_apiSub = require('./api-subscription.handler')
 const Auth = require('../../../s-middlewares/Auth')
 
 
@@ -37,7 +35,7 @@ router.post(
 				})
 
 				// [H][apiSub_paymentMethod][UPDATE] //
-				const upmObj = await h_apiSub_paymentMethod.updatePaymentMethod({
+				const upmObj = await h_apiSub.updatePaymentMethod({
 					user_id: req.user_decoded.user_id,
 					apiSubscription_id: apiSubObj.apiSubscription._id,
 					cusId: apiSubObj.apiSubscription.stripe.cusId,
@@ -89,7 +87,7 @@ router.post(
 				user_id: req.user_decoded.user_id
 			})
 
-			const dpmObj = await h_apiSub_paymentMethod.deletePaymentMethod({
+			const dpmObj = await h_apiSub.deletePaymentMethod({
 				user_id: req.user_decoded.user_id,
 				apiSubscription_id: apiSubObj.apiSubscription._id,
 				pmId: apiSubObj.apiSubscription.stripe.pmId
@@ -156,7 +154,7 @@ router.post(
 				switch (currentTier) {
 					// Previous Tier 1 //
 					case 1:
-						const switchTier0FromTier1Obj = await h_apiSub_tierSwitcher.h_switchTier0FromTier1({
+						const switchTier0FromTier1Obj = await h_apiSub.h_switchTier0FromTier1({
 							user_id: req.user_decoded.user_id,
 							apiSubscription_id: apiSubObj.apiSubscription._id,
 							tier1_active: apiSubObj.apiSubscription.stripe.subId.tier1.active
@@ -167,7 +165,7 @@ router.post(
 					
 					// Previous Tier 2 //
 					case 2:
-						const switchTier0FromTier2Obj = await h_apiSub_tierSwitcher.h_switchTier0FromTier2({
+						const switchTier0FromTier2Obj = await h_apiSub.h_switchTier0FromTier2({
 							user_id: req.user_decoded.user_id,
 							apiSubscription_id: apiSubObj.apiSubscription._id,
 							tier2_active: apiSubObj.apiSubscription.stripe.subId.tier2.active
@@ -240,7 +238,7 @@ router.post(
 					switch (currentTier) {
 						// Previous Tier 0 //
 						case 0:
-							const tier1FromTier0Obj = await h_apiSub_tierSwitcher.h_switchTier1FromTier0({
+							const tier1FromTier0Obj = await h_apiSub.h_switchTier1FromTier0({
 								user_id: req.user_decoded.user_id,
 								apiSubscription_id: apiSubObj.apiSubscription._id,
 								cusId: apiSubObj.apiSubscription.stripe.cusId,
@@ -251,7 +249,7 @@ router.post(
 
 						// Previous Tier 2 //
 						case 2:
-							const tier1FromTier2Obj = await h_apiSub_tierSwitcher.h_switchTier1FromTier2({
+							const tier1FromTier2Obj = await h_apiSub.h_switchTier1FromTier2({
 								user_id: req.user_decoded.user_id,
 								apiSubscription_id: apiSubObj.apiSubscription._id,
 								cusId: apiSubObj.apiSubscription.stripe.cusId,
@@ -333,7 +331,7 @@ router.post(
 					switch (currentTier) {
 						// Previous Tier 0 //
 						case 0:
-							const tier2FromTier0Obj = await h_apiSub_tierSwitcher.h_switchTier2FromTier0({
+							const tier2FromTier0Obj = await h_apiSub.h_switchTier2FromTier0({
 								user_id: req.user_decoded.user_id,
 								apiSubscription_id: apiSubObj.apiSubscription._id,
 								cusId: apiSubObj.apiSubscription.stripe.cusId,
@@ -344,7 +342,7 @@ router.post(
 
 						// Previous Tier 1 //
 						case 1:
-							const tier1FromTier2Obj = await h_apiSub_tierSwitcher.h_switchTier2FromTier1({
+							const tier1FromTier2Obj = await h_apiSub.h_switchTier2FromTier1({
 								user_id: req.user_decoded.user_id,
 								apiSubscription_id: apiSubObj.apiSubscription._id,
 								cusId: apiSubObj.apiSubscription.stripe.cusId,

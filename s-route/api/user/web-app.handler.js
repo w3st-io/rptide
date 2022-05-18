@@ -3,7 +3,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const WebAppCollection = require('../../s-collections/WebAppCollection')
+const WebAppCollection = require('../../../s-collections/WebAppCollection')
 
 
 // [INIT] //

@@ -6,7 +6,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const rh_api_user = require('../../../s-route-handler/api/user')
+const rh_api_user = require('./index.handler')
 const rateLimiters = require('../../../s-rate-limiters')
 const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
 const UserReportCollection = require('../../../s-collections/UserReportCollection')

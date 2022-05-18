@@ -5,7 +5,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../../s-rate-limiters')
-const h_webApp = require('../../../s-route-handler/webApps')
+const h_webApp = require('./web-app.handler')
 const Auth = require('../../../s-middlewares/Auth')
 
 
