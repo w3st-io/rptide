@@ -57,7 +57,7 @@ const schema = mongoose.Schema({
 		required: true,
 	},
 
-	WebApp: {
+	webApp: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'WebApp',
 		required: true,
@@ -66,11 +66,6 @@ const schema = mongoose.Schema({
 	PageContent_responseTo: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'PageContent',
-	},
-
-	createdTimeStamp: {
-		type: Date,
-		default: Date.now,
 	},
 
 	tags: [
@@ -227,6 +222,11 @@ const schema = mongoose.Schema({
 			type: String,
 			maxlength: 15
 		}
+	},
+
+	createdTimeStamp: {
+		type: Date,
+		default: Date.now,
 	},
 })
 

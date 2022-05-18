@@ -57,21 +57,19 @@ const schema = mongoose.Schema({
 		required: true,
 	},
 
-	WebApp: {
+	webApp: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'WebApp',
 		required: true,
 	},
 
-	PageContent_responseTo: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'PageContent',
-	},
-
-	createdTimeStamp: {
-		type: Date,
-		default: Date.now,
-	},
+	pageContent: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'PageContent',
+			required: true,
+		}
+	],
 
 	tags: [
 		{
@@ -227,6 +225,11 @@ const schema = mongoose.Schema({
 			type: String,
 			maxlength: 15
 		}
+	},
+
+	createdTimeStamp: {
+		type: Date,
+		default: Date.now,
 	},
 })
 
