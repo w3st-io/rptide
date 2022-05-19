@@ -63,6 +63,11 @@ const schema = mongoose.Schema({
 		required: true,
 	},
 
+	page: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Page',
+	},
+
 	PageContent_responseTo: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'PageContent',
