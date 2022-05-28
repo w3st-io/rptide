@@ -80,6 +80,11 @@ const schema = mongoose.Schema({
 		}
 	],
 
+	connectedWalletRequired: {
+		type: Boolean,
+		default: false
+	},
+	
 	name: {
 		type: String,
 		default: '',
