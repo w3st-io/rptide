@@ -41,24 +41,19 @@
 					</BCol>
 				</BRow>
 
-				<!-- [TAB-BUTTON] Pages -->
+				<!-- [TAB-BUTTON] Content -->
 				<BRow class="pb-3">
 					<BCol cols="12">
+						<h6 class="mb-3 text-center text-light">Web Content</h6>
 						<BButton
 							variant="none"
 							class="w-100 mb-3"
 							:class="{
-								'btn-primary': $route.params.tab == 'page',
-								'btn-outline-primary': $route.params.tab != 'page',
+								'btn-primary': $route.params.tab == 'web-content',
+								'btn-outline-primary': $route.params.tab != 'web-content',
 							}"
-							@click="switchTab('page')"
-						>Pages</BButton>
-					</BCol>
-				</BRow>
-
-				<!-- [TAB-BUTTON] Content -->
-				<BRow class="pb-3">
-					<BCol cols="12">
+							@click="switchTab('web-content')"
+						>Web Content</BButton>
 					</BCol>
 				</BRow>
 
@@ -100,13 +95,20 @@
 					v-if="$route.params.tab == 'web-app'"
 				/>
 
+				<!-- [TAB] Product Options -->
+				<WebContent
+					v-if="$route.params.tab == 'web-content'"
+					:productOptions="productOptions"
+					:productOptionsLimit="productOptionsLimit"
+				/>
+				
 				<!-- [TAB] Products -->
 				<Product
 					v-if="$route.params.tab == 'product'"
 					:products="products"
 					:productsLimit="productsLimit"
 				/>
-				
+
 				<!-- [TAB] Product Options -->
 				<ProductOptions
 					v-if="$route.params.tab == 'product-options'"
@@ -132,6 +134,7 @@
 	import ProductOptions from '@/components/dashboard/ProductOptions'
 	import SelectWebApp from '@/components/dashboard/SelectWebApp.vue'
 	import WebApp from '@/components/dashboard/WebApp'
+	import WebContent from '@/components/dashboard/WebContent'
 	import PopUpWebApp from '@/components/popups/WebApp'
 	import defaultData from '@/defaults/companyInfo'
 	import router from '@/router'
@@ -178,6 +181,7 @@
 			ProductOptions,
 			SelectWebApp,
 			WebApp,
+			WebContent,
 			PopUpWebApp,
 		},
 

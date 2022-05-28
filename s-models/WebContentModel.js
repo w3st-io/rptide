@@ -8,16 +8,18 @@ function validate({ cleanJSON }) {
 	if (cleanJSON.blocks.length > 20) {
 		return {
 			status: false,
-			message: 'Error: Comment too large'
+			message: 'Comment too large'
 		}
 	}
+	
+	for (let i = 0; i < cleanJSON.blocks.length; i++) {
+		const block = cleanJSON.blocks[i]
 		
-	cleanJSON.blocks.forEach((block) => {
 		// [LENGTH-CHECK] List Items //
 		if (block.data.items) {
 			return {
 				status: false,
-				message: 'Error: Too many list-items'
+				message: 'Too many list-items'
 			}
 		}
 		
@@ -26,23 +28,25 @@ function validate({ cleanJSON }) {
 			if (block.data.content.length > 20) {
 				return {
 					status: false,
-					message: 'Error: Too many Rows'
+					message: 'Too many Rows'
 				}
 			}
 		}
 
 		// [LENGTH-CHECK] Table COLUMN //
 		if (block.data.content) {
-			block.data.content.forEach((col) => {
+			for (let ii = 0; ii < block.data.content.length; ii++) {
+				const col = block.data.content[ii]
+
 				if (col.length > 20) {
 					return {
 						status: false,
-						message: 'Error: Too many Columns'
+						message: 'Too many Columns'
 					}
 				}
-			})
+			}
 		}
-	})
+	}
 
 	return { status: true }
 }
@@ -63,14 +67,19 @@ const schema = mongoose.Schema({
 		required: true,
 	},
 
-	page: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Page',
+	name: {
+		type: String,
+		default: '',
 	},
 
-	PageContent_responseTo: {
+	connectedWalletRequired: {
+		type: Boolean,
+		default: false
+	},
+
+	WebContent_responseTo: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'PageContent',
+		ref: 'WebContent',
 	},
 
 	tags: [
@@ -79,16 +88,6 @@ const schema = mongoose.Schema({
 			maxlength: 300,
 		}
 	],
-
-	connectedWalletRequired: {
-		type: Boolean,
-		default: false
-	},
-	
-	name: {
-		type: String,
-		default: '',
-	},
 
 	likeCount: {
 		type: Number,
@@ -241,10 +240,18 @@ const schema = mongoose.Schema({
 })
 
 
+schema.pre('save', function (next) {
+	const status = validate({ cleanJSON: this.cleanJSON })
+
+	if (status.status == false) { throw `Error: ${status.message}` }
+	
+	next()
+})
+
 schema.pre('validate', function (next) {
 	const status = validate({ cleanJSON: this.cleanJSON })
 
-	if (status.status == false) { throw status.message }
+	if (status.status == false) { throw `Error: ${status.message}` }
 	
 	next()
 })
@@ -253,10 +260,10 @@ schema.pre('validate', function (next) {
 schema.pre('updateOne', function (next) {
 	const status = validate({ cleanJSON: this._update.$set.cleanJSON })
 
-	if (status.status == false) { throw status.message }
+	if (status.status == false) { throw `Error: ${status.message}` }
 	
 	next()
 })
 
 
-module.exports = mongoose.model('PageContent', schema)
+module.exports = mongoose.model('WebContent', schema)

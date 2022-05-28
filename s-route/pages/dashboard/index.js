@@ -60,8 +60,11 @@ router.get(
 						})
 					break
 
-					case 'dynamic-page':
-						res.send()
+					case 'web-content':
+						res.send({
+							executed: true,
+							status: true,
+						})
 					break
 
 					case 'product':
@@ -87,16 +90,6 @@ router.get(
 						res.send(productOptionssObj)
 					break
 
-					case 'static-page':
-						res.send()
-					break
-
-					case 'web-app':
-						res.send({
-							executed: true,
-							status: true,
-						})
-					break
 					
 					default:
 						res.send({

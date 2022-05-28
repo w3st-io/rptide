@@ -20,6 +20,7 @@ const a_user_apiSubscription = require('./s-route/api/user/api-subscription')
 const a_user_product = require('./s-route/api/user/product')
 const a_user_productOption = require('./s-route/api/user/product-option')
 const a_user_webApp = require('./s-route/api/user/web-app')
+const a_user_webContent = require('./s-route/api/user/web-content')
 
 const p_ = require ('./s-route/pages')
 const p_dashboard = require('./s-route/pages/dashboard')
@@ -91,6 +92,7 @@ app.use('/api/user/api-subscription', a_user_apiSubscription)
 app.use('/api/user/product', Functionality.user(), a_user_product)
 app.use('/api/user/product-option', Functionality.user(), a_user_productOption)
 app.use('/api/user/web-app', a_user_webApp)
+app.use('/api/user/web-content', a_user_webContent)
 
 
 // [USE][ROUTE][PAGES] //
