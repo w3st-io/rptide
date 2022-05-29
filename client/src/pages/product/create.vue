@@ -1,6 +1,5 @@
 <template>
 	<BContainer class="my-5">
-		<h1 class="t">sdfs</h1>
 		<!-- Informative Message -->
 		<Alert variant="info" :message="message" />
 

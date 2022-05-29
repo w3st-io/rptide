@@ -19,11 +19,7 @@ router.post(
 	'/create',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(
-			await rh.createWebApp({
-				user_id: req.user_decoded.user_id,
-			})
-		)
+		res.send(await rh.createWebApp({ req }))
 	}
 )
 

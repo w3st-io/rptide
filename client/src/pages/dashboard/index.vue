@@ -1,7 +1,7 @@
 <template>
 	<BContainer fluid class="p-0 text-light">
 		<PopUpWebApp
-			v-if="this.$route.params.webapp == 'unset'"
+			v-if="this.$route.params.webapp == 'unset' && $store.state.user.verified"
 			@updatePage="getPageData()"
 		/>
 		
@@ -98,8 +98,8 @@
 				<!-- [TAB] Product Options -->
 				<WebContent
 					v-if="$route.params.tab == 'web-content'"
-					:productOptions="productOptions"
-					:productOptionsLimit="productOptionsLimit"
+					:webApp="$route.params.webapp"
+
 				/>
 				
 				<!-- [TAB] Products -->

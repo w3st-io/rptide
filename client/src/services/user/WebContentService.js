@@ -22,11 +22,11 @@ export default {
 	
 
 	/******************* [TOKEN-DECODE] *******************/
-	s_create: async function () {
+	s_create: async function (webContent) {
 		try {
 			const authAxios = await this.authAxios()
 	
-			const response = await authAxios.post('/create', {})
+			const response = await authAxios.post('/create', { webContent })
 
 			return response.data
 		}

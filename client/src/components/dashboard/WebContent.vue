@@ -2,23 +2,24 @@
 	<div class="px-5 py-5">
 		<BRow>
 			<BCol cols="12">
-				<button
-					@click="createWebContent()"
-				>Create Web Content</button>
+				{{ webApp }}
+				<router-link :to="`/user/web-content/create/${webApp}`">
+					<BButton
+						variant="success"
+					>Create</BButton>
+				</router-link> 
 			</BCol>
 		</BRow>
 	</div>
 </template>
 
 <script>
-// [IMPORT] Personal //
-import WebContentService from '../../services/user/WebContentService'
-
-export default {
-	methods: {
-		async createWebContent() {
-			await WebContentService.s_create()
-		}
-	},
-}
+	export default {
+		props: {
+			webApp: {
+				required: true,
+				type: String,
+			},
+		},
+	}
 </script>

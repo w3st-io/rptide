@@ -29,6 +29,7 @@ import user_profile_edit from '@/pages/user/profile/edit'
 import user_verify from '@/pages/user/verify'
 import user_register from '@/pages/user/register'
 import user_registered from '@/pages/user/registered'
+import user_webContent_create from '@/pages/user/web-content/create'
 // Not-Found //
 import NotFound from '@/pages/404'
 
@@ -200,6 +201,15 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Verifiying your account..'
+			}
+		},
+		{
+			path: '/user/web-content/create/:webapp',
+			name: 'Web Content Create',
+			component: user_webContent_create,
+			meta: {
+				auth: true,
+				title: ''
 			}
 		},
 		// Not-Found //
