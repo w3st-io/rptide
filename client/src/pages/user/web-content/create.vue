@@ -21,7 +21,7 @@
 										link: require('@editorjs/link'),
 										list: require('@editorjs/list'),
 										quote: require('@editorjs/quote'),
-										image: require('@editorjs/simple-image'),
+										simpleimage: require('@editorjs/simple-image'),
 										table: require('@editorjs/table'),
 										embed: require('@editorjs/embed'),
 									},

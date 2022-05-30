@@ -1,4 +1,5 @@
 // [REQUIRE] //
+const e = require('express')
 const mongoose = require('mongoose')
 
 
@@ -8,7 +9,7 @@ function validate({ cleanJSON }) {
 	if (cleanJSON.blocks.length > 20) {
 		return {
 			status: false,
-			message: 'Comment too large'
+			message: 'Too many blocks'
 		}
 	}
 	
@@ -23,26 +24,36 @@ function validate({ cleanJSON }) {
 			}
 		}
 		
-		// [LENGTH-CHECK] Table ROW //
-		if (block.data.content) {
+		// content
+		if (block.data.content.length > 0) {
+			// [LENGTH-CHECK] Table ROW //
 			if (block.data.content.length > 20) {
 				return {
 					status: false,
-					message: 'Too many Rows'
+					message: 'Too many rows'
 				}
 			}
-		}
 
-		// [LENGTH-CHECK] Table COLUMN //
-		if (block.data.content) {
+			// [LENGTH-CHECK] Table COLUMN //		
 			for (let ii = 0; ii < block.data.content.length; ii++) {
 				const col = block.data.content[ii]
 
 				if (col.length > 20) {
 					return {
 						status: false,
-						message: 'Too many Columns'
+						message: 'Too many columns'
 					}
+				}
+			}
+		}
+
+		// items
+		if (block.data.items) {
+			// [LENGTH-CHECK] //
+			if (block.data.items.length > 20) {
+				return {
+					status: false,
+					message: 'Too many items'
 				}
 			}
 		}
@@ -126,6 +137,7 @@ const schema = mongoose.Schema({
 						'paragraph',
 						'quote',
 						'raw',
+						'simpleimage',
 						'table'
 					],
 					maxlength: 3000,
