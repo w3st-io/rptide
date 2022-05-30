@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 
 
 // [VALIDATE] //
-function validate({ cleanJSON }) {
-	// [LENGTH-CHECK] Blocks //
+function validate({ cleanJSON, tags = [] }) {
+	// [LENGTH-CHECK] cleanJSON.blocks //
 	if (cleanJSON.blocks.length > 20) {
 		return {
 			status: false,
@@ -13,6 +13,7 @@ function validate({ cleanJSON }) {
 		}
 	}
 	
+	// [FOR-EACH] cleanJSON.blocks //
 	for (let i = 0; i < cleanJSON.blocks.length; i++) {
 		const block = cleanJSON.blocks[i]
 		
@@ -56,6 +57,14 @@ function validate({ cleanJSON }) {
 					message: 'Too many items'
 				}
 			}
+		}
+	}
+
+	// [LENGTH-CHECK] cleanJSON.blocks //
+	if (tags.length > 20) {
+		return {
+			status: false,
+			message: 'Too many tags'
 		}
 	}
 
@@ -301,7 +310,10 @@ const schema = mongoose.Schema({
 
 
 schema.pre('save', function (next) {
-	const status = validate({ cleanJSON: this.cleanJSON })
+	const status = validate({
+		cleanJSON: this.cleanJSON,
+		tags: this.tags,
+	})
 
 	if (status.status == false) { throw `Error: ${status.message}` }
 	
@@ -309,7 +321,10 @@ schema.pre('save', function (next) {
 })
 
 schema.pre('validate', function (next) {
-	const status = validate({ cleanJSON: this.cleanJSON })
+	const status = validate({
+		cleanJSON: this.cleanJSON,
+		tags: this.tags,
+	})
 
 	if (status.status == false) { throw `Error: ${status.message}` }
 	
@@ -318,7 +333,10 @@ schema.pre('validate', function (next) {
 
 
 schema.pre('updateOne', function (next) {
-	const status = validate({ cleanJSON: this._update.$set.cleanJSON })
+	const status = validate({
+		cleanJSON: this._update.$set.cleanJSON,
+		tags: this._update.$set.tags,
+	})
 
 	if (status.status == false) { throw `Error: ${status.message}` }
 	
