@@ -10,24 +10,6 @@
 			class="w-100 m-0 p-4 bg-secondary text-primary"
 			@click="closeMenu()"
 		><XIcon size="36" /></BButton>
-
-		<!-- Menu Page Link -->
-		<RouterLink
-			v-show="$store.state.show.SideMenu"
-			v-for="(button, i) in buttons"
-			:key="i"
-			:to="button.path"
-		>
-			<!-- Menu Items -->
-			<BButton
-				variant="outline-seconadry"
-				class="w-100 text-primary"
-				@click="closeMenu()"
-			>
-				<p v-if="button.text" class="h1 my-1">{{ button.text }}</p>
-				<span v-else v-html="button.sideMenuIcon"></span>
-			</BButton>
-		</RouterLink>
 	</nav>
 </template>
 <script>
@@ -36,7 +18,6 @@
 
 	// [IMPORT] Personal //
 	import companyInfo from '@/defaults/companyInfo'
-	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'
 
 	export default {
@@ -47,7 +28,6 @@
 		data() {
 			return {
 				companyInfo: companyInfo,
-				buttons: buttons,
 				query: ''
 			}
 		},

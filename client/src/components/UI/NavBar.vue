@@ -19,24 +19,26 @@
 	
 			<BNavbar class="px-0 py-2">
 				<div class="mr-auto">
-					<div class="d-none d-md-block">
-						<RouterLink
-							v-for="(button, i) in buttons"
-							:key="i"
-							:to="button.path"
-						>
-							<BButton variant="outline-primary" size="sm" class="mr-2">
-								<span v-if="button.text">{{ button.text }}</span>
-								<span v-else v-html="button.navIcon"></span>
-							</BButton>
-						</RouterLink>
-					</div>
+					<BButton
+						variant="primary"
+						pill
+						@click="routerRedirect({
+							name: 'dashboard',
+							params: {
+								webapp: 'unset',
+								tab: 'web-content',
+								sort: '0',
+								limit: '20',
+								page: '0',
+							}
+						})"
+					>Dashboard</BButton>
 				</div>
 
 				<div>
 					<BButton
 						v-if="$store.state.user.logged"
-						variant="outline-primary"
+						variant="primary"
 						size="sm"
 						class="ml-2"
 						@click="routerRedirect({ name: 'user' })"
@@ -73,7 +75,6 @@
 	// [IMPORT] Personal //
 	import SideMenu from '@/components/UI/SideMenu'
 	import defaultData from '@/defaults/companyInfo'
-	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'
 
 	export default {
@@ -85,12 +86,11 @@
 		data() {
 			return {
 				defaultData: defaultData,
-				buttons: buttons,
 			}
 		},
 
 		methods: {
-			routerRedirect({ name }) { router.push({ name: name }) },
+			routerRedirect(params) { router.push(params) },
 
 			toggle() { this.$store.state.show.SideMenu = !this.$store.state.show.SideMenu },
 		},

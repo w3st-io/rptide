@@ -16,15 +16,7 @@
 					<hr class="bg-secondary">
 				</BCol>
 
-				<BCol cols="12" md="4" class="text-center">
-					<ul class="list-unstyled">
-						<li v-for="(p, i) in PageLinks" :key="i">
-							<RouterLink :to="p.path">
-								{{ p.text }}
-							</RouterLink>
-						</li>
-					</ul>
-				</BCol>
+				<BCol cols="12" md="4" class="text-center"></BCol>
 
 				<BCol cols="12" md="4" class="text-center"></BCol>
 
@@ -47,15 +39,8 @@
 <script>
 	import router from '@/router'
 	import UserService from '@/services/user/UserService'
-	import PageLinks from '@/defaults/pageLinks'
 
 	export default {
-		data() {
-			return {
-				PageLinks: PageLinks,
-			}
-		},
-
 		methods: {
 			logout() {
 				UserService.s_logout()

@@ -31,6 +31,8 @@
 
 						<BButton
 							variant="none"
+							pill
+							size="lg"
 							class="w-100"
 							:class="{
 								'btn-dark': $route.params.tab == 'web-app',
@@ -47,6 +49,8 @@
 						<h6 class="mb-3 text-center text-light">Web Content</h6>
 						<BButton
 							variant="none"
+							size="lg"
+							pill
 							class="w-100 mb-3"
 							:class="{
 								'btn-primary': $route.params.tab == 'web-content',
@@ -63,6 +67,8 @@
 						<h6 class="mb-3 text-center text-light">Commerce</h6>
 						<BButton
 							variant="none"
+							size="lg"
+							pill
 							class="w-100 mb-3"
 							:class="{
 								'btn-primary': $route.params.tab == 'product',
@@ -73,6 +79,8 @@
 					
 						<BButton
 							variant="none"
+							size="lg"
+							pill
 							class="w-100"
 							:class="{
 								'btn-primary': $route.params.tab == 'product-options',

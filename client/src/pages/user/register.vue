@@ -122,7 +122,7 @@
 
 		async created() {
 			// [REDIRECT] Log Required //
-			if (localStorage.usertoken) { router.push({ name: 'user_profile' }) }
+			if (localStorage.usertoken) { router.push({ name: '/' }) }
 		},
 
 		methods: {
