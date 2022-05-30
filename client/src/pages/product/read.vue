@@ -186,7 +186,7 @@
 						</BCard>
 
 						<BCard
-							v-if="0 == 1"
+							v-if="false"
 							bg-variant="dark"
 							border-variant=""
 							no-body

@@ -4,7 +4,7 @@
 		<NavBar v-if="$store.state.show.NavBar" />
 
 		<!-- Admin Bottom Bar -->
-		<AdminNavBar v-if="$store.state.admin.logged" />
+		<AdminNavBar v-if="false" />
 
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
