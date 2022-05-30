@@ -1,7 +1,7 @@
 <template>
 	<BContainer fluid class="p-0 text-light">
 		<PopUpWebApp
-			v-if="this.$route.params.webapp == 'unset' && $store.state.user.verified"
+			v-if="this.$route.params.webapp == 'unset'"
 			@updatePage="getPageData()"
 		/>
 		
@@ -113,15 +113,15 @@
 				<!-- [TAB] Products -->
 				<Product
 					v-if="$route.params.tab == 'product'"
-					:products="products"
-					:productsLimit="productsLimit"
+					:products="pageData.products"
+					:productsLimit="pageData.productsLimit"
 				/>
 
 				<!-- [TAB] Product Options -->
 				<ProductOptions
 					v-if="$route.params.tab == 'product-options'"
-					:productOptions="productOptions"
-					:productOptionsLimit="productOptionsLimit"
+					:productOptions="pageData.productOptions"
+					:productOptionsLimit="pageData.productOptionsLimit"
 				/>
 
 				<!-- [ERROR] -->
@@ -151,34 +151,28 @@
 	export default {
 		data() {
 			return {
+				defaultData,
+
+				loading: true,
+				resData: {},
+				error: '',
+
 				webApp: this.$route.params.webapp,
 				tab: this.$route.params.tab,
-
 				sort: parseInt(this.$route.params.sort),
 				limit: parseInt(this.$route.params.limit),
 				page: parseInt(this.$route.params.page),
 
-				defaultData: defaultData,
-
-				loading: true,
 				showTabs: true,
 				dashboardHeight: '',
-				error: '',
 
-				resData: {},
-				user: {},
-
-				blogPosts: [],
-				blogPostsLimit: 0,
-
-				products: [],
-				productsLimit: 0,
-
-				productOptions: [],
-				productOptionsLimit: 0,
-
-				sectionTexts: [],
-				sectionTextsLimit: 0,
+				pageData: {
+					products: [],
+					productsLimit: 0,
+	
+					productOptions: [],
+					productOptionsLimit: 0,
+				},
 			}
 		},
 
@@ -193,6 +187,23 @@
 		},
 
 		methods: {
+			async setSelectedWebApp() {
+				if (this.webApp == 'unset' && localStorage.selectedWebApp) {
+					this.webApp = localStorage.selectedWebApp
+
+					router.push({
+						name: 'dashboard',
+						params: {
+							webapp: localStorage.selectedWebApp,
+							tab: this.tab,
+							sort: parseInt(this.sort),
+							limit: parseInt(this.limit),
+							page: parseInt(this.page),
+						},
+					})
+				}
+			},
+
 			async getPageData() {
 				this.loading = true
 				
@@ -207,24 +218,20 @@
 				if (this.resData.status) {
 					// [PRODUCTS] //
 					if (this.resData.products) {
-						this.products = this.resData.products
+						this.pageData.products = this.resData.products
 
-						this.productsLimit = this.resData.limit.product[
+						this.pageData.productsLimit = this.resData.limit.product[
 							this.resData.apiSubscriptionTier
 						]
 					}
 					
 					// [PRODUCT-OPTION] //
 					if (this.resData.productOptions) {
-						this.productOptions = this.resData.productOptions
+						this.pageData.productOptions = this.resData.productOptions
 
-						this.productOptionsLimit = this.resData.limit.productOptions[
+						this.pageData.productOptionsLimit = this.resData.limit.productOptions[
 							this.resData.apiSubscriptionTier
 						]
-					}
-
-					if (this.resData.user) {
-						this.user = this.resData.user
 					}
 				}
 				else { this.error = this.resData.message }
@@ -251,20 +258,9 @@
 		},
 
 		async created() {
-			if (this.webApp == 'unset' && localStorage.selectedWebApp) {
-				this.webApp = localStorage.selectedWebApp
+			if (!this.$store.state.user.decoded.verifed) { router.push('user') }
 
-				router.push({
-					name: 'dashboard',
-					params: {
-						webapp: localStorage.selectedWebApp,
-						tab: this.tab,
-						sort: parseInt(this.sort),
-						limit: parseInt(this.limit),
-						page: parseInt(this.page),
-					},
-				})
-			}
+			await this.setSelectedWebApp()
 
 			await this.getPageData()
 		},
