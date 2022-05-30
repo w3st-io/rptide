@@ -20,11 +20,8 @@ class Auth {
 		return async (req, res, next) => {
 			// If a token exists => Validate JWT //
 			if (req.headers.user_authorization) {
-				// [INIT] //
-				const token = req.headers.user_authorization	
-				
 				// [SLICE] "Bearer " //
-				const tokenBody = token.slice(7)
+				const tokenBody = req.headers.user_authorization.slice(7)
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
@@ -49,7 +46,6 @@ class Auth {
 								}
 								else { res.send(verified) }
 							}
-
 							else {
 								res.send({
 									executed: true,
@@ -96,12 +92,9 @@ class Auth {
 	// [IF-LOGGED] NOT required //
 	static userTokenNotRequired() {
 		return async (req, res, next) => {
-			// [INIT] //
-			const token = req.headers.user_authorization
-
-			if (token) {
+			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer " //
-				const tokenBody = token.slice(7)
+				const tokenBody = req.headers.user_authorization.slice(7)
 
 				// If a token exists => Validate JWT //
 				if (tokenBody !== 'undefined') {
@@ -132,13 +125,10 @@ class Auth {
 	// [LIMITED] Verification NOT required //
 	static userTokenByPassVerification() {
 		return (req, res, next) => {
-			// [INIT] //
-			const token = req.headers.user_authorization	
-			
 			// If a token exists => Validate JWT //
-			if (token) {
+			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer " //
-				const tokenBody = token.slice(7)
+				const tokenBody = req.headers.user_authorization.slice(7)
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
@@ -196,11 +186,8 @@ class Auth {
 		return async (req, res, next) => {
 			// If a token exists => Validate JWT //
 			if (req.headers.user_authorization) {
-				// [INIT] //
-				const token = req.headers.user_authorization	
-				
 				// [SLICE] "Bearer " //
-				const tokenBody = token.slice(7)
+				const tokenBody = req.headers.user_authorization.slice(7)
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
@@ -216,6 +203,11 @@ class Auth {
 								)
 
 								if (verified.status) {
+									// Check apiSubscription status //
+									await h_apiSubscription.cycleCheckApiSubscription({
+										user_id: decoded.user_id
+									})
+									
 									next()
 								}
 								else { res.send(verified) }
@@ -252,31 +244,28 @@ class Auth {
 				}
 			}
 			else if (req.headers.authorization) {
-				// [INIT] //
-				const token = req.headers.authorization	
-
 				// [SLICE] "Bearer " //
-				const tokenBody = token.slice(7)
+				const tokenBody = req.headers.authorization.slice(7)
 
-				const asObj = await UserCollection.c_read_byApiPrivateKey({
+				const uObj = await UserCollection.c_read_byApiPrivateKey({
 					privateKey: tokenBody
 				})
 
-				if (asObj.status) {
+				if (uObj.status) {
 					// [INIT] Put decoded in req //
 					const decoded = {
-						user_id: asObj.user._id,
-						first_name: asObj.user.first_name,
-						last_name: asObj.user.last_name,
-						username: asObj.user.username,
-						email: asObj.user.email
+						user_id: uObj.user._id,
+						first_name: uObj.user.first_name,
+						last_name: uObj.user.last_name,
+						username: uObj.user.username,
+						email: uObj.user.email
 					}
 	
 					req.user_decoded = decoded
 	
 					next()
 				}
-				else { res.send(asObj) }
+				else { res.send(uObj) }
 			}
 			else {
 				res.send({

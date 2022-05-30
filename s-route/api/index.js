@@ -25,8 +25,6 @@ router.get(
 
 		const user = await UserModel.findOne({ _id: user_id })
 
-		console.log(user);
-
 		res.send({
 			executed: true,
 			status: true,

@@ -57,22 +57,18 @@ module.exports = {
 
 	find: async ({ req }) => {
 		try {
-			// [OVERRIDE] the user passed by the token //
-			req.body.webContent.user = req.user_decoded.user_id
-
+			console.log(req.body);
 			// [WEB-CONTENT][SAVE] //
-			const result = await new WebContentModel({
-				_id: mongoose.Types.ObjectId(),
-				user: req.user_decoded.user_id,
-				...req.body.webContent,
-			}).save()
+			const result = await WebContentModel.find({
+				webApp: req.body.webApp,
+			})
 	
 			console.log(result)
 
 			return {
 				status: true,
 				executed: true,
-				result: result,
+				webContents: result,
 			}
 		}
 		catch (err) {

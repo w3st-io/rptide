@@ -39,4 +39,23 @@ export default {
 			}
 		}
 	},
+
+	/******************* [TOKEN-DECODE] *******************/
+	s_find: async function ({ webApp }) {
+		try {
+			const authAxios = await this.authAxios()
+	
+			const response = await authAxios.post('/find', { webApp })
+
+			return response.data
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: location,
+				message: `${location}: Error --> ${err}`,
+			}
+		}
+	},
 }

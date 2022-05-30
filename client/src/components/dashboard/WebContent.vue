@@ -13,17 +13,38 @@
 					>Create</BButton>
 				</router-link> 
 			</BCol>
+
+			<BCol>
+				{{ webContents }}
+			</BCol>
 		</BRow>
 	</div>
 </template>
 
 <script>
+	import WebContentService from '../../services/user/WebContentService'
+
 	export default {
 		props: {
 			webApp: {
 				required: true,
 				type: String,
 			},
+		},
+
+		data() {
+			return {
+				resData: {},
+				webContents: []
+			}
+		},
+
+		async created() {
+			this.resData = await WebContentService.s_find({ webApp: this.webApp })
+
+			if (this.resData.status) {
+				this.webContents = this.resData.webContents
+			}
 		},
 	}
 </script>
