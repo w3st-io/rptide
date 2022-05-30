@@ -5,12 +5,12 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection')
-const ProductCollection = require('../../../s-collections/ProductCollection')
-const UserCollection = require('../../../s-collections/UserCollection')
-const config_const = require('../../../s-config/const')
-const h_apiSubscription = require('../../../s-route/api/user/api-subscription.handler')
-const Auth = require('../../../s-middlewares/Auth')
+const ProductOptionCollection = require('../../../../s-collections/ProductOptionCollection')
+const ProductCollection = require('../../../../s-collections/ProductCollection')
+const UserCollection = require('../../../../s-collections/UserCollection')
+const config_const = require('../../../../s-config/const')
+const h_apiSubscription = require('../../../api/user/api-subscription.handler')
+const Auth = require('../../../../s-middlewares/Auth')
 
 
 // [EXPRESS + USE] //

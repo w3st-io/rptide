@@ -160,7 +160,7 @@
 			// [USER-LOGGED][REDIRECT] //
 			if (localStorage.usertoken) {
 				router.push({
-					name: 'dashboard',
+					name: 'user_dashboard',
 					params: {
 						webapp: 'unset',
 						tab: 'web-app',

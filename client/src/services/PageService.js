@@ -202,27 +202,6 @@ export default {
 	},
 
 
-	// [DASHBOARD] //
-	s_dashboard: async function ({ tab, sort, limit, page }) {
-		try {
-			const authAxios = await this.authAxios()
-	
-			const res = await authAxios.get(
-				`/dashboard/index/${tab}/${sort}/${limit}/${page}`
-			)
-			
-			return res.data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `PageService: Error --> ${err}`
-			}
-		}
-	},
-
-
 	// [PRODUCT] //
 	s_product_read: async function ({ product_id }) {
 		try {
@@ -358,6 +337,27 @@ export default {
 			return (
 				await authAxios.get(`/user/index`)
 			).data
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				message: `PageService: Error --> ${err}`
+			}
+		}
+	},
+
+
+	// [DASHBOARD] //
+	s_user_dashboard: async function ({ tab, sort, limit, page }) {
+		try {
+			const authAxios = await this.authAxios()
+	
+			const res = await authAxios.get(
+				`/user/dashboard/index/${tab}/${sort}/${limit}/${page}`
+			)
+			
+			return res.data
 		}
 		catch (err) {
 			return {

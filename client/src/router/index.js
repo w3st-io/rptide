@@ -8,7 +8,6 @@ import companyInfo from '@/defaults/companyInfo'
 // Index //
 import index from '@/pages'
 // Dashboard //
-import dashboard from '@/pages/dashboard'
 // Documentation //
 import documentation from '@/pages/documentation'
 // Email //
@@ -20,6 +19,7 @@ import product_read from '@/pages/product/read'
 import productOption_create from '@/pages/product-option/create'
 // User //
 import user from '@/pages/user'
+import user_dashboard from '@/pages/user/dashboard'
 import user_login from '@/pages/user/login'
 import user_password_change from '@/pages/user/password/change'
 import user_password_request from '@/pages/user/password/request'
@@ -51,16 +51,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Home'
-			}
-		},
-		// Dashboard //
-		{
-			path: '/dashboard/:webapp/:tab/:sort/:limit/:page',
-			name: 'dashboard',
-			component: dashboard,
-			meta: {
-				auth: true,
-				title: 'Dashboard'
 			}
 		},
 		// Documentation //
@@ -120,6 +110,16 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Your Account'
+			}
+		},
+		// Dashboard //
+		{
+			path: '/user/dashboard/:webapp/:tab/:sort/:limit/:page',
+			name: 'user_dashboard',
+			component: user_dashboard,
+			meta: {
+				auth: true,
+				title: 'Dashboard'
 			}
 		},
 		{

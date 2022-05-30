@@ -83,13 +83,13 @@
 
 				routerParams: {
 					dashboard: {
-						name: 'dashboard',
+						name: 'user_dashboard',
 						params: {
 							webapp: 'unset',
 							tab: 'web-content',
-							sort: '0',
-							limit: '20',
-							page: '0',
+							sort: 0,
+							limit: 5,
+							page: 1,
 						}
 					}
 				}

@@ -169,7 +169,7 @@
 				pageData: {
 					products: [],
 					productsLimit: 0,
-	
+
 					productOptions: [],
 					productOptionsLimit: 0,
 				},
@@ -192,7 +192,7 @@
 					this.webApp = localStorage.selectedWebApp
 
 					router.push({
-						name: 'dashboard',
+						name: 'user_dashboard',
 						params: {
 							webapp: localStorage.selectedWebApp,
 							tab: this.tab,
@@ -207,7 +207,7 @@
 			async getPageData() {
 				this.loading = true
 				
-				this.resData = await PageService.s_dashboard({
+				this.resData = await PageService.s_user_dashboard({
 					webapp: this.webApp,
 					tab: this.tab,
 					sort: this.sort,
@@ -244,7 +244,7 @@
 				this.tab = tab
 
 				router.push({
-					name: 'dashboard',
+					name: 'user_dashboard',
 					params: {
 						tab: this.tab,
 						sort: parseInt(this.sort),

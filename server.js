@@ -23,9 +23,9 @@ const a_user_webApp = require('./s-route/api/user/web-app')
 const a_user_webContent = require('./s-route/api/user/web-content')
 
 const p_ = require ('./s-route/pages')
-const p_dashboard = require('./s-route/pages/dashboard')
 const p_product_read = require('./s-route/pages/product/read')
 const p_user = require('./s-route/pages/user')
+const p_user_dashboard = require('./s-route/pages/user/dashboard')
 const p_user_profile = require('./s-route/pages/user/profile')
 const p_user_profile_edit = require('./s-route/pages/user/profile/edit')
 
@@ -97,9 +97,9 @@ app.use('/api/user/web-content', a_user_webContent)
 
 // [USE][ROUTE][PAGES] //
 app.use('/pages', p_)
-app.use('/pages/dashboard', p_dashboard)
 app.use('/pages/product/read', p_product_read)
 app.use('/pages/user', p_user)
+app.use('/pages/user/dashboard', p_user_dashboard)
 app.use('/pages/user/profile', p_user_profile)
 app.use('/pages/user/profile/edit', p_user_profile_edit)
 

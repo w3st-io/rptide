@@ -158,7 +158,7 @@
 
 				if (this.resData.status) {
 					router.push({
-						name: 'dashboard',
+						name: 'user_dashboard',
 						params: {
 							tab: 'product',
 							sort: 0,
