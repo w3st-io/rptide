@@ -9,6 +9,8 @@ module.exports = {
 	
 	// [APP] //
 	app: {
+		acceptingUserRegistration: process.env.APP__ACCEPTING_NEW_REGISTRATIONS || 'false',
+
 		// [MONGODB] //
 		mongoURI: process.env.APP__MONGO_URI || '',
 		

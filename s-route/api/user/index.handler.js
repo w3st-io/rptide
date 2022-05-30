@@ -138,6 +138,15 @@ module.exports = {
 
 	register: async ({ req }) => {
 		try {
+			if (config.app.acceptingUserRegistration == 'false') {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/register`,
+					message: `We are currently not accepting new registrations`,
+				}
+			}
+
 			// [VALIDATE] //
 			if (
 				!validator.isAscii(req.body.username) ||

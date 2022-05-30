@@ -416,6 +416,8 @@ module.exports = {
 			const uo = await UserModel.findOne({
 				"api.privateKey": privateKey
 			})
+
+			console.log(privateKey);
 			
 			if (uo) {
 				return {

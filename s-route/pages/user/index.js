@@ -43,12 +43,13 @@ router.get(
 					if (pMObj.status) {
 						// [API][stripe] Retrieve payment method details if it exists //
 						const tier1PriceObj = await api_stripe_price.a_retrieve({
-							priceId: config.company.products.subscriptions.tier1PriceId
+							priceId: config.api.stripe.priceTier1
 						})
 
 						// [API][stripe] Retrieve payment method details if it exists //
 						const tier2PriceObj = await api_stripe_price.a_retrieve({
-							priceId: config.company.products.subscriptions.tier2PriceId
+							priceId: config.api.stripe.priceTier2
+
 						})
 
 						res.send({

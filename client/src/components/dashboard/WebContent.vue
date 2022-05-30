@@ -8,14 +8,19 @@
 			<BCol cols="12" md="4">
 				<router-link :to="`/user/web-content/create/${webApp}`">
 					<BButton
-						class="w-100"
+						class="w-100 mb-3"
 						variant="success"
 					>Create</BButton>
 				</router-link> 
 			</BCol>
 
-			<BCol>
-				{{ webContents }}
+			<BCol
+				v-for="(w,i) in webContents" :key="i"
+				cols="12" md="6" lg="4"
+			>
+				<BCard bg-variant="dark" text-variant="light" class="mb-3">
+					{{ w.name }}
+				</BCard>
 			</BCol>
 		</BRow>
 	</div>
