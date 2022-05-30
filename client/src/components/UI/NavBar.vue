@@ -20,27 +20,20 @@
 			<BNavbar class="px-0 py-2">
 				<div class="mr-auto">
 					<BButton
+						v-if="$store.state.user.logged"
 						variant="primary"
 						pill
-						@click="routerRedirect({
-							name: 'dashboard',
-							params: {
-								webapp: 'unset',
-								tab: 'web-content',
-								sort: '0',
-								limit: '20',
-								page: '0',
-							}
-						})"
+						class="px-3"
+						@click="routerRedirect(routerParams.dashboard)"
 					>Dashboard</BButton>
 				</div>
 
 				<div>
 					<BButton
 						v-if="$store.state.user.logged"
-						variant="primary"
-						size="sm"
-						class="ml-2"
+						variant="outline-primary"
+						pill
+						class="ml-2 px-3"
 						@click="routerRedirect({ name: 'user' })"
 					>{{ $store.state.user.decoded.username }}</BButton>
 
@@ -48,15 +41,16 @@
 					<BButton
 						v-if="!$store.state.user.logged"
 						variant="outline-secondary"
-						size="sm"
+						pill
+						class="px-3"
 						@click="routerRedirect({ name: 'user_login' })"
 					>Login</BButton>
 					
 					<BButton
 						v-if="!$store.state.user.logged"
 						variant="outline-primary"
-						size="sm"
-						class="ml-2"
+						pill
+						class="ml-2 px-3"
 						@click="routerRedirect({ name: 'user_register' })"
 					>Register</BButton>
 				</div>
@@ -85,7 +79,20 @@
 
 		data() {
 			return {
-				defaultData: defaultData,
+				defaultData,
+
+				routerParams: {
+					dashboard: {
+						name: 'dashboard',
+						params: {
+							webapp: 'unset',
+							tab: 'web-content',
+							sort: '0',
+							limit: '20',
+							page: '0',
+						}
+					}
+				}
 			}
 		},
 
