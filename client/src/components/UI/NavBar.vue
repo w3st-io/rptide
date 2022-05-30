@@ -35,7 +35,7 @@
 						pill
 						class="ml-2 px-3"
 						@click="routerRedirect({ name: 'user' })"
-					>{{ $store.state.user.decoded.username }}</BButton>
+					>Your Accouunt</BButton>
 
 					<!-- NOT Logged In -->
 					<BButton

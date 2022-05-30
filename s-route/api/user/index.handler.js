@@ -149,7 +149,6 @@ module.exports = {
 
 			// [VALIDATE] //
 			if (
-				!validator.isAscii(req.body.username) ||
 				!validator.isAscii(req.body.email) ||
 				!validator.isAscii(req.body.password)
 			) {
@@ -163,7 +162,6 @@ module.exports = {
 
 			// [CREATE][User] //
 			const userObj = await UserCollection.c_register({
-				username: req.body.username,
 				email: req.body.email,
 				password: req.body.password,
 			})
