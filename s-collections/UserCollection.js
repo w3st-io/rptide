@@ -378,7 +378,7 @@ module.exports = {
 			return {
 				executed: true,
 				status: true,
-				user: user
+				user: user,
 			}
 		}
 		catch (err) {

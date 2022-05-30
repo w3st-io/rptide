@@ -43,6 +43,10 @@ function checkOut() {
 		
 	// [STORE] //
 	store.state.user.logged = false
+	store.state.dashboard = {
+		webApps: [],
+		webApp: ''
+	}
 
 	// [EMIT] //
 	store.state.socket.emit('user-logout')

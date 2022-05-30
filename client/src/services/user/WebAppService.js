@@ -27,9 +27,23 @@ export default {
 		try {
 			const authAxios = await this.authAxios()
 	
-			const response = await authAxios.post('/create', { title: title })
+			const res = await authAxios.post('/create', { title })
 
-			return response.data
+			return res.data
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: location,
+				message: `${location}: Error --> ${err}`,
+			}
+		}
+	},
+
+	s_find: async function () {
+		try {
+			
 		}
 		catch (err) {
 			return {
