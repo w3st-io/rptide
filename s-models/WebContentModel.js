@@ -16,7 +16,7 @@ function validate({ cleanJSON }) {
 		const block = cleanJSON.blocks[i]
 		
 		// [LENGTH-CHECK] List Items //
-		if (block.data.items) {
+		if (block.data.items.length > 20) {
 			return {
 				status: false,
 				message: 'Too many list-items'
@@ -70,6 +70,7 @@ const schema = mongoose.Schema({
 	name: {
 		type: String,
 		default: '',
+		maxlength: 3000,
 	},
 
 	connectedWalletRequired: {
@@ -110,6 +111,7 @@ const schema = mongoose.Schema({
 				id: {
 					type: String,
 					default: '',
+					maxlength: 3000,
 				},
 
 				type: {
@@ -125,58 +127,62 @@ const schema = mongoose.Schema({
 						'quote',
 						'table'
 					],
+					maxlength: 3000,
 				},
 			
 				data: {
 					alignment: {
 						type: String,
-						enum: ['center', 'left']
+						enum: ['center', 'left'],
+						maxlength: 3000,
 					},
 
 					caption: {
 						type: String,
-						maxlength: 1000,
+						maxlength: 3000,
 					},
 
 					code: {
 						type: String,
-						maxlength: 1000,
+						maxlength: 3000,
 					},
 
 					content: [
 						[
 							{
 								type: String,
-								maxlength: 50,
+								maxlength: 300,
 							}
 						]
 					],
 
 					embed: {
 						type: String,
-						maxlength: 300,
+						maxlength: 3000,
 					},
 
 					file: {
 						url: {
 							type: String,
 							default: '',
+							maxlength: 3000,
 						}
 					},
 
 					height: {
 						type: Number,
-						maxlength: 5,
+						maxlength: 3000,
 					},
 
 					html: {
 						type: String,
+						maxlength: 3000,
 					},
 
 					items: [
 						{
 							type: String,
-							maxlength: 50,
+							maxlength: 300,
 						}
 					],
 
@@ -185,14 +191,54 @@ const schema = mongoose.Schema({
 						enum: [1, 2, 3, 4, 5, 6],
 					},
 
+					link: {
+						type: String,
+						maxlength: 3000,
+					},
+
+					meta: {
+						title: {
+							type: String,
+							maxlength: 3000,
+						},
+
+						site_name: {
+							type: String,
+							maxlength: 3000,
+						},
+
+						description: {
+							type: String,
+							maxlength: 3000,
+						},
+
+						image: {
+							url: {
+								type: String,
+								maxlength: 3000,
+							},
+						}
+					},
+
 					service: {
 						type: String,
-						maxlength: 200,
+						maxlength: 3000,
 					},
-					
+
 					style: {
 						type: String,
-						enum: ['ordered', 'unordered']
+						enum: ['ordered', 'unordered'],
+						maxlength: 3000,
+					},
+					
+					stretched: {
+						type: Boolean
+					},
+
+					success: {
+						type: Number,
+						enum: [0, 1],
+						maxlength: 3000,
 					},
 
 					text: {
@@ -200,9 +246,15 @@ const schema = mongoose.Schema({
 						maxlength: 3000,
 					},
 
+					type: {
+						type: String,
+						maxlength: 3000,
+					},
+
 					url: {
 						type: String,
-						maxlength: 300,
+						maxlength: 3000,
+
 					},
 
 					width: {
@@ -229,7 +281,7 @@ const schema = mongoose.Schema({
 		
 		version: {
 			type: String,
-			maxlength: 15
+			maxlength: 3000,
 		}
 	},
 
