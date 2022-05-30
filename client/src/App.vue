@@ -29,7 +29,6 @@
 	import Footer from '@/components/UI/Footer'
 	import NavBar from '@/components/UI/NavBar'
 	import { EventBus } from '@/main'
-	import AdminService from '@/services/admin/AdminService'
 	import Service from '@/services/Service'
 	import UserService from '@/services/user/UserService'
 	import Socket from '@/socket'
@@ -71,11 +70,6 @@
 					if (localStorage.usertoken) {
 						this.$store.state.user.logged == true
 					}
-
-					// [ADMIN-LOGGED] //
-					if (localStorage.admin) {
-						this.$store.state.admin.logged == true
-					}
 				}
 				catch (err) { console.log(`App: Error --> ${err}`) }
 			},
@@ -95,10 +89,7 @@
 			await this.initializeApp()
 
 			// [USER] checkIn //
-			UserService.s_checkIn()
-
-			// [ADMIN] checkIn //
-			AdminService.s_checkIn()
+			await UserService.s_checkIn()
 
 			// [SOCKET] //
 			Socket.initialize()

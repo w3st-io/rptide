@@ -243,6 +243,7 @@ class Auth {
 					})
 				}
 			}
+			// API Private Key
 			else if (req.headers.authorization) {
 				// [SLICE] "Bearer " //
 				const tokenBody = req.headers.authorization.slice(7)

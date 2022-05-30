@@ -27,7 +27,7 @@ router.post(
 // [CREATE] Auth Required //
 router.post(
 	'/find',
-	Auth.userToken(),
+	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
 		res.send(await rh.find({ req }))
 	}

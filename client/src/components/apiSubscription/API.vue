@@ -19,6 +19,8 @@
 		<BCol cols="12">
 			<h3 class="mb-4 text-light">
 				Private Key: {{ $store.state.api.privateKey }}
+
+				{{ $store.state.user }}
 			</h3>
 		</BCol>
 	</BRow>

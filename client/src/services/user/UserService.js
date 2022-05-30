@@ -23,6 +23,32 @@ async function authAxios() {
 }
 
 
+function checkIn() {
+	if (localStorage.usertoken) {
+		// [STORE][JWT] Get decoded //
+		store.state.user.decoded = jwtDecode(localStorage.usertoken)
+
+		// [STORE] //
+		store.state.user.logged = true
+
+		// [STORE][SOCKET] //
+		store.state.socket.emit('user-login', store.state.user.decoded.user_id)
+	}
+}
+
+
+function checkOut() {
+	// [STORE][JWT] Get decoded //
+	store.state.user.decoded = {}
+		
+	// [STORE] //
+	store.state.user.logged = false
+
+	// [EMIT] //
+	store.state.socket.emit('user-logout')
+}
+
+
 export default {
 	authAxios,
 	
@@ -70,17 +96,7 @@ export default {
 				// [TOKEN] //
 				localStorage.setItem('usertoken', data.token)
 	
-				// [STORE][JWT] Get decoded //
-				store.state.user.decoded = jwtDecode(localStorage.usertoken)
-	
-				// [STORE] //
-				store.state.user.logged = true
-	
-				// [STORE][SOCKET] //
-				store.state.socket.emit(
-					'user-login',
-					store.state.user.decoded.user_id
-				)
+				checkIn()
 			}
 	
 			return data
@@ -100,14 +116,7 @@ export default {
 		// [TOKEN] //
 		localStorage.removeItem('usertoken')
 		
-		// [STORE][JWT] Get decoded //
-		store.state.user.decoded = {}
-	
-		// [STORE] //
-		store.state.user.logged = false
-	
-		// [EMIT] //
-		store.state.socket.emit('user-logout')
+		checkOut()
 	},
 
 
@@ -156,19 +165,7 @@ export default {
 
 
 	// [CHECK-IN] //
-	s_checkIn: async function () {
-		if (localStorage.usertoken) {
-			// [STORE] //
-			store.state.user.decoded = jwtDecode(localStorage.usertoken)
-			store.state.user.logged = true
-	
-			// [STORE][SOCKET] //
-			store.state.socket.emit(
-				'user-login',
-				store.state.user.decoded.user_id
-			)
-		}
-	},
+	s_checkIn: async function () { checkIn() },
 	
 	
 	/******************* [VERIFY] *******************/
@@ -241,24 +238,6 @@ export default {
 					}
 				)
 			).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}	
-		}
-	},
-
-
-	s_report: async function (reportType, reportedUser) {
-		try {
-			const authAxios = await this.authAxios()
-
-			const res = await authAxios.post('/report', { reportType, reportedUser })
-			
-			return res.data
 		}
 		catch (err) {
 			return {
