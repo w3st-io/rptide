@@ -19,7 +19,17 @@ router.post(
 	'/create',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.createWebApp({ req }))
+		res.send(await rh.createWebContent({ req }))
+	}
+)
+
+
+// [CREATE] Auth Required //
+router.post(
+	'/find',
+	Auth.userToken(),
+	async (req, res) => {
+		res.send(await rh.find({ req }))
 	}
 )
 
