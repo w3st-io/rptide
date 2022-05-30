@@ -20,7 +20,7 @@
 			<BNavbar class="px-0 py-2">
 				<div class="mr-auto">
 					<BButton
-						v-if="$store.state.user.logged"
+						v-if="$store.state.user.decoded !== {}"
 						variant="primary"
 						pill
 						class="px-3"
@@ -30,7 +30,7 @@
 
 				<div>
 					<BButton
-						v-if="$store.state.user.logged"
+						v-if="$store.state.user.decoded !== {}"
 						variant="outline-primary"
 						pill
 						class="ml-2 px-3"
@@ -39,7 +39,7 @@
 
 					<!-- NOT Logged In -->
 					<BButton
-						v-if="!$store.state.user.logged"
+						v-if="!$store.state.user.decoded !== {}"
 						variant="outline-secondary"
 						pill
 						class="px-3"
@@ -47,7 +47,7 @@
 					>Login</BButton>
 					
 					<BButton
-						v-if="!$store.state.user.logged"
+						v-if="!$store.state.user.decoded !== {}"
 						variant="outline-primary"
 						pill
 						class="ml-2 px-3"

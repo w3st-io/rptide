@@ -28,9 +28,6 @@ function checkIn() {
 		// [STORE][JWT] Get decoded //
 		store.state.user.decoded = jwtDecode(localStorage.usertoken)
 
-		// [STORE] //
-		store.state.user.logged = true
-
 		// [STORE][SOCKET] //
 		store.state.socket.emit('user-login', store.state.user.decoded.user_id)
 	}
@@ -42,7 +39,6 @@ function checkOut() {
 	store.state.user.decoded = {}
 		
 	// [STORE] //
-	store.state.user.logged = false
 	store.state.dashboard = {
 		webApps: [],
 		webApp: ''

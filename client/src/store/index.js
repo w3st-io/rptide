@@ -26,7 +26,6 @@ export default new Vuex.Store({
 		},
 
 		user: {
-			logged: false,
 			decoded: {},
 			api: {
 				privateKey: '',

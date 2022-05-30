@@ -22,7 +22,7 @@
 
 				<BCol cols="12" md="4" class="text-center">
 					<BButton
-						v-if="$store.state.user.logged"
+						v-if="$store.state.user.decoded !== {}"
 						variant="outline-secondary"
 						size="sm"
 						class="m-auto"

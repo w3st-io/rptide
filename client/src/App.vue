@@ -67,11 +67,6 @@
 						this.$store.state.user.api.privateKey = this.reqData.user.api.privateKey
 					}
 				}
-
-				// [USER-LOGGED] //
-				if (localStorage.usertoken) {
-					this.$store.state.user.logged == true
-				}
 			},
 
 
