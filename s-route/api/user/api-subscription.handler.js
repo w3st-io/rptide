@@ -1,10 +1,15 @@
 // [REQUIRE] Personal //
+const config = require('../../../s-config')
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
 const a_stripe_subscription = require('../../../s-api/stripe/subscription')
 
 
 // [INIT] //
 const location = '/user/api-subscription'
+
+
+const tier1PriceId = config.api.stripe.priceTier1
+const tier2PriceId = config.api.stripe.proceTier2
 
 
 async function cancel_tier1StripeSub ({ user_id, apiSubscription_id, tier1_active }) {
