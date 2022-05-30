@@ -6,25 +6,6 @@
 
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
-					<!-- Username -->
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required"
-						v-slot="{ errors }"
-					>
-						<label>Username</label>
-						<input
-							v-model="formData.username"
-							name="username"
-							type="text"
-							class="form-control bg-dark text-light border-secondary"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="username"
-						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
-
 					<!-- Email -->
 					<ValidationProvider
 						tag="div"
@@ -110,7 +91,6 @@
 		data() {
 			return {
 				formData: {
-					username: '',
 					email: '',
 					password: '',
 				},
@@ -129,7 +109,6 @@
 			async register() {
 				try {
 					this.data = await UserService.s_register({
-						username: this.formData.username,
 						email: this.formData.email,
 						password: this.formData.password,
 					})

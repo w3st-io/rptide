@@ -121,16 +121,11 @@ export default {
 
 
 	// [REGISTER] //
-	s_register: async function ({ username, email, password }) {
+	s_register: async function ({ email, password }) {
 		try {
 			const authAxios = await this.authAxios()
 			
-			const res = await authAxios.post(
-				'/register',
-				{ username, email, password }
-			)
-			
-			return res.data
+			return (await authAxios.post('/register', { email, password })).data
 		}
 		catch (err) {
 			return {

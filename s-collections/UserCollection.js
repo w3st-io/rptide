@@ -174,17 +174,9 @@ module.exports = {
 
 	/******************* [OTHER-CRUD] *******************/
 	// [CREATE] User (with password) //
-	c_register: async ({ username, email, password }) => {
+	c_register: async ({ email, password }) => {
 		try {
-			// [VALIDATE] username //
-			if (!validator.isAscii(username)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid username`
-				}
-			}
-	
+
 			// [VALIDATE] email //
 			if (!validator.isEmail(email)) {
 				return {
@@ -200,16 +192,6 @@ module.exports = {
 					executed: true,
 					status: false,
 					message: `${location}: Invalid password`
-				}
-			}
-	
-			// Username Check //
-			if (await UserModel.findOne({ username })) {
-				return {
-					executed: true,
-					status: true,
-					message: 'That username is taken',
-					created: false,
 				}
 			}
 	
@@ -239,8 +221,7 @@ module.exports = {
 			// [SAVE] //
 			const user = await new UserModel({
 				_id: mongoose.Types.ObjectId(),
-				username,
-				email,
+				email: email,
 				password: hashedPassword,
 			}).save()
 			

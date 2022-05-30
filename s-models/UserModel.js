@@ -20,6 +20,7 @@ module.exports = mongoose.model(
 		},
 
 		email: {	
+			unique: true,
 			type: String,
 			required: [true, 'This is required'],
 			maxlength: 50,
@@ -27,7 +28,7 @@ module.exports = mongoose.model(
 
 		username: {
 			type: String,
-			required: [true, 'This is required'],
+			default: '',
 			maxlength: 24,
 		},
 		
