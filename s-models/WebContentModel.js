@@ -125,6 +125,7 @@ const schema = mongoose.Schema({
 						'list',
 						'paragraph',
 						'quote',
+						'raw',
 						'table'
 					],
 					maxlength: 3000,
@@ -242,11 +243,6 @@ const schema = mongoose.Schema({
 					},
 
 					text: {
-						type: String,
-						maxlength: 3000,
-					},
-
-					type: {
 						type: String,
 						maxlength: 3000,
 					},
