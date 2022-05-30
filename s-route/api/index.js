@@ -30,7 +30,7 @@ router.get(
 			status: true,
 			node_env: config.NODE_ENV,
 			webApps: webApps,
-			//api: user.api || ''
+			user: user,
 		})
 	}
 )

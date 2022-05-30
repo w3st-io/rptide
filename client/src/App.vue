@@ -53,25 +53,25 @@
 
 		methods: {
 			async initializeApp() {
-				try {
-					this.reqData = await Service.index()
+				this.reqData = await Service.index()
 
-					if (this.reqData.status) {
-						// [local-storage] //
-						localStorage.setItem('node_env', this.reqData.node_env)
+				if (this.reqData.status) {
+					// [local-storage] //
+					localStorage.setItem('node_env', this.reqData.node_env)
 
-						// [store] //
-						this.$store.state.node_env = this.reqData.node_env
-						this.$store.state.dashboard.webApps = this.reqData.webApps
-						this.$store.state.api.privateKey = this.reqData.api.privateKey
-					}
+					// [store] //
+					this.$store.state.node_env = this.reqData.node_env
+					this.$store.state.dashboard.webApps = this.reqData.webApps
 
-					// [USER-LOGGED] //
-					if (localStorage.usertoken) {
-						this.$store.state.user.logged == true
+					if (this.reqData.user) {
+						this.$store.state.user.api.privateKey = this.reqData.user.api.privateKey
 					}
 				}
-				catch (err) { console.log(`App: Error --> ${err}`) }
+
+				// [USER-LOGGED] //
+				if (localStorage.usertoken) {
+					this.$store.state.user.logged == true
+				}
 			},
 
 

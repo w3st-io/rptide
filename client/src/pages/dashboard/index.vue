@@ -139,7 +139,6 @@
 	import defaultData from '@/defaults/companyInfo'
 	import router from '@/router'
 	import PageService from '@/services/PageService'
-	import UserService from '@/services/user/UserService'
 
 	export default {
 		data() {
@@ -186,13 +185,6 @@
 		},
 
 		methods: {
-			async generateApiKey() {
-				this.resData = await UserService.s_generateApiKey()
-
-				if (this.resData.status) { this.user = this.resData.user }
-				else { this.error = this.resData.message }
-			},
-
 			async getPageData() {
 				this.loading = true
 				

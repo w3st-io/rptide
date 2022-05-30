@@ -18,9 +18,7 @@
 
 		<BCol cols="12">
 			<h3 class="mb-4 text-light">
-				Private Key: {{ $store.state.api.privateKey }}
-
-				{{ $store.state.user }}
+				Private Key: {{ $store.state.user.api.privateKey }}
 			</h3>
 		</BCol>
 	</BRow>
@@ -35,7 +33,7 @@
 				this.resData = await UserService.s_generateApiKey()
 				
 				if (this.resData.status) {
-					this.$store.state.api.privateKey = this.resData.privateKey
+					this.$store.state.user.api.privateKey = this.resData.privateKey
 				}
 				else { this.error = this.resData.message }
 			},

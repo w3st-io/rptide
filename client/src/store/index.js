@@ -11,10 +11,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		node_env: localStorage.node_env == 'development' ? 'development' : 'production',
-
-		api: {
-			privateKey: '',
-		},
 		
 		dashboard: {
 			webApps: [],
@@ -32,6 +28,9 @@ export default new Vuex.Store({
 		user: {
 			logged: false,
 			decoded: {},
+			api: {
+				privateKey: '',
+			},
 		},
 
 		admin: {

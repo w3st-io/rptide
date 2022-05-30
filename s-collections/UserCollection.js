@@ -43,8 +43,11 @@ module.exports = {
 							privateKey: privateKey,
 						}
 					}
-				}
+				},
+				{ new: true }
 			)
+
+			console.log(updatedUser);
 
 			return {
 				executed: true,
