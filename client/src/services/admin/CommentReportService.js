@@ -8,7 +8,6 @@ async function authAxios() {
 		baseURL: '/api/admin/comment-report',
 		headers: {
 			user_authorization: `Bearer ${localStorage.usertoken}`,
-			admin_authorization: `Bearer ${localStorage.admintoken}`
 		}
 	})
 }

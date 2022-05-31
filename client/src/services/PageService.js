@@ -8,7 +8,6 @@ const authAxios = async () => {
 		baseURL: '/pages',
 		headers: {
 			user_authorization: `Bearer ${localStorage.usertoken}`,
-			admin_authorization: `Bearer ${localStorage.admintoken}`
 		}
 	})
 }

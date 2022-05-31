@@ -12,7 +12,6 @@ async function authAxios() {
 		baseURL: '/api/user/web-app',
 		headers: {
 			user_authorization: `Bearer ${localStorage.usertoken}`,
-			admin_authorization: `Bearer ${localStorage.admintoken}`
 		}
 	})
 }

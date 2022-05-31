@@ -2,26 +2,18 @@
 import axios from 'axios'
 
 
-// [AUTH-TOKEN-SETUP] //
-async function authAxios() {
-	return axios.create({
-		baseURL: '/api/mail',
-		headers: {
-			user_authorization: `Bearer ${localStorage.usertoken}`,
-			admin_authorization: `Bearer ${localStorage.admintoken}`
-		}
-	})
-}
+// [AUTH-AXIOS] //
+const authAxios = axios.create({
+	baseURL: '/api/mail',
+	headers: {
+		user_authorization: `Bearer ${localStorage.usertoken}`,
+	}
+})
 
 
 export default {
-	authAxios,
-
-
 	s_careers: async function (formData) {
 		try {
-			const authAxios = await this.authAxios()
-	
 			return (await authAxios.post('/careers', formData)).data
 		}
 		catch (err) {
