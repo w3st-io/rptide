@@ -7,8 +7,8 @@
 				class="p-0 px-3 border-right border-left-0 border-primary bg-dark"
 			>
 				<!-- [TAB-BUTTON] Web App -->
-				<BRow class="mb-3 py-3 bg-primary">
-					<BCol cols="12" class="">
+				<BRow class="pt-3">
+					<BCol cols="12">
 						<h6 class="small text-center text-muted">
 							{{ $store.state.dashboard.webApp }}
 						</h6>
@@ -25,11 +25,13 @@
 							size="lg"
 							class="w-100"
 							:class="{
-								'btn-dark': $route.params.tab == 'web-app',
-								'btn-outline-dark': $route.params.tab != 'web-app',
+								'btn-primary': $route.params.tab == 'web-app',
+								'btn-outline-primary': $route.params.tab != 'web-app',
 							}"
 							@click="switchTab('web-app')"
 						>Web Apps</BButton>
+						
+						<hr class="border-secondary">
 					</BCol>
 				</BRow>
 
