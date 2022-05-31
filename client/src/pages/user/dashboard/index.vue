@@ -36,7 +36,6 @@
 				<!-- [TAB-BUTTON] Content -->
 				<BRow class="pb-3">
 					<BCol cols="12">
-						<h6 class="mb-3 text-center text-light">Web Content</h6>
 						<BButton
 							variant="none"
 							size="lg"
@@ -49,12 +48,8 @@
 							@click="switchTab('web-content')"
 						>Web Content</BButton>
 					</BCol>
-				</BRow>
-
-				<!-- [TATAB-BUTTONBS] Commerce -->
-				<BRow class="pb-3">
+				
 					<BCol cols="12">
-						<h6 class="mb-3 text-center text-light">Commerce</h6>
 						<BButton
 							variant="none"
 							size="lg"
@@ -66,7 +61,9 @@
 							}"
 							@click="switchTab('product')"
 						>Products</BButton>
-					
+					</BCol>
+
+					<BCol cols="12">
 						<BButton
 							variant="none"
 							size="lg"
@@ -244,6 +241,7 @@
 
 		async created() {
 			if (!this.$store.state.user.verifed) { router.push('user') }
+			console.log(this.$store.state.user);
 
 			await this.setSelectedWebApp()
 

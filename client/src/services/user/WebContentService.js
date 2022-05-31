@@ -6,29 +6,22 @@ import axios from 'axios'
 const location = 'WebAppService'
 
 
-// [AUTH-TOKEN-SETUP] //
-async function authAxios() {
-	return axios.create({
-		baseURL: '/api/user/web-content',
-		headers: {
-			user_authorization: `Bearer ${localStorage.usertoken}`
-		}
-	})
-}
+// [AUTH-AXIOS] //
+const authAxios = axios.create({
+	baseURL: '/api/user/web-content',
+	headers: {
+		user_authorization: `Bearer ${localStorage.usertoken}`
+	}
+})
 
 
 export default {
-	authAxios,
-	
-
 	/******************* [TOKEN-DECODE] *******************/
 	s_create: async function (webContent) {
 		try {
-			const authAxios = await this.authAxios()
-	
-			const response = await authAxios.post('/create', { webContent })
+			const res = await authAxios.post('/create', { webContent })
 
-			return response.data
+			return res.data
 		}
 		catch (err) {
 			return {
@@ -43,11 +36,9 @@ export default {
 	/******************* [TOKEN-DECODE] *******************/
 	s_find: async function ({ webApp }) {
 		try {
-			const authAxios = await this.authAxios()
-	
-			const response = await authAxios.post('/find', { webApp })
+			const res = await authAxios.post('/find', { webApp })
 
-			return response.data
+			return res.data
 		}
 		catch (err) {
 			return {

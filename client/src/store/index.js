@@ -30,8 +30,7 @@ export default new Vuex.Store({
 			decoded: {},
 		},
 		
-		socket: localStorage.node_env == 'development' ?
-			io('http://localhost:5000') : io()
+		socket: localStorage.node_env == 'development' ? io('localhost:5000') : io()
 	},
 
 	// Syncrous //

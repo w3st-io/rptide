@@ -6,25 +6,18 @@ import axios from 'axios'
 const location = '/client/ApiSubscriptionService'
 
 
-// [AUTH-TOKEN-SETUP] //
-async function authAxios() {
-	return axios.create({
-		baseURL: '/api/user/api-subscription',
-		headers: {
-			user_authorization: `Bearer ${localStorage.usertoken}`,
-		}
-	})
-}
+// [AUTH-AXIOS] //
+const authAxios = axios.create({
+	baseURL: '/api/user/api-subscription',
+	headers: {
+		user_authorization: `Bearer ${localStorage.usertoken}`,
+	}
+})
 
 
 export default {
-	authAxios,
-
-
 	s_update_pm: async function ({ cardName, cardNumber, cardMonth, cardYear, cardCvc }) {
 		try {
-			const authAxios = await this.authAxios()
-	
 			const response = await authAxios.post(
 				'/update-pm',
 				{
@@ -51,11 +44,9 @@ export default {
 
 	s_delete_pm: async function () {
 		try {
-			const authAxios = await this.authAxios()
-	
-			const response = await authAxios.post('/delete-pm')
+			const res = await authAxios.post('/delete-pm')
 
-			return response.data
+			return res.data
 		}
 		catch (err) {
 			return {
@@ -70,15 +61,9 @@ export default {
 
 	s_update_tier: async function ({ tier }) {
 		try {
-			const authAxios = await this.authAxios()
-	
-			console.log('switched');
+			const res = await authAxios.post(`/update-tier-${tier}`)
 
-			const response = await authAxios.post(`/update-tier-${tier}`)
-
-			console.log(response);
-
-			return response.data
+			return res.data
 		}
 		catch (err) {
 			return {

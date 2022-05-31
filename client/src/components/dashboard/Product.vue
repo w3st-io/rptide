@@ -40,9 +40,9 @@
 						<BCard
 							text-variant="light"
 							bg-variant="dark"
-							border-variant="none"
+							border-variant="secondary"
 							no-body
-							class="mb-4 shadow product-card"
+							class="mb-4 product-card"
 							@click="routerPush(`/product/read/${p._id}`)"
 						>
 							<BCardImg

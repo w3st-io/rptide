@@ -9,13 +9,15 @@
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
 			v-if="message"
-			:user_decoded="user_decoded"
 			:message="message"
 			BGColor="info"
 		/>
 
 		<!-- Router -->
-		<RouterView :key="$route.name + ($route.params.id || '')" />
+		<RouterView
+			v-if="!this.$store.state.loading"
+			:key="$route.name + ($route.params.id || '')"
+		/>
 
 		<!-- Bottom Footer -->
 		<Footer v-if="$store.state.show.Footer" />
@@ -51,6 +53,8 @@
 
 		methods: {
 			async initializeApp() {
+				this.$store.state.loading = true 
+
 				this.reqData = await Service.index()
 
 				if (this.reqData.status) {
@@ -61,6 +65,8 @@
 				await UserService.s_checkIn()
 			
 				Socket.initialize()
+
+				this.$store.state.loading = false 
 			},
 		},
 
