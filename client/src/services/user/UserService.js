@@ -32,7 +32,7 @@ async function checkIn() {
 			store.state.dashboard.webApp
 		
 			// [STORE][SOCKET] //
-			store.state.socket.emit('user-login', store.state.user._id)
+			//store.state.socket.emit('user-login', store.state.user._id)
 		}
 	}
 }

@@ -85,7 +85,7 @@
 					dashboard: {
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp || '',
+							webapp: this.$store.state.dashboard.webApp || 'unset',
 							tab: 'web-content',
 							sort: 0,
 							limit: 5,

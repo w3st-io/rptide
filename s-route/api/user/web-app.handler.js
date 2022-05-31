@@ -4,6 +4,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const WebAppCollection = require('../../../s-collections/WebAppCollection')
+const WebAppModel = require('../../../s-models/WebAppModel')
 
 
 // [INIT] //
@@ -31,11 +32,14 @@ module.exports = {
 
 			if (!STObj.status) { return STObj }
 
+			const webApps = await WebAppModel.find({ user: user_id })
+
 			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,
 				createdWebApp: STObj.createdWebApp,
+				webApps: webApps,
 				message: 'CREATED webApp'
 			}
 		}

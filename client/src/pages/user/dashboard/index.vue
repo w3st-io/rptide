@@ -125,11 +125,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Product from '@/components/dashboard/Product'
-	import ProductOptions from '@/components/dashboard/ProductOptions'
-	import SelectWebApp from '@/components/dashboard/SelectWebApp.vue'
-	import WebApp from '@/components/dashboard/WebApp'
-	import WebContent from '@/components/dashboard/WebContent'
+	import SelectWebApp from '@/components/dashboard/nav/SelectWebApp'
+	import Product from '@/components/dashboard/tab-content/Product'
+	import ProductOptions from '@/components/dashboard/tab-content/ProductOptions'
+	import WebContent from '@/components/dashboard/tab-content/WebContent'
+	import WebApp from '@/components/dashboard/tab-content/WebApp'
 	import PopUpWebApp from '@/components/popups/WebApp'
 	import defaultData from '@/defaults/companyInfo'
 	import router from '@/router'
@@ -164,9 +164,9 @@
 		components: {
 			Product,
 			ProductOptions,
-			SelectWebApp,
 			WebApp,
 			WebContent,
+			SelectWebApp,
 			PopUpWebApp,
 		},
 
@@ -226,7 +226,7 @@
 		},
 
 		async created() {
-			if (!this.$store.state.user.verifed) { router.push('user') }
+			if (this.$store.state.user.verified == false) { router.push('/user') }
 
 			await this.getPageData()
 		},
