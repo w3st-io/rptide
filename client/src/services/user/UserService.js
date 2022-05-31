@@ -7,7 +7,7 @@ import store from '@/store'
 
 
 // [INIT] //
-const location = 'UserService'
+const location = '/client/src/services/UserService'
 
 
 // [AUTH-AXIOS] //
