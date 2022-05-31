@@ -17,7 +17,7 @@ router.get(
 		res.send({
 			executed: true,
 			status: true,
-			node_env: config.NODE_ENV,
+			node_env: config.nodeENV,
 			message: 'API live'
 		})
 	}
