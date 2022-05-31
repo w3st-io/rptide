@@ -121,6 +121,9 @@
 </template>
 
 <script>
+	// [IMPORT] //
+	import validator from 'validator'
+
 	// [IMPORT] Personal //
 	import Product        from '../../../components/dashboard/Product'
 	import ProductOptions from '../../../components/dashboard/ProductOptions'
@@ -134,6 +137,7 @@
 	export default {
 		data() {
 			return {
+
 				defaultData,
 
 				loading: true,
@@ -205,16 +209,30 @@
 				this.error = ''
 				this.tab = tab
 
-				router.push({
-					name: 'user_dashboard',
-					params: {
-						webapp: this.$store.state.dashboard.webApp ,
-						tab: this.tab,
-						sort: parseInt(this.sort),
-						limit: parseInt(this.limit),
-						page: parseInt(this.page),
-					},
-				})
+				if (validator.isMongoId(this.$store.state.dashboard.webApp)) {
+					router.push({
+						name: 'user_dashboard',
+						params: {
+							webapp: this.$store.state.dashboard.webApp,
+							tab: this.tab,
+							sort: parseInt(this.sort),
+							limit: parseInt(this.limit),
+							page: parseInt(this.page),
+						},
+					})
+				}
+				else {
+					router.push({
+						name: 'user_dashboard',
+						params: {
+							webapp: this.$store.state.dashboard.webApp,
+							tab: 'web-app',
+							sort: parseInt(this.sort),
+							limit: parseInt(this.limit),
+							page: parseInt(this.page),
+						},
+					})
+				}
 
 				await this.getPageData()
 			},
@@ -224,6 +242,10 @@
 			if (!localStorage.usertoken) { router.push('/') }
 
 			if (this.$store.state.user.verified == false) { router.push('/user') }
+
+			if (!validator.isMongoId(this.$store.state.dashboard.webApp)) {
+				await this.switchTab('web-app')
+			}
 
 			await this.getPageData()
 		},

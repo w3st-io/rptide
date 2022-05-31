@@ -24,6 +24,7 @@
     "sass": "^1.49.7",
     "socket.io-client": "^2.3.0",
     "v-viewer": "^1.5.1",
+    "validator": "^13.7.0",
     "vee-validate": "^3.3.7",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",

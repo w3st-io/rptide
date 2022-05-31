@@ -2,7 +2,7 @@
 	<div class="p-5">
 		<h4 class="mb-4 text-primary">Selected Web App</h4>
 		<Current @updatePage="$emit('updatePage')" class="mb-4" />
-
+		<hr class="border-secondary">
 		<h4 class="mb-3 text-primary">Create Web App</h4>
 		<Create class="mb-4" />
 

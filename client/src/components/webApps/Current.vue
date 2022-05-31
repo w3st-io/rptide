@@ -6,7 +6,7 @@
 				form-control
 				form-select
 				text-light
-				border-success
+				border-light
 				bg-dark
 			"
 			@click="selectOrganization()"
