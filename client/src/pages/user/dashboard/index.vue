@@ -31,7 +31,7 @@
 							@click="switchTab('web-app')"
 						>Web Apps</BButton>
 						
-						<hr class="border-secondary">
+						<hr class="border-primary">
 					</BCol>
 				</BRow>
 
