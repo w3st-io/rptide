@@ -12,6 +12,7 @@ const VerificationCodeCollection = require('../../../s-collections/VerificationC
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
 const config = require('../../../s-config')
 const mailerUtil = require('../../../s-utils/mailerUtil')
+const WebAppModel = require('../../../s-models/WebAppModel')
 
 
 // [INIT] //
@@ -131,6 +132,31 @@ module.exports = {
 				status: false,
 				location: `${location}/login:`,
 				message: `${location}/login: Error --> ${err}`,
+			}
+		}
+	},
+
+
+	checkIn: async ({ req }) => {
+		try {
+			// [INIT] //
+			const uObj = await UserCollection.c_read(req.user_decoded.user_id)
+			
+			const webApps = await WebAppModel.find({ user: uObj.user._id })
+
+			return {
+				executed: true,
+				status: true,
+				webApps: webApps,
+				user: uObj.user,
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}/login:`,
+				message: `Error --> ${err}`,
 			}
 		}
 	},

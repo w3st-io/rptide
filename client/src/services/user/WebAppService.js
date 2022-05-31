@@ -43,7 +43,9 @@ export default {
 
 	s_find: async function () {
 		try {
+			const res = await authAxios.post('/finnd')
 			
+			return res.data
 		}
 		catch (err) {
 			return {

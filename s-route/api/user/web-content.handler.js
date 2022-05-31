@@ -57,13 +57,10 @@ module.exports = {
 
 	find: async ({ req }) => {
 		try {
-			console.log(req.body);
 			// [WEB-CONTENT][SAVE] //
 			const result = await WebContentModel.find({
 				webApp: req.body.webApp,
 			})
-	
-			console.log(result)
 
 			return {
 				status: true,

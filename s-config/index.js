@@ -3,7 +3,7 @@ require('dotenv').config()
 
 
 module.exports = {
-	// [HEROKU] NODE_ENV - PORT //
+	// [HEROKU] //
 	nodeENV: process.env.NODE_ENV || 'development',
 	port: process.env.PORT || 5000,
 	

@@ -258,7 +258,7 @@
 		},
 
 		async created() {
-			if (!this.$store.state.user.decoded.verifed) { router.push('user') }
+			if (!this.$store.state.user.verifed) { router.push('user') }
 
 			await this.setSelectedWebApp()
 

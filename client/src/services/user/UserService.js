@@ -1,5 +1,4 @@
 // [IMPORT] //
-import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
 
@@ -11,32 +10,35 @@ import store from '@/store'
 const location = 'UserService'
 
 
-// [AUTH-TOKEN-SETUP] //
-async function authAxios() {
-	return axios.create({
-		baseURL: '/api/user',
-		headers: {
-			user_authorization: `Bearer ${localStorage.usertoken}`,
-			admin_authorization: `Bearer ${localStorage.admintoken}`
-		}
-	})
-}
+// [AUTH-AXIOS] //
+const authAxios = axios.create({
+	baseURL: '/api/user',
+	headers: {
+		user_authorization: `Bearer ${localStorage.usertoken}`,
+		admin_authorization: `Bearer ${localStorage.admintoken}`
+	}
+})
 
 
-function checkIn() {
+async function checkIn() {
 	if (localStorage.usertoken) {
-		// [STORE][JWT] Get decoded //
-		store.state.user.decoded = jwtDecode(localStorage.usertoken)
-
-		// [STORE][SOCKET] //
-		store.state.socket.emit('user-login', store.state.user.decoded.user_id)
+		const res = await authAxios.post('/check-in')
+		
+		if (res.status) {
+			// [STORE] //
+			store.state.user = res.data.user
+			store.state.dashboard.webApps = res.data.webApps
+		
+			// [STORE][SOCKET] //
+			store.state.socket.emit('user-login', store.state.user.user_id)
+		}
 	}
 }
 
 
 function checkOut() {
 	// [STORE][JWT] Get decoded //
-	store.state.user.decoded = {}
+	store.state.user = null
 		
 	// [STORE] //
 	store.state.dashboard = {
@@ -44,34 +46,16 @@ function checkOut() {
 		webApp: ''
 	}
 
-	// [EMIT] //
+	// [STORE][SOCKET][EMIT] //
 	store.state.socket.emit('user-logout')
 }
 
 
 export default {
-	authAxios,
-	
-
-	/******************* [TOKEN-DECODE] *******************/
-	s_getUserTokenDecodeData: async function () {
-		if (localStorage.usertoken) { return jwtDecode(localStorage.usertoken) }
-		else {
-			return {
-				user_id: '',
-				email: '',
-				username: '',
-			}
-		}
-	},
-
-
 	/******************* [CRUD] *******************/
 	// [UPDATE] Auth Required //
 	s_update: async function (img_url, bio) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			return (await authAxios.post('/update', { img_url, bio })).data
 		}
 		catch (err) {
@@ -88,15 +72,13 @@ export default {
 		// [LOGIN] //
 	s_login: async function (email, password) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			const { data } = await authAxios.post('/login', { email, password })
 			
 			if (data.validation) {
 				// [TOKEN] //
 				localStorage.setItem('usertoken', data.token)
 	
-				checkIn()
+				await checkIn()
 			}
 	
 			return data
@@ -123,8 +105,6 @@ export default {
 	// [REGISTER] //
 	s_register: async function ({ email, password }) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			return (await authAxios.post('/register', { email, password })).data
 		}
 		catch (err) {
@@ -140,8 +120,6 @@ export default {
 	
 	s_completeRegistration: async function (user_id, verificationCode) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			const res = await authAxios.post(
 				'/complete-registration',
 				{ user_id, verificationCode }
@@ -160,14 +138,12 @@ export default {
 
 
 	// [CHECK-IN] //
-	s_checkIn: async function () { checkIn() },
+	s_checkIn: async function () { await checkIn() },
 	
 	
 	/******************* [VERIFY] *******************/
 	s_resendVerificationEmail: async function (email) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			return (
 				await authAxios.post('/resend-verification-email', { email })
 			).data
@@ -185,8 +161,6 @@ export default {
 	/******************* [PASSWORD] *******************/
 	s_changePassword: async function (currentPassword, password) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			return (
 				await authAxios.post('/change-password', {
 					currentPassword, password
@@ -205,8 +179,6 @@ export default {
 
 	s_requestResetPassword: async function (email) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			return (await authAxios.post('/request-reset-password', { email })).data
 		}
 		catch (err) {
@@ -221,8 +193,6 @@ export default {
 	
 	s_notLoggedResetPassword: async function (user_id, verificationCode, password) {
 		try {
-			const authAxios = await this.authAxios()
-			
 			return (
 				await authAxios.post(
 					'/reset-password',
@@ -246,8 +216,6 @@ export default {
 
 	s_generateApiKey: async function () {
 		try {
-			const authAxios = await this.authAxios()
-
 			const res = await authAxios.post('/generate-api-key')
 			
 			return res.data

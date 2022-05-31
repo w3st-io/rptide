@@ -30,6 +30,14 @@ router.post(
 )
 
 
+// [LOGIN] //
+router.post(
+	'/check-in',
+	Auth.userToken(),
+	async (req, res) => { res.send(await rh.checkIn({ req })) }
+)
+
+
 // [REGISTRATION] //
 router.post(
 	'/register',
