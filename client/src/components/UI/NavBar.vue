@@ -20,7 +20,7 @@
 			<BNavbar class="px-0 py-2">
 				<div class="mr-auto">
 					<BButton
-						v-if="$store.state.user !== {}"
+						v-if="$store.state.user"
 						variant="primary"
 						pill
 						class="px-3"
@@ -85,7 +85,7 @@
 					dashboard: {
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp || 'unset',
+							webapp: this.$store.state.dashboard.webApp,
 							tab: 'web-content',
 							sort: 0,
 							limit: 5,
@@ -97,7 +97,10 @@
 		},
 
 		methods: {
-			routerRedirect(params) { router.push(params) },
+			routerRedirect(params) {
+				console.log(this.$store.state.dashboard.webApp)
+				router.push(params)
+			},
 
 			toggle() { this.$store.state.show.SideMenu = !this.$store.state.show.SideMenu },
 		},

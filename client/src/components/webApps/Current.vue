@@ -13,6 +13,8 @@
 		>
 			<option disabled value="">Choose a Web App</option>
 
+			<option value="unset">unset</option>
+
 			<option
 				v-for="w in $store.state.dashboard.webApps"
 				:key="w._id"

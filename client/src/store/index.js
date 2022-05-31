@@ -12,7 +12,7 @@ export default new Vuex.Store({
 	state: {
 		dashboard: {
 			webApps: [],
-			webApp: ''
+			webApp: 'unset'
 		},
 		
 		loading: false,

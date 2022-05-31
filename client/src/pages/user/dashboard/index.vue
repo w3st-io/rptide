@@ -208,7 +208,7 @@
 				router.push({
 					name: 'user_dashboard',
 					params: {
-						webapp: this.$store.state.dashboard.webApp,
+						webapp: this.$store.state.dashboard.webApp ,
 						tab: this.tab,
 						sort: parseInt(this.sort),
 						limit: parseInt(this.limit),
@@ -221,6 +221,8 @@
 		},
 
 		async created() {
+			if (!localStorage.usertoken) { router.push('/') }
+
 			if (this.$store.state.user.verified == false) { router.push('/user') }
 
 			await this.getPageData()
