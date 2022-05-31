@@ -14,7 +14,7 @@
 						</h6>
 
 						<!-- Dropdown Select -->
-						<SelectWebApp
+						<Current
 							@updatePage="$emit('updatePage')"
 							class="mb-3"
 						/>
@@ -122,14 +122,14 @@
 
 <script>
 	// [IMPORT] Personal //
-	import SelectWebApp from '../../../components/dashboard/nav/SelectWebApp'
-	import Product from '../../../components/dashboard/tab-content/Product'
-	import ProductOptions from '../../../components/dashboard/tab-content/ProductOptions'
-	import WebContent from '../../../components/dashboard/tab-content/WebContent'
-	import WebApp from '../../../components/dashboard/tab-content/WebApp'
-	import defaultData from '../../../defaults/companyInfo'
-	import router from '../../../router'
-	import PageService from '../../../services/PageService'
+	import Product        from '../../../components/dashboard/Product'
+	import ProductOptions from '../../../components/dashboard/ProductOptions'
+	import WebContent     from '../../../components/dashboard/WebContent'
+	import WebApp         from '../../../components/dashboard/WebApp'
+	import Current        from '../../../components/webApps/Current'
+	import defaultData    from '../../../defaults/companyInfo'
+	import router         from '../../../router'
+	import PageService    from '../../../services/PageService'
 
 	export default {
 		data() {
@@ -161,8 +161,8 @@
 			Product,
 			ProductOptions,
 			WebApp,
+			Current,
 			WebContent,
-			SelectWebApp,
 		},
 
 		methods: {

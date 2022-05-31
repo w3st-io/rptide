@@ -1,7 +1,5 @@
 <template>
 	<div>
-		<h4 class="mb-4 text-primary">Your Web App</h4>
-
 		<BRow v-if="$store.state.dashboard.webApps.length !== 0" class="mb-5">
 			<BCol
 				v-for="(w, i) in $store.state.dashboard.webApps"

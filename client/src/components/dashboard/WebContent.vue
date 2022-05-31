@@ -34,7 +34,7 @@
 </template>
 
 <script>
-	import WebContentService from '../../../services/user/WebContentService'
+	import WebContentService from '../../services/user/WebContentService'
 
 	export default {
 		props: {
