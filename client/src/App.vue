@@ -26,13 +26,13 @@
 
 <script>
 	// [IMPORT] Personal //
-	import PopUpBanner from '@/components/inform/PopUpBanner'
-	import AdminNavBar from '@/components/UI/AdminNavBar'
-	import Footer from '@/components/UI/Footer'
-	import NavBar from '@/components/UI/NavBar'
-	import Service from '@/services/Service'
-	import UserService from '@/services/user/UserService'
-	import Socket from '@/socket'
+	import PopUpBanner from './components/inform/PopUpBanner'
+	import AdminNavBar from './components/UI/AdminNavBar'
+	import Footer from './components/UI/Footer'
+	import NavBar from './components/UI/NavBar'
+	import Service from './services/Service'
+	import UserService from './services/user/UserService'
+	import Socket from './socket'
 
 	export default {
 		name: 'App',

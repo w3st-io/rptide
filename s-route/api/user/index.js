@@ -33,7 +33,7 @@ router.post(
 // [LOGIN] //
 router.post(
 	'/check-in',
-	Auth.userToken(),
+	Auth.userTokenByPassVerification(),
 	async (req, res) => { res.send(await rh.checkIn({ req })) }
 )
 

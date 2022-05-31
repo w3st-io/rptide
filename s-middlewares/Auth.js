@@ -33,13 +33,13 @@ class Auth {
 
 								// Check verified //
 								const verified = await UserCollection.c_verifiedStatus(
-									decoded.user_id
+									decoded._id
 								)
 
 								if (verified.status) {
 									// Check apiSubscription status //
 									await h_apiSubscription.cycleCheckApiSubscription({
-										user_id: decoded.user_id
+										user_id: decoded._id
 									})
 									
 									next()
@@ -199,13 +199,13 @@ class Auth {
 
 								// Check verified //
 								const verified = await UserCollection.c_verifiedStatus(
-									decoded.user_id
+									decoded._id
 								)
 
 								if (verified.status) {
 									// Check apiSubscription status //
 									await h_apiSubscription.cycleCheckApiSubscription({
-										user_id: decoded.user_id
+										user_id: decoded._id
 									})
 									
 									next()

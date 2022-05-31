@@ -14,6 +14,9 @@
 				<!-- [TAB-BUTTON] Web App -->
 				<BRow class="mb-3 py-3 bg-primary">
 					<BCol cols="12" class="">
+						<h6 class="small text-center text-muted">
+							{{ $store.state.dashboard.webApp }}
+						</h6>
 						<SelectWebApp
 							@updatePage="$emit('updatePage')"
 							class="mb-3"
@@ -93,7 +96,7 @@
 				<!-- [TAB] Product Options -->
 				<WebContent
 					v-if="$route.params.tab == 'web-content'"
-					:webApp="$route.params.webapp"
+					:webApp="$store.state.dashboard.webApp"
 
 				/>
 				
@@ -141,7 +144,6 @@
 				resData: {},
 				error: '',
 
-				webApp: this.$route.params.webapp,
 				tab: this.$route.params.tab,
 				sort: parseInt(this.$route.params.sort),
 				limit: parseInt(this.$route.params.limit),
@@ -169,32 +171,15 @@
 		},
 
 		methods: {
-			async setSelectedWebApp() {
-				if (this.webApp == 'unset' && localStorage.selectedWebApp) {
-					this.webApp = localStorage.selectedWebApp
-
-					router.push({
-						name: 'user_dashboard',
-						params: {
-							webapp: localStorage.selectedWebApp,
-							tab: this.tab,
-							sort: parseInt(this.sort),
-							limit: parseInt(this.limit),
-							page: parseInt(this.page),
-						},
-					})
-				}
-			},
-
 			async getPageData() {
 				this.loading = true
 				
 				this.resData = await PageService.s_user_dashboard({
-					webapp: this.webApp,
+					webapp: this.$store.state.dashboard.webApp,
 					tab: this.tab,
-					sort: this.sort,
-					limit: this.limit,
-					page: this.page,
+					sort: parseInt(this.sort),
+					limit: parseInt(this.limit),
+					page: parseInt(this.page),
 				})
 
 				if (this.resData.status) {
@@ -228,6 +213,7 @@
 				router.push({
 					name: 'user_dashboard',
 					params: {
+						webapp: this.$store.state.dashboard.webApp,
 						tab: this.tab,
 						sort: parseInt(this.sort),
 						limit: parseInt(this.limit),
@@ -241,9 +227,6 @@
 
 		async created() {
 			if (!this.$store.state.user.verifed) { router.push('user') }
-			console.log(this.$store.state.user);
-
-			await this.setSelectedWebApp()
 
 			await this.getPageData()
 		},

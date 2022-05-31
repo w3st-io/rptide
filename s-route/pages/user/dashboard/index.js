@@ -40,7 +40,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				const apiSubscriptionTier = await h_apiSubscription.getSubscriptionTier({
-					user_id: req.user_decoded.user_id,
+					user_id: req.user_decoded._id,
 				})
 
 				switch (req.params.tab) {
@@ -69,7 +69,7 @@ router.get(
 
 					case 'product':
 						const productsObj = await ProductCollection.c_readAll_sorted_byUser({
-							user_id: req.user_decoded.user_id,
+							user_id: req.user_decoded._id,
 						})
 
 						productsObj.limit = config_const.limit
@@ -80,7 +80,7 @@ router.get(
 
 					case 'product-options':
 						const productOptionssObj = await ProductOptionCollection.c_readAll_sorted_byUser({
-							user_id: req.user_decoded.user_id,
+							user_id: req.user_decoded._id,
 							
 						})
 

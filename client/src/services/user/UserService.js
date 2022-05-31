@@ -27,6 +27,9 @@ async function checkIn() {
 			// [STORE] //
 			store.state.user = res.data.user
 			store.state.dashboard.webApps = res.data.webApps
+
+			// Set web app
+			store.state.dashboard.webApp
 		
 			// [STORE][SOCKET] //
 			store.state.socket.emit('user-login', store.state.user._id)

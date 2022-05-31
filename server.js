@@ -70,7 +70,7 @@ mongoose.connect(
 		//useFindAndModify: false,
 	},
 	(err, connected) => {
-		if (connected) { console.log('Mongoose Connected to DB') }
+		if (connected) { console.log('Mongoose Connected to MongoDB') }
 		else { console.log(`Mongoose Connection Error --> ${err}`) }
 	}
 )

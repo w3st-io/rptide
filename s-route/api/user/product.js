@@ -39,7 +39,7 @@ router.post(
 			) {
 				// [COLLECTION][Product][CREATE] //
 				const productObj = await ProductCollection.c_create({
-					user_id: req.user_decoded.user_id,
+					user_id: req.user_decoded._id,
 					name: req.body.name,
 					description: req.body.description,
 					price: req.body.price,
@@ -89,7 +89,7 @@ router.get(
 				validator.isAscii(req.params.page)
 			) {
 				// [INIT] //
-				const user_id = (req.user_decoded) ? req.user_decoded.user_id : undefined
+				const user_id = (req.user_decoded) ? req.user_decoded._id : undefined
 
 				const productsObj = await ProductCollection.c_readAll_sorted({
 					user_id: user_id,
@@ -128,7 +128,7 @@ router.post(
 			if (validator.isAscii(req.body.name)) {
 				// [COLLECTION][Product][UPDATE] //
 				const productObj = await ProductCollection.c_update({
-					user_id: req.user_decoded.user_id,
+					user_id: req.user_decoded._id,
 					product: req.body,
 				})
 
@@ -167,7 +167,7 @@ router.post(
 			if (validator.isAscii(req.body.product_id)) {
 				// [COLLECTION][Product][DELETE] //
 				const deleteProductObj = await ProductCollection.c_delete_byUserAndId({
-					user_id: req.user_decoded.user_id,
+					user_id: req.user_decoded._id,
 					product_id: req.body.product_id,
 				})
 

@@ -33,7 +33,7 @@ module.exports = {
 			}
 
 			const returned = await UserCollection.c_update({
-				user_id: req.user_decoded.user_id,
+				user_id: req.user_decoded._id,
 				img_url: req.body.img_url,
 				bio: req.body.bio
 			})
@@ -105,7 +105,7 @@ module.exports = {
 
 			const token = jwt.sign(
 				{
-					user_id: userObj.user._id,
+					_id: userObj.user._id,
 					email: userObj.user.email,
 					username: userObj.user.username,
 					first_name: userObj.user.first_name,
@@ -140,7 +140,9 @@ module.exports = {
 	checkIn: async ({ req }) => {
 		try {
 			// [INIT] //
-			const uObj = await UserCollection.c_read(req.user_decoded.user_id)
+			const uObj = await UserCollection.c_read(req.user_decoded._id)
+
+			console.log(req.user_decoded);
 			
 			const webApps = await WebAppModel.find({ user: uObj.user._id })
 
@@ -155,7 +157,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				location: `${location}/login:`,
+				location: `${location}/check-in:`,
 				message: `Error --> ${err}`,
 			}
 		}
@@ -390,7 +392,7 @@ module.exports = {
 			}
 
 			const userObj = await UserCollection.c_read(
-				req.user_decoded.user_id
+				req.user_decoded._id
 			)
 			
 			if (!userObj.status) { return userObj }
@@ -407,7 +409,7 @@ module.exports = {
 
 			// [UPDATE][User] Password //
 			return await UserCollection.c_update_password(
-				req.user_decoded.user_id,
+				req.user_decoded._id,
 				req.body.password
 			)
 		}
@@ -538,7 +540,7 @@ module.exports = {
 	generateApiKey: async ({ req }) => {
 		try {
 			const userObj = await UserCollection.c_read_select({
-				user_id: req.user_decoded.user_id
+				user_id: req.user_decoded._id
 			})
 	
 			const pk = await UserCollection.c_create_apiPrivateKey({

@@ -22,7 +22,7 @@ router.post(
 	async (req, res) => {
 		res.send(
 			await h_webApp.createWebApp({
-				user_id: req.user_decoded.user_id,
+				user_id: req.user_decoded._id,
 				title: req.body.title,
 			})
 		)
@@ -38,7 +38,7 @@ router.post(
 	async (req, res) => {
 		res.send(
 			await h_webApp.deleteWebApp({
-				user_id: req.user_decoded.user_id,
+				user_id: req.user_decoded._id,
 				webApp_id: req.body.webApp_id,
 			})
 		)

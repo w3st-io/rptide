@@ -16,11 +16,11 @@ module.exports = {
 
 			// [READ][ApiSubscription] //
 			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
-				user_id: req.user_decoded.user_id
+				user_id: req.user_decoded._id
 			})
 			
 			const pObj = await ProductCollection.c_count_byUser({
-				user_id: req.user_decoded.user_id
+				user_id: req.user_decoded._id
 			})
 
 			// [LIMIT-CHECK] Tier 1 //
@@ -66,11 +66,11 @@ module.exports = {
 
 			// [READ][ApiSubscription] //
 			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
-				user_id: req.user_decoded.user_id
+				user_id: req.user_decoded._id
 			})
 			
 			const pObj = await ProductCollection.c_count_byUser({
-				user_id: req.user_decoded.user_id
+				user_id: req.user_decoded._id
 			})
 
 			// [LIMIT-CHECK] Tier 1 //

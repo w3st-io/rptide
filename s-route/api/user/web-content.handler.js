@@ -18,7 +18,7 @@ module.exports = {
 			// Check if owned
 			const webApp = await WebAppModel.findOne({
 				_id: req.body.webContent.webApp,
-				user: req.user_decoded.user_id,
+				user: req.user_decoded._id,
 			})
 			
 			// does not own this webApp
@@ -31,7 +31,7 @@ module.exports = {
 			}
 
 			// [OVERRIDE] the user passed by the token //
-			req.body.webContent.user = req.user_decoded.user_id
+			req.body.webContent.user = req.user_decoded._id
 
 			// [WEB-CONTENT][SAVE] //
 			const result = await new WebContentModel({

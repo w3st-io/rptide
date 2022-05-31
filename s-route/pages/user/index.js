@@ -24,14 +24,14 @@ router.get(
 	async (req, res) => {
 		try {
 			const userObj = await UserCollection.c_read_select({
-				user_id: req.user_decoded.user_id,
+				user_id: req.user_decoded._id,
 				select: '-password -api.publicKey -api.privateKey'
 			})
 			
 			if (userObj.status) {
 				// [READ][ApiSubscription] //
 				const apiSubscriptionObj = await ApiSubscriptionCollection.c_read_byUser({
-					user_id: req.user_decoded.user_id
+					user_id: req.user_decoded._id
 				})
 
 				if (apiSubscriptionObj.status) {

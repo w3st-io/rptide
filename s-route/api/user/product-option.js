@@ -27,7 +27,7 @@ router.post(
 			if (validator.isAscii(req.body.name)) {
 				// [COLLECTION][ProductOption][CREATE] //
 				const productObj = await ProductOptionCollection.c_create({
-					user_id: req.user_decoded.user_id,
+					user_id: req.user_decoded._id,
 					productOption: req.body
 				})
 

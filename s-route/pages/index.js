@@ -17,7 +17,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [INIT] //
-			const user_id = (req.user_decoded) ? req.user_decoded.user_id : undefined
+			const user_id = (req.user_decoded) ? req.user_decoded._id : undefined
 			
 			res.send({
 				executed: true,
