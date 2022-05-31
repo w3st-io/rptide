@@ -1,10 +1,5 @@
 <template>
 	<BContainer fluid class="p-0 text-light">
-		<PopUpWebApp
-			v-if="this.$route.params.webapp == 'unset'"
-			@updatePage="getPageData()"
-		/>
-		
 		<BRow class="m-0 p-0">
 			<!-- [LEFT] Navigation -->
 			<BCol
@@ -17,6 +12,8 @@
 						<h6 class="small text-center text-muted">
 							{{ $store.state.dashboard.webApp }}
 						</h6>
+
+						<!-- Dropdown Select -->
 						<SelectWebApp
 							@updatePage="$emit('updatePage')"
 							class="mb-3"
@@ -125,15 +122,14 @@
 
 <script>
 	// [IMPORT] Personal //
-	import SelectWebApp from '@/components/dashboard/nav/SelectWebApp'
-	import Product from '@/components/dashboard/tab-content/Product'
-	import ProductOptions from '@/components/dashboard/tab-content/ProductOptions'
-	import WebContent from '@/components/dashboard/tab-content/WebContent'
-	import WebApp from '@/components/dashboard/tab-content/WebApp'
-	import PopUpWebApp from '@/components/popups/WebApp'
-	import defaultData from '@/defaults/companyInfo'
-	import router from '@/router'
-	import PageService from '@/services/PageService'
+	import SelectWebApp from '../../../components/dashboard/nav/SelectWebApp'
+	import Product from '../../../components/dashboard/tab-content/Product'
+	import ProductOptions from '../../../components/dashboard/tab-content/ProductOptions'
+	import WebContent from '../../../components/dashboard/tab-content/WebContent'
+	import WebApp from '../../../components/dashboard/tab-content/WebApp'
+	import defaultData from '../../../defaults/companyInfo'
+	import router from '../../../router'
+	import PageService from '../../../services/PageService'
 
 	export default {
 		data() {
@@ -167,7 +163,6 @@
 			WebApp,
 			WebContent,
 			SelectWebApp,
-			PopUpWebApp,
 		},
 
 		methods: {
