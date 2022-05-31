@@ -6,19 +6,9 @@
 		/>
 		
 		<BRow class="m-0 p-0">
-			<!-- [HIDDEN][TABS-TOGGLE] -->
-			<BCol cols="12" class="d-block d-lg-none p-0">
-				<BButton
-					variant="primary"
-					class="w-100 rounded-0"
-					@click="showTabs = !showTabs"
-				><MenuIcon /></BButton>
-			</BCol>
-
 			<!-- [LEFT] Navigation -->
 			<BCol
-				v-if="showTabs"
-				cols="12" lg="2"
+				cols="3" md="2"
 				class="p-0 px-3 border-right border-left-0 border-primary bg-dark"
 			>
 				<!-- [TAB-BUTTON] Web App -->
@@ -95,7 +85,7 @@
 			<!-- [RIGHT][CONTENT] -->
 			<BCol
 				v-if="!loading"
-				cols="12" lg="10"
+				cols="9" md="10"
 				class="bg-dark right-content"
 			>
 				<!-- [TAB] Web App -->
@@ -134,9 +124,6 @@
 </template>
 
 <script>
-	// [IMPORT] //
-	import { MenuIcon } from 'vue-feather-icons'
-
 	// [IMPORT] Personal //
 	import Product from '@/components/dashboard/Product'
 	import ProductOptions from '@/components/dashboard/ProductOptions'
@@ -163,7 +150,6 @@
 				limit: parseInt(this.$route.params.limit),
 				page: parseInt(this.$route.params.page),
 
-				showTabs: true,
 				dashboardHeight: '',
 
 				pageData: {
@@ -177,7 +163,6 @@
 		},
 
 		components: {
-			MenuIcon,
 			Product,
 			ProductOptions,
 			SelectWebApp,
