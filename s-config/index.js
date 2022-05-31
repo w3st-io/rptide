@@ -30,13 +30,6 @@ module.exports = {
 	// [COMPANY] //
 	company: {
 		name: process.env.COMPANY__NAME || 'Company Name',
-
-		products: {
-			subscriptions: {
-				tier1PriceId: process.env.COMPANY__PRODUCTS__SUBSCRIPTIONS__TIER_1_PRICE_ID,
-				tier2PriceId: process.env.COMPANY__PRODUCTS__SUBSCRIPTIONS__TIER_2_PRICE_ID,
-			},
-		},
 	},
 	
 	// [FUNCTIONALITY] //
