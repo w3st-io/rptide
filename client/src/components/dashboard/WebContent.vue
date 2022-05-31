@@ -18,8 +18,15 @@
 				v-for="(w,i) in webContents" :key="i"
 				cols="12" md="6" lg="4"
 			>
-				<BCard bg-variant="dark" text-variant="light" class="mb-3">
-					{{ w.name }}
+				<BCard
+					bg-variant="dark"
+					text-variant="light"
+					border-variant="secondary"
+					class="mb-3"
+				>
+					<h5 class="text-primary">{{ w.name }}</h5>
+					<h6 lass="m-0">{{ w.createdTimeStamp }}</h6>
+					<h6 class="m-0 small text-muted">{{ w._id }}</h6>
 				</BCard>
 			</BCol>
 		</BRow>

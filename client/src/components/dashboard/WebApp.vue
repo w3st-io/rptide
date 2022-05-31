@@ -20,7 +20,6 @@
 		</div>
 
 		<h4 class="mb-4 text-primary">Your Web App</h4>
-		{{ $store.state.dashboard.webApps }}
 		<BRow v-if="$store.state.dashboard.webApps.length !== 0" class="mb-5">
 			<BCol
 				v-for="(w, i) in $store.state.dashboard.webApps"
@@ -30,6 +29,7 @@
 				<BCard
 					bg-variant="dark"
 					text-variant="light"
+					border-variant="secondary"
 					class="mb-3"
 				>
 					<h6>{{ w.title }}</h6>
