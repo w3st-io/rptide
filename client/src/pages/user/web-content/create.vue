@@ -16,7 +16,7 @@
 						>
 					</BCol>
 
-					<BCol cols="12" md="9" lg="10">
+					<BCol cols="12" md="9">
 						<!-- Editorjs -->
 						<Editor
 							ref="editor"
@@ -37,16 +37,30 @@
 						/>
 					</BCol>
 				
-					<BCol cols="12" md="3" lg="2">
+					<BCol cols="12" md="3">
+						<div>
+							<label for="tags-separators">
+								<span class="h5 text-primary">Tags</span>
+							</label>
+							<h6 class="small">separated by space, comma or semicolon</h6>
+							<b-form-tags
+								v-model="webContent.tags"
+								no-add-on-enter
+								tag-pills
+								separator=",;"
+								input-id="tags-separators"
+								placeholder="blog-post, home,.."
+								addButtonVariant="primary"
+								class="mb-3 border-primary"
+								:limit="19"
+							></b-form-tags>
+						</div>
+
 						<BFormCheckbox
 							v-model="webContent.draft"
 							size="lg"
 							class="mb-3"
-						>Draft</BFormCheckbox>
-
-						<h6>Name: {{ webContent.name }}</h6>
-						<h6>Draft: {{ webContent.draft }}</h6>
-						<h6>CleanJSON Blocks: {{ webContent.cleanJSON.blocks }}</h6>
+						><span class="h5 text-primary">Draft</span></BFormCheckbox>
 					</BCol>
 
 					<!-- [SUBMIT] -->
