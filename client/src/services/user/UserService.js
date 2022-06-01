@@ -33,6 +33,9 @@ async function checkIn() {
 		
 			// [STORE][SOCKET] //
 			//store.state.socket.emit('user-login', store.state.user._id)
+
+			// app key
+			store.state.app.key++
 		}
 	}
 }
@@ -50,6 +53,8 @@ function checkOut() {
 
 	// [STORE][SOCKET][EMIT] //
 	store.state.socket.emit('user-logout')
+
+	store.state.app.key++
 }
 
 

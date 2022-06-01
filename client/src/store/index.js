@@ -10,6 +10,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
+		app: {
+			key: 0,
+		},
+
 		dashboard: {
 			webApps: [],
 			webApp: 'unset'

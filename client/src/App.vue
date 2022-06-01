@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div :key="$store.state.app.key" id="app">
 		<!-- Top Navbar & Side Menu -->
 		<NavBar v-if="$store.state.show.NavBar" />
 
