@@ -1,13 +1,40 @@
 <template>
 	<div class="p-5">
-		<h4 class="mb-4 text-primary">Selected Web App</h4>
-		<Current @updatePage="$emit('updatePage')" class="mb-4" />
-		<hr class="border-secondary">
-		<h4 class="mb-3 text-primary">Create Web App</h4>
-		<Create class="mb-4" />
+		<BCard bg-variant="dark" border-variant="secondary" no-body class="mb-5">
+			<BCardHeader class="border-secondary">
+				<h4 class="m-0 text-primary">
+					Selected Web App
+					<span class="mb-4 text-muted" style="font-size: 14px;">
+						Must be selected in order to proceed
+					</span>
+				</h4>
+			</BCardHeader>
 
-		<h4 class="mb-3 text-primary">Your Web Apps</h4>
-		<Read class="mb-4" />
+			<BCardBody>
+				<Current @updatePage="$emit('updatePage')" class="mb-3" />
+				<h6 class="small text-muted">{{ $store.state.dashboard.webApp }}</h6>
+			</BCardBody>
+		</BCard>
+
+		<BCard bg-variant="dark" border-variant="secondary" no-body class="mb-5">
+			<BCardHeader class="border-secondary">
+				<h4 class="m-0 text-primary">Create Web App</h4>
+			</BCardHeader>
+
+			<BCardBody>
+				<Create />
+			</BCardBody>
+		</BCard>
+
+		<BCard bg-variant="dark" border-variant="secondary" no-body class="mb-5">
+			<BCardHeader class="border-secondary">
+				<h4 class="m-0 text-primary">Your Web Apps</h4>
+			</BCardHeader>
+
+			<BCardBody>
+				<Read />
+			</BCardBody>
+		</BCard>
 	</div>
 </template>
 

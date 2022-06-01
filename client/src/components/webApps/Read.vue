@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<BRow v-if="$store.state.dashboard.webApps.length !== 0" class="mb-5">
+		<BRow v-if="$store.state.dashboard.webApps.length !== 0">
 			<BCol
 				v-for="(w, i) in $store.state.dashboard.webApps"
 				:key="i"

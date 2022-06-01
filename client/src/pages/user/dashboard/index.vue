@@ -9,15 +9,16 @@
 				<!-- [TAB-BUTTON] Web App -->
 				<BRow class="pt-3">
 					<BCol cols="12">
-						<h6 class="small text-center text-muted">
-							{{ $store.state.dashboard.webApp }}
-						</h6>
-
+						
+						<h5 class="text-center text-primary">Selected Web App</h5>
 						<!-- Dropdown Select -->
 						<Current
 							@updatePage="$emit('updatePage')"
-							class="mb-3"
+							class="mb-2"
 						/>
+						<h6 class="mb-3 small text-center text-muted">
+							{{ $store.state.dashboard.webApp }}
+						</h6>
 
 						<BButton
 							variant="none"
