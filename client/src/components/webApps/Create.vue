@@ -9,7 +9,7 @@
 		
 		<div class="input-group-append">
 			<BButton
-				variant="outline-success"
+				variant="success"
 				class="w-100"
 				@click="createWebApp()"
 			>+ Create Web App</BButton>

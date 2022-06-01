@@ -3,18 +3,19 @@
 		<BRow>
 			<BCol cols="12">
 				<BRow>
-					<BCol cols="12" sm="7">
-						<h3 class="text-primary">Your Products</h3>
+					<BCol cols="12" md="9">
+						<h3 class="text-primary">Products</h3>
 					</BCol>
 
 					<!-- Create Product Button -->
-					<BCol cols="12" sm="5" class="text-right">	
+					<BCol cols="12" md="3" class="text-right">	
 						<RouterLink to="/product/create">
 							<BButton
-								variant="primary"
+								variant="success"
 								class="w-100 w-sm-auto"
 								style="max-width: 561px;"
-							>+ Create a Product</BButton>
+								pill
+							>+ Create</BButton>
 						</RouterLink>
 					</BCol>
 

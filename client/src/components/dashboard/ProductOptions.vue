@@ -1,22 +1,23 @@
 <template>
 	<div class="px-5 py-5">
 		<BRow>
-			<BCol cols="12" sm="7">
+			<BCol cols="12" md="9">
 				<h3 class="text-primary">
-					Your Product Options
+					Product Options
 				</h3>
 			</BCol>
 
 			<!-- Create Product Button -->
-			<BCol cols="12" sm="5" class="text-right">	
+			<BCol cols="12" md="3" class="text-right">	
 				<RouterLink to="/product-option/create">
-					<BButton
-						variant="primary"
-						class="w-100 w-sm-auto"
-						style="max-width: 561px;"
-					>+ Create a Product Option</BButton>
-				</RouterLink>
-			</BCol>
+						<BButton
+							variant="success"
+							class="w-100 w-sm-auto"
+							style="max-width: 561px;"
+							pill
+						>+ Create</BButton>
+					</RouterLink>
+				</BCol>
 
 			<BCol cols="12">
 				<BCol cols="12">

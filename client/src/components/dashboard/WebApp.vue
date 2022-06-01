@@ -1,5 +1,7 @@
 <template>
 	<div class="p-5">
+		<h3 class="mb-4 text-primary">Web Apps</h3>
+
 		<BCard bg-variant="dark" border-variant="secondary" no-body class="mb-5">
 			<BCardHeader class="border-secondary">
 				<h4 class="m-0 text-primary">

@@ -1,16 +1,17 @@
 <template>
 	<div class="px-5 py-5">
 		<BRow>
-			<BCol cols="12" md="8">
-				
+			<BCol cols="12" md="9">
+				<h3 class="text-primary">Web Content</h3>
 			</BCol>
 
-			<BCol cols="12" md="4">
+			<BCol cols="12" md="3">
 				<router-link :to="`/user/web-content/create/${webApp}`">
 					<BButton
 						class="w-100 mb-3"
 						variant="success"
-					>Create</BButton>
+						pill
+					>+ Create</BButton>
 				</router-link> 
 			</BCol>
 
