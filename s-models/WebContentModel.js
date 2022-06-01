@@ -120,6 +120,11 @@ const schema = mongoose.Schema({
 		default: false
 	},
 
+	draft: {
+		type: Boolean,
+		default: true,
+	},
+
 	cleanJSON: {
 		time: {
 			type: Number,
