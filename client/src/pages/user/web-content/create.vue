@@ -52,7 +52,7 @@
 								placeholder="blog-post, home,.."
 								addButtonVariant="primary"
 								class="mb-3 border-primary"
-								:limit="19"
+								:limit="20"
 							></b-form-tags>
 						</div>
 
