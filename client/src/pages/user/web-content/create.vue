@@ -133,7 +133,18 @@ export default {
 
 			if (this.resData.status) {
 				this.success = true
-				router.go(-1)
+				router.push({
+					name: 'user_dashboard',
+					params: {
+						webapp: this.$store.state.dashboard.webApp,
+						tab: 'web-content',
+						sort: 0,
+						limit: 5,
+						page: 1,
+					},
+				})
+
+				console.log(this.$store.state.dashboard);
 			}
 			else {
 				this.error = this.resData.message
