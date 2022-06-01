@@ -57,7 +57,7 @@
 							size="lg"
 							pill
 							class="w-100"
-							@click="createWebContent()"
+							@click="submit()"
 						>
 							<span v-show="!loading">Submit</span>
 							<span v-show="loading" class="spinner-grow"></span>
@@ -76,6 +76,7 @@
 
 <script>
 // [IMPORT] Personal //
+import router from '../../../router'
 import WebContentService from '../../../services/user/WebContentService'
 
 export default {
@@ -97,6 +98,7 @@ export default {
 	methods: {
 		async submit() {
 			this.loading = true
+			this.error = ''
 
 			this.$refs.editor._data.state.editor.save().then(
 				(data) => {
@@ -115,8 +117,9 @@ export default {
 		async createWebContent() {
 			this.resData = await WebContentService.s_create(this.webContent)
 
-			if (this.resData) {
+			if (this.resData.status) {
 				this.success = true
+				router.go(-1)
 			}
 			else {
 				this.error = this.resData.message
