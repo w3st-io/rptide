@@ -43,8 +43,8 @@
 						page: parseInt(this.$route.params.page),
 					}
 				})
-
-				this.$emit('updatePage')
+				
+				this.$store.state.app.key++
 			},
 		},
 	}

@@ -13,7 +13,7 @@
 			</BCardHeader>
 
 			<BCardBody>
-				<Current @updatePage="$emit('updatePage')" class="mb-3" />
+				<Current Wclass="mb-3" />
 				<h6 class="small text-muted">{{ $store.state.dashboard.webApp }}</h6>
 			</BCardBody>
 		</BCard>
