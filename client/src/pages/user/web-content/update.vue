@@ -6,7 +6,20 @@
 			border-variant="secondary"
 		>
 			<BCardHeader class="border-secondary">
-				<h3 class="m-0 text-center text-primary">Update Web Content</h3>
+				<BRow>
+					<BCol cols="9" sm="9" md="10" lg="10">
+						<h3 class="m-0 text-center text-primary">Update Web Content</h3>
+					</BCol>
+
+					<BCol cols="3" sm="3" md="2" lg="2">
+						<BButton
+							pill
+							variant="danger"
+							class="w-100"
+							@click="showConfirm = true"
+						>Delete</BButton>
+					</BCol>
+				</BRow>
 			</BCardHeader>
 
 			<BCardBody>
@@ -93,6 +106,14 @@
 				</BRow>
 			</BCardBody>
 		</BCard>
+
+		<!-- [HIDDEN] -->
+		<Confirm
+			v-if="showConfirm"
+			@xClicked="showConfirm = false"
+			@yesClicked="deleteWebContent()"
+			@noClicked="showConfirm = false"
+		/>
 	</BContainer>
 </template>
 
@@ -101,6 +122,7 @@
 	import axios from 'axios'
 
 	// [IMPORT] Personal //
+	import Confirm from '@/components/popups/Confirm'
 	import router from '@/router'
 
 	export default {
@@ -110,6 +132,7 @@
 				loading: true,
 				resData: {},
 				error: '',
+				showConfirm: false,
 
 				// [AUTH-AXIOS] //
 				authAxios: axios.create({
@@ -163,6 +186,11 @@
 				)
 			},
 
+			deleteWebContent() {
+				this.showConfirm = false
+			},
+
+
 			async getPageData() {
 				try {
 					this.resData = await this.authAxios.post(
@@ -185,6 +213,10 @@
 					this.message = this.resData.data.message
 				}
 			},
+		},
+
+		components: {
+			Confirm,
 		},
 
 		async created() {
