@@ -1,5 +1,4 @@
 // [REQUIRE] //
-const validator = require('validator')
 const mongoose = require('mongoose')
 
 
@@ -49,7 +48,8 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: err
+				message: err,
+				location,
 			}	
 		}
 	},
@@ -72,7 +72,8 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: err
+				message: err,
+				location,
 			}	
 		}
 	},
@@ -95,7 +96,8 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: err
+				message: err,
+				location,
 			}	
 		}
 	},
@@ -126,6 +128,7 @@ module.exports = {
 				status: true,
 				executed: true,
 				webContent: result,
+				location,
 				message: 'Successfully updated WebContent'
 			}
 		}
@@ -133,7 +136,8 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: err
+				message: err,
+				location,
 			}	
 		}
 	},
@@ -152,6 +156,7 @@ module.exports = {
 				status: true,
 				executed: true,
 				webContent: result,
+				location,
 				message: 'Successfully deleted WebContent'
 			}
 		}
@@ -159,6 +164,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
+				location,
 				message: err
 			}	
 		}
