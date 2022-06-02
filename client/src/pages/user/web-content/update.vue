@@ -169,6 +169,9 @@
 						},
 					})
 				}
+				else {
+					this.error = this.resData.data.message
+				}
 			},
 
 			submit() {
@@ -186,8 +189,35 @@
 				)
 			},
 
-			deleteWebContent() {
+			async deleteWebContent() {
 				this.showConfirm = false
+
+				this.resData = await this.authAxios.post(
+					'/delete-one',
+					{
+						webContent: {
+							_id: this.$route.params.webcontent
+						}
+					}
+				)
+
+				console.log(this.resData);
+
+				if (this.resData.data.status) {
+					router.push({
+						name: 'user_dashboard',
+						params: {
+							webapp: this.$store.state.dashboard.webApp,
+							tab: 'web-content',
+							sort: 0,
+							limit: 5,
+							page: 1,
+						},
+					})
+				}
+				else {
+					this.error = this.resData.data.message
+				}
 			},
 
 

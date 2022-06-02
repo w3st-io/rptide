@@ -54,4 +54,14 @@ router.post(
 )
 
 
+// [UPDATE] Auth Required //
+router.post(
+	'/delete-one',
+	Auth.userTokenOrAPIPrivateKey(),
+	async (req, res) => {
+		res.send(await rh.deleteOne({ req }))
+	}
+)
+
+
 module.exports = router
