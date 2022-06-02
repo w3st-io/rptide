@@ -64,6 +64,7 @@ router.get(
 						res.send({
 							executed: true,
 							status: true,
+							location: location,
 						})
 					break
 

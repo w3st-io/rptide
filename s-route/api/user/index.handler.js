@@ -141,8 +141,6 @@ module.exports = {
 		try {
 			// [INIT] //
 			const uObj = await UserCollection.c_read(req.user_decoded._id)
-
-			console.log(req.user_decoded);
 			
 			const webApps = await WebAppModel.find({ user: uObj.user._id })
 

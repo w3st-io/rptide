@@ -5,7 +5,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../../s-rate-limiters')
-const h_webApp = require('./web-app.handler')
+const rh = require('./web-app.handler')
 const Auth = require('../../../s-middlewares/Auth')
 
 
@@ -21,11 +21,21 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		res.send(
-			await h_webApp.createWebApp({
+			await rh.createWebApp({
 				user_id: req.user_decoded._id,
 				title: req.body.title,
 			})
 		)
+	}
+)
+
+
+router.post(
+	'find',
+	rateLimiter.post,
+	Auth.userToken(),
+	async (req, res) => {
+		res.send(await rh.find({ req }))	
 	}
 )
 		
@@ -37,7 +47,7 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		res.send(
-			await h_webApp.deleteWebApp({
+			await rh.deleteWebApp({
 				user_id: req.user_decoded._id,
 				webApp_id: req.body.webApp_id,
 			})

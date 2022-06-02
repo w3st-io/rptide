@@ -13,7 +13,7 @@
 					class="mb-3"
 				>
 					<h6 class="small">Organization Name</h6>
-					<h5 class="text-primary">{{ w.title }}</h5>
+					<h5 class="text-primary">{{ w.name }}</h5>
 					<h6 class="m-0 small text-secondary">{{ w._id }}</h6>
 				</BCard>
 			</BCol>

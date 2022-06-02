@@ -29,6 +29,7 @@ import user_profile_edit from '@/pages/user/profile/edit'
 import user_verify from '@/pages/user/verify'
 import user_register from '@/pages/user/register'
 import user_registered from '@/pages/user/registered'
+import user_webApp_update from '@/pages/user/web-app/update'
 import user_webContent_create from '@/pages/user/web-content/create'
 import user_webContent_update from '@/pages/user/web-content/update'
 // Not-Found //
@@ -202,6 +203,15 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Verifiying your account..'
+			}
+		},
+		{
+			path: '/user/web-app/update/:webapp',
+			name: 'Web App Update',
+			component: user_webApp_update,
+			meta: {
+				auth: true,
+				title: ''
 			}
 		},
 		{

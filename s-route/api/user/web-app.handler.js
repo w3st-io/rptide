@@ -54,6 +54,17 @@ module.exports = {
 	},
 
 
+	find: async ({ req }) => {
+		const result = await WebAppModel.find({ user: req.user_decoded._id })
+
+		return {
+			status: true,
+			executed: true,
+			webApps: result,
+		}
+	},
+
+
 	deleteWebApp: async ({ user_id, webApp_id }) => {
 		try {
 			// [VALIDATE] webApp_id //

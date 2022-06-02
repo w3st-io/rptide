@@ -26,10 +26,60 @@
 				<BRow v-if="!loading">
 					<BCol cols="12">
 						<BFormInput
-							v-model="webContent.title"
-							placeholder="Web Content Title"
+							v-model="webContent.name"
+							placeholder="Web Content Name"
 							class="mb-3"
 						/>
+					</BCol>
+
+					<BCol md="9">
+						<!-- Editorjs -->
+						<Editor
+							ref="editor"
+							:config="{
+								tools: {
+									code: require('@editorjs/code'),
+									delimiter: require('@editorjs/delimiter'),
+									header: require('@editorjs/header'),
+									list: require('@editorjs/list'),
+									quote: require('@editorjs/quote'),
+									image: require('@editorjs/simple-image'),
+									table: require('@editorjs/table'),
+									embed: require('@editorjs/embed'),
+								},
+								data: webContent.cleanJSON
+							}"
+							class="mb-3 bg-white border border-primary text-dark"
+						/>
+					</BCol>
+
+					<BCol md="3">
+						<div>
+							<BFormCheckbox
+								v-model="webContent.draft"
+								size="lg"
+								class="mb-3"
+							><span class="h5 text-primary">Draft</span></BFormCheckbox>
+
+							<hr class="border-secondary">
+
+							<label for="tags-separators">
+								<span class="h5 text-primary">Tags</span>
+							</label>
+							<h6 class="small">separated by space, comma or semicolon</h6>
+
+							<BFormTags
+								v-model="webContent.tags"
+								no-add-on-enter
+								tag-pills
+								separator=",;"
+								input-id="tags-separators"
+								placeholder="blog-post, home,.."
+								addButtonVariant="primary"
+								class="mb-3 border-primary"
+								:limit="20"
+							></BFormTags>
+						</div>
 					</BCol>
 
 					<!-- [SUBMIT] -->
@@ -61,7 +111,7 @@
 		<Confirm
 			v-if="showConfirm"
 			@xClicked="showConfirm = false"
-			@yesClicked="deleteWebApp()"
+			@yesClicked="deleteWebContent()"
 			@noClicked="showConfirm = false"
 		/>
 	</BContainer>
@@ -86,22 +136,22 @@
 
 				// [AUTH-AXIOS] //
 				authAxios: axios.create({
-					baseURL: '/api/user/web-app',
+					baseURL: '/api/user/web-content',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`
 					}
 				}),
 
-				webApp: {},
+				webContent: {},
 			}
 		},
 
 		methods: {
-			async updateWebApp() {
+			async updateWebContent() {
 				this.resData = await this.authAxios.post(
 					'/find-one-and-update',
 					{
-						webApp: this.webApp
+						webContent: this.webContent
 					}
 				)
 
