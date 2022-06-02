@@ -25,38 +25,16 @@ function validate({ name, cleanJSON, tags = [] }) {
 	for (let i = 0; i < cleanJSON.blocks.length; i++) {
 		const block = cleanJSON.blocks[i]
 		
-		// [LENGTH-CHECK] List Items //
-		if (block.data.items.length > 20) {
-			return {
-				status: false,
-				message: 'Too many list-items'
-			}
-		}
-		
-		// content
-		if (block.data.content.length > 0) {
-			// [LENGTH-CHECK] Table ROW //
-			if (block.data.content.length > 20) {
+		if (tags) {
+			// [LENGTH-CHECK] tags //
+			if (tags.length > 20) {
 				return {
 					status: false,
-					message: 'Too many rows'
-				}
-			}
-
-			// [LENGTH-CHECK] Table COLUMN //		
-			for (let ii = 0; ii < block.data.content.length; ii++) {
-				const col = block.data.content[ii]
-
-				if (col.length > 20) {
-					return {
-						status: false,
-						message: 'Too many columns'
-					}
+					message: 'Too many tags'
 				}
 			}
 		}
 
-		// items
 		if (block.data.items) {
 			// [LENGTH-CHECK] //
 			if (block.data.items.length > 20) {
@@ -66,13 +44,28 @@ function validate({ name, cleanJSON, tags = [] }) {
 				}
 			}
 		}
-	}
+		
+		if (block.data.content) {
+			if (block.data.content.length > 20) {
+				return {
+					status: false,
+					message: 'Too many rows'
+				}
+			}
 
-	// [LENGTH-CHECK] cleanJSON.blocks //
-	if (tags.length > 20) {
-		return {
-			status: false,
-			message: 'Too many tags'
+			if (block.data.content.length > 0) {
+				// [LENGTH-CHECK] Table COLUMN //		
+				for (let ii = 0; ii < block.data.content.length; ii++) {
+					const col = block.data.content[ii]
+
+					if (col.length > 20) {
+						return {
+							status: false,
+							message: 'Too many columns'
+						}
+					}
+				}
+			}
 		}
 	}
 
