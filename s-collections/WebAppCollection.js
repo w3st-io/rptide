@@ -224,51 +224,6 @@ module.exports = {
 	},
 
 
-	// [DELETE] _id & user //
-	c_deleteOne_byIdAndUser: async ({ webApp_id, user_id }) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: 'WebAppCollection: Invalid user_id',
-				}
-			}
-	
-			// [VALIDATE] webApp_id //
-			if (!mongoose.isValidObjectId(webApp_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: 'WebAppCollection: Invalid webApp_id',
-					deleted: false,
-				}
-			}
-	
-			const deletedPost = await WebAppModel.deleteOne({
-				_id: webApp_id,
-				user: user_id
-			})
-			
-			return {
-				executed: true,
-				status: true,
-				deleted: true,
-				deletedPost: deletedPost,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `WebAppCollection: Error --> ${err}`,
-				deleted: false,
-			}
-		}
-	},
-
-
 	/******************* [COUNT] *******************/
 	c_count_byUser: async ({ user_id }) => {
 		try {

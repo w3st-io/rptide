@@ -37,11 +37,11 @@ router.post(
 		
 // [DELETE] Auth Required //
 router.post(
-	'/delete',
+	'/delete-one',
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.deleteWebApp({ req }))
+		res.send(await rh.deleteOne({ req }))
 	}
 )
 

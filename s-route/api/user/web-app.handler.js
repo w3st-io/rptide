@@ -71,10 +71,10 @@ module.exports = {
 	},
 
 
-	deleteWebApp: async ({ req }) => {
+	deleteOne: async ({ req }) => {
 		try {
 			const user_id = req.user_decoded._id
-			const webApp_id = req.body.webApp_id
+			const webApp_id = req.body.webApp._id
 
 			// [VALIDATE] webApp_id //
 			if (!validator.isAscii(webApp_id)) {
@@ -86,17 +86,18 @@ module.exports = {
 				}
 			}
 
-			// [COLLECTION][Post][DELETE] //
-			const deletePostObj = await WebAppCollection.c_deleteOne_byIdAndUser({
-				webApp_id: webApp_id,
-				user_id: user_id
+			// [WebApp][DELETE] //
+			const result = await WebAppModel.deleteOne({
+				_id: webApp_id,
+				user: user_id
 			})
-
-			if (!deletePostObj.status) { return deletePostObj }
 			
 			return {
 				executed: true,
 				status: true,
+				deleted: {
+					webApp: result,
+				},
 				location: `${location}/delete`,
 				message: 'DELETED SectionText',
 			}
