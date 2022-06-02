@@ -30,8 +30,6 @@
 							placeholder="Web Content Name"
 							class="mb-3"
 						/>
-
-						{{ webApp }}
 					</BCol>
 
 					<!-- [SUBMIT] -->
@@ -114,7 +112,7 @@
 						name: 'user_dashboard',
 						params: {
 							webapp: this.$store.state.dashboard.webApp,
-							tab: 'web-content',
+							tab: 'web-app',
 							sort: 0,
 							limit: 5,
 							page: 1,
@@ -165,7 +163,9 @@
 					this.resData = await this.authAxios.post(
 						'/find-one',
 						{
-							webApp: this.$route.params.webapp
+							webApp: {
+								_id: this.$route.params.webapp
+							}
 						}
 					)
 

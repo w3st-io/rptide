@@ -19,7 +19,7 @@
 				v-for="w in $store.state.dashboard.webApps"
 				:key="w._id"
 				:value="w._id"
-			>{{ w.title }}</option>
+			>{{ w.name }}</option>
 		</select>
 	</div>
 </template>

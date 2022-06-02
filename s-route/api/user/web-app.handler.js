@@ -12,8 +12,11 @@ const location = '/web-app'
 
 
 module.exports = {
-	create: async ({ user_id, name }) => {
+	create: async ({ req }) => {
 		try {
+			const user_id = req.user_decoded._id
+			const name = req.body.webApp.name
+
 			// [VALIDATE] //
 			if (!name) {
 				return {
@@ -63,7 +66,7 @@ module.exports = {
 		return {
 			status: true,
 			executed: true,
-			webApps: result,
+			webApp: result,
 		}
 	},
 
