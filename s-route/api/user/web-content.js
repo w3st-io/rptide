@@ -24,7 +24,7 @@ router.post(
 )
 
 
-// [CREATE] Auth Required //
+// [FIND-ALL] Auth Required //
 router.post(
 	'/find',
 	Auth.userTokenOrAPIPrivateKey(),
@@ -34,7 +34,7 @@ router.post(
 )
 
 
-// [CREATE] Auth Required //
+// [FIND] Auth Required //
 router.post(
 	'/find-one',
 	Auth.userTokenOrAPIPrivateKey(),
@@ -44,12 +44,22 @@ router.post(
 )
 
 
-// [CREATE] Auth Required //
+// [UPDATE] Auth Required //
 router.post(
 	'/find-one-and-update',
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
 		res.send(await rh.findOneAndUpdate({ req }))
+	}
+)
+
+
+// [UPDATE] Auth Required //
+router.post(
+	'/delete-one',
+	Auth.userTokenOrAPIPrivateKey(),
+	async (req, res) => {
+		res.send(await rh.deleteOne({ req }))
 	}
 )
 
