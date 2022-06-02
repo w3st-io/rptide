@@ -121,17 +121,15 @@ module.exports = {
 				},
 				{ new: true },
 			).select().exec()
-	
-			console.log(result);
 
 			return {
 				status: true,
 				executed: true,
 				webContent: result,
+				message: 'Successfully updated WebContent'
 			}
 		}
 		catch (err) {
-			console.log(err);
 			return {
 				executed: false,
 				status: false,

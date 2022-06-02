@@ -1,5 +1,4 @@
 // [REQUIRE] //
-const e = require('express')
 const mongoose = require('mongoose')
 
 
@@ -338,6 +337,18 @@ schema.pre('validate', function (next) {
 
 
 schema.pre('updateOne', function (next) {
+	const status = validate({
+		cleanJSON: this._update.$set.cleanJSON,
+		tags: this._update.$set.tags,
+	})
+
+	if (status.status == false) { throw `Error: ${status.message}` }
+	
+	next()
+})
+
+
+schema.pre('findOneAndUpdate', function (next) {
 	const status = validate({
 		cleanJSON: this._update.$set.cleanJSON,
 		tags: this._update.$set.tags,
