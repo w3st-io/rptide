@@ -100,9 +100,13 @@
 	// [IMPORT] //
 	import axios from 'axios'
 
+	// [IMPORT] Personal //
+	import router from '@/router'
+
 	export default {
 		data() {
 			return {
+				success: false,
 				loading: true,
 				resData: {},
 				error: '',
@@ -120,6 +124,45 @@
 		},
 
 		methods: {
+			async updateWebContent() {
+				this.resData = await this.authAxios.post(
+					'/find-one-and-update',
+					{
+						webContent: this.webContent
+					}
+				)
+
+				if (this.resData.data.status) {
+					this.success = true
+
+					router.push({
+						name: 'user_dashboard',
+						params: {
+							webapp: this.$store.state.dashboard.webApp,
+							tab: 'web-content',
+							sort: 0,
+							limit: 5,
+							page: 1,
+						},
+					})
+				}
+			},
+
+			submit() {
+				this.$refs.editor._data.state.editor.save().then(
+					(data) => {
+						this.webContent.cleanJSON = data
+
+						this.updateWebContent()
+					}
+				).catch(
+					(err) => {
+						this.error = err
+						this.loading = false
+					}
+				)
+			},
+
 			async getPageData() {
 				try {
 					this.resData = await this.authAxios.post(

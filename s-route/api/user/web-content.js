@@ -44,4 +44,14 @@ router.post(
 )
 
 
+// [CREATE] Auth Required //
+router.post(
+	'/find-one-and-update',
+	Auth.userTokenOrAPIPrivateKey(),
+	async (req, res) => {
+		res.send(await rh.findOneAndUpdate({ req }))
+	}
+)
+
+
 module.exports = router

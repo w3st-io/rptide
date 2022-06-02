@@ -146,8 +146,6 @@ export default {
 						page: 1,
 					},
 				})
-
-				console.log(this.$store.state.dashboard);
 			}
 			else {
 				this.error = this.resData.message

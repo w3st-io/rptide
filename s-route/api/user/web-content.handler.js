@@ -99,4 +99,44 @@ module.exports = {
 			}	
 		}
 	},
+
+	findOneAndUpdate: async ({ req }) => {
+		try {
+			const result = await WebContentModel.findOneAndUpdate(
+				{
+					user: req.user_decoded._id,
+					_id: req.body.webContent._id,
+				},
+				{
+					$set: {
+						name: req.body.webContent.name,
+						connectedWalletRequired: req.body.webContent.connectedWalletRequired,
+						WebContent_responseTo: req.body.webContent.WebContent_responseTo,
+						tags: req.body.webContent.tags,
+						likeCount: req.body.webContent.likeCount,
+						liked: req.body.webContent.liked,
+						draft: req.body.webContent.draft,
+						cleanJSON: req.body.webContent.cleanJSON,
+					}
+				},
+				{ new: true },
+			).select().exec()
+	
+			console.log(result);
+
+			return {
+				status: true,
+				executed: true,
+				webContent: result,
+			}
+		}
+		catch (err) {
+			console.log(err);
+			return {
+				executed: false,
+				status: false,
+				message: err
+			}	
+		}
+	}
 }
