@@ -31,11 +31,11 @@ router.post(
 
 
 router.post(
-	'find',
+	'/find-one',
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.find({ req }))	
+		res.send(await rh.findOne({ req }))	
 	}
 )
 		

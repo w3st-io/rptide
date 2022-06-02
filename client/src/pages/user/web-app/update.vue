@@ -136,13 +136,13 @@
 
 				// [AUTH-AXIOS] //
 				authAxios: axios.create({
-					baseURL: '/api/user/web-content',
+					baseURL: '/api/user/web-app',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`
 					}
 				}),
 
-				webContent: {},
+				webApp: {},
 			}
 		},
 
@@ -201,8 +201,6 @@
 					}
 				)
 
-				console.log(this.resData);
-
 				if (this.resData.data.status) {
 					router.push({
 						name: 'user_dashboard',
@@ -226,7 +224,7 @@
 					this.resData = await this.authAxios.post(
 						'/find-one',
 						{
-							webContent: this.$route.params.webcontent
+							webApp: this.$route.params.webapp
 						}
 					)
 
