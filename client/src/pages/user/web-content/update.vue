@@ -6,20 +6,7 @@
 			border-variant="secondary"
 		>
 			<BCardHeader class="border-secondary">
-				<BRow>
-					<BCol cols="9" sm="9" md="10" lg="10">
-						<h3 class="m-0 text-center text-primary">Update Web Content</h3>
-					</BCol>
-
-					<BCol cols="3" sm="3" md="2" lg="2">
-						<BButton
-							pill
-							variant="danger"
-							class="w-100"
-							@click="showConfirm = true"
-						>Delete</BButton>
-					</BCol>
-				</BRow>
+				<h3 class="m-0 text-center text-primary">Update Web Content</h3>
 			</BCardHeader>
 
 			<BCardBody>
@@ -106,14 +93,6 @@
 				</BRow>
 			</BCardBody>
 		</BCard>
-
-		<!-- [HIDDEN] -->
-		<Confirm
-			v-if="showConfirm"
-			@xClicked="showConfirm = false"
-			@yesClicked="deleteWebContent()"
-			@noClicked="showConfirm = false"
-		/>
 	</BContainer>
 </template>
 
@@ -122,7 +101,6 @@
 	import axios from 'axios'
 
 	// [IMPORT] Personal //
-	import Confirm from '@/components/popups/Confirm'
 	import router from '@/router'
 
 	export default {
@@ -132,7 +110,6 @@
 				loading: true,
 				resData: {},
 				error: '',
-				showConfirm: false,
 
 				// [AUTH-AXIOS] //
 				authAxios: axios.create({
@@ -169,9 +146,6 @@
 						},
 					})
 				}
-				else {
-					this.error = this.resData.data.message
-				}
 			},
 
 			submit() {
@@ -188,38 +162,6 @@
 					}
 				)
 			},
-
-			async deleteWebContent() {
-				this.showConfirm = false
-
-				this.resData = await this.authAxios.post(
-					'/delete-one',
-					{
-						webContent: {
-							_id: this.$route.params.webcontent
-						}
-					}
-				)
-
-				console.log(this.resData);
-
-				if (this.resData.data.status) {
-					router.push({
-						name: 'user_dashboard',
-						params: {
-							webapp: this.$store.state.dashboard.webApp,
-							tab: 'web-content',
-							sort: 0,
-							limit: 5,
-							page: 1,
-						},
-					})
-				}
-				else {
-					this.error = this.resData.data.message
-				}
-			},
-
 
 			async getPageData() {
 				try {
@@ -243,10 +185,6 @@
 					this.message = this.resData.data.message
 				}
 			},
-		},
-
-		components: {
-			Confirm,
 		},
 
 		async created() {

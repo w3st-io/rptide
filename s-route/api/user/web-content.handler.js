@@ -121,46 +121,22 @@ module.exports = {
 				},
 				{ new: true },
 			).select().exec()
+	
+			console.log(result);
 
 			return {
 				status: true,
 				executed: true,
 				webContent: result,
-				message: 'Successfully updated WebContent'
 			}
 		}
 		catch (err) {
+			console.log(err);
 			return {
 				executed: false,
 				status: false,
 				message: err
 			}	
 		}
-	},
-
-	deleteOne: async ({ req }) => {
-		try {
-			const result = await WebContentModel.deleteOne(
-				{
-					user: req.user_decoded._id,
-					_id: req.body.webContent._id,
-				},
-				
-			).exec()
-
-			return {
-				status: true,
-				executed: true,
-				webContent: result,
-				message: 'Successfully deleted WebContent'
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: err
-			}	
-		}
-	},
+	}
 }

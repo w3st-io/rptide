@@ -1,18 +1,10 @@
 // [REQUIRE] //
+const e = require('express')
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 
 // [VALIDATE] //
-function validate({ name, cleanJSON, tags = [] }) {
-	// [VALIDATE] name //
-	if (!validator.isAscii(name)) {
-		return {
-			status: false,
-			message: 'Invalid Name'
-		}
-	}
-
+function validate({ cleanJSON, tags = [] }) {
 	// [LENGTH-CHECK] cleanJSON.blocks //
 	if (cleanJSON.blocks.length > 20) {
 		return {
@@ -25,16 +17,38 @@ function validate({ name, cleanJSON, tags = [] }) {
 	for (let i = 0; i < cleanJSON.blocks.length; i++) {
 		const block = cleanJSON.blocks[i]
 		
-		if (tags) {
-			// [LENGTH-CHECK] tags //
-			if (tags.length > 20) {
+		// [LENGTH-CHECK] List Items //
+		if (block.data.items.length > 20) {
+			return {
+				status: false,
+				message: 'Too many list-items'
+			}
+		}
+		
+		// content
+		if (block.data.content.length > 0) {
+			// [LENGTH-CHECK] Table ROW //
+			if (block.data.content.length > 20) {
 				return {
 					status: false,
-					message: 'Too many tags'
+					message: 'Too many rows'
+				}
+			}
+
+			// [LENGTH-CHECK] Table COLUMN //		
+			for (let ii = 0; ii < block.data.content.length; ii++) {
+				const col = block.data.content[ii]
+
+				if (col.length > 20) {
+					return {
+						status: false,
+						message: 'Too many columns'
+					}
 				}
 			}
 		}
 
+		// items
 		if (block.data.items) {
 			// [LENGTH-CHECK] //
 			if (block.data.items.length > 20) {
@@ -44,28 +58,13 @@ function validate({ name, cleanJSON, tags = [] }) {
 				}
 			}
 		}
-		
-		if (block.data.content) {
-			if (block.data.content.length > 20) {
-				return {
-					status: false,
-					message: 'Too many rows'
-				}
-			}
+	}
 
-			if (block.data.content.length > 0) {
-				// [LENGTH-CHECK] Table COLUMN //		
-				for (let ii = 0; ii < block.data.content.length; ii++) {
-					const col = block.data.content[ii]
-
-					if (col.length > 20) {
-						return {
-							status: false,
-							message: 'Too many columns'
-						}
-					}
-				}
-			}
+	// [LENGTH-CHECK] cleanJSON.blocks //
+	if (tags.length > 20) {
+		return {
+			status: false,
+			message: 'Too many tags'
 		}
 	}
 
@@ -317,7 +316,17 @@ const schema = mongoose.Schema({
 
 schema.pre('save', function (next) {
 	const status = validate({
-		name: this.name,
+		cleanJSON: this.cleanJSON,
+		tags: this.tags,
+	})
+
+	if (status.status == false) { throw `Error: ${status.message}` }
+	
+	next()
+})
+
+schema.pre('validate', function (next) {
+	const status = validate({
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
 	})
@@ -330,20 +339,6 @@ schema.pre('save', function (next) {
 
 schema.pre('updateOne', function (next) {
 	const status = validate({
-		name: this._update.$set.name,
-		cleanJSON: this._update.$set.cleanJSON,
-		tags: this._update.$set.tags,
-	})
-
-	if (status.status == false) { throw `Error: ${status.message}` }
-	
-	next()
-})
-
-
-schema.pre('findOneAndUpdate', function (next) {
-	const status = validate({
-		name: this._update.$set.name,
 		cleanJSON: this._update.$set.cleanJSON,
 		tags: this._update.$set.tags,
 	})
