@@ -55,7 +55,10 @@ module.exports = {
 
 
 	find: async ({ req }) => {
-		const result = await WebAppModel.find({ user: req.user_decoded._id })
+		const result = await WebAppModel.findOne({
+			user: req.user_decoded._id,
+			_id: req.body.webApp._id,
+		})
 
 		return {
 			status: true,
