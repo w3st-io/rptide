@@ -71,8 +71,11 @@ module.exports = {
 	},
 
 
-	deleteWebApp: async ({ user_id, webApp_id }) => {
+	deleteWebApp: async ({ req }) => {
 		try {
+			const user_id = req.user_decoded._id
+			const webApp_id = req.body.webApp_id
+
 			// [VALIDATE] webApp_id //
 			if (!validator.isAscii(webApp_id)) {
 				return {

@@ -41,12 +41,7 @@ router.post(
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(
-			await rh.deleteWebApp({
-				user_id: req.user_decoded._id,
-				webApp_id: req.body.webApp_id,
-			})
-		)
+		res.send(await rh.deleteWebApp({ req }))
 	}
 )
 
