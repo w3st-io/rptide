@@ -6,16 +6,21 @@
 				:key="i"
 				cols="12" sm="6" md="4" lg="3"
 			>
-				<BCard
-					bg-variant="dark"
-					text-variant="light"
-					border-variant="secondary"
-					class="mb-3"
+				<RouterLink
+					:to="`/user/web-app/update/${w._id}`"
+					class="text-decoration-none"
 				>
-					<h6 class="small">Organization Name</h6>
-					<h5 class="text-primary">{{ w.name }}</h5>
-					<h6 class="m-0 small text-secondary">{{ w._id }}</h6>
-				</BCard>
+					<BCard
+						bg-variant="dark"
+						text-variant="light"
+						border-variant="secondary"
+						class="mb-3 hover-card"
+					>
+						<h6 class="small">Organization Name</h6>
+						<h5 class="text-primary">{{ w.name }}</h5>
+						<h6 class="m-0 small text-secondary">{{ w._id }}</h6>
+					</BCard>
+				</RouterLink>
 			</BCol>
 		</BRow>
 

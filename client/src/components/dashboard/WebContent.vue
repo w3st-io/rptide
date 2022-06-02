@@ -63,9 +63,3 @@
 		},
 	}
 </script>
-
-<style lang="scss" scoped>
-	.hover-card:hover {
-		background-color: rgba(255, 255, 255, 0.15) !important;
-	}
-</style>
