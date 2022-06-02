@@ -30,6 +30,7 @@ import user_verify from '@/pages/user/verify'
 import user_register from '@/pages/user/register'
 import user_registered from '@/pages/user/registered'
 import user_webContent_create from '@/pages/user/web-content/create'
+import user_webContent_update from '@/pages/user/web-content/update'
 // Not-Found //
 import NotFound from '@/pages/404'
 
@@ -207,6 +208,15 @@ const router = new Router ({
 			path: '/user/web-content/create/:webapp',
 			name: 'Web Content Create',
 			component: user_webContent_create,
+			meta: {
+				auth: true,
+				title: ''
+			}
+		},
+		{
+			path: '/user/web-content/update/:webcontent',
+			name: 'Web Content Update',
+			component: user_webContent_update,
 			meta: {
 				auth: true,
 				title: ''

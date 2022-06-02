@@ -34,4 +34,14 @@ router.post(
 )
 
 
+// [CREATE] Auth Required //
+router.post(
+	'/find-one',
+	Auth.userTokenOrAPIPrivateKey(),
+	async (req, res) => {
+		res.send(await rh.findOne({ req }))
+	}
+)
+
+
 module.exports = router

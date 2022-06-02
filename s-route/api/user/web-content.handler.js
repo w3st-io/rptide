@@ -76,4 +76,27 @@ module.exports = {
 			}	
 		}
 	},
+
+
+	findOne: async ({ req }) => {
+		try {
+			// [WEB-CONTENT][SAVE] //
+			const result = await WebContentModel.findOne({
+				_id: req.body.webContent,
+			})
+
+			return {
+				status: true,
+				executed: true,
+				webContent: result,
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				message: err
+			}	
+		}
+	},
 }
