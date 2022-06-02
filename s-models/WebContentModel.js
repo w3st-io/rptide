@@ -1,9 +1,18 @@
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [VALIDATE] //
-function validate({ cleanJSON, tags = [] }) {
+function validate({ name, cleanJSON, tags = [] }) {
+	// [VALIDATE] name //
+	if (!validator.isAscii(name)) {
+		return {
+			status: false,
+			message: 'Invalid Name'
+		}
+	}
+
 	// [LENGTH-CHECK] cleanJSON.blocks //
 	if (cleanJSON.blocks.length > 20) {
 		return {
@@ -315,17 +324,7 @@ const schema = mongoose.Schema({
 
 schema.pre('save', function (next) {
 	const status = validate({
-		cleanJSON: this.cleanJSON,
-		tags: this.tags,
-	})
-
-	if (status.status == false) { throw `Error: ${status.message}` }
-	
-	next()
-})
-
-schema.pre('validate', function (next) {
-	const status = validate({
+		name: this.name,
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
 	})
@@ -338,6 +337,7 @@ schema.pre('validate', function (next) {
 
 schema.pre('updateOne', function (next) {
 	const status = validate({
+		name: this._update.$set.name,
 		cleanJSON: this._update.$set.cleanJSON,
 		tags: this._update.$set.tags,
 	})
@@ -350,6 +350,7 @@ schema.pre('updateOne', function (next) {
 
 schema.pre('findOneAndUpdate', function (next) {
 	const status = validate({
+		name: this._update.$set.name,
 		cleanJSON: this._update.$set.cleanJSON,
 		tags: this._update.$set.tags,
 	})
