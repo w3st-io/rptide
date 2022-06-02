@@ -20,11 +20,15 @@ router.post(
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
+		console.log(req.body);
+		const result = await rh.create({
+			user_id: req.user_decoded._id,
+			name: req.body.webApp.name,
+		})
+
+		console.log(result);
 		res.send(
-			await rh.createWebApp({
-				user_id: req.user_decoded._id,
-				title: req.body.title,
-			})
+			
 		)
 	}
 )

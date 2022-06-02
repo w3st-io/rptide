@@ -17,9 +17,9 @@ const authAxios = axios.create({
 
 export default {
 	/******************* [TOKEN-DECODE] *******************/
-	s_create: async function ({ title }) {
+	s_create: async function ({ webApp }) {
 		try {
-			const res = await authAxios.post('/create', { title })
+			const res = await authAxios.post('/create', { webApp })
 
 			return res.data
 		}

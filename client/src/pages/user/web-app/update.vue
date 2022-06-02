@@ -8,7 +8,7 @@
 			<BCardHeader class="border-secondary">
 				<BRow>
 					<BCol cols="9" sm="9" md="10" lg="10">
-						<h3 class="m-0 text-center text-primary">Update Web Content</h3>
+						<h3 class="m-0 text-center text-primary">Update Web App</h3>
 					</BCol>
 
 					<BCol cols="3" sm="3" md="2" lg="2">
@@ -26,60 +26,12 @@
 				<BRow v-if="!loading">
 					<BCol cols="12">
 						<BFormInput
-							v-model="webContent.name"
+							v-model="webApp.name"
 							placeholder="Web Content Name"
 							class="mb-3"
 						/>
-					</BCol>
 
-					<BCol md="9">
-						<!-- Editorjs -->
-						<Editor
-							ref="editor"
-							:config="{
-								tools: {
-									code: require('@editorjs/code'),
-									delimiter: require('@editorjs/delimiter'),
-									header: require('@editorjs/header'),
-									list: require('@editorjs/list'),
-									quote: require('@editorjs/quote'),
-									image: require('@editorjs/simple-image'),
-									table: require('@editorjs/table'),
-									embed: require('@editorjs/embed'),
-								},
-								data: webContent.cleanJSON
-							}"
-							class="mb-3 bg-white border border-primary text-dark"
-						/>
-					</BCol>
-
-					<BCol md="3">
-						<div>
-							<BFormCheckbox
-								v-model="webContent.draft"
-								size="lg"
-								class="mb-3"
-							><span class="h5 text-primary">Draft</span></BFormCheckbox>
-
-							<hr class="border-secondary">
-
-							<label for="tags-separators">
-								<span class="h5 text-primary">Tags</span>
-							</label>
-							<h6 class="small">separated by space, comma or semicolon</h6>
-
-							<BFormTags
-								v-model="webContent.tags"
-								no-add-on-enter
-								tag-pills
-								separator=",;"
-								input-id="tags-separators"
-								placeholder="blog-post, home,.."
-								addButtonVariant="primary"
-								class="mb-3 border-primary"
-								:limit="20"
-							></BFormTags>
-						</div>
+						{{ webApp }}
 					</BCol>
 
 					<!-- [SUBMIT] -->
@@ -147,7 +99,7 @@
 		},
 
 		methods: {
-			async updateWebContent() {
+			async updateWebApp() {
 				this.resData = await this.authAxios.post(
 					'/find-one-and-update',
 					{
@@ -175,28 +127,17 @@
 			},
 
 			submit() {
-				this.$refs.editor._data.state.editor.save().then(
-					(data) => {
-						this.webContent.cleanJSON = data
-
-						this.updateWebContent()
-					}
-				).catch(
-					(err) => {
-						this.error = err
-						this.loading = false
-					}
-				)
+				this.updateWebApp()
 			},
 
-			async deleteWebContent() {
+			async deleteWebApp() {
 				this.showConfirm = false
 
 				this.resData = await this.authAxios.post(
 					'/delete-one',
 					{
-						webContent: {
-							_id: this.$route.params.webcontent
+						webApp: {
+							_id: this.$route.params.webapp
 						}
 					}
 				)
@@ -206,7 +147,7 @@
 						name: 'user_dashboard',
 						params: {
 							webapp: this.$store.state.dashboard.webApp,
-							tab: 'web-content',
+							tab: 'web-app',
 							sort: 0,
 							limit: 5,
 							page: 1,
@@ -229,7 +170,7 @@
 					)
 
 					if (this.resData.data.status) {
-						this.webContent = this.resData.data.webContent
+						this.webApp = this.resData.data.webApp
 
 						this.loading = false
 					}

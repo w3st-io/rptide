@@ -13,7 +13,7 @@ const location = 'WebAppCollection'
 module.exports = {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	c_create: async ({ user_id, title }) => {
+	c_create: async ({ user_id, name }) => {
 		try {
 			// [VALIDATE] user_id //
 			if (!mongoose.isValidObjectId(user_id)) {
@@ -25,7 +25,7 @@ module.exports = {
 			}
 	
 			// [VALIDATE] title //
-			if (!title) {
+			if (!name) {
 				return {
 					executed: true,
 					status: false,
@@ -34,16 +34,16 @@ module.exports = {
 			}
 	
 			// [SAVE] //
-			const createdWebApp = await new WebAppModel({
+			const result = await new WebAppModel({
 				_id: mongoose.Types.ObjectId(),
 				user: user_id,
-				title: title,
+				name,
 			}).save()
 	
 			return {
 				executed: true,
 				status: true,
-				createdWebApp: createdWebApp,
+				createdWebApp: result,
 			}
 		}
 		catch (err) {

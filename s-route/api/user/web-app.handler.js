@@ -12,10 +12,10 @@ const location = '/web-app'
 
 
 module.exports = {
-	createWebApp: async ({ user_id, title }) => {
+	create: async ({ user_id, name }) => {
 		try {
 			// [VALIDATE] //
-			if (!title) {
+			if (!name) {
 				return {
 					executed: true,
 					status: false,
@@ -27,7 +27,7 @@ module.exports = {
 			// [COLLECTION][webApp][CREATE] //
 			const STObj = await WebAppCollection.c_create({
 				user_id: user_id,
-				title: title,
+				name: name,
 			})
 
 			if (!STObj.status) { return STObj }

@@ -1,7 +1,7 @@
 <template>
 	<div class="input-group">
 		<input
-			v-model="formData.webApp.name"
+			v-model="webApp.name"
 			type="text"
 			class="form-control form-control-dark border-success"
 			placeholder="Web App Title"
@@ -24,10 +24,8 @@
 	export default {
 		data() {
 			return {
-				formData: {
-					webApp: {
-						title: '',
-					}
+				webApp: {
+					name: '',
 				},
 
 				reqData: {},
@@ -37,7 +35,7 @@
 		methods: {
 			async createWebApp() {
 				const r = await WebAppService.s_create({
-					name: this.formData.webApp.name
+					webApp: this.webApp
 				})
 
 				if (r.status) {
