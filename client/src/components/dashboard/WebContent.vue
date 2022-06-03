@@ -37,7 +37,7 @@
 </template>
 
 <script>
-	import WebContentService from '../../services/user/WebContentService'
+	import axios from 'axios'
 
 	export default {
 		props: {
@@ -50,15 +50,30 @@
 		data() {
 			return {
 				resData: {},
-				webContents: []
+				webContents: [],
+				error: '',
+
+				authAxios: axios.create({
+					baseURL: '/api/user/web-content',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`
+					}
+				}),
 			}
 		},
 
 		async created() {
-			this.resData = await WebContentService.s_find({ webApp: this.webApp })
+			try {
+				this.resData = await this.authAxios.post('/find', {
+					webApp: this.webApp
+				})
 
-			if (this.resData.status) {
-				this.webContents = this.resData.webContents
+				if (this.resData.status) {
+					this.webContents = this.resData.data.webContents
+				}
+			}
+			catch (err) {
+				this.error = err
 			}
 		},
 	}

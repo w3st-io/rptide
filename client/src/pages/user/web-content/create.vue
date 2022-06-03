@@ -92,9 +92,11 @@
 </template>
 
 <script>
+// [IMPORT] //
+import axios from 'axios'
+
 // [IMPORT] Personal //
 import router from '../../../router'
-import WebContentService from '../../../services/user/WebContentService'
 
 export default {
 	data() {
@@ -103,6 +105,13 @@ export default {
 			loading: false,
 			success: false,
 			error: '',
+
+			authAxios: axios.create({
+				baseURL: '/api/user/web-content',
+				headers: {
+					user_authorization: `Bearer ${localStorage.usertoken}`
+				}
+			}),
 
 			webContent: {
 				name: '',
@@ -132,10 +141,13 @@ export default {
 		},
 
 		async createWebContent() {
-			this.resData = await WebContentService.s_create(this.webContent)
+			this.resData = await this.authAxios.post('/create', {
+				webContent: this.webContent
+			})
 
-			if (this.resData.status) {
+			if (this.resData.data.status) {
 				this.success = true
+
 				router.push({
 					name: 'user_dashboard',
 					params: {
@@ -148,7 +160,7 @@ export default {
 				})
 			}
 			else {
-				this.error = this.resData.message
+				this.error = this.resData.data.message
 			}
 
 			this.loading = false
