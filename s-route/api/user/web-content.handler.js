@@ -81,8 +81,13 @@ module.exports = {
 
 	findPaginated: async ({ req }) => {
 		try {
+			// [INIT] Const //
 			const limit = parseInt(req.params.limit)
 			const skip = (parseInt(req.params.page) - 1) * limit
+
+			// [INIT] //
+			let sort
+			let query = { webApp: req.body.webApp }
 
 			// [VALDIATE] limit //
 			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
@@ -92,8 +97,6 @@ module.exports = {
 					message: `${location}: Invalid limit`,
 				}
 			}
-			
-			let sort
 
 			switch (req.query.sort) {
 				case 'newest':
@@ -104,8 +107,6 @@ module.exports = {
 					sort = {}
 				break
 			}
-
-			let query = { webApp: req.body.webApp }
 
 			if (req.query.draft == 'false') {
 				query = {
