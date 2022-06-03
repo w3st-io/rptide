@@ -93,8 +93,6 @@ module.exports = {
 				break
 			}
 
-			console.log(sort);
-
 			const limit = parseInt(req.params.limit)
 			const pageIndex = parseInt(req.params.page) - 1
 			const skip = pageIndex * limit
