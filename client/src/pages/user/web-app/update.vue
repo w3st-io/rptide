@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import Update from '../../../components/webApps/Update.vue'
+	import Update from '@/components/webApps/Update'
 
 	export default {
 		components: {
