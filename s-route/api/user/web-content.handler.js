@@ -81,6 +81,18 @@ module.exports = {
 
 	findPaginated: async ({ req }) => {
 		try {
+			// [VALDIATE] limit //
+			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
+				return {
+					executed: true,
+					status: false,
+					message: 'commentsCollection: Invalid limit',
+				}
+			}
+
+			const limit = parseInt(req.params.limit)
+			const skip = (parseInt(req.params.page) - 1) * limit
+			
 			let sort
 
 			switch (req.query.sort) {
@@ -91,19 +103,6 @@ module.exports = {
 				default:
 					sort = {}
 				break
-			}
-
-			const limit = parseInt(req.params.limit)
-			const pageIndex = parseInt(req.params.page) - 1
-			const skip = pageIndex * limit
-
-			// [VALDIATE] limit //
-			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
-				return {
-					executed: true,
-					status: false,
-					message: 'commentsCollection: Invalid limit',
-				}
 			}
 
 			// [WEB-CONTENT][SAVE] //
