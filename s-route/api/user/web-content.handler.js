@@ -8,7 +8,7 @@ const WebContentModel = require('../../../s-models/WebContentModel')
 
 
 // [INIT] //
-const location = '/web-app'
+const location = '/web-content'
 
 
 module.exports = {
@@ -81,17 +81,21 @@ module.exports = {
 
 	findPaginated: async ({ req }) => {
 		try {
+			const limit = parseInt(req.params.limit)
+			const skip = (parseInt(req.params.page) - 1) * limit
+
 			// [VALDIATE] limit //
-			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
+			if (
+				!Number.isInteger(req.params.limit) ||
+				req.params.limit >= 200 ||
+				req.params.limit <= -200
+			) {
 				return {
 					executed: true,
 					status: false,
 					message: 'commentsCollection: Invalid limit',
 				}
 			}
-
-			const limit = parseInt(req.params.limit)
-			const skip = (parseInt(req.params.page) - 1) * limit
 			
 			let sort
 
@@ -124,8 +128,8 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: err,
 				location,
+				message: `Caught error ${err}`,
 			}	
 		}
 	},
