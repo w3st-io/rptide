@@ -120,9 +120,9 @@ const schema = mongoose.Schema({
 		default: false
 	},
 
-	draft: {
+	visible: {
 		type: Boolean,
-		default: true,
+		default: false,
 	},
 
 	cleanJSON: {

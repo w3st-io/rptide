@@ -108,10 +108,10 @@ module.exports = {
 				break
 			}
 
-			if (req.query.draft == 'false') {
+			if (req.query.visible == 'true') {
 				query = {
 					...query,
-					draft: false,
+					visible: true,
 				}
 			}
 
@@ -177,7 +177,7 @@ module.exports = {
 						tags: req.body.webContent.tags,
 						likeCount: req.body.webContent.likeCount,
 						liked: req.body.webContent.liked,
-						draft: req.body.webContent.draft,
+						visible: req.body.webContent.visible,
 						cleanJSON: req.body.webContent.cleanJSON,
 					}
 				},

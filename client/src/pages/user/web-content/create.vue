@@ -40,10 +40,10 @@
 					<BCol cols="12" md="3">
 						<div>
 							<BFormCheckbox
-								v-model="webContent.draft"
+								v-model="webContent.visible"
 								size="lg"
 								class="mb-3"
-							><span class="h5 text-primary">Draft</span></BFormCheckbox>
+							><span class="h5 text-primary">Visible</span></BFormCheckbox>
 
 							<hr class="border-secondary">
 
@@ -116,7 +116,7 @@ export default {
 			webContent: {
 				name: '',
 				webApp: this.$route.params.webapp,
-				draft: true,
+				visible: false,
 				cleanJSON: {},
 			},
 		}
