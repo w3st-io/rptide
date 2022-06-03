@@ -69,6 +69,45 @@ module.exports = {
 	},
 
 
+	findOneAndUpdate: async ({ req }) => {
+		try {
+			const result = await WebAppModel.findOneAndUpdate(
+				{
+					user: req.user_decoded._id,
+					_id: req.body.webApp._id,
+				},
+				{
+					$set: {
+						name: req.body.webApp.name,
+					}
+				},
+				{ new: true },
+			).select().exec()
+
+			const resultWebApp = await WebAppModel.find({
+				user: req.user_decoded._id
+			})
+
+			return {
+				status: true,
+				executed: true,
+				webContent: result,
+				webApps: resultWebApp,
+				location,
+				message: 'Successfully updated WebContent'
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				message: err,
+				location,
+			}	
+		}
+	},
+
+
 	deleteOne: async ({ req }) => {
 		try {
 			const user_id = req.user_decoded._id

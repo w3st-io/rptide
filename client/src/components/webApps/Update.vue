@@ -114,6 +114,9 @@
 				if (this.resData.data.status) {
 					this.success = true
 
+					// [store] webApps //
+					this.$store.state.dashboard.webApps = this.resData.data.webApps
+
 					router.push({
 						name: 'user_dashboard',
 						params: {
@@ -188,7 +191,7 @@
 					}
 				}
 				catch (err) {
-					this.message = this.resData.data.message
+					this.message = err
 				}
 			},
 		},

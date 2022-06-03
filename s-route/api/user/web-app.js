@@ -6,6 +6,7 @@ const express = require('express')
 // [REQUIRE] Personal //
 const rateLimiter = require('../../../s-rate-limiters')
 const rh = require('./web-app.handler')
+const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
 const Auth = require('../../../s-middlewares/Auth')
 
 
@@ -19,6 +20,7 @@ router.post(
 	'/create',
 	rateLimiter.post,
 	Auth.userToken(),
+	ApiSubscription.webAppLimitCheck(),
 	async (req, res) => {
 		res.send(await rh.create({ req }))
 	}
@@ -31,6 +33,16 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		res.send(await rh.findOne({ req }))	
+	}
+)
+
+
+// [UPDATE] Auth Required //
+router.post(
+	'/find-one-and-update',
+	Auth.userTokenOrAPIPrivateKey(),
+	async (req, res) => {
+		res.send(await rh.findOneAndUpdate({ req }))
 	}
 )
 		

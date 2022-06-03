@@ -47,14 +47,22 @@
 		methods: {
 			async createWebApp() {
 				try {
+					this.error = ''
+					
 					this.resData = await this.authAxios.post('/create', {
 						webApp: this.webApp
 					})
 
-					this.$store.state.dashboard.webApps = this.resData.data.webApps
+					console.log(this.resData);
+					if (this.resData.data.status) {
+						this.$store.state.dashboard.webApps = this.resData.data.webApps
+					}
+					else {
+						this.error = this.resData.data.message
+					}
 				}
 				catch (err) {
-					this.error = this.resData.data.message
+					this.error = err
 				}
 			},
 		},
