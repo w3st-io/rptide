@@ -5,6 +5,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const WebAppModel = require('../../../s-models/WebAppModel')
+const WebContentModel = require('../../../s-models/WebContentModel')
 
 
 // [INIT] //
@@ -129,6 +130,12 @@ module.exports = {
 				user: user_id
 			})
 
+			// [WebApp][DELETE] //
+			const resultWebContents = await WebContentModel.deleteMany({
+				webApp: webApp_id,
+				user: user_id
+			})
+
 			const webApps = await WebAppModel.find({ user: user_id })
 			
 			return {
@@ -136,6 +143,7 @@ module.exports = {
 				status: true,
 				deleted: {
 					webApp: result,
+					webContents: resultWebContents,
 				},
 				webApps: webApps,
 				location: `${location}/delete`,
