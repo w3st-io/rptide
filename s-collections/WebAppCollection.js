@@ -12,50 +12,6 @@ const location = 'WebAppCollection'
 
 module.exports = {
 	/******************* [CRUD] *******************/
-	// [CREATE] //
-	c_create: async ({ user_id, name }) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: 'WebAppCollection: Invalid user_id',
-				}
-			}
-	
-			// [VALIDATE] title //
-			if (!name) {
-				return {
-					executed: true,
-					status: false,
-					message: 'WebAppCollection: No title passed',
-				}
-			}
-	
-			// [SAVE] //
-			const result = await new WebAppModel({
-				_id: mongoose.Types.ObjectId(),
-				user: user_id,
-				name,
-			}).save()
-	
-			return {
-				executed: true,
-				status: true,
-				createdWebApp: result,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `WebAppCollection: Error --> ${err}`,
-			}
-		}
-	},
-
-
 	// [READ] //
 	c_read: async (user_id, webApp_id) => {
 		try {

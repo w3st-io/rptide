@@ -1,9 +1,9 @@
 // [REQUIRE] //
+const mongoose = require('mongoose')
 const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const WebAppCollection = require('../../../s-collections/WebAppCollection')
 const WebAppModel = require('../../../s-models/WebAppModel')
 
 
@@ -14,11 +14,8 @@ const location = '/web-app'
 module.exports = {
 	create: async ({ req }) => {
 		try {
-			const user_id = req.user_decoded._id
-			const name = req.body.webApp.name
-
 			// [VALIDATE] //
-			if (!name) {
+			if (!req.body.webApp.name) {
 				return {
 					executed: true,
 					status: false,
@@ -27,23 +24,24 @@ module.exports = {
 				}
 			}
 
-			// [COLLECTION][webApp][CREATE] //
-			const STObj = await WebAppCollection.c_create({
-				user_id: user_id,
-				name: name,
+			// [COLLECTION][webApp][SAVE] //
+			const result = await new WebAppModel({
+				_id: mongoose.Types.ObjectId(),
+				user: req.user_decoded._id,
+				name: req.body.webApp.name,
+			}).save()
+
+			const resultWebApp = await WebAppModel.find({
+				user: req.user_decoded._id
 			})
-
-			if (!STObj.status) { return STObj }
-
-			const webApps = await WebAppModel.find({ user: user_id })
 
 			// [SUCCESS] //
 			return {
 				executed: true,
 				status: true,
-				createdWebApp: STObj.createdWebApp,
-				webApps: webApps,
-				message: 'CREATED webApp'
+				message: 'Created webApp',
+				createdWebApp: result,
+				webApps: resultWebApp,
 			}
 		}
 		catch (err) {
@@ -91,6 +89,8 @@ module.exports = {
 				_id: webApp_id,
 				user: user_id
 			})
+
+			const webApps = await WebAppModel.find({ user: user_id })
 			
 			return {
 				executed: true,
@@ -98,6 +98,7 @@ module.exports = {
 				deleted: {
 					webApp: result,
 				},
+				webApps: webApps,
 				location: `${location}/delete`,
 				message: 'DELETED SectionText',
 			}

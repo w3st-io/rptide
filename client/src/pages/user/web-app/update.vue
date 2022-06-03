@@ -61,7 +61,7 @@
 		<Confirm
 			v-if="showConfirm"
 			@xClicked="showConfirm = false"
-			@yesClicked="deleteWebContent()"
+			@yesClicked="deleteWebApp()"
 			@noClicked="showConfirm = false"
 		/>
 	</BContainer>
@@ -141,6 +141,13 @@
 				)
 
 				if (this.resData.data.status) {
+					if (
+						this.$store.state.dashboard.webApp == this.$store.state.dashboard.webApp
+					) { this.$store.state.dashboard.webApp = 'unset' }
+
+					// [store] webApps //
+					this.$store.state.dashboard.webApps = this.resData.data.webApps
+
 					router.push({
 						name: 'user_dashboard',
 						params: {

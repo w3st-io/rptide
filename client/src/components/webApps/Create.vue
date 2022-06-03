@@ -1,45 +1,60 @@
 <template>
-	<div class="input-group">
-		<input
-			v-model="webApp.name"
-			type="text"
-			class="form-control form-control-dark border-success"
-			placeholder="Web App Title"
-		>
-		
-		<div class="input-group-append">
-			<BButton
-				variant="success"
-				class="w-100"
-				@click="createWebApp()"
-			>+ Create Web App</BButton>
-		</div>	
+	<div class="">
+		<div class="input-group">
+			<input
+				v-model="webApp.name"
+				type="text"
+				class="form-control form-control-dark border-success"
+				placeholder="Web App Title"
+			>
+			
+			<div class="input-group-append">
+				<BButton
+					variant="success"
+					class="w-100"
+					@click="createWebApp()"
+				>+ Create Web App</BButton>
+			</div>
+		</div>
+
+		<h6 v-if="error" class="m-0 mt-3 text-danger">{{ error }}</h6>
 	</div>
 </template>
 
 
 <script>
-	import WebAppService from '../../services/user/WebAppService'
+	import axios from 'axios'
 
 	export default {
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: '/api/user/web-app',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
+				reqData: {},
+				error: '',
+
 				webApp: {
 					name: '',
 				},
-
-				reqData: {},
 			}
 		},
 
 		methods: {
 			async createWebApp() {
-				const r = await WebAppService.s_create({
-					webApp: this.webApp
-				})
+				try {
+					this.resData = await this.authAxios.post('/create', {
+						webApp: this.webApp
+					})
 
-				if (r.status) {
-					this.$store.state.dashboard.webApps = r.webApps
+					this.$store.state.dashboard.webApps = this.resData.data.webApps
+				}
+				catch (err) {
+					this.error = this.resData.data.message
 				}
 			},
 		},
