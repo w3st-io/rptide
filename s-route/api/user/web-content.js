@@ -34,6 +34,16 @@ router.post(
 )
 
 
+// [FIND-ALL] Auth Required //
+router.post(
+	'/find-paginated/:limit/:page',
+	Auth.userTokenOrAPIPrivateKey(),
+	async (req, res) => {
+		res.send(await rh.findPaginated({ req }))
+	}
+)
+
+
 // [FIND] Auth Required //
 router.post(
 	'/find-one',

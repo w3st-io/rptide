@@ -79,6 +79,61 @@ module.exports = {
 	},
 
 
+	findPaginated: async ({ req }) => {
+		try {
+			let sort
+
+			switch (req.query.sort) {
+				case 'newest':
+					sort = { createdTimeStamp: -1 }
+				break
+			
+				default:
+					sort = {}
+				break
+			}
+
+			console.log(sort);
+
+			const limit = parseInt(req.params.limit)
+			const pageIndex = parseInt(req.params.page) - 1
+			const skip = pageIndex * limit
+
+			// [VALDIATE] limit //
+			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
+				return {
+					executed: true,
+					status: false,
+					message: 'commentsCollection: Invalid limit',
+				}
+			}
+
+			// [WEB-CONTENT][SAVE] //
+			const result = await WebContentModel.find(
+				{ webApp: req.body.webApp }
+			)
+				.sort(sort)
+				.limit(limit)
+				.skip(skip)
+			.exec()
+
+			return {
+				status: true,
+				executed: true,
+				webContents: result,
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				message: err,
+				location,
+			}	
+		}
+	},
+
+
 	findOne: async ({ req }) => {
 		try {
 			// [WEB-CONTENT][SAVE] //
