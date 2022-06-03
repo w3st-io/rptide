@@ -105,10 +105,17 @@ module.exports = {
 				break
 			}
 
+			let query = { webApp: req.body.webApp }
+
+			if (req.query.draft == 'false') {
+				query = {
+					...query,
+					draft: false,
+				}
+			}
+
 			// [WEB-CONTENT][SAVE] //
-			const result = await WebContentModel.find(
-				{ webApp: req.body.webApp }
-			)
+			const result = await WebContentModel.find(query)
 				.sort(sort)
 				.limit(limit)
 				.skip(skip)
