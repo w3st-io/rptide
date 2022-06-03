@@ -40,7 +40,7 @@
 							size="lg"
 							pill
 							class="w-100"
-							@click="submit()"
+							@click="updateWebApp()"
 						>
 							<span v-show="!loading">Update</span>
 							<span v-show="loading" class="spinner-grow"></span>
@@ -107,7 +107,7 @@
 				this.resData = await this.authAxios.post(
 					'/find-one-and-update',
 					{
-						webContent: this.webContent
+						webApp: this.webApp
 					}
 				)
 
@@ -128,10 +128,6 @@
 				else {
 					this.error = this.resData.data.message
 				}
-			},
-
-			submit() {
-				this.updateWebApp()
 			},
 
 			async deleteWebApp() {
