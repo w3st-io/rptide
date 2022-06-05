@@ -54,6 +54,9 @@
 		methods: {
 			async initializeApp() {
 				this.$store.state.loading = true 
+			
+				// [store] //
+				this.$store.state.dashboard.webApp = localStorage.selectedWebApp
 
 				this.reqData = await Service.index()
 
@@ -63,7 +66,7 @@
 				}
 
 				await UserService.s_checkIn()
-			
+
 				Socket.initialize()
 
 				this.$store.state.loading = false 
