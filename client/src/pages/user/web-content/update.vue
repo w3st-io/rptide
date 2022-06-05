@@ -7,17 +7,30 @@
 		>
 			<BCardHeader class="border-secondary">
 				<BRow>
-					<BCol cols="9" sm="9" md="10" lg="10">
-						<h3 class="m-0 text-center text-primary">Update Web Content</h3>
-					</BCol>
-
-					<BCol cols="3" sm="3" md="2" lg="2">
+					<BCol cols="3" md="2">
 						<BButton
 							pill
 							variant="danger"
 							class="w-100"
 							@click="showConfirm = true"
 						>Delete</BButton>
+					</BCol>
+
+					<BCol cols="6" md="8">
+						<h3 class="m-0 text-center text-primary">Update Web Content</h3>
+					</BCol>
+
+					<BCol cols="3" md="2">
+						<BButton
+							:disabled="loading"
+							variant="success"
+							pill
+							class="w-100"
+							@click="submit(false)"
+						>
+							<span v-show="!loading">Save</span>
+							<span v-show="loading" class="spinner-grow"></span>
+						</BButton>
 					</BCol>
 				</BRow>
 			</BCardHeader>
@@ -55,18 +68,6 @@
 
 					<BCol md="3">
 						<div>
-							<BButton
-								:disabled="loading"
-								variant="success"
-								size="lg"
-								pill
-								class="w-100 mb-3"
-								@click="submit(false)"
-							>
-								<span v-show="!loading">Save</span>
-								<span v-show="loading" class="spinner-grow"></span>
-							</BButton>
-
 							<BFormCheckbox
 								v-model="webContent.visible"
 								size="lg"
