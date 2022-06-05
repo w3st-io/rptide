@@ -57,7 +57,7 @@
 						<div>
 							<BButton
 								:disabled="loading"
-								variant="primary"
+								variant="success"
 								size="lg"
 								pill
 								class="w-100 mb-3"
@@ -95,16 +95,30 @@
 					</BCol>
 
 					<!-- [SUBMIT] -->
-					<BCol cols="12">
+					<BCol md="9">
 						<BButton
 							:disabled="loading"
 							variant="primary"
 							size="lg"
 							pill
-							class="w-100"
+							class="w-100 mb-3 mb-md-0"
 							@click="submit(true)"
 						>
 							<span v-show="!loading">Update</span>
+							<span v-show="loading" class="spinner-grow"></span>
+						</BButton>
+					</BCol>
+
+					<BCol md="3">
+						<BButton
+							:disabled="loading"
+							variant="success"
+							size="lg"
+							pill
+							class="w-100"
+							@click="submit(false)"
+						>
+							<span v-show="!loading">Save</span>
 							<span v-show="loading" class="spinner-grow"></span>
 						</BButton>
 					</BCol>
