@@ -87,7 +87,10 @@ module.exports = {
 
 			// [INIT] //
 			let sort
-			let query = { webApp: req.body.webApp }
+			let query = {
+				webApp: req.body.webApp,
+				//tags: { $all: ['blog-post'] } // Filter by tags (pass array of tags)
+			}
 
 			// [VALDIATE] limit //
 			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
@@ -114,6 +117,8 @@ module.exports = {
 					visible: true,
 				}
 			}
+
+			console.log(query);
 
 			// [WEB-CONTENT][SAVE] //
 			const result = await WebContentModel.find(query)
