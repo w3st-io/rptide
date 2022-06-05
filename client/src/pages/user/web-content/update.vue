@@ -88,7 +88,7 @@
 								input-id="tags-separators"
 								placeholder="blog-post, home,.."
 								addButtonVariant="primary"
-								class="mb-3 border-primary"
+								class="mb-3 border-primary bg-white"
 								:limit="20"
 							></BFormTags>
 						</div>
