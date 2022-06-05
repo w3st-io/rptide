@@ -174,7 +174,7 @@
 				this.loading = true
 				
 				this.resData = await PageService.s_user_dashboard({
-					webapp: this.$store.state.dashboard.webApp,
+					webapp: localStorage.selectedWebApp,
 					tab: this.tab,
 					sort: parseInt(this.sort),
 					limit: parseInt(this.limit),
@@ -213,7 +213,7 @@
 					router.push({
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp,
+							webapp: localStorage.selectedWebApp,
 							tab: this.tab,
 							sort: parseInt(this.sort),
 							limit: parseInt(this.limit),
@@ -225,7 +225,7 @@
 					router.push({
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp,
+							webapp: localStorage.selectedWebApp,
 							tab: 'web-app',
 							sort: parseInt(this.sort),
 							limit: parseInt(this.limit),

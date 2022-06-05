@@ -55,6 +55,18 @@
 
 					<BCol md="3">
 						<div>
+							<BButton
+								:disabled="loading"
+								variant="primary"
+								size="lg"
+								pill
+								class="w-100 mb-3"
+								@click="submit(false)"
+							>
+								<span v-show="!loading">Save</span>
+								<span v-show="loading" class="spinner-grow"></span>
+							</BButton>
+
 							<BFormCheckbox
 								v-model="webContent.visible"
 								size="lg"
@@ -90,7 +102,7 @@
 							size="lg"
 							pill
 							class="w-100"
-							@click="submit()"
+							@click="submit(true)"
 						>
 							<span v-show="!loading">Update</span>
 							<span v-show="loading" class="spinner-grow"></span>
@@ -145,7 +157,7 @@
 		},
 
 		methods: {
-			async updateWebContent() {
+			async updateWebContent(jump) {
 				this.resData = await this.authAxios.post(
 					'/find-one-and-update',
 					{
@@ -154,27 +166,30 @@
 				)
 				if (this.resData.data.status) {
 					this.success = true
-					router.push({
-						name: 'user_dashboard',
-						params: {
-							webapp: this.$store.state.dashboard.webApp,
-							tab: 'web-content',
-							sort: 0,
-							limit: 5,
-							page: 1,
-						},
-					})
+
+					if (jump) {
+						router.push({
+							name: 'user_dashboard',
+							params: {
+								webapp: localStorage.selectedWebApp,
+								tab: 'web-content',
+								sort: 0,
+								limit: 5,
+								page: 1,
+							},
+						})
+					}
 				}
 				else {
 					this.error = this.resData.data.message
 				}
 			},
 
-			submit() {
+			submit(jump) {
 				this.$refs.editor._data.state.editor.save().then(
 					(data) => {
 						this.webContent.cleanJSON = data
-						this.updateWebContent()
+						this.updateWebContent(jump)
 					}
 				).catch(
 					(err) => {
@@ -199,7 +214,7 @@
 					router.push({
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp,
+							webapp: localStorage.selectedWebApp,
 							tab: 'web-content',
 							sort: 0,
 							limit: 5,

@@ -120,7 +120,7 @@
 					router.push({
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp,
+							webapp: localStorage.selectedWebApp,
 							tab: 'web-app',
 							sort: 0,
 							limit: 5,
@@ -156,7 +156,7 @@
 					router.push({
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp,
+							webapp: localStorage.selectedWebApp,
 							tab: 'web-app',
 							sort: 0,
 							limit: 5,

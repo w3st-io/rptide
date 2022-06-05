@@ -151,7 +151,7 @@ export default {
 				router.push({
 					name: 'user_dashboard',
 					params: {
-						webapp: this.$store.state.dashboard.webApp,
+						webapp: localStorage.selectedWebApp,
 						tab: 'web-content',
 						sort: 0,
 						limit: 5,

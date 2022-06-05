@@ -53,7 +53,6 @@
 						webApp: this.webApp
 					})
 
-					console.log(this.resData);
 					if (this.resData.data.status) {
 						this.$store.state.dashboard.webApps = this.resData.data.webApps
 					}

@@ -85,7 +85,7 @@
 					dashboard: {
 						name: 'user_dashboard',
 						params: {
-							webapp: this.$store.state.dashboard.webApp,
+							webapp: localStorage.selectedWebApp,
 							tab: 'web-content',
 							sort: 0,
 							limit: 5,
@@ -97,10 +97,7 @@
 		},
 
 		methods: {
-			routerRedirect(params) {
-				console.log(this.$store.state.dashboard.webApp)
-				router.push(params)
-			},
+			routerRedirect(params) { router.push(params) },
 
 			toggle() { this.$store.state.show.SideMenu = !this.$store.state.show.SideMenu },
 		},

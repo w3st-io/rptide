@@ -36,7 +36,7 @@
 				router.push({
 					name: 'user_dashboard',
 					params: {
-						webapp: this.$store.state.dashboard.webApp,
+						webapp: localStorage.selectedWebApp,
 						tab: this.$route.params.tab,
 						sort: parseInt(this.$route.params.sort),
 						limit: parseInt(this.$route.params.limit),
