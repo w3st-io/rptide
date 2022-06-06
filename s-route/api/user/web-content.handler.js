@@ -86,17 +86,21 @@ module.exports = {
 			const skip = (parseInt(req.params.page) - 1) * limit
 
 			// [INIT] //
-			let query = {
-				user: req.user_decoded._id,
-				webApp: req.body.webApp,
-			}
+			let query = { user: req.user_decoded._id }
 			let sort
 
 			// [query] //
-			if (req.query.visible == 'true') {
+			if (req.body.webApp) {
 				query = {
 					...query,
-					visible: true,
+					webApp: req.body.webApp,
+				}
+			}
+
+			if (req.body.visible) {
+				query = {
+					...query,
+					visible: req.body.visible,
 				}
 			}
 
@@ -127,6 +131,8 @@ module.exports = {
 					message: `${location}: Invalid limit`,
 				}
 			}
+			
+			console.log(query);
 
 			// [WEB-CONTENT][FIND] //
 			const result = await WebContentModel.find(query)
