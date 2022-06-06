@@ -86,31 +86,13 @@ module.exports = {
 			const skip = (parseInt(req.params.page) - 1) * limit
 
 			// [INIT] //
-			let sort
 			let query = {
+				user: req.user_decoded._id,
 				webApp: req.body.webApp,
 			}
+			let sort
 
-			// [VALDIATE] limit //
-			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
-				return {
-					executed: true,
-					status: false,
-					location: location,
-					message: `${location}: Invalid limit`,
-				}
-			}
-
-			switch (req.query.sort) {
-				case 'newest':
-					sort = { createdTimeStamp: -1 }
-				break
-			
-				default:
-					sort = {}
-				break
-			}
-
+			// [query] //
 			if (req.query.visible == 'true') {
 				query = {
 					...query,
@@ -122,6 +104,27 @@ module.exports = {
 				query = {
 					...query,
 					tags: { $all: req.body.tags } 
+				}
+			}
+
+			// [sort] //
+			switch (req.query.sort) {
+				case 'newest':
+					sort = { createdTimeStamp: -1 }
+				break
+			
+				default:
+					sort = {}
+				break
+			}
+
+			// [limit] //
+			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
+				return {
+					executed: true,
+					status: false,
+					location: location,
+					message: `${location}: Invalid limit`,
 				}
 			}
 

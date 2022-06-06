@@ -255,7 +255,7 @@ class Auth {
 				if (uObj.status) {
 					// [INIT] Put decoded in req //
 					const decoded = {
-						user_id: uObj.user._id,
+						_id: uObj.user._id,
 						first_name: uObj.user.first_name,
 						last_name: uObj.user.last_name,
 						username: uObj.user.username,
