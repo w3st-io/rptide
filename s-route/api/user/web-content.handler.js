@@ -111,6 +111,13 @@ module.exports = {
 				}
 			}
 
+			if (req.body.notInTags) {
+				query = {
+					...query,
+					tags: { $nin: req.body.notInTags } 
+				}
+			}
+
 			// [sort] //
 			switch (req.query.sort) {
 				case 'newest':
