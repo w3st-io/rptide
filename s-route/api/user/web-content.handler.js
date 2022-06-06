@@ -89,7 +89,6 @@ module.exports = {
 			let sort
 			let query = {
 				webApp: req.body.webApp,
-				//tags: { $all: ['blog-post'] } // Filter by tags (pass array of tags)
 			}
 
 			// [VALDIATE] limit //
@@ -97,6 +96,7 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
+					location: location,
 					message: `${location}: Invalid limit`,
 				}
 			}
@@ -118,9 +118,14 @@ module.exports = {
 				}
 			}
 
-			console.log(query);
+			if (req.body.tags) {
+				query = {
+					...query,
+					tags: { $all: req.body.tags } 
+				}
+			}
 
-			// [WEB-CONTENT][SAVE] //
+			// [WEB-CONTENT][FIND] //
 			const result = await WebContentModel.find(query)
 				.sort(sort)
 				.limit(limit)
