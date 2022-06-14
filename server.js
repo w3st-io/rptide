@@ -29,6 +29,8 @@ const p_user_dashboard = require('./s-route/pages/user/dashboard')
 const p_user_profile = require('./s-route/pages/user/profile')
 const p_user_profile_edit = require('./s-route/pages/user/profile/edit')
 
+const f_ = require ('./s-route/fun')
+
 
 // [EXPRESS] //
 const app = express()
@@ -102,6 +104,10 @@ app.use('/pages/user', p_user)
 app.use('/pages/user/dashboard', p_user_dashboard)
 app.use('/pages/user/profile', p_user_profile)
 app.use('/pages/user/profile/edit', p_user_profile_edit)
+
+
+// [USE][ROUTE][FUN] //
+app.use('/fun', f_)
 
 
 // [HEROKU] Set Static Folder for Heroku //
