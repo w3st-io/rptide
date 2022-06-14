@@ -1,6 +1,9 @@
 {
   "name": "rptide",
   "version": "0.9.0",
+  "engines": {
+    "node": "14.x"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -62,38 +65,5 @@
     "jest": "^27.0.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {},
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        ],
-        "env": {
-          "jest": true
-        }
-      }
-    ]
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "engines": {
-    "node": "14.x"
   }
 }
