@@ -29,7 +29,7 @@
 		data() {
 			return {
 				authAxios: axios.create({
-					baseURL: '/api/user/web-app',
+					baseURL: '/api/web-app',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`,
 					}

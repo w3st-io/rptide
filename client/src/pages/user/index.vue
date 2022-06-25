@@ -77,17 +77,27 @@
 </template>
 
 <script>
+	// [IMPORT]
+	import axios from 'axios'
+
 	// [IMPORT] Personal //
-	import API from '../../components/apiSubscription/API.vue'
-	import MyCard from '../../components/apiSubscription/stripe/MyCard'
-	import TierSelector from '../../components/apiSubscription/TierSelector'
+	import API from '@/components/apiSubscription/API.vue'
+	import MyCard from '@/components/apiSubscription/stripe/MyCard'
+	import TierSelector from '@/components/apiSubscription/TierSelector'
 	import router from '@/router'
-	import PageService from '@/services/PageService'
 	import UserService from '@/services/user/UserService'
 
 	export default {
 		data() {
 			return {
+				// [AUTH-AXIOS]
+				authAxios: axios.create({
+					baseURL: '/pages/users/index',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`
+					}
+				}),
+
 				resData: {},
 				loading: true,
 				error: '',
@@ -122,7 +132,7 @@
 			async getPageData() {
 				this.loading = true
 
-				this.resData = await PageService.s_user()
+				this.resData = (await this.authAxios.get('/')).data
 
 				if (this.resData.status) {
 					this.data = this.resData

@@ -8,7 +8,7 @@ const location = '/client/src/services/ProductService'
 
 // [AUTH-AXIOS] //
 const authAxios = axios.create({
-	baseURL: '/api/user/product-option',
+	baseURL: '/api/product-option',
 	headers: {
 		user_authorization: `Bearer ${localStorage.usertoken}`,
 	}

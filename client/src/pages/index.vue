@@ -8,7 +8,7 @@
 							<!-- Logo -->
 							<RouterLink to="/" class="navbar-brand">
 								<mark class="h2 px-5 bg-primary text-dark rounded">
-									{{ defaultData.name }}
+									Rptide
 								</mark>
 							</RouterLink>
 						</header>
@@ -139,13 +139,11 @@
 
 
 	// [IMPORT] Personal //
-	import defaultData from '@/defaults/companyInfo'
 	import router from '@/router'
 
 	export default {
 		data() {
 			return {
-				defaultData: defaultData,
 				caption1: 'Its hard to manage your content in so many different places, we want to simplify that for you..',
 				caption2: 'Store all of your content on 1 platform and let all of your digital outlets come to us!',
 				caption3: 'Its Simple, Free, & Easy to Start!',
@@ -160,7 +158,7 @@
 			// [USER-LOGGED][REDIRECT] //
 			if (localStorage.usertoken) {
 				router.push({
-					name: 'user_dashboard',
+					name: 'dashboard',
 					params: {
 						webapp: 'unset',
 						tab: 'web-app',

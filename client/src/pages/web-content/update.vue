@@ -145,28 +145,31 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import axios from 'axios'
 
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import Confirm from '@/components/popups/Confirm'
 	import router from '@/router'
 
 	export default {
 		data() {
 			return {
-				success: false,
-				loading: true,
-				resData: {},
-				error: '',
-				showConfirm: false,
-				// [AUTH-AXIOS] //
+				// [AUTH-AXIOS]
 				authAxios: axios.create({
-					baseURL: '/api/user/web-content',
+					baseURL: '/api/web-content',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`
 					}
 				}),
+
+				success: false,
+				loading: true,
+				resData: {},
+				error: '',
+				
+				showConfirm: false,
+				
 				webContent: {},
 			}
 		},
@@ -184,7 +187,7 @@
 
 					if (jump) {
 						router.push({
-							name: 'user_dashboard',
+							name: 'dashboard',
 							params: {
 								webapp: localStorage.selectedWebApp,
 								tab: 'web-content',
@@ -227,7 +230,7 @@
 				console.log(this.resData);
 				if (this.resData.data.status) {
 					router.push({
-						name: 'user_dashboard',
+						name: 'dashboard',
 						params: {
 							webapp: localStorage.selectedWebApp,
 							tab: 'web-content',
@@ -250,6 +253,8 @@
 							webContent: this.$route.params.webcontent
 						}
 					)
+
+					console.log(this.resData);
 					if (this.resData.data.status) {
 						this.webContent = this.resData.data.webContent
 						this.loading = false

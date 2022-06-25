@@ -96,7 +96,7 @@
 import axios from 'axios'
 
 // [IMPORT] Personal //
-import router from '../../../router'
+import router from '@/router'
 
 export default {
 	data() {
@@ -107,7 +107,7 @@ export default {
 			error: '',
 
 			authAxios: axios.create({
-				baseURL: '/api/user/web-content',
+				baseURL: '/api/web-content',
 				headers: {
 					user_authorization: `Bearer ${localStorage.usertoken}`
 				}
@@ -149,7 +149,7 @@ export default {
 				this.success = true
 
 				router.push({
-					name: 'user_dashboard',
+					name: 'dashboard',
 					params: {
 						webapp: localStorage.selectedWebApp,
 						tab: 'web-content',

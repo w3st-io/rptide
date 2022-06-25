@@ -17,7 +17,6 @@
 	import { XIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //
-	import companyInfo from '@/defaults/companyInfo'
 	import router from '@/router'
 
 	export default {
@@ -27,7 +26,6 @@
 
 		data() {
 			return {
-				companyInfo: companyInfo,
 				query: ''
 			}
 		},

@@ -6,7 +6,7 @@
 				<RouterLink to="/" class="navbar-brand">
 					<mark
 						class="h4 px-5 py-1 font-weight-bold bg-primary text-dark rounded"
-					>{{ defaultData.name }}</mark>
+					>RpTide</mark>
 				</RouterLink>
 
 				<!-- Hidden Menu Button -->
@@ -68,7 +68,6 @@
 
 	// [IMPORT] Personal //
 	import SideMenu from '@/components/UI/SideMenu'
-	import defaultData from '@/defaults/companyInfo'
 	import router from '@/router'
 
 	export default {
@@ -79,11 +78,9 @@
 
 		data() {
 			return {
-				defaultData,
-
 				routerParams: {
 					dashboard: {
-						name: 'user_dashboard',
+						name: 'dashboard',
 						params: {
 							webapp: localStorage.selectedWebApp,
 							tab: 'web-content',

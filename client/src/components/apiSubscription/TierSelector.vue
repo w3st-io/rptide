@@ -136,7 +136,7 @@
 
 <script>
 	import Confirm from '@/components/popups/Confirm'
-	import SubscriptionService from '../../services/user/ApiSubscriptionService'
+	import SubscriptionService from '@/services/ApiSubscriptionService'
 
 	export default {
 		props: {

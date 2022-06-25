@@ -8,7 +8,7 @@ const location = '/client/ApiSubscriptionService'
 
 // [AUTH-AXIOS] //
 const authAxios = axios.create({
-	baseURL: '/api/user/api-subscription',
+	baseURL: '/api/api-subscription',
 	headers: {
 		user_authorization: `Bearer ${localStorage.usertoken}`,
 	}

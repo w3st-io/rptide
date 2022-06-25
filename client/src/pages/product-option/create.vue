@@ -181,7 +181,7 @@
 </template>
 
 <script>
-	import ProductOptionService from '@/services/user/ProductOptionService'
+	import ProductOptionService from '@/services/ProductOptionService'
 
 	export default {
 		data() {

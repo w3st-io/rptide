@@ -817,19 +817,27 @@
 </template>
 
 <script>
-// [IMPORT] //
+// [IMPORT]
+import axios from 'axios'
 import { ArrowLeftCircleIcon } from 'vue-feather-icons'
 
-// [IMPORT] Personal //
+// [IMPORT] Personal
 import Confirm from '@/components/popups/Confirm'
 import Alert from '@/components/inform/Alert'
 import router from '@/router'
-import PageService from '@/services/PageService'
-import ProductService from '@/services/user/ProductService'
+import ProductService from '@/services/ProductService'
 
 export default {
 	data() {
 		return {
+			// [AUTH-AXIOS]
+			authAxios: axios.create({
+				baseURL: '/pages/product/read',
+				headers: {
+					user_authorization: `Bearer ${localStorage.usertoken}`
+				}
+			}),
+
 			reqData: {},
 			loading: true,
 			error: '',
@@ -865,11 +873,10 @@ export default {
 		async getPageData() {
 			this.loading = true
 
-			this.reqData = await PageService.s_product_read({
-				product_id: this.$route.params.product_id 
-			})
+			this.reqData = (
+				await this.authAxios.get(`/${this.$route.params.product_id}`)
+			).data
 
-			console.log(this.reqData);
 			if (this.reqData.status) {
 				this.product = this.reqData.product
 				this.productOptions = this.reqData.productOptions

@@ -34,7 +34,7 @@
 				localStorage.selectedWebApp = this.$store.state.dashboard.webApp
 
 				router.push({
-					name: 'user_dashboard',
+					name: 'dashboard',
 					params: {
 						webapp: localStorage.selectedWebApp,
 						tab: this.$route.params.tab,

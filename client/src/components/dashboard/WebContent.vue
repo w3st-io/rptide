@@ -49,16 +49,16 @@
 
 		data() {
 			return {
-				resData: {},
-				webContents: [],
-				error: '',
-
 				authAxios: axios.create({
-					baseURL: '/api/user/web-content',
+					baseURL: '/api/web-content',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`
 					}
 				}),
+				
+				resData: {},
+				webContents: [],
+				error: '',
 			}
 		},
 

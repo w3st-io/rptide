@@ -84,19 +84,19 @@
 
 		data() {
 			return {
+				// [AUTH-AXIOS] //
+				authAxios: axios.create({
+					baseURL: '/api/web-app',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`
+					}
+				}),
+				
 				success: false,
 				loading: true,
 				resData: {},
 				error: '',
 				showConfirm: false,
-
-				// [AUTH-AXIOS] //
-				authAxios: axios.create({
-					baseURL: '/api/user/web-app',
-					headers: {
-						user_authorization: `Bearer ${localStorage.usertoken}`
-					}
-				}),
 
 				webApp: {},
 			}
@@ -118,7 +118,7 @@
 					this.$store.state.dashboard.webApps = this.resData.data.webApps
 
 					router.push({
-						name: 'user_dashboard',
+						name: 'dashboard',
 						params: {
 							webapp: localStorage.selectedWebApp,
 							tab: 'web-app',
@@ -154,7 +154,7 @@
 					this.$store.state.dashboard.webApps = this.resData.data.webApps
 
 					router.push({
-						name: 'user_dashboard',
+						name: 'dashboard',
 						params: {
 							webapp: localStorage.selectedWebApp,
 							tab: 'web-app',

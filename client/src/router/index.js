@@ -4,10 +4,11 @@ import Router from 'vue-router'
 
 
 // [IMPORT] Personal (Ordered by path) //
-import companyInfo from '@/defaults/companyInfo'
 // Index //
 import index from '@/pages'
 // Dashboard //
+import dashboard from '@/pages/dashboard'
+
 // Documentation //
 import documentation from '@/pages/documentation'
 // Email //
@@ -19,19 +20,17 @@ import product_read from '@/pages/product/read'
 import productOption_create from '@/pages/product-option/create'
 // User //
 import user from '@/pages/user'
-import user_dashboard from '@/pages/user/dashboard'
 import user_login from '@/pages/user/login'
 import user_password_change from '@/pages/user/password/change'
 import user_password_request from '@/pages/user/password/request'
 import user_password_reset from '@/pages/user/password/reset'
-import user_profile from '@/pages/user/profile'
-import user_profile_edit from '@/pages/user/profile/edit'
 import user_verify from '@/pages/user/verify'
 import user_register from '@/pages/user/register'
 import user_registered from '@/pages/user/registered'
-import user_webApp_update from '@/pages/user/web-app/update'
-import user_webContent_create from '@/pages/user/web-content/create'
-import user_webContent_update from '@/pages/user/web-content/update'
+
+import user_webApp_update from '@/pages/web-app/update'
+import user_webContent_create from '@/pages/web-content/create'
+import user_webContent_update from '@/pages/web-content/update'
 // Not-Found //
 import NotFound from '@/pages/404'
 
@@ -117,8 +116,8 @@ const router = new Router ({
 		// Dashboard //
 		{
 			path: '/user/dashboard/:webapp/:tab/:sort/:limit/:page',
-			name: 'user_dashboard',
-			component: user_dashboard,
+			name: 'dashboard',
+			component: dashboard,
 			meta: {
 				auth: true,
 				title: 'Dashboard'
@@ -158,24 +157,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Reset Password'
-			}
-		},
-		{
-			path: '/user/profile',
-			name: 'user_profile',
-			component: user_profile,
-			meta: {
-				auth: true,
-				title: 'Your Profile'
-			}
-		},
-		{
-			path: '/user/profile/edit',
-			name: 'user_profile_edit',
-			component: user_profile_edit,
-			meta: {
-				auth: true,
-				title: 'Edit Your Profile'
 			}
 		},
 		{
@@ -251,7 +232,7 @@ const router = new Router ({
 
 // [VUE-ROUTER-SET-TITLE] //
 router.beforeEach((to, from, next) => {
-	document.title = to.meta.title + ' - ' + companyInfo.name
+	document.title = to.meta.title + ' - RpTide'
 	next()
 })
 

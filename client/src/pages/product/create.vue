@@ -122,7 +122,7 @@
 
 <script>
 	import Alert from '@/components/inform/Alert'
-	import ProductService from '@/services/user/ProductService'
+	import ProductService from '@/services/ProductService'
 	import router from '@/router'
 
 	export default {
@@ -158,7 +158,7 @@
 
 				if (this.resData.status) {
 					router.push({
-						name: 'user_dashboard',
+						name: 'dashboard',
 						params: {
 							tab: 'product',
 							sort: 0,

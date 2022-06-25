@@ -14,20 +14,18 @@ const rateLimiter = require('./s-rate-limiters')
 const s_socket = require('./s-socket')
 
 const a_ = require('./s-route/api')
+const a_apiSubscription = require('./s-route/api/user/api-subscription')
+const a_product = require('./s-route/api/user/product')
+const a_productOption = require('./s-route/api/user/product-option')
 const a_socket = require('./s-route/api/socket')
 const a_user = require('./s-route/api/user')
-const a_user_apiSubscription = require('./s-route/api/user/api-subscription')
-const a_user_product = require('./s-route/api/user/product')
-const a_user_productOption = require('./s-route/api/user/product-option')
-const a_user_webApp = require('./s-route/api/user/web-app')
-const a_user_webContent = require('./s-route/api/user/web-content')
+const a_webApp = require('./s-route/api/user/web-app')
+const a_webContent = require('./s-route/api/user/web-content')
 
 const p_ = require ('./s-route/pages')
+const p_dashboard = require('./s-route/pages/dashboard')
 const p_product_read = require('./s-route/pages/product/read')
 const p_user = require('./s-route/pages/user')
-const p_user_dashboard = require('./s-route/pages/user/dashboard')
-const p_user_profile = require('./s-route/pages/user/profile')
-const p_user_profile_edit = require('./s-route/pages/user/profile/edit')
 
 
 // [EXPRESS] //
@@ -88,20 +86,18 @@ app.use(rateLimiter.global)
 app.use('/api', a_)
 app.use('/api/socket', a_socket)
 app.use('/api/user', Functionality.user(), a_user)
-app.use('/api/user/api-subscription', a_user_apiSubscription)
-app.use('/api/user/product', Functionality.user(), a_user_product)
-app.use('/api/user/product-option', Functionality.user(), a_user_productOption)
-app.use('/api/user/web-app', a_user_webApp)
-app.use('/api/user/web-content', a_user_webContent)
+app.use('/api/api-subscription', a_apiSubscription)
+app.use('/api/product', Functionality.user(), a_product)
+app.use('/api/product-option', Functionality.user(), a_productOption)
+app.use('/api/web-app', a_webApp)
+app.use('/api/web-content', a_webContent)
 
 
 // [USE][ROUTE][PAGES] //
 app.use('/pages', p_)
 app.use('/pages/product/read', p_product_read)
 app.use('/pages/user', p_user)
-app.use('/pages/user/dashboard', p_user_dashboard)
-app.use('/pages/user/profile', p_user_profile)
-app.use('/pages/user/profile/edit', p_user_profile_edit)
+app.use('/pages/dashboard', p_dashboard)
 
 
 // [HEROKU] Set Static Folder for Heroku //

@@ -108,7 +108,7 @@
 <script>
 	import VueCreditCard from '@fracto/vue-credit-card'
 
-	import SubscriptionService from '../../../services/user/ApiSubscriptionService'
+	import SubscriptionService from '@/services/ApiSubscriptionService'
 
 	export default {
 		props: {
