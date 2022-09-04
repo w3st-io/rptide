@@ -14,6 +14,14 @@ const location = '/pages/dashboard/index';
 
 
 module.exports = {
+	/**
+	 * @notice Dashboard Page Handler
+	 * @param {string} req.params.tab
+	 * @param {string} req.params.sort
+	 * @param {string} req.params.page
+	 * @param {string} req.params.limit
+	 * @returns {object} Object that is requested
+	 */
 	index: async ({ req }) => {
 		try {
 			if (
