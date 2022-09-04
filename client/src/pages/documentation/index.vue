@@ -138,7 +138,6 @@
 				</BCol>
 
 				<BCol cols="12" md="6">
-					<p v-html="pData.productSummary"></p>
 				</BCol>
 			</BRow>
 
@@ -238,9 +237,6 @@
 	import VueJsonPretty from 'vue-json-pretty'
 	import 'vue-json-pretty/lib/styles.css'
 
-	// [IMPORT] Personal //
-	import pData from '../../defaults/pages/documentation'
-
 	export default {
 		components: {
 			VueJsonPretty,
@@ -248,7 +244,6 @@
 
 		data() {
 			return {
-				pData: pData,
 
 				productExample: {
 					executed: true,

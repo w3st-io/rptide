@@ -4,9 +4,9 @@
 			<nav class="px-0 navbar navbar-expand-lg navbar-dark">
 				<!-- Logo -->
 				<RouterLink to="/" class="navbar-brand">
-					<mark
-						class="h4 px-5 py-1 font-weight-bold bg-primary text-dark rounded"
-					>RpTide</mark>
+					<h4
+						class="font-weight-bold text-primary"
+					>RpTide</h4>
 				</RouterLink>
 
 				<!-- Hidden Menu Button -->

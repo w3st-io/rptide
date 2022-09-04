@@ -92,7 +92,7 @@
 			return {
 				// [AUTH-AXIOS]
 				authAxios: axios.create({
-					baseURL: '/pages/users/index',
+					baseURL: '/pages/user/index',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`
 					}
@@ -123,7 +123,8 @@
 			}
 		},
 
-		components: {API,
+		components: {
+			API,
 			MyCard,
 			TierSelector,
 		},
@@ -132,8 +133,10 @@
 			async getPageData() {
 				this.loading = true
 
-				this.resData = (await this.authAxios.get('/')).data
-
+				this.resData = (
+					await this.authAxios.get(`/`)
+				).data
+				
 				if (this.resData.status) {
 					this.data = this.resData
 					
