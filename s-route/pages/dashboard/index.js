@@ -16,7 +16,7 @@ const router = express.Router().use(cors());
 router.get(
 	'/index/:webapp/:tab/:sort/:limit/:page',
 	Auth.userToken(),
-	async (req, res) => { res.send(await rh.index({ res })); }
+	async (req, res) => { res.send(await rh.index({ req })); }
 );
 
 

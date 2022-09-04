@@ -17,10 +17,10 @@ module.exports = {
 	index: async ({ req }) => {
 		try {
 			if (
-				validator.isAscii(req.params.tab) ||
-				validator.isAscii(req.params.sort) ||
-				validator.isAscii(req.params.page) ||
-				validator.isAscii(req.params.limit)
+				!validator.isAscii(req.params.tab) ||
+				!validator.isAscii(req.params.sort) ||
+				!validator.isAscii(req.params.page) ||
+				!validator.isAscii(req.params.limit)
 			) {
 				return {
 					executed: true,
