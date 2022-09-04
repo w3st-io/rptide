@@ -20,6 +20,11 @@ const location = '/user/index'
 
 
 module.exports = {
+	/**
+	 * @notice Update User
+	 * @param {string} req.body.img_url
+	 * @returns {object} Updated user
+	 */
 	update: async ({ req }) => {
 		try {
 			// [VALIDATE] //
@@ -50,7 +55,12 @@ module.exports = {
 		}
 	},
 
-
+	/**
+	 * @notice Login
+	 * @param {string} req.body.email Email tied to account
+	 * @param {string} req.body.password Password for account
+	 * @returns {string} Object containing token (JWT token)
+	 */
 	login: async ({ req }) => {
 		try {
 			// [VALIDATE] email //
