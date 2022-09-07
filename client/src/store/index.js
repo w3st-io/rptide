@@ -10,6 +10,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
+		node_env: "development",
+		
 		app: {
 			key: 0,
 		},

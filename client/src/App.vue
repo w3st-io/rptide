@@ -62,7 +62,10 @@
 
 				if (this.reqData.status) {
 					// [local-storage] //
-					localStorage.setItem('node_env', this.reqData.node_env)
+					localStorage.setItem('node_env', this.reqData.node_env);
+
+					// [STORE] Set the node_env
+					this.$store.state.node_env = this.reqData.node_env;
 				}
 
 				await UserService.s_checkIn()

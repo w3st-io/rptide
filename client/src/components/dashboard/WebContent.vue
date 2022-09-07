@@ -18,13 +18,17 @@
 			<BCol
 				v-for="(w,i) in webContents" :key="i"
 				cols="12" md="6" lg="4"
+				class="d-flex align-items-stretch"
 			>
-				<RouterLink :to="`/user/web-content/update/${w._id}`" class="text-decoration-none">
+				<RouterLink
+					:to="`/user/web-content/update/${w._id}`"
+					class="w-100 text-decoration-none"
+				>
 					<BCard
 						bg-variant="dark"
 						text-variant="light"
 						border-variant="secondary"
-						class="mb-3 hover-card"
+						class="h-100 mb-3 hover-card"
 					>
 						<h5 class="text-primary">{{ w.name }}</h5>
 						<h6 lass="m-0">{{ w.createdTimeStamp }}</h6>
