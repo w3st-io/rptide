@@ -22,7 +22,6 @@
 					<BButton
 						v-if="$store.state.user"
 						variant="primary"
-						pill
 						class=""
 						@click="routerRedirect({ name: 'web-app' })"
 					>Web Apps</BButton>
@@ -74,10 +73,10 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import { MenuIcon } from 'vue-feather-icons';
 
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import SideMenu from '@/components/UI/SideMenu';
 	import Current from '../webApps/Current.vue';
 	import router from '@/router';

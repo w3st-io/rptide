@@ -1,24 +1,24 @@
-// [IMPORT] //
+// [IMPORT]
 import Vue from 'vue';
 import Router from 'vue-router';
 
 
-// [IMPORT] Personal (Ordered by path) //
-// Index //
+// [IMPORT] Personal (Ordered by path)
+// Index
 import index from '@/pages';
 // Dashboard //
 import dashboard from '@/pages/dashboard';
 
-// Documentation //
+// Documentation
 import documentation from '@/pages/documentation';
-// Email //
+// Email
 import emailSent from '@/pages/email-sent';
-// Product //
+// Product
 import product_create from '@/pages/product/create';
 import product_read from '@/pages/product/read';
-// Product Options //
+// Product Options
 import productOption_create from '@/pages/product-option/create';
-// User //
+// User
 import user from '@/pages/user';
 import user_login from '@/pages/user/login';
 import user_password_change from '@/pages/user/password/change';
@@ -27,25 +27,26 @@ import user_password_reset from '@/pages/user/password/reset';
 import user_verify from '@/pages/user/verify';
 import user_register from '@/pages/user/register';
 import user_registered from '@/pages/user/registered';
-
+// Web App
 import webApp from '@/pages/web-app';
-import user_webApp_update from '@/pages/web-app/update';
-import user_webContent_create from '@/pages/web-content/create';
-import user_webContent_update from '@/pages/web-content/update';
-// Not-Found //
+import webApp_update from '@/pages/web-app/update';
+// Web Content
+import webContent_create from '@/pages/web-content/create';
+import webContent_update from '@/pages/web-content/update';
+// Not-Found
 import NotFound from '@/pages/404';
 
 
-// [USE] //
+// [USE]
 Vue.use(Router);
 
 
-// [EXPORT] //
+// [EXPORT]
 const router = new Router ({
 	mode: 'history',
 
 	routes: [
-		// Index //
+		// Index
 		{
 			path: '/',
 			name: '/',
@@ -55,7 +56,7 @@ const router = new Router ({
 				title: 'Home'
 			}
 		},
-		// Documentation //
+		// Documentation
 		{
 			path: '/documentation',
 			name: 'documentation',
@@ -65,7 +66,7 @@ const router = new Router ({
 				title: 'Documentation'
 			}
 		},
-		// Email //
+		// Email
 		{
 			path: '/email-sent',
 			name: 'email-sent',
@@ -75,7 +76,7 @@ const router = new Router ({
 				title: 'Email Sent'
 			},
 		},
-		// Product //
+		// Product
 		{
 			path: '/product/create',
 			name: 'product_create',
@@ -94,7 +95,7 @@ const router = new Router ({
 				title: 'Product'
 			}
 		},
-		// Product Options //
+		// Product Options
 		{
 			path: '/product-option/create',
 			name: 'productOption_create',
@@ -104,7 +105,7 @@ const router = new Router ({
 				title: 'Create Product Option'
 			}
 		},
-		// User //
+		// User
 		{
 			path: '/user',
 			name: 'user',
@@ -114,7 +115,7 @@ const router = new Router ({
 				title: 'Your Account'
 			}
 		},
-		// Dashboard //
+		// Dashboard
 		{
 			path: '/dashboard/:webapp/:tab/:sort/:limit/:page',
 			name: 'dashboard',
@@ -199,31 +200,31 @@ const router = new Router ({
 		{
 			path: '/web-app/update/:webapp',
 			name: 'Web App Update',
-			component: user_webApp_update,
+			component: webApp_update,
 			meta: {
 				auth: true,
 				title: ''
 			}
 		},
 		{
-			path: '/user/web-content/create/:webapp',
+			path: '/web-content/create/:webapp',
 			name: 'Web Content Create',
-			component: user_webContent_create,
+			component: webContent_create,
 			meta: {
 				auth: true,
 				title: ''
 			}
 		},
 		{
-			path: '/user/web-content/update/:webcontent',
+			path: '/web-content/update/:webcontent',
 			name: 'Web Content Update',
-			component: user_webContent_update,
+			component: webContent_update,
 			meta: {
 				auth: true,
 				title: ''
 			}
 		},
-		// Not-Found //
+		// Not-Found
 		{
 			path: '/**',
 			name: 'not_found',
@@ -235,12 +236,12 @@ const router = new Router ({
 		},
 	],
 	
-	// [VUE-ROUTER] Scroll Behavior //
+	// [VUE-ROUTER] Scroll Behavior
 	scrollBehavior () { return { x: 0, y: 0 }; }
 });
 
 
-// [VUE-ROUTER-SET-TITLE] //
+// [VUE-ROUTER-SET-TITLE]
 router.beforeEach((to, from, next) => {
 	document.title = to.meta.title + ' - RpTide';
 	next();

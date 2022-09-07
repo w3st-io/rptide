@@ -6,7 +6,7 @@
 			</BCol>
 
 			<BCol cols="12" md="3">
-				<router-link :to="`/user/web-content/create/${webApp}`">
+				<router-link :to="`/web-content/create/${webApp}`">
 					<BButton
 						class="w-100 mb-3"
 						variant="success"
@@ -21,7 +21,7 @@
 				class="d-flex align-items-stretch"
 			>
 				<RouterLink
-					:to="`/user/web-content/update/${w._id}`"
+					:to="`/web-content/update/${w._id}`"
 					class="w-100 text-decoration-none"
 				>
 					<BCard
