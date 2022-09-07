@@ -29,7 +29,7 @@ async function checkIn() {
 			// user
 			store.state.user = data.user;
 			// webApps
-			store.state.dashboard.webApps = data.webApps;
+			store.state.webApps = data.webApps;
 			// app key
 			store.state.app.key++;
 		}

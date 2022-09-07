@@ -13,7 +13,7 @@
 		<option disabled value="">Choose a Web App</option>
 
 		<option
-			v-for="w in this.$store.state.dashboard.webApps"
+			v-for="w in this.$store.state.webApps"
 			:key="w._id"
 			:value="w._id"
 		>{{ w.name }}</option>

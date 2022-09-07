@@ -115,7 +115,7 @@
 					this.success = true
 
 					// [store] webApps //
-					this.$store.state.dashboard.webApps = this.resData.data.webApps
+					this.$store.state.webApps = this.resData.data.webApps
 
 					router.push({
 						name: 'dashboard',

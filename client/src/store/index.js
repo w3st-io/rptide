@@ -14,24 +14,19 @@ export default new Vuex.Store({
 			key: 0,
 		},
 
-		dashboard: {
-			webApps: [],
-			webApp: null,
-		},
-		
 		loading: false,
 
+		socket: localStorage.node_env == 'development' ? io('localhost:5000') : io(),
+		
 		show: {
 			NavBar: true,
 			Footer: true,
 			SideMenu: false,
 		},
-
-		user: null,
-
-		workSpace: null,
 		
-		socket: localStorage.node_env == 'development' ? io('localhost:5000') : io()
+		webApps: [],
+		
+		user: null,
 	},
 
 	// Syncrous //

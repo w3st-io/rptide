@@ -54,7 +54,7 @@
 					})
 
 					if (this.resData.data.status) {
-						this.$store.state.dashboard.webApps = this.resData.data.webApps
+						this.$store.state.webApps = this.resData.data.webApps
 					}
 					else {
 						this.error = this.resData.data.message
