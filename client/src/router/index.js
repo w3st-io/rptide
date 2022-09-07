@@ -1,42 +1,42 @@
 // [IMPORT] //
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
 
 // [IMPORT] Personal (Ordered by path) //
 // Index //
-import index from '@/pages'
+import index from '@/pages';
 // Dashboard //
-import dashboard from '@/pages/dashboard'
+import dashboard from '@/pages/dashboard';
 
 // Documentation //
-import documentation from '@/pages/documentation'
+import documentation from '@/pages/documentation';
 // Email //
-import emailSent from '@/pages/email-sent'
+import emailSent from '@/pages/email-sent';
 // Product //
-import product_create from '@/pages/product/create'
-import product_read from '@/pages/product/read'
+import product_create from '@/pages/product/create';
+import product_read from '@/pages/product/read';
 // Product Options //
-import productOption_create from '@/pages/product-option/create'
+import productOption_create from '@/pages/product-option/create';
 // User //
-import user from '@/pages/user'
-import user_login from '@/pages/user/login'
-import user_password_change from '@/pages/user/password/change'
-import user_password_request from '@/pages/user/password/request'
-import user_password_reset from '@/pages/user/password/reset'
-import user_verify from '@/pages/user/verify'
-import user_register from '@/pages/user/register'
-import user_registered from '@/pages/user/registered'
+import user from '@/pages/user';
+import user_login from '@/pages/user/login';
+import user_password_change from '@/pages/user/password/change';
+import user_password_request from '@/pages/user/password/request';
+import user_password_reset from '@/pages/user/password/reset';
+import user_verify from '@/pages/user/verify';
+import user_register from '@/pages/user/register';
+import user_registered from '@/pages/user/registered';
 
-import user_webApp_update from '@/pages/web-app/update'
-import user_webContent_create from '@/pages/web-content/create'
-import user_webContent_update from '@/pages/web-content/update'
+import user_webApp_update from '@/pages/web-app/update';
+import user_webContent_create from '@/pages/web-content/create';
+import user_webContent_update from '@/pages/web-content/update';
 // Not-Found //
-import NotFound from '@/pages/404'
+import NotFound from '@/pages/404';
 
 
 // [USE] //
-Vue.use(Router)
+Vue.use(Router);
 
 
 // [EXPORT] //
@@ -115,7 +115,7 @@ const router = new Router ({
 		},
 		// Dashboard //
 		{
-			path: '/user/dashboard/:webapp/:tab/:sort/:limit/:page',
+			path: '/dashboard/:webapp/:tab/:sort/:limit/:page',
 			name: 'dashboard',
 			component: dashboard,
 			meta: {
@@ -226,15 +226,15 @@ const router = new Router ({
 	],
 	
 	// [VUE-ROUTER] Scroll Behavior //
-	scrollBehavior () { return { x: 0, y: 0 } }
-})
+	scrollBehavior () { return { x: 0, y: 0 }; }
+});
 
 
 // [VUE-ROUTER-SET-TITLE] //
 router.beforeEach((to, from, next) => {
-	document.title = to.meta.title + ' - RpTide'
-	next()
+	document.title = to.meta.title + ' - RpTide';
+	next();
 })
 
 
-export default router
+export default router;

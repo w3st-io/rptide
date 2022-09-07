@@ -52,16 +52,16 @@
 
 <script>
 	// [IMPORT] //
-	import axios from 'axios'
-	import validator from 'validator'
+	import axios from 'axios';
+	import validator from 'validator';
 
 	// [IMPORT] Personal //
-	import Left           from '../../components/dashboard/Left'
-	import Product        from '../../components/dashboard/Product'
-	import ProductOptions from '../../components/dashboard/ProductOptions'
-	import WebContent     from '../../components/dashboard/WebContent'
-	import WebApp         from '../../components/dashboard/WebApp'
-	import router         from '../../router'
+	import Left           from '../../components/dashboard/Left';
+	import Product        from '../../components/dashboard/Product';
+	import ProductOptions from '../../components/dashboard/ProductOptions';
+	import WebContent     from '../../components/dashboard/WebContent';
+	import WebApp         from '../../components/dashboard/WebApp';
+	import router         from '../../router';
 
 	export default {
 		data() {
@@ -97,7 +97,7 @@
 
 		methods: {
 			async getPageData() {
-				this.loading = true
+				this.loading = true;
 
 				this.resData = (
 					await this.authAxios.get(`
@@ -107,16 +107,16 @@
 						/${this.$route.params.limit}
 						/${this.$route.params.page}
 					`)
-				).data
+				).data;
 
 				if (this.resData.status) {
 					// [PRODUCTS] //
 					if (this.resData.products) {
-						this.pageData.products = this.resData.products
+						this.pageData.products = this.resData.products;
 
 						this.pageData.productsLimit = this.resData.limit.product[
 							this.resData.apiSubscriptionTier
-						]
+						];
 					}
 					
 					// [PRODUCT-OPTION] //
@@ -125,12 +125,12 @@
 
 						this.pageData.productOptionsLimit = this.resData.limit.productOptions[
 							this.resData.apiSubscriptionTier
-						]
+						];
 					}
 				}
-				else { this.error = this.resData.message }
+				else { this.error = this.resData.message; }
 				
-				this.loading = false
+				this.loading = false;
 			},
 
 			async switchTab(tab) {

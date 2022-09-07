@@ -1,11 +1,11 @@
 <template>
 	<div id="nav-bar" class="pb-3 border-bottom border-primary bg-dark">
 		<BContainer>
-			<nav class="px-0 navbar navbar-expand-lg navbar-dark">
+			<BNavbar class="m-0 px-0 navbar-expand-lg navbar-dark">
 				<!-- Logo -->
 				<RouterLink to="/" class="navbar-brand">
 					<h4
-						class="font-weight-bold text-primary"
+						class="m-0 font-weight-bold text-primary"
 					>RpTide</h4>
 				</RouterLink>
 
@@ -15,9 +15,9 @@
 					@click="toggle()"
 					class="d-block d-md-none"
 				><MenuIcon class="text-primary" /></BButton>
-			</nav>
+			</BNavbar>
 	
-			<BNavbar class="px-0 py-2">
+			<BNavbar class="m-0 px-0 py-2">
 				<div class="mr-auto">
 					<Current class="" />
 				</div>
