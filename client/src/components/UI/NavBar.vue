@@ -1,5 +1,5 @@
 <template>
-	<div id="nav-bar" class="py-3 border-bottom border-primary bg-dark">
+	<div id="nav-bar" class="pb-3 border-bottom border-primary bg-dark">
 		<BContainer>
 			<nav class="px-0 navbar navbar-expand-lg navbar-dark">
 				<!-- Logo -->
@@ -19,6 +19,10 @@
 	
 			<BNavbar class="px-0 py-2">
 				<div class="mr-auto">
+					<Current class="" />
+				</div>
+
+				<div class="ml-auto">
 					<BButton
 						v-if="$store.state.user"
 						variant="primary"
@@ -26,9 +30,7 @@
 						class="px-3"
 						@click="routerRedirect(routerParams.dashboard)"
 					>Dashboard</BButton>
-				</div>
 
-				<div>
 					<BButton
 						v-if="$store.state.user"
 						variant="outline-primary"
@@ -64,16 +66,18 @@
 
 <script>
 	// [IMPORT] //
-	import { MenuIcon } from 'vue-feather-icons'
+	import { MenuIcon } from 'vue-feather-icons';
 
 	// [IMPORT] Personal //
-	import SideMenu from '@/components/UI/SideMenu'
-	import router from '@/router'
+	import SideMenu from '@/components/UI/SideMenu';
+	import Current from '../webApps/Current.vue';
+	import router from '@/router';
 
 	export default {
 		components: {
 			MenuIcon,
 			SideMenu,
+			Current
 		},
 
 		data() {

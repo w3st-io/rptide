@@ -3,13 +3,6 @@
 	<!-- [TAB-BUTTON] Web App -->
 	<BRow class="pt-3">
 		<BCol cols="12">
-			<h5 class="text-center text-primary">Selected Web App</h5>
-			<!-- Dropdown Select -->
-			<Current class="mb-2" />
-			<h6 class="mb-3 small text-center text-muted">
-				{{ $store.state.dashboard.webApp }}
-			</h6>
-
 			<BButton
 				variant="none"
 				pill
@@ -70,17 +63,11 @@
 </template>
 
 <script>
-import Current from '../../components/webApps/Current'
-
-export default {
-	components: {
-		Current
-	},
-
-	methods: {
-		switchTab(tab) {
-			this.$emit('switchTab', tab)
+	export default {
+		methods: {
+			switchTab(tab) {
+				this.$emit('switchTab', tab);
+			},
 		},
-	},
-}
+	}
 </script>
