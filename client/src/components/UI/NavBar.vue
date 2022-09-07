@@ -18,49 +18,50 @@
 			</BNavbar>
 	
 			<BNavbar class="m-0 px-0 py-2">
+				<div class="mr-2">
+					<BButton
+						v-if="$store.state.user"
+						variant="primary"
+						pill
+						class=""
+						@click="routerRedirect({ name: 'web-app' })"
+					>Web Apps</BButton>
+				</div>
+
 				<div class="mr-auto">
 					<Current class="" />
 				</div>
 
-				<div class="ml-auto">
+				<!-- Logged In -->
+				<div v-if="$store.state.user" class="ml-auto">
 					<BButton
-						v-if="$store.state.user"
 						variant="primary"
 						pill
-						class="ml-2 px-3"
-						@click="routerRedirect({ name: 'web-app' })"
-					>Web Apps</BButton>
-
-					<BButton
-						v-if="$store.state.user"
-						variant="primary"
-						pill
-						class="ml-2 x-3"
+						class="ml-2"
 						@click="routerRedirect(routerParams.dashboard)"
 					>Dashboard</BButton>
 
 					<BButton
-						v-if="$store.state.user"
 						variant="outline-primary"
 						pill
-						class="ml-2 px-3"
+						class="ml-2"
 						@click="routerRedirect({ name: 'user' })"
 					>Your Account</BButton>
+				</div>
 
-					<!-- NOT Logged In -->
+				<!-- ! Logged In -->
+				<div v-if="!$store.state.user" class="ml-auto">
 					<BButton
-						v-if="!$store.state.user"
 						variant="outline-secondary"
 						pill
-						class="px-3"
+						class="ml-2"
 						@click="routerRedirect({ name: 'user_login' })"
 					>Login</BButton>
 					
 					<BButton
-						v-if="!$store.state.user"
 						variant="outline-primary"
 						pill
-						class="ml-2 px-3"
+						class="ml-2"
 						@click="routerRedirect({ name: 'user_register' })"
 					>Register</BButton>
 				</div>

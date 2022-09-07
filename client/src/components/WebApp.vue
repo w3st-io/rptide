@@ -1,8 +1,9 @@
 <template>
-<div>
-	<div class="py-5">
-		<BCard bg-variant="dark" border-variant="secondary" no-body class="mb-5">
-			<BCardHeader class="border-secondary">
+	<div>
+		<h3 class="mb-5 text-center text-primary">Web Apps</h3>
+		
+		<BCard bg-variant="dark" no-body>
+			<BCardHeader>
 				<h4 class="m-0 text-primary">Create Web App</h4>
 			</BCardHeader>
 
@@ -11,8 +12,8 @@
 			</BCardBody>
 		</BCard>
 
-		<BCard bg-variant="dark" border-variant="secondary" no-body class="mb-5">
-			<BCardHeader class="border-secondary">
+		<BCard bg-variant="dark" no-body>
+			<BCardHeader>
 				<h4 class="m-0 text-primary">Your Web Apps</h4>
 			</BCardHeader>
 
@@ -21,7 +22,6 @@
 			</BCardBody>
 		</BCard>
 	</div>
-</div>
 </template>
 
 <script>
@@ -35,3 +35,16 @@
 		},
 	}
 </script>
+
+<style lang="scss" scoped>
+	// [IMPORT] Personal //
+	@import 'src/assets/styles/style.scss';
+
+	.card {
+		@extend .mb-5;
+		@extend .mx-auto;
+		@extend .shadow;
+
+		max-width: 800px
+	}
+</style>

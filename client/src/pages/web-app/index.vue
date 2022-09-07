@@ -1,5 +1,5 @@
 <template>
-	<BContainer>
+	<BContainer class="py-5">
 		<WebApp />
 	</BContainer>
 </template>
