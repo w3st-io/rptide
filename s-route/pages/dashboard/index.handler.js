@@ -1,12 +1,12 @@
 // [REQUIRE] //
-const validator = require('validator')
+const validator = require('validator');
 
 
 // [REQUIRE] Personal //
-const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection')
-const ProductCollection = require('../../../s-collections/ProductCollection')
-const config_const = require('../../../s-config/const')
-const h_apiSubscription = require('../../api/user/api-subscription.handler')
+const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection');
+const ProductCollection = require('../../../s-collections/ProductCollection');
+const config_const = require('../../../s-config/const');
+const h_apiSubscription = require('../../api/user/api-subscription.handler');
 
 
 // [CONST] //
@@ -68,10 +68,10 @@ module.exports = {
 				case 'product':
 					const productsObj = await ProductCollection.c_readAll_sorted_byUser({
 						user_id: req.user_decoded._id,
-					})
+					});
 
-					productsObj.limit = config_const.limit
-					productsObj.apiSubscriptionTier = apiSubscriptionTier
+					productsObj.limit = config_const.limit;
+					productsObj.apiSubscriptionTier = apiSubscriptionTier;
 
 					return productsObj;
 				break;
