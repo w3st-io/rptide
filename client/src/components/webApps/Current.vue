@@ -52,7 +52,7 @@
 					}
 				});
 				
-				this.$store.state.app.key++;
+				this.$store.state.key++;
 			},
 		},
 	}

@@ -31,7 +31,7 @@ async function checkIn() {
 			// webApps
 			store.state.webApps = data.webApps;
 			// app key
-			store.state.app.key++;
+			store.state.key++;
 		}
 	}
 }
@@ -50,7 +50,7 @@ function checkOut() {
 	// [STORE][SOCKET][EMIT] //
 	store.state.socket.emit('user-logout')
 
-	store.state.app.key++
+	store.state.key++
 }
 
 

@@ -10,9 +10,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		app: {
-			key: 0,
-		},
+		key: 0,
 
 		loading: false,
 
@@ -29,14 +27,14 @@ export default new Vuex.Store({
 		user: null,
 	},
 
-	// Syncrous //
+	// Syncrous
 	mutations: {
-		isLoading(state) { state.loading = true },
+		isLoading(state) { state.loading = true; },
 
-		isNotLoading(state) { state.loading = false },
+		isNotLoading(state) { state.loading = false; },
 	},
 
-	// Asyncronous //
+	// Asyncronous
 	actions: {},
 
 	getters: {},
