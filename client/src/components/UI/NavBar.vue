@@ -29,6 +29,7 @@
 
 				<div class="mr-auto">
 					<Current class="" />
+					{{ $store.state.dashboard.webApp }}
 				</div>
 
 				<!-- Logged In -->

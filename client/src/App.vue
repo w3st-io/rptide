@@ -6,13 +6,6 @@
 		<!-- Admin Bottom Bar -->
 		<AdminNavBar v-if="false" />
 
-		<!-- Floating Pop Up Banner -->
-		<PopUpBanner
-			v-if="message"
-			:message="message"
-			BGColor="info"
-		/>
-
 		<!-- Router -->
 		<RouterView
 			v-if="!this.$store.state.loading"
@@ -26,7 +19,6 @@
 
 <script>
 	// [IMPORT] Personal //
-	import PopUpBanner from './components/inform/PopUpBanner';
 	import AdminNavBar from './components/UI/AdminNavBar';
 	import Footer      from './components/UI/Footer';
 	import NavBar      from './components/UI/NavBar';
@@ -38,7 +30,6 @@
 		name: 'App',
 
 		components: {
-			PopUpBanner,
 			AdminNavBar,
 			Footer,
 			NavBar
@@ -47,7 +38,6 @@
 		data() {
 			return {
 				reqData: {},
-				message: '',
 			};
 		},
 
