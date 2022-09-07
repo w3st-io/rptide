@@ -27,7 +27,15 @@
 						v-if="$store.state.user"
 						variant="primary"
 						pill
-						class="px-3"
+						class="ml-2 px-3"
+						@click="routerRedirect({ name: 'web-app' })"
+					>Web Apps</BButton>
+
+					<BButton
+						v-if="$store.state.user"
+						variant="primary"
+						pill
+						class="ml-2 x-3"
 						@click="routerRedirect(routerParams.dashboard)"
 					>Dashboard</BButton>
 
@@ -92,7 +100,7 @@
 							limit: 5,
 							page: 1,
 						}
-					}
+					},
 				}
 			}
 		},

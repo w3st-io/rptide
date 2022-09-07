@@ -15,11 +15,6 @@
 				cols="9" md="10"
 				class="bg-dark right-content"
 			>
-				<!-- [TAB] Web App -->
-				<WebApp
-					v-if="$route.params.tab == 'web-app'"
-				/>
-
 				<!-- [TAB] Product Options -->
 				<WebContent
 					v-if="$route.params.tab == 'web-content'"
@@ -60,7 +55,6 @@
 	import Product        from '../../components/dashboard/Product';
 	import ProductOptions from '../../components/dashboard/ProductOptions';
 	import WebContent     from '../../components/dashboard/WebContent';
-	import WebApp         from '../../components/dashboard/WebApp';
 	import router         from '../../router';
 
 	export default {
@@ -91,7 +85,6 @@
 			Left,
 			Product,
 			ProductOptions,
-			WebApp,
 			WebContent,
 		},
 

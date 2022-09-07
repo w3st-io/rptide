@@ -49,14 +49,6 @@ module.exports = {
 			});
 
 			switch (req.params.tab) {
-				case 'web-app':
-					return {
-						executed: true,
-						status: true,
-						location: location,
-					};
-				break
-
 				case 'api':
 					return {
 						executed: true,

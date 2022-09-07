@@ -1,26 +1,7 @@
 <template>
 <div>
-	<!-- [TAB-BUTTON] Web App -->
-	<BRow class="pt-3">
-		<BCol cols="12">
-			<BButton
-				variant="none"
-				pill
-				size="lg"
-				class="w-100"
-				:class="{
-					'btn-primary': $route.params.tab == 'web-app',
-					'btn-outline-primary': $route.params.tab != 'web-app',
-				}"
-				@click="switchTab('web-app')"
-			>Web Apps</BButton>
-			
-			<hr class="border-secondary">
-		</BCol>
-	</BRow>
-
 	<!-- [TAB-BUTTON] Content -->
-	<div class="pb-3">
+	<div class="py-3">
 		<BButton
 			variant="none"
 			size="lg"

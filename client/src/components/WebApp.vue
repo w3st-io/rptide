@@ -25,8 +25,8 @@
 </template>
 
 <script>
-	import Create from '../webApps/Create.vue'
-	import Read from '../webApps/Read.vue'
+	import Create from './webApps/Create.vue';
+	import Read from './webApps/Read.vue';
 
 	export default {
 		components: {

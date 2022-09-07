@@ -28,6 +28,7 @@ import user_verify from '@/pages/user/verify';
 import user_register from '@/pages/user/register';
 import user_registered from '@/pages/user/registered';
 
+import webApp from '@/pages/web-app';
 import user_webApp_update from '@/pages/web-app/update';
 import user_webContent_create from '@/pages/web-content/create';
 import user_webContent_update from '@/pages/web-content/update';
@@ -187,7 +188,16 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/user/web-app/update/:webapp',
+			path: '/web-app',
+			name: 'web-app',
+			component: webApp,
+			meta: {
+				auth: true,
+				title: 'Web Apps'
+			}
+		},
+		{
+			path: '/web-app/update/:webapp',
 			name: 'Web App Update',
 			component: user_webApp_update,
 			meta: {
