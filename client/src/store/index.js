@@ -1,11 +1,11 @@
-// [IMPORT] //
-import io from 'socket.io-client'
-import Vue from 'vue'
-import Vuex from 'vuex'
+// [IMPORT]
+import io from 'socket.io-client';
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 
-// [USE] //
-Vue.use(Vuex)
+// [USE]
+Vue.use(Vuex);
 
 
 export default new Vuex.Store({
@@ -29,10 +29,7 @@ export default new Vuex.Store({
 
 		user: null,
 
-		admin: {
-			logged: false,
-			decoded: {},
-		},
+		workSpace: null,
 		
 		socket: localStorage.node_env == 'development' ? io('localhost:5000') : io()
 	},

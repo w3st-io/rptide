@@ -18,7 +18,7 @@
 				<!-- [TAB] Product Options -->
 				<WebContent
 					v-if="$route.params.tab == 'web-content'"
-					:webApp="$store.state.dashboard.webApp"
+					:webApp="$store.state.user.workspace.selectedWebApp"
 
 				/>
 				
@@ -94,7 +94,7 @@
 
 				this.resData = (
 					await this.authAxios.get(`
-						/${localStorage.selectedWebApp}
+						/${this.$store.state.user.workspace.selectedWebApp}
 						/${this.$route.params.tab}
 						/${this.$route.params.sort}
 						/${this.$route.params.limit}
@@ -129,30 +129,20 @@
 			async switchTab(tab) {
 				this.error = ''
 
-				if (validator.isMongoId(this.$store.state.dashboard.webApp)) {
-					router.push({
-						name: 'dashboard',
-						params: {
-							webapp: localStorage.selectedWebApp,
-							tab: tab,
-							sort: this.$route.params.sort,
-							limit: this.$route.params.limit,
-							page: this.$route.params.page
-						},
-					})
+				if (!validator.isMongoId(this.$store.state.user.workspace.selectedWebApp)) {
+					router.push({ name: 'web-app' });
 				}
-				else {
-					router.push({
-						name: 'dashboard',
-						params: {
-							webapp: 'web-app',
-							tab: tab,
-							sort: this.$route.params.sort,
-							limit: this.$route.params.limit,
-							page: this.$route.params.page
-						},
-					})
-				}
+				
+				router.push({
+					name: 'dashboard',
+					params: {
+						webapp: this.$store.state.user.workspace.selectedWebApp,
+						tab: tab,
+						sort: this.$route.params.sort,
+						limit: this.$route.params.limit,
+						page: this.$route.params.page
+					},
+				});
 
 				await this.getPageData()
 			},
@@ -163,9 +153,7 @@
 
 			if (this.$store.state.user.verified == false) { router.push('/user') }
 
-			if (this.$store.state.dashboard.webApp == null) { router.push('/web-app') }
-
-			if (!validator.isMongoId(this.$store.state.dashboard.webApp)) {
+			if (!validator.isMongoId(this.$store.state.user.workspace.selectedWebApp)) {
 				await this.switchTab('web-app')
 			}
 

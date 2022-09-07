@@ -98,6 +98,14 @@ module.exports = mongoose.model(
 
 		},
 
+		workspace: {
+			selectedWebApp: {
+				type: String,
+				default: '',
+				maxlength: 50,
+			},
+		},
+
 		createdAt: {
 			type: Date,
 			default: Date.now,

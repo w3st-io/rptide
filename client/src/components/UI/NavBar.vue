@@ -35,13 +35,12 @@
 				</BCol>
 
 				<BCol cols="12" md="6" class="text-right">
-					<!-- Logged In -->
 					<div v-if="$store.state.user != null">
 						<BButton
 							variant="primary"
 							pill
 							class="ml-2"
-							@click="routerRedirect(routerParams.dashboard)"
+							@click="routerRedirect(dashboard)"
 						>Dashboard</BButton>
 
 						<BButton
@@ -95,25 +94,27 @@
 
 		data() {
 			return {
-				routerParams: {
-					dashboard: {
-						name: 'dashboard',
-						params: {
-							webapp: localStorage.selectedWebApp,
-							tab: 'web-content',
-							sort: 0,
-							limit: 5,
-							page: 1,
-						}
-					},
-				}
+				dashboard: {
+					name: 'dashboard',
+					params: {
+						webapp: this.$store.state.user.workspace.selectedWebApp,
+						tab: 'web-content',
+						sort: 0,
+						limit: 5,
+						page: 1,
+					}
+				},
 			}
 		},
 
 		methods: {
-			routerRedirect(params) { router.push(params) },
+			routerRedirect(params) {
+				router.push(params);
+			},
 
-			toggle() { this.$store.state.show.SideMenu = !this.$store.state.show.SideMenu },
+			toggle() {
+				this.$store.state.show.SideMenu = !this.$store.state.show.SideMenu;
+			},
 		},
 	}
 </script>

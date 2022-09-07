@@ -22,6 +22,15 @@ router.post(
 )
 
 
+router.post(
+	'/update-workspace-selected-web-app',
+	Auth.userToken(),
+	async (req, res) => {
+		res.send(await rh.updateWorkspaceSelectedWebApp({ req }));
+	}
+),
+
+
 /******************* [LOGIN/REGISTRATION] *******************/
 // [LOGIN] //
 router.post(

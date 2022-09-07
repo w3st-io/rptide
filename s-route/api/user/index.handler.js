@@ -1,18 +1,19 @@
 // [REQUIRE] //
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const validator = require('validator')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const validator = require('validator');
 
 
 // [REQUIRE] Personal //
-const api_stripe = require('../../../s-api/stripe')
-const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection')
-const UserCollection = require('../../../s-collections/UserCollection')
-const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection')
-const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
-const config = require('../../../s-config')
-const mailerUtil = require('../../../s-utils/mailerUtil')
-const WebAppModel = require('../../../s-models/WebAppModel')
+const api_stripe = require('../../../s-api/stripe');
+const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection');
+const UserCollection = require('../../../s-collections/UserCollection');
+const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection');
+const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection');
+const config = require('../../../s-config');
+const mailerUtil = require('../../../s-utils/mailerUtil');
+const UserModel = require('../../../s-models/UserModel');
+const WebAppModel = require('../../../s-models/WebAppModel');
 
 
 // [INIT] //
@@ -56,11 +57,32 @@ module.exports = {
 	},
 
 	/**
+	 * @notice Update user.workspace.selectedWebApp
+	 * @param {string} req.body.webApp webApp to be updated too
+	 */
+	updateWorkspaceSelectedWebApp: async ({ req }) => {
+		// [UPDATE] Password for User //
+		const userObj = await UserModel.findOneAndUpdate(
+			{ _id: req.user_decoded._id },
+			{
+				$set: {
+					"workspace.selectedWebApp": req.body.webApp
+				}
+			},
+			{ returnOriginal: false }
+		)
+
+		console.log(userObj.workspace);
+
+		return userObj
+	},
+
+	/**
 	 * @notice Login
 	 * @param {string} req.body.email Email tied to account
 	 * @param {string} req.body.password Password for account
 	 * @returns {string} Object containing token (JWT token)
-	 */
+	*/
 	login: async ({ req }) => {
 		try {
 			// [VALIDATE] email //
@@ -73,7 +95,7 @@ module.exports = {
 					status: false,
 					location: `${location}/login:`,
 					message: `Invalid email`,
-				}
+				};
 			}
 				
 			// [VALIDATE] password //
@@ -86,11 +108,11 @@ module.exports = {
 					status: false,
 					location: `${location}/login:`,
 					message: `Invalid password`,
-				}
+				};
 			}
 
 			// [READ][User] Get user by email //
-			const userObj = await UserCollection.c_read_byEmail(req.body.email)
+			const userObj = await UserCollection.c_read_byEmail(req.body.email);
 
 			if (!userObj.user) {
 				return {
@@ -99,7 +121,7 @@ module.exports = {
 					location: `${location}/login:`,
 					message: `Invalid email or password`,
 					validation: false
-				}
+				};
 			}
 
 			// [VALIDATE-PASSWORD] //
@@ -110,7 +132,7 @@ module.exports = {
 					location: `${location}/login:`,
 					message: `Invalid email or password`,
 					validation: false,
-				}
+				};
 			}
 
 			const token = jwt.sign(
@@ -126,7 +148,7 @@ module.exports = {
 				{
 					expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000
 				}
-			)
+			);
 	
 			return {
 				executed: true,
@@ -134,7 +156,7 @@ module.exports = {
 				message: 'success',
 				validation: true,
 				token: token,
-			}
+			};
 		}
 		catch (err) {
 			return {
@@ -142,7 +164,7 @@ module.exports = {
 				status: false,
 				location: `${location}/login:`,
 				message: `${location}/login: Error --> ${err}`,
-			}
+			};
 		}
 	},
 

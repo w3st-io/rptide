@@ -30,12 +30,6 @@ async function checkIn() {
 			store.state.user = res.user;
 			// webApps
 			store.state.dashboard.webApps = res.webApps;
-			
-			// selectedWebApp
-			if (localStorage.selectedWebApp) {
-				store.state.dashboard.webApp = localStorage.selectedWebApp;
-			}
-
 			// app key
 			store.state.app.key++;
 		}
@@ -66,6 +60,20 @@ export default {
 	s_update: async function (img_url, bio) {
 		try {
 			return (await authAxios.post('/update', { img_url, bio })).data
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				message: `${location}: Error --> ${err}`
+			}
+		}
+	},
+
+	// [UPDATE] Auth Required //
+	s_update_workspaceSelectedWebApp: async function (webApp) {
+		try {
+			return (await authAxios.post('/update-workspace-selected-web-app', { webApp })).data
 		}
 		catch (err) {
 			return {
