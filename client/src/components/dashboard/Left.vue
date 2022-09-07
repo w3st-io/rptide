@@ -1,7 +1,6 @@
 <template>
-<div>
 	<!-- [TAB-BUTTON] Content -->
-	<div class="py-3">
+	<div>
 		<BButton
 			variant="none"
 			size="lg"
@@ -40,7 +39,6 @@
 			@click="switchTab('product-options')"
 		>Product Options</BButton>
 	</div>
-</div>
 </template>
 
 <script>

@@ -4,7 +4,7 @@
 			<!-- [LEFT] Navigation -->
 			<BCol
 				cols="3" md="2"
-				class="p-0 px-3 border-right border-left-0 border-primary bg-dark"
+				class="py-5 border-right border-left-0 border-primary bg-dark"
 			>
 				<Left @switchTab="(t) => switchTab(t)" />
 			</BCol>
