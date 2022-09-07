@@ -21,7 +21,7 @@ module.exports = {
 	 * @param {string} req.params.page
 	 * @param {string} req.params.limit
 	 * @returns {object} Object that is requested
-	 */
+	*/
 	index: async ({ req }) => {
 		try {
 			if (
