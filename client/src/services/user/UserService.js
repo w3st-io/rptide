@@ -1,13 +1,13 @@
 // [IMPORT] //
-import axios from 'axios'
+import axios from 'axios';
 
 
 // [IMPORT] Personal //
-import store from '@/store'
+import store from '@/store';
 
 
 // [INIT] //
-const location = '/client/src/services/UserService'
+const location = '/client/src/services/UserService';
 
 
 // [AUTH-AXIOS] //
@@ -16,20 +16,20 @@ const authAxios = axios.create({
 	headers: {
 		user_authorization: `Bearer ${localStorage.usertoken}`,
 	}
-})
+});
 
 
 async function checkIn() {
 	// [USER-LOGGED]
 	if (localStorage.usertoken) {
-		const res = (await authAxios.post('/check-in')).data;
+		const { data } = await authAxios.post('/check-in');
 		
-		if (res.status) {
+		if (data.status) {
 			// [STORE]
 			// user
-			store.state.user = res.user;
+			store.state.user = data.user;
 			// webApps
-			store.state.dashboard.webApps = res.webApps;
+			store.state.dashboard.webApps = data.webApps;
 			// app key
 			store.state.app.key++;
 		}
@@ -155,7 +155,9 @@ export default {
 
 
 	// [CHECK-IN] //
-	s_checkIn: async function () { await checkIn() },
+	s_checkIn: async function () {
+		await checkIn();
+	},
 	
 	
 	/******************* [VERIFY] *******************/

@@ -12,20 +12,21 @@
 				</BCol>
 
 				<BCol md="6" class="text-right">
-					<BButton
-						v-if="$store.state.user != null"
-						variant="outline-primary"
-						pill
-						class="mr-2"
-						@click="routerRedirect({ name: 'web-app' })"
-					>Web Apps</BButton>
+					<div v-if="$store.state.user != null">
+						<BButton
+							variant="outline-primary"
+							pill
+							class="mr-2"
+							@click="routerRedirect({ name: 'web-app' })"
+						>Web Apps</BButton>
 
-					<BButton
-						variant="outline-primary"
-						pill
-						class=""
-						@click="routerRedirect({ name: 'user' })"
-					>Your Account</BButton>
+						<BButton
+							variant="outline-primary"
+							pill
+							class=""
+							@click="routerRedirect({ name: 'user' })"
+						>Your Account</BButton>
+					</div>
 				</BCol>
 
 				<BCol v-if="0 != 0" md="6">
