@@ -110,16 +110,16 @@ export default {
 	},
 
 
-	// [LOGOUT] //
+	// [LOGOUT]
 	s_logout: async function () {
-		// [TOKEN] //
+		// [TOKEN]
 		localStorage.removeItem('usertoken')
 		
 		checkOut()
 	},
 
 
-	// [REGISTER] //
+	// [REGISTER]
 	s_register: async function ({ email, password }) {
 		try {
 			return (await authAxios.post('/register', { email, password })).data
