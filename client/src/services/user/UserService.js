@@ -21,21 +21,21 @@ const authAxios = axios.create({
 
 async function checkIn() {
 	if (localStorage.usertoken) {
-		const res = await authAxios.post('/check-in')
+		const res = await authAxios.post('/check-in');
 		
 		if (res.status) {
 			// [STORE] //
-			store.state.user = res.data.user
-			store.state.dashboard.webApps = res.data.webApps
+			store.state.user = res.data.user;
+			store.state.dashboard.webApps = res.data.webApps;
 
 			// Set web app
-			store.state.dashboard.webApp
+			store.state.dashboard.webApp;
 		
 			// [STORE][SOCKET] //
-			//store.state.socket.emit('user-login', store.state.user._id)
+			//store.state.socket.emit('user-login', store.state.user._id);
 
 			// app key
-			store.state.app.key++
+			store.state.app.key++;
 		}
 	}
 }

@@ -26,13 +26,13 @@
 
 <script>
 	// [IMPORT] Personal //
-	import PopUpBanner from './components/inform/PopUpBanner'
-	import AdminNavBar from './components/UI/AdminNavBar'
-	import Footer from './components/UI/Footer'
-	import NavBar from './components/UI/NavBar'
-	import Service from './services/Service'
-	import UserService from './services/user/UserService'
-	import Socket from './socket'
+	import PopUpBanner from './components/inform/PopUpBanner';
+	import AdminNavBar from './components/UI/AdminNavBar';
+	import Footer      from './components/UI/Footer';
+	import NavBar      from './components/UI/NavBar';
+	import Service     from './services/Service';
+	import UserService from './services/user/UserService';
+	import Socket      from './socket';
 
 	export default {
 		name: 'App',
@@ -48,17 +48,17 @@
 			return {
 				reqData: {},
 				message: '',
-			}
+			};
 		},
 
 		methods: {
 			async initializeApp() {
-				this.$store.state.loading = true 
+				this.$store.state.loading = true;
 			
 				// [store] //
-				this.$store.state.dashboard.webApp = localStorage.selectedWebApp
+				this.$store.state.dashboard.webApp = localStorage.selectedWebApp;
 
-				this.reqData = await Service.index()
+				this.reqData = await Service.index();
 
 				if (this.reqData.status) {
 					// [local-storage] //
@@ -68,16 +68,16 @@
 					this.$store.state.node_env = this.reqData.node_env;
 				}
 
-				await UserService.s_checkIn()
+				await UserService.s_checkIn();
 
-				Socket.initialize()
+				Socket.initialize();
 
-				this.$store.state.loading = false 
+				this.$store.state.loading = false;
 			},
 		},
 
 		async created() {
-			await this.initializeApp()
+			await this.initializeApp();
 		},
 	}
 </script>
