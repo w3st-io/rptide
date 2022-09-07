@@ -8,7 +8,6 @@ export default {
 		try {
 			EventBus.$emit('update-notification')
 
-
 			// [NOTIFICATIONS] Upon recieving socket update-notification //
 			store.state.socket.on('update-notification', () => {
 				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)

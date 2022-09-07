@@ -163,6 +163,8 @@
 
 			if (this.$store.state.user.verified == false) { router.push('/user') }
 
+			if (this.$store.state.dashboard.webApp == null) { router.push('/web-app') }
+
 			if (!validator.isMongoId(this.$store.state.dashboard.webApp)) {
 				await this.switchTab('web-app')
 			}

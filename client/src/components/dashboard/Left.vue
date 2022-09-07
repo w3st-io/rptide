@@ -15,7 +15,7 @@
 		>Web Content</BButton>
 		
 		<BButton
-			v-if="$store.state.node_env == 'development'"
+			v-if="node_env == 'development'"
 			variant="none"
 			size="lg"
 			pill
@@ -28,7 +28,7 @@
 		>Products</BButton>
 
 		<BButton
-			v-if="$store.state.node_env == 'development'"
+			v-if="node_env == 'development'"
 			variant="none"
 			size="lg"
 			pill
@@ -45,6 +45,12 @@
 
 <script>
 	export default {
+		data() {
+			return {
+				node_env: localStorage.node_env,
+			}
+		},
+
 		methods: {
 			switchTab(tab) {
 				this.$emit('switchTab', tab);

@@ -13,8 +13,6 @@
 		>
 			<option disabled value="">Choose a Web App</option>
 
-			<option value="unset">unset</option>
-
 			<option
 				v-for="w in $store.state.dashboard.webApps"
 				:key="w._id"
@@ -31,20 +29,20 @@
 		methods: {
 			selectOrganization() {
 				// [LOCALSTORAGE] //
-				localStorage.selectedWebApp = this.$store.state.dashboard.webApp
+				localStorage.selectedWebApp = this.$store.state.dashboard.webApp;
 
 				router.push({
 					name: 'dashboard',
 					params: {
-						webapp: localStorage.selectedWebApp,
-						tab: this.$route.params.tab,
-						sort: parseInt(this.$route.params.sort),
-						limit: parseInt(this.$route.params.limit),
-						page: parseInt(this.$route.params.page),
+						webapp: this.$store.state.dashboard.webApp,
+						tab: this.$route.params.tab || 'web-content',
+						sort: parseInt(this.$route.params.sort) || 0,
+						limit: parseInt(this.$route.params.limit) || 5,
+						page: parseInt(this.$route.params.page) || 1,
 					}
-				})
+				});
 				
-				this.$store.state.app.key++
+				this.$store.state.app.key++;
 			},
 		},
 	}

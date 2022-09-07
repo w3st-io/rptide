@@ -17,55 +17,59 @@
 				><MenuIcon class="text-primary" /></BButton>
 			</BNavbar>
 	
-			<BNavbar class="m-0 px-0 py-2">
-				<div class="mr-2">
+			<BRow>
+				<BCol cols="4" md="2">
 					<BButton
-						v-if="$store.state.user"
+						v-if="$store.state.user != null"
 						variant="primary"
-						class=""
+						class="w-100 mb-3 mb-md-0 "
 						@click="routerRedirect({ name: 'web-app' })"
 					>Web Apps</BButton>
-				</div>
+				</BCol>
 
-				<div class="mr-auto">
-					<Current class="" />
-					{{ $store.state.dashboard.webApp }}
-				</div>
+				<BCol cols="8" md="4">
+					<Current
+						v-if="$store.state.user != null"
+						class="mb-3 mb-md-0 w-100"
+					/>
+				</BCol>
 
-				<!-- Logged In -->
-				<div v-if="$store.state.user" class="ml-auto">
-					<BButton
-						variant="primary"
-						pill
-						class="ml-2"
-						@click="routerRedirect(routerParams.dashboard)"
-					>Dashboard</BButton>
+				<BCol cols="12" md="6" class="text-right">
+					<!-- Logged In -->
+					<div v-if="$store.state.user != null">
+						<BButton
+							variant="primary"
+							pill
+							class="ml-2"
+							@click="routerRedirect(routerParams.dashboard)"
+						>Dashboard</BButton>
 
-					<BButton
-						variant="outline-primary"
-						pill
-						class="ml-2"
-						@click="routerRedirect({ name: 'user' })"
-					>Your Account</BButton>
-				</div>
+						<BButton
+							variant="outline-primary"
+							pill
+							class="ml-2"
+							@click="routerRedirect({ name: 'user' })"
+						>Your Account</BButton>
+					</div>
 
-				<!-- ! Logged In -->
-				<div v-if="!$store.state.user" class="ml-auto">
-					<BButton
-						variant="outline-secondary"
-						pill
-						class="ml-2"
-						@click="routerRedirect({ name: 'user_login' })"
-					>Login</BButton>
-					
-					<BButton
-						variant="outline-primary"
-						pill
-						class="ml-2"
-						@click="routerRedirect({ name: 'user_register' })"
-					>Register</BButton>
-				</div>
-			</BNavbar>
+					<!-- ! Logged In -->
+					<div v-if="$store.state.user == null">
+						<BButton
+							variant="outline-secondary"
+							pill
+							class="ml-2"
+							@click="routerRedirect({ name: 'user_login' })"
+						>Login</BButton>
+						
+						<BButton
+							variant="outline-primary"
+							pill
+							class="ml-2"
+							@click="routerRedirect({ name: 'user_register' })"
+						>Register</BButton>
+					</div>
+				</BCol>
+			</BRow>
 		</BContainer>
 
 		<!-- Hidden Side Menu -->

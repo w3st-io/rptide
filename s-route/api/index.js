@@ -1,24 +1,44 @@
 // [REQUIRE] //
-const cors = require('cors')
-const express = require('express')
+const cors = require('cors');
+const express = require('express');
 
 
 // [REQUIRE] Personal //
-const config = require('../../s-config')
+const config = require('../../s-config');
+const Auth = require('../../s-middlewares/Auth');
+const WebAppModel = require('../../s-models/WebAppModel');
 
 
 // [EXPRESS + USE] //
-const router = express.Router().use(cors())
+const router = express.Router().use(cors());
 
 
 router.get(
 	'/',
+	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		res.send({
-			executed: true,
+		// [INIT]
+		let returnObj = {
+			node_env: config.nodeENV
+		};
+
+		// [USER-LOGGED]
+		if (req.user_decoded) {
+			// [INIT] //
+			const webApps = await WebAppModel.find({ user: req.user_decoded._id })
+			
+			// [APPEND]
+			returnObj = {
+				...returnObj,
+				webApps: webApps,
+			}
+		}
+
+		// [SEND] 200
+		res.status(200).send({
 			status: true,
-			node_env: config.nodeENV,
-			message: 'API live'
+			executed: true,
+			...returnObj
 		})
 	}
 )

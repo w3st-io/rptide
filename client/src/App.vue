@@ -18,13 +18,14 @@
 </template>
 
 <script>
-	// [IMPORT] Personal //
+	// [IMPORT]
+	import axios from 'axios';
+
+	// [IMPORT] Personal
 	import AdminNavBar from './components/UI/AdminNavBar';
 	import Footer      from './components/UI/Footer';
 	import NavBar      from './components/UI/NavBar';
-	import Service     from './services/Service';
 	import UserService from './services/user/UserService';
-	import Socket      from './socket';
 
 	export default {
 		name: 'App',
@@ -37,6 +38,13 @@
 
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: '/api',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				reqData: {},
 			};
 		},
@@ -44,23 +52,15 @@
 		methods: {
 			async initializeApp() {
 				this.$store.state.loading = true;
-			
-				// [store] //
-				this.$store.state.dashboard.webApp = localStorage.selectedWebApp;
 
-				this.reqData = await Service.index();
+				this.resData = (await this.authAxios.get('/')).data;
 
 				if (this.reqData.status) {
-					// [local-storage] //
+					// [LOCAL-STORAGE] //
 					localStorage.setItem('node_env', this.reqData.node_env);
-
-					// [STORE] Set the node_env
-					this.$store.state.node_env = this.reqData.node_env;
 				}
 
 				await UserService.s_checkIn();
-
-				Socket.initialize();
 
 				this.$store.state.loading = false;
 			},
