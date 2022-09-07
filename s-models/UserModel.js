@@ -99,7 +99,7 @@ module.exports = mongoose.model(
 		},
 
 		workspace: {
-			selectedWebApp: {
+			webApp: {
 				type: String,
 				default: '',
 				maxlength: 50,

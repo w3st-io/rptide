@@ -57,16 +57,16 @@ module.exports = {
 	},
 
 	/**
-	 * @notice Update user.workspace.selectedWebApp
+	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
 	 */
-	updateWorkspaceSelectedWebApp: async ({ req }) => {
+	updateWorkspacewebApp: async ({ req }) => {
 		// [UPDATE] Password for User //
 		const userObj = await UserModel.findOneAndUpdate(
 			{ _id: req.user_decoded._id },
 			{
 				$set: {
-					"workspace.selectedWebApp": req.body.webApp
+					"workspace.webApp": req.body.webApp
 				}
 			},
 			{ returnOriginal: false }

@@ -120,8 +120,8 @@
 					router.push({
 						name: 'dashboard',
 						params: {
-							webapp: localStorage.selectedWebApp,
-							tab: 'web-app',
+							webapp: this.$store.state.user.workspace.webApp,
+							tab: 'web-content',
 							sort: 0,
 							limit: 5,
 							page: 1,
@@ -146,18 +146,11 @@
 				)
 
 				if (this.resData.data.status) {
-					if (
-						this.$store.state.dashboard.webApp == this.$store.state.dashboard.webApp
-					) { this.$store.state.dashboard.webApp = 'unset' }
-
-					// [store] webApps //
-					this.$store.state.dashboard.webApps = this.resData.data.webApps
-
 					router.push({
 						name: 'dashboard',
 						params: {
-							webapp: localStorage.selectedWebApp,
-							tab: 'web-app',
+							webapp: this.$store.state.user.workspace.webApp,
+							tab: 'web-content',
 							sort: 0,
 							limit: 5,
 							page: 1,

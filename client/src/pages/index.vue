@@ -160,8 +160,8 @@
 				router.push({
 					name: 'dashboard',
 					params: {
-						webapp: 'unset',
-						tab: 'web-app',
+						webapp: this.$store.state.user.workspace.webApp,
+						tab: 'web-content',
 						sort: 0,
 						limit: 5,
 						page: 1,

@@ -1,25 +1,23 @@
 <template>
-	<div>
-		<select
-			v-model="currentWebApp"
-			class="
-				form-control
-				form-select
-				text-light
-				border-light
-				bg-dark
-			"
-			@click="selectOrganization()"
-		>
-			<option disabled value="">Choose a Web App</option>
+	<select
+		v-model="currentWebApp"
+		class="
+			form-control
+			form-select
+			text-light
+			border-light
+			bg-dark
+		"
+		@click="selectOrganization()"
+	>
+		<option disabled value="">Choose a Web App</option>
 
-			<option
-				v-for="w in this.$store.state.dashboard.webApps"
-				:key="w._id"
-				:value="w._id"
-			>{{ w.name }} {{w._id}}</option>
-		</select>
-	</div>
+		<option
+			v-for="w in this.$store.state.dashboard.webApps"
+			:key="w._id"
+			:value="w._id"
+		>{{ w.name }}</option>
+	</select>
 </template>
 
 <script>
@@ -30,23 +28,23 @@
 	export default {
 		data() {
 			return {
-				currentWebApp: this.$store.state.user.workspace.selectedWebApp,
+				currentWebApp: this.$store.state.user.workspace.webApp,
 				resData: {},
 			}
 		},
 
 		methods: {
 			async selectOrganization() {
-				this.resData = await UserService.s_update_workspaceSelectedWebApp(
+				this.resData = await UserService.s_update_workspacewebApp(
 					this.currentWebApp
 				);
 
-				this.$store.state.user.workspace.selectedWebApp = this.currentWebApp;
+				this.$store.state.user.workspace.webApp = this.currentWebApp;
 
 				router.push({
 					name: 'dashboard',
 					params: {
-						webapp: this.$store.state.user.workspace.selectedWebApp || null,
+						webapp: this.$store.state.user.workspace.webApp || null,
 						tab: this.$route.params.tab || 'web-content',
 						sort: parseInt(this.$route.params.sort) || 0,
 						limit: parseInt(this.$route.params.limit) || 5,

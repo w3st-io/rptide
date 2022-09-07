@@ -18,7 +18,7 @@
 				<!-- [TAB] Product Options -->
 				<WebContent
 					v-if="$route.params.tab == 'web-content'"
-					:webApp="$store.state.user.workspace.selectedWebApp"
+					:webApp="$store.state.user.workspace.webApp"
 
 				/>
 				
@@ -94,7 +94,7 @@
 
 				this.resData = (
 					await this.authAxios.get(`
-						/${this.$store.state.user.workspace.selectedWebApp}
+						/${this.$store.state.user.workspace.webApp}
 						/${this.$route.params.tab}
 						/${this.$route.params.sort}
 						/${this.$route.params.limit}
@@ -129,14 +129,14 @@
 			async switchTab(tab) {
 				this.error = ''
 
-				if (!validator.isMongoId(this.$store.state.user.workspace.selectedWebApp)) {
+				if (!validator.isMongoId(this.$store.state.user.workspace.webApp)) {
 					router.push({ name: 'web-app' });
 				}
 				
 				router.push({
 					name: 'dashboard',
 					params: {
-						webapp: this.$store.state.user.workspace.selectedWebApp,
+						webapp: this.$store.state.user.workspace.webApp,
 						tab: tab,
 						sort: this.$route.params.sort,
 						limit: this.$route.params.limit,
@@ -153,7 +153,7 @@
 
 			if (this.$store.state.user.verified == false) { router.push('/user') }
 
-			if (!validator.isMongoId(this.$store.state.user.workspace.selectedWebApp)) {
+			if (!validator.isMongoId(this.$store.state.user.workspace.webApp)) {
 				await this.switchTab('web-app')
 			}
 
