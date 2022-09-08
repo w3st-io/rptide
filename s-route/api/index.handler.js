@@ -29,18 +29,19 @@ module.exports = {
 
 		// [USER-LOGGED]
 		if (req.user_decoded) {
-			// [MONGODB][QUERY]
-			const user = await UserModel.findOne({ _id: req.user_decoded._id })
-				.select('-password -api.publicKey')
-			.exec()
+			// [MONGODB][User]
+			const user = await UserModel.findOne({
+				_id: req.user_decoded._id
+			}).select('-password -api.publicKey').exec();
 
+			// [MONGODB][WebApp]
 			const webApps = await WebAppModel.find({ user: req.user_decoded._id });
 			
 			// [APPEND]
 			returnObj = {
 				...returnObj,
 				user: user,
-				webApps: webApps,
+				webApps: webApps
 			};
 		}
 
