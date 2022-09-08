@@ -7,12 +7,12 @@ import store from '@/store';
 
 
 // [INIT] //
-const location = '/client/src/services/UserService';
+const location = '/client/src/services';
 
 
 // [AUTH-AXIOS] //
 const authAxios = axios.create({
-	baseURL: '/api/user',
+	baseURL: '/api',
 	headers: {
 		user_authorization: `Bearer ${localStorage.usertoken}`,
 	}
@@ -55,36 +55,6 @@ function checkOut() {
 
 
 export default {
-	/******************* [CRUD] *******************/
-	// [UPDATE] Auth Required //
-	s_update: async function (img_url, bio) {
-		try {
-			return (await authAxios.post('/update', { img_url, bio })).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-
-	// [UPDATE] Auth Required //
-	s_update_workspacewebApp: async function (webApp) {
-		try {
-			return (await authAxios.post('/update-workspace-selected-web-app', { webApp })).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-
-
 	/******************* [USER-LOGIN-LOGOUT-REGISTER-CHECKIN] *******************/
 	// [LOGIN]
 	s_login: async function (email, password) {
@@ -175,25 +145,6 @@ export default {
 			}
 		}
 	},
-	
-	
-	/******************* [PASSWORD] *******************/
-	s_changePassword: async function (currentPassword, password) {
-		try {
-			return (
-				await authAxios.post('/change-password', {
-					currentPassword, password
-				})
-			).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}	
-		}
-	},
 
 
 	s_requestResetPassword: async function (email) {
@@ -222,22 +173,6 @@ export default {
 					}
 				)
 			).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}	
-		}
-	},
-
-
-	s_generateApiKey: async function () {
-		try {
-			const res = await authAxios.post('/generate-api-key')
-			
-			return res.data
 		}
 		catch (err) {
 			return {

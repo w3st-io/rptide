@@ -1,15 +1,13 @@
-// [REQUIRE] //
+// [REQUIRE]
 const cors = require('cors');
 const express = require('express');
 
 
-// [REQUIRE] Personal //
-const config = require('../../s-config');
+// [REQUIRE] Personal
 const Auth = require('../../s-middlewares/Auth');
-const WebAppModel = require('../../s-models/WebAppModel');
 
 
-// [EXPRESS + USE] //
+// [EXPRESS + USE]
 const router = express.Router().use(cors());
 
 
@@ -17,31 +15,62 @@ router.get(
 	'/',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [INIT]
-		let returnObj = {
-			node_env: config.nodeENV
-		};
+		res.send(await rh.index({ req }));
+	}
+);
 
-		// [USER-LOGGED]
-		if (req.user_decoded) {
-			// [INIT] //
-			const webApps = await WebAppModel.find({ user: req.user_decoded._id })
-			
-			// [APPEND]
-			returnObj = {
-				...returnObj,
-				webApps: webApps,
-			}
-		}
 
-		// [SEND] 200
-		res.status(200).send({
-			status: true,
-			executed: true,
-			...returnObj
-		})
+// [LOGIN]
+router.post(
+	'/login',
+	async (req, res) => {
+		res.send(await rh.login({ req }));
 	}
 )
 
 
-module.exports = router
+// [REGISTER]
+router.post(
+	'/register',
+	async (req, res) => {
+		res.send(await rh.register({ req }));
+	}
+)
+
+
+router.post(
+	'/complete-registration',
+	async (req, res) => {
+		res.send(await rh.completeRegistration({ req }));
+	}
+)
+
+
+// [VERIFICATION]
+router.post(
+	'/resend-verification-email',
+	async (req, res) => {
+		res.send(await rh.resendVerificationEmail({ req }));
+	}
+)
+
+
+// [PASSWORD]
+// Send the email for the password reset
+router.post(
+	'/request-reset-password',
+	async (req, res) => {
+		res.send(await rh.requestResetPassword({ req }));
+	}
+)
+
+
+router.post(
+	'/reset-password',
+	async (req, res) => {
+		res.send(await rh.resetPassword({ req }));
+	}
+)
+
+
+module.exports = router;
