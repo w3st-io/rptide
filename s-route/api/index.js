@@ -21,7 +21,6 @@ router.get(
 );
 
 
-// [LOGIN]
 router.post(
 	'/login',
 	async (req, res) => {
@@ -30,7 +29,6 @@ router.post(
 );
 
 
-// [REGISTER]
 router.post(
 	'/register',
 	async (req, res) => {
@@ -47,7 +45,6 @@ router.post(
 );
 
 
-// [VERIFICATION]
 router.post(
 	'/resend-verification-email',
 	async (req, res) => {
@@ -56,11 +53,6 @@ router.post(
 );
 
 
-// [PASSWORD]
-/**
- * @notice Send the email for the password reset
- * @param req.body.email Email to recover password for
-*/
 router.post(
 	'/request-reset-password',
 	async (req, res) => {
