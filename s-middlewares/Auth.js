@@ -258,12 +258,9 @@ class Auth {
 			}
 			// API Private Key
 			else if (req.headers.authorization) {
-				// [SLICE] "Bearer "
-				const tokenBody = req.headers.authorization.slice(7);				
-
-				// [MONGODB][READ]
+				// [MONGODB][READ] Everything after "Bearer "
 				const user = await UserModel.findOne({
-					"api.privateKey": tokenBody
+					"api.privateKey": req.headers.authorization.slice(7)
 				});
 
 				if (user) {
@@ -294,7 +291,7 @@ class Auth {
 					status: false,
 					location: '/s-middlewares/Auth',
 					message: 'Access denied: No token passed',
-					auth: false,
+					auth: false
 				})
 			}
 		}
