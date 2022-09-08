@@ -4,7 +4,6 @@ const validator = require('validator');
 
 
 // [REQUIRE] Personal
-const UserCollection = require('../s-collections/UserCollection');
 const config = require('../s-config');
 const UserModel = require('../s-models/UserModel');
 const h_apiSubscription = require('../s-route/api/user/api-subscription.handler');
@@ -22,7 +21,7 @@ class Auth {
 			// If a token exists => Validate JWT //
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer " //
-				const tokenBody = req.headers.user_authorization.slice(7)
+				const tokenBody = req.headers.user_authorization.slice(7);
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
@@ -30,7 +29,7 @@ class Auth {
 						try {
 							if (decoded) {
 								// [INIT] Put decoded in req //
-								req.user_decoded = decoded
+								req.user_decoded = decoded;
 
 								// [MONGODB] Check verified
 								const user = await UserModel.findOne({
@@ -61,7 +60,7 @@ class Auth {
 									location: '/s-middlewares/Auth',
 									message: `Access denied: JWT Error --> ${err}`,
 									auth: false,
-								})
+								});
 							}
 						}
 						catch (err) {
@@ -70,7 +69,7 @@ class Auth {
 								status: false,
 								location: '/s-middlewares/Auth',
 								message: `Auth: Error --> ${err}`
-							})
+							});
 						}
 					})
 				}
@@ -81,7 +80,7 @@ class Auth {
 						location: '/s-middlewares/Auth',
 						message: 'Access denied: Not valid JWT',
 						auth: false,
-					})
+					});
 				}
 			}
 			else {
@@ -91,7 +90,7 @@ class Auth {
 					location: '/s-middlewares/Auth',
 					message: 'Access denied: No token passed',
 					auth: false,
-				})
+				});
 			}
 		}
 	}
@@ -102,28 +101,28 @@ class Auth {
 		return async (req, res, next) => {
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer "
-				const tokenBody = req.headers.user_authorization.slice(7)
+				const tokenBody = req.headers.user_authorization.slice(7);
 
 				// If a token exists => Validate JWT
 				if (tokenBody !== 'undefined') {
 					try {
-						const decoded = await jwt.verify(tokenBody, secretKey)
+						const decoded = await jwt.verify(tokenBody, secretKey);
 						
 						// [INIT] Put decoded in req
-						req.user_decoded = decoded
+						req.user_decoded = decoded;
 					}
 					catch (err) {
 						res.send({
 							executed: true,
 							status: false,
 							message: err
-						})
+						});
 					}
 				}
 			}
 			
 			// Since token is not required move on anyways
-			next()
+			next();
 		}
 	}
 
@@ -134,23 +133,23 @@ class Auth {
 			// If a token exists => Validate JWT
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer "
-				const tokenBody = req.headers.user_authorization.slice(7)
+				const tokenBody = req.headers.user_authorization.slice(7);
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						if (decoded) {
 							// [INIT] Put decoded in req
-							req.user_decoded = decoded
+							req.user_decoded = decoded;
 
-							try { next() }
+							try { next(); }
 							catch (err) {
 								res.send({
 									executed: false,
 									status: false,
 									location: '/s-middlewares/Auth',
 									message: `Auth: Error --> ${err}`
-								})
+								});
 							}
 						}
 						else {
@@ -160,7 +159,7 @@ class Auth {
 								location: '/s-middlewares/Auth',
 								message: `Access denied: JWT Error --> ${err}`,
 								auth: false,
-							})
+							});
 						}
 					})
 				}
@@ -171,7 +170,7 @@ class Auth {
 						location: '/s-middlewares/Auth',
 						message: 'Access denied: Not valid JWT',
 						auth: false,
-					})
+					});
 				}
 			}
 			else {
@@ -181,7 +180,7 @@ class Auth {
 					location: '/s-middlewares/Auth',
 					message: 'Access denied: No token passed',
 					auth: false,
-				})
+				});
 			}
 		}
 	}
@@ -299,4 +298,4 @@ class Auth {
 }
 
 
-module.exports = Auth
+module.exports = Auth;

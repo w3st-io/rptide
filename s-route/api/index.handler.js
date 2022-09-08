@@ -7,7 +7,6 @@ const validator = require('validator');
 // [REQUIRE] Personal //
 const api_stripe = require('../../s-api/stripe');
 const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
-const UserCollection = require('../../s-collections/UserCollection');
 const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
 const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection');
 const config = require('../../s-config');
