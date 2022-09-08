@@ -21,21 +21,18 @@ router.post(
 	async (req, res) => { res.send(await rh.update({ req })) }
 )
 
-
 router.post(
-	'/update-workspace-selected-web-app',
+	'/update/workspace-selected-web-app',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.updateWorkspacewebApp({ req }));
+		res.send(await rh.update_workspacewebApp({ req }));
 	}
 ),
 
-
-/******************* [PASSWORD] *******************/
 router.post(
-	'/change-password',
+	'/update/password',
 	Auth.userToken(),
-	async (req, res) => { res.send(await rh.changePassword({ req })) }
+	async (req, res) => { res.send(await rh.update_password({ req })) }
 )
 
 

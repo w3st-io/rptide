@@ -38,7 +38,7 @@ export default {
 	// [UPDATE] Auth Required //
 	s_update_workspacewebApp: async function (webApp) {
 		try {
-			return (await authAxios.post('/update-workspace-selected-web-app', { webApp })).data
+			return (await authAxios.post('/update/workspace-selected-web-app', { webApp })).data
 		}
 		catch (err) {
 			return {
@@ -69,10 +69,10 @@ export default {
 	
 	
 	/******************* [PASSWORD] *******************/
-	s_changePassword: async function (currentPassword, password) {
+	s_update_password: async function (currentPassword, password) {
 		try {
 			return (
-				await authAxios.post('/change-password', {
+				await authAxios.post('/update/password', {
 					currentPassword, password
 				})
 			).data

@@ -73,7 +73,7 @@ module.exports = {
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
-	updateWorkspacewebApp: async ({ req }) => {
+	update_workspacewebApp: async ({ req }) => {
 		// [UPDATE] Password for User //
 		const userObj = await UserModel.findOneAndUpdate(
 			{ _id: req.user_decoded._id },
@@ -96,7 +96,9 @@ module.exports = {
 	 * @param {string} req.body.currentPassword Old password
 	 * @param {string} req.body.password New password
 	*/
-	changePassword: async ({ req }) => {
+	update_password: async ({ req }) => {
+		// [INIT]
+		const subLocation = "/update/password";
 		try {
 			if (
 				!validator.isAscii(req.body.currentPassword) ||
@@ -105,7 +107,7 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					location: `${location}/change-password`,
+					location: `${location}${subLocation}`,
 					message: 'Invalid Params',
 				};
 			}
@@ -118,7 +120,7 @@ module.exports = {
 				return {
 					executed: true,
 					status: false,
-					location: `${location}/change-password`,
+					location: `${location}${subLocation}`,
 					message: 'Invalid password',
 				};
 			}
@@ -143,7 +145,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				location: `${location}/change-password`,
+				location: `${location}${subLocation}`,
 				message: `Error --> ${err}`,
 			};
 		}
