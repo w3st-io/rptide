@@ -114,7 +114,7 @@ module.exports = {
 			return {
 				executed: false,
 				status: false,
-				message: `UserCollection: Error --> ${err}`
+				message: `${location}: Error --> ${err}`
 			}
 		}
 	},

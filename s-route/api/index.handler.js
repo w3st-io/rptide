@@ -223,53 +223,53 @@ module.exports = {
 
 
 	completeRegistration: async ({ req }) => {
-		// [INIT] //
-		const subLocation = '/complete-registration'
+		// [INIT]
+		const subLocation = '/complete-registration';
 
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!validator.isAscii(req.body.user_id)) {
 				return {
 					executed: true,
 					status: false,
 					location: `${location}${subLocation}`,
 					message: 'Invalid user_id',
-				}
+				};
 			}
 
-			// [VALIDATE] verificationCode //
+			// [VALIDATE] verificationCode
 			if (!validator.isAscii(req.body.verificationCode)) {
 				return {
 					executed: true,
 					status: false,
 					location: `${location}${subLocation}`,
 					message: 'Invalid verfication code',
-				}
+				};
 			}
 
-			// [EXISTANCE][VerificationCode] //
+			// [EXISTANCE][VerificationCode]
 			const vCObj = await VerificationCodeCollection.c__read__query({
 				query: {
 					user_id: req.body.user_id,
 					verificationCode: req.body.verificationCode
 				}
-			})
+			});
 			
-			// [VALIDATE-STATUS] vCObj //
-			if (!vCObj.status) { return vCObj }
+			// [VALIDATE-STATUS] vCObj
+			if (!vCObj.status) { return vCObj; }
 
-			// [MONGODB][READ] User //
+			// [MONGODB][READ] User
 			const user = await UserModel.findOne({ _id: req.user_decoded._id })
 				.select('-password -api.publicKey')
 				.exec();
 
-			// [UPDATE][ApiSubscription] //
+			// [UPDATE][ApiSubscription]
 			const apiSubObj_findOne = await ApiSubscriptionCollection.c_read_byUser({
 				user_id: user._id
-			})
+			});
 
-			// [VALIDATE-STATUS] retrievedApiSubscriptionObj //
-			if (!apiSubObj_findOne.status) { return apiSubObj_findOne }
+			// [VALIDATE-STATUS] retrievedApiSubscriptionObj
+			if (!apiSubObj_findOne.status) { return apiSubObj_findOne; }
 
 			// if no cusId 
 			if (!apiSubObj_findOne.apiSubscription.stripe.cusId) {
@@ -279,37 +279,37 @@ module.exports = {
 						email: user.email,
 						username: user.username,
 					}
-				)
+				);
 	
-				// [VALIDATE-STATUS] stripeObj //
-				if (!stripeObj.status) { return stripeObj }
+				// [VALIDATE-STATUS] stripeObj
+				if (!stripeObj.status) { return stripeObj; }
 	
-				// [UPDATE][ApiSubscription] //
+				// [UPDATE][ApiSubscription]
 				const apiSubObj_updated = await ApiSubscriptionCollection.c_update__cusId__user_id(
 					{
 						user_id: user._id,
 						cusId: stripeObj.createdStripeCustomer.id,
 					}
-				)
+				);
 	
-				// [VALIDATE] updatedApiSubscriptionObj //
-				if (!apiSubObj_updated.status) { return apiSubObj_updated }
+				// [VALIDATE] updatedApiSubscriptionObj
+				if (!apiSubObj_updated.status) { return apiSubObj_updated; }
 			}
 
 
-			// [UPDATE][User] Verify //
+			// [UPDATE][User] Verify
 			await UserModel.findOneAndUpdate(
 				{ _id: req.body.user_id },
 				{ $set: { verified: true } }
 			);
 
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				executed: true,	
 				status: true,
 				location: `${location}${subLocation}`,
 				existance: vCObj.existance,
-			}		
+			};
 		}
 		catch (err) {
 			return {
@@ -317,7 +317,7 @@ module.exports = {
 				status: false,
 				location: `${location}${subLocation}`,
 				message: `Error --> ${err}`,
-			}
+			};
 		}
 	},
 

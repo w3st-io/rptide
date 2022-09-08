@@ -1,21 +1,21 @@
-// [REQUIRE] //
-const jwt = require('jsonwebtoken')
-const validator = require('validator')
+// [REQUIRE]
+const jwt = require('jsonwebtoken');
+const validator = require('validator');
 
 
-// [REQUIRE] Personal //
-const config = require('../s-config')
-const UserCollection = require('../s-collections/UserCollection')
-const h_apiSubscription = require('../s-route/api/user/api-subscription.handler')
+// [REQUIRE] Personal
+const UserCollection = require('../s-collections/UserCollection');
+const config = require('../s-config');
+const h_apiSubscription = require('../s-route/api/user/api-subscription.handler');
 
 
-// [INIT] //
-const secretKey = config.app.secretKey
+// [INIT]
+const secretKey = config.app.secretKey;
 
 
 class Auth {
 	/******************* [USER] *******************/
-	// [Standard] //
+	// [Standard]
 	static userToken() {
 		return async (req, res, next) => {
 			// If a token exists => Validate JWT //
@@ -89,24 +89,22 @@ class Auth {
 	}
 
 
-	// [IF-LOGGED] NOT required //
+	// [IF-LOGGED] NOT required
 	static userTokenNotRequired() {
 		return async (req, res, next) => {
 			if (req.headers.user_authorization) {
-				// [SLICE] "Bearer " //
+				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7)
 
-				// If a token exists => Validate JWT //
+				// If a token exists => Validate JWT
 				if (tokenBody !== 'undefined') {
 					try {
 						const decoded = await jwt.verify(tokenBody, secretKey)
 						
-						// [INIT] Put decoded in req //
+						// [INIT] Put decoded in req
 						req.user_decoded = decoded
 					}
 					catch (err) {
-						console.log('JWT Verify:', err)
-
 						res.send({
 							executed: true,
 							status: false,
@@ -122,19 +120,19 @@ class Auth {
 	}
 
 
-	// [LIMITED] Verification NOT required //
+	// [LIMITED] Verification NOT required
 	static userTokenByPassVerification() {
 		return (req, res, next) => {
-			// If a token exists => Validate JWT //
+			// If a token exists => Validate JWT
 			if (req.headers.user_authorization) {
-				// [SLICE] "Bearer " //
+				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7)
 
 				if (validator.isJWT(tokenBody)) {
-					// [VERIFY] tokenBody //
+					// [VERIFY] tokenBody
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						if (decoded) {
-							// [INIT] Put decoded in req //
+							// [INIT] Put decoded in req
 							req.user_decoded = decoded
 
 							try { next() }
@@ -181,29 +179,29 @@ class Auth {
 	}
 
 
-	// [API-PRIVATE-KEY] //
+	// [API-PRIVATE-KEY]
 	static userTokenOrAPIPrivateKey() {
 		return async (req, res, next) => {
-			// If a token exists => Validate JWT //
+			// If a token exists => Validate JWT
 			if (req.headers.user_authorization) {
-				// [SLICE] "Bearer " //
+				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7)
 
 				if (validator.isJWT(tokenBody)) {
-					// [VERIFY] tokenBody //
+					// [VERIFY] tokenBody
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						try {
 							if (decoded) {
-								// [INIT] Put decoded in req //
+								// [INIT] Put decoded in req
 								req.user_decoded = decoded
 
-								// Check verified //
+								// Check verified
 								const verified = await UserCollection.c_verifiedStatus(
 									decoded._id
 								)
 
 								if (verified.status) {
-									// Check apiSubscription status //
+									// Check apiSubscription status
 									await h_apiSubscription.cycleCheckApiSubscription({
 										user_id: decoded._id
 									})
@@ -245,7 +243,7 @@ class Auth {
 			}
 			// API Private Key
 			else if (req.headers.authorization) {
-				// [SLICE] "Bearer " //
+				// [SLICE] "Bearer "
 				const tokenBody = req.headers.authorization.slice(7)
 
 				const uObj = await UserCollection.c_read_byApiPrivateKey({
@@ -253,7 +251,7 @@ class Auth {
 				})
 
 				if (uObj.status) {
-					// [INIT] Put decoded in req //
+					// [INIT] Put decoded in req
 					const decoded = {
 						_id: uObj.user._id,
 						first_name: uObj.user.first_name,
