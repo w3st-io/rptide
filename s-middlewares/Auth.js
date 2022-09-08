@@ -6,6 +6,7 @@ const validator = require('validator');
 // [REQUIRE] Personal
 const UserCollection = require('../s-collections/UserCollection');
 const config = require('../s-config');
+const UserModel = require('../s-models/UserModel');
 const h_apiSubscription = require('../s-route/api/user/api-subscription.handler');
 
 
@@ -31,20 +32,27 @@ class Auth {
 								// [INIT] Put decoded in req //
 								req.user_decoded = decoded
 
-								// Check verified //
-								const verified = await UserCollection.c_verifiedStatus(
-									decoded._id
-								)
+								// [MONGODB] Check verified
+								const user = await UserModel.findOne({
+									_id: decoded._id,
+									verified: true,
+								});
 
-								if (verified.status) {
-									// Check apiSubscription status //
+								if (user) {
+									// Check apiSubscription status
 									await h_apiSubscription.cycleCheckApiSubscription({
 										user_id: decoded._id
-									})
+									});
 									
-									next()
+									next();
 								}
-								else { res.send(verified) }
+								else {
+									res.send({
+										executed: true,
+										status: false,
+										message: 'User NOT verified',
+									});
+								}
 							}
 							else {
 								res.send({
@@ -193,22 +201,29 @@ class Auth {
 						try {
 							if (decoded) {
 								// [INIT] Put decoded in req
-								req.user_decoded = decoded
+								req.user_decoded = decoded;
 
-								// Check verified
-								const verified = await UserCollection.c_verifiedStatus(
-									decoded._id
-								)
+								// [MONGODB] Check verified
+								const user = await UserModel.findOne({
+									_id: decoded._id,
+									verified: true,
+								});
 
-								if (verified.status) {
+								if (user) {
 									// Check apiSubscription status
 									await h_apiSubscription.cycleCheckApiSubscription({
 										user_id: decoded._id
-									})
+									});
 									
-									next()
+									next();
 								}
-								else { res.send(verified) }
+								else {
+									res.send({
+										executed: true,
+										status: false,
+										message: 'User NOT verified',
+									});
+								}
 							}
 
 							else {
@@ -218,7 +233,7 @@ class Auth {
 									location: '/s-middlewares/Auth',
 									message: `Access denied: JWT Error --> ${err}`,
 									auth: false,
-								})
+								});
 							}
 						}
 						catch (err) {
@@ -227,9 +242,9 @@ class Auth {
 								status: false,
 								location: '/s-middlewares/Auth',
 								message: `Auth: Error --> ${err}`
-							})
+							});
 						}
-					})
+					});
 				}
 				else {
 					res.send({
@@ -238,33 +253,40 @@ class Auth {
 						location: '/s-middlewares/Auth',
 						message: 'Access denied: Not valid JWT',
 						auth: false,
-					})
+					});
 				}
 			}
 			// API Private Key
 			else if (req.headers.authorization) {
 				// [SLICE] "Bearer "
-				const tokenBody = req.headers.authorization.slice(7)
+				const tokenBody = req.headers.authorization.slice(7);				
 
-				const uObj = await UserCollection.c_read_byApiPrivateKey({
-					privateKey: tokenBody
-				})
+				// [MONGODB][READ]
+				const user = await UserModel.findOne({
+					"api.privateKey": tokenBody
+				});
 
-				if (uObj.status) {
+				if (user) {
 					// [INIT] Put decoded in req
 					const decoded = {
-						_id: uObj.user._id,
-						first_name: uObj.user.first_name,
-						last_name: uObj.user.last_name,
-						username: uObj.user.username,
-						email: uObj.user.email
-					}
+						_id: user._id,
+						first_name: user.first_name,
+						last_name: user.last_name,
+						username: user.username,
+						email: user.email
+					};
 	
-					req.user_decoded = decoded
+					req.user_decoded = decoded;
 	
-					next()
+					next();
 				}
-				else { res.send(uObj) }
+				else {
+					res.send({
+						executed: true,
+						status: false,
+						message: "Invalid API privateKey"
+					});
+				}
 			}
 			else {
 				res.send({
