@@ -60,6 +60,9 @@
 			</BRow>
 		</div>
 
+		<!-- Update Password -->
+		<UpdatePassword v-if="!loading" />
+
 		<BRow v-if="loading">
 			<!-- [LOADING] -->
 			<BCol cols="12">
@@ -86,6 +89,7 @@
 	import TierSelector from '@/components/apiSubscription/TierSelector'
 	import router from '@/router'
 	import Service from '@/services'
+	import UpdatePassword from '../../components/user/UpdatePassword.vue'
 
 	export default {
 		data() {
@@ -127,6 +131,7 @@
 			API,
 			MyCard,
 			TierSelector,
+			UpdatePassword,
 		},
 
 		methods: {

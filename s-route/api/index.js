@@ -27,7 +27,7 @@ router.post(
 	async (req, res) => {
 		res.send(await rh.login({ req }));
 	}
-)
+);
 
 
 // [REGISTER]
@@ -44,7 +44,7 @@ router.post(
 	async (req, res) => {
 		res.send(await rh.completeRegistration({ req }));
 	}
-)
+);
 
 
 // [VERIFICATION]
@@ -53,7 +53,7 @@ router.post(
 	async (req, res) => {
 		res.send(await rh.resendVerificationEmail({ req }));
 	}
-)
+);
 
 
 // [PASSWORD]
@@ -66,7 +66,7 @@ router.post(
 	async (req, res) => {
 		res.send(await rh.requestResetPassword({ req }));
 	}
-)
+);
 
 
 router.post(
@@ -74,7 +74,7 @@ router.post(
 	async (req, res) => {
 		res.send(await rh.resetPassword({ req }));
 	}
-)
+);
 
 
 module.exports = router;

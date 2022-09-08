@@ -3,6 +3,7 @@ const api_stripe = require('../../../s-api/stripe');
 const api_stripe_price = require('../../../s-api/stripe/price');
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection');
 const config = require('../../../s-config');
+const UserModel = require('../../../s-models/UserModel');
 
 
 module.exports = {

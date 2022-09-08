@@ -21,7 +21,6 @@ import productOption_create from '@/pages/product-option/create';
 // User
 import user from '@/pages/user';
 import user_login from '@/pages/user/login';
-import user_password_change from '@/pages/user/password/change';
 import user_password_request from '@/pages/user/password/request';
 import user_password_reset from '@/pages/user/password/reset';
 import user_verify from '@/pages/user/verify';
@@ -132,15 +131,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Login'
-			}
-		},
-		{
-			path: '/user/password/change',
-			name: 'password_change',
-			component: user_password_change,
-			meta: {
-				auth: true,
-				title: 'Change Password'
 			}
 		},
 		{
