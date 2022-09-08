@@ -59,15 +59,18 @@
 					localStorage.setItem('node_env', this.reqData.node_env);
 				}
 			
-				if (localStorage.usertoken) {
-					// [STORE]
-					// user
+				if (this.reqData.user) {
+					// [STORE] user
 					this.$store.state.user = this.reqData.user;
-					// webApps
-					this.$store.state.webApps = this.reqData.webApps;
-					// key
-					this.$store.state.key++;
 				}
+				
+				if (this.reqData.webApps) {
+					// [STORE] webApps
+					this.$store.state.webApps = this.reqData.webApps;
+				}
+				
+				// key
+				this.$store.state.key++;
 
 				this.$store.state.loading = false;
 			},
