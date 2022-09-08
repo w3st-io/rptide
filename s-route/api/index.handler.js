@@ -162,62 +162,94 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}/register`,
-					message: `We are currently not accepting new registrations`,
-				}
+					message: "We are currently not accepting new registrations",
+				};
 			}
 
-			// [VALIDATE] //
-			if (
-				!validator.isAscii(req.body.email) ||
-				!validator.isAscii(req.body.password)
-			) {
+			// [VALIDATE] req.body.email //
+			if (!validator.isEmail(req.body.email)) {
 				return {
 					executed: true,
 					status: false,
 					location: `${location}/register`,
-					message: `Invalid Params`,
-				}
+					message: "Invalid email",
+					created: false
+				};
 			}
 
-			// [CREATE][User] //
-			const userObj = await UserCollection.c_register({
-				email: req.body.email,
-				password: req.body.password,
-			})
+			// Email Check //
+			if (await UserModel.findOne({ email: req.body.email })) {
+				return {
+					executed: true,
+					status: true,
+					location: `${location}/register`,
+					message: 'That email is already registered',
+					created: false
+				};
+			}
+	
+			// [VALIDATE] req.body.password //
+			if (!validator.isAscii(req.body.password)) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/register`,
+					message: "Invalid password",
+					created: false
+				};
+			}
+	
+			// [VALIDATE] req.body.password //
+			if (password.req.body.password < 8 || req.body.password.length > 100) {
+				return {
+					executed: true,
+					status: false,
+					location: `${location}/register`,
+					message: "Invalid password",
+					created: false
+				};
+			}
 
-			if (!userObj.status || !userObj.created) { return userObj }
+			// [MONGODB][SAVE][User]
+			const user = await new UserModel({
+				_id: mongoose.Types.ObjectId(),
+				email: email,
+				password: await bcrypt.hash(password, 10)
+			}).save();
 
-			// [CREATE][VerificationCode] //
+			// [MONGODB][CREATE][VerificationCode] //
 			const vCodeObj = await VerificationCodeCollection.c_create({
 				user_id: userObj.user._id
-			})
+			});
 
-			// [CREATE][ApiSubscription] //
+			// [MONGODB][CREATE][ApiSubscription] //
 			const subscriptionObj = await ApiSubscriptionCollection.c_create({
 				user_id: userObj.user._id
-			})
+			});
 			
 			// [MAIL] Verification Email //
 			await mailerUtil.sendVerificationMail(
 				userObj.user.email,
 				userObj.user._id,
 				vCodeObj.verificationCode.verificationCode
-			)
+			);
 
 			return {
 				executed: true,
 				status: true,
-				created: true,
 				location: `${location}/register`,
-			}
+				message: 'Successfully created account',
+				created: true,
+				user: user
+			};
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				location: `${location}/register`,
-				message: `Error --> ${err}`,
-			}
+				message: `Error --> ${err}`
+			};
 		}
 	},
 
