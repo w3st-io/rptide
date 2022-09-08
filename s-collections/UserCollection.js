@@ -155,44 +155,6 @@ module.exports = {
 	},
 
 
-	// [READ] Email //
-	c_read_byEmail: async (email) => {
-		try {
-			// [VALIDATE] Email //
-			if (!validator.isEmail(email)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid email`
-				}
-			}
-	
-			const user = await UserModel.findOne({ email })
-	
-			if (!user) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: No user found`
-				}
-			}
-	
-			return {
-				executed: true,
-				status: true,
-				user: user,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-
-
 	c_read_byApiPrivateKey: async ({ privateKey }) => {
 		try {
 			// [READ] //

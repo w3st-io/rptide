@@ -57,7 +57,10 @@ router.post(
 
 
 // [PASSWORD]
-// Send the email for the password reset
+/**
+ * @notice Send the email for the password reset
+ * @param req.body.email Email to recover password for
+*/
 router.post(
 	'/request-reset-password',
 	async (req, res) => {

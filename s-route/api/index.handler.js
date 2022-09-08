@@ -88,9 +88,9 @@ module.exports = {
 			}
 
 			// [READ][User] Get user by email //
-			const userObj = await UserCollection.c_read_byEmail(req.body.email);
+			const user = await UserModel.findOne({ email: req.body.email });
 
-			if (!userObj.user) {
+			if (!user) {
 				return {
 					executed: true,
 					status: false,
@@ -101,7 +101,7 @@ module.exports = {
 			}
 
 			// [VALIDATE-PASSWORD] //
-			if (!bcrypt.compareSync(req.body.password, userObj.user.password)) {
+			if (!bcrypt.compareSync(req.body.password, user.password)) {
 				return {
 					executed: true,
 					status: true,
@@ -114,12 +114,12 @@ module.exports = {
 			// [SUCCESS] Authentication
 			const token = jwt.sign(
 				{
-					_id: userObj.user._id,
-					email: userObj.user.email,
-					username: userObj.user.username,
-					first_name: userObj.user.first_name,
-					last_name: userObj.user.last_name,
-					verified: userObj.user.verified
+					_id: user._id,
+					email: user.email,
+					username: user.username,
+					first_name: user.first_name,
+					last_name: user.last_name,
+					verified: user.verified
 				},
 				config.app.secretKey,
 				{
@@ -127,20 +127,20 @@ module.exports = {
 				}
 			);
 
-			// [MONGODB][QUERY]
-			const user = await UserModel.findOne({ _id: req.user_decoded._id })
-				.select('-password -api.publicKey')
-			.exec()
-
-			const webApps = await WebAppModel.find({ user: uObj.user._id });
+			const webApps = await WebAppModel.find({ user: user._id });
 	
+			// [MONGODB][QUERY]
+			const returnableUser = await UserModel.findOne({
+				_id: user._id
+			}).select('-password -api.publicKey').exec();
+
 			return {
 				executed: true,
 				status: true,
 				message: 'success',
 				validation: true,
 				token: token,
-				user: user,
+				user: returnableUser,
 				webApps: webApps,
 			};
 		}
@@ -319,6 +319,10 @@ module.exports = {
 	},
 
 
+	/**
+	 * @notice Resend verification email
+	 * @param req.body.email Email to recover password for
+	*/
 	resendVerificationEmail: async ({ req }) => {
 		const subLocation = '/resend-verification-email'
 
@@ -334,17 +338,17 @@ module.exports = {
 			}
 
 			// [READ][User] Get User by Email //
-			const user = await UserCollection.c_read_byEmail(req.body.email)
+			const user = await UserModel.findOne({ email: req.body.email })
 
 			// [READ][VerificationCode] by user_id //
 			const vCode = await VerificationCodeCollection.c_read_byUser_id({
-				user_id: user.user._id
+				user_id: user._id
 			})
 			
 			// [SEND-MAIL] //
 			mailerUtil.sendVerificationMail(
 				req.body.email,
-				user.user._id,
+				user._id,
 				vCode.verificationCode.verificationCode
 			)
 
@@ -366,7 +370,10 @@ module.exports = {
 		}
 	},
 
-
+	/**
+	 * @notice Send the email for the password reset
+	 * @param req.body.email Email to recover password for
+	*/
 	requestResetPassword: async ({ req }) => {
 		try {
 			// [VALIDATE] //
@@ -379,13 +386,19 @@ module.exports = {
 				}
 			}
 
-			const user = await UserCollection.c_read_byEmail(req.body.email)
+			const user = await UserModel.findOne({ email: req.body.email });
 			
-			if (!user.status) { return user }
+			if (!user.status) {
+				return {
+					executed: true,
+					status: false,
+					message: "No user found"
+				}
+			}
 
 			// [CREATE][PasswordRecovery] //
 			const passwordRecovery = await PasswordRecoveryCollection.c_create(
-				user.user._id
+				user._id
 			)
 			
 			if (!passwordRecovery.status || passwordRecovery.existance) {
@@ -395,7 +408,7 @@ module.exports = {
 			// [SEND-MAIL] //
 			return await mailerUtil.sendPasswordResetEmail(
 				req.body.email,
-				user.user._id,
+				user._id,
 				passwordRecovery.passwordRecovery.verificationCode
 			)
 		}
