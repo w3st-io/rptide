@@ -153,7 +153,11 @@ module.exports = {
 		}
 	},
 
-
+	/**
+	 * @notice Register
+	 * @param {string} req.body.email
+	 * @param {string} req.body.password Password for account
+	*/
 	register: async ({ req }) => {
 		try {
 			if (config.app.acceptingUserRegistration == 'false') {
@@ -253,6 +257,11 @@ module.exports = {
 	},
 
 
+	/**
+	 * @notice Complete Registration
+	 * @param {string} req.body.user_id
+	 * @param {string} req.body.req.body.verificationCode
+	*/
 	completeRegistration: async ({ req }) => {
 		// [INIT]
 		const subLocation = '/complete-registration';
@@ -455,7 +464,12 @@ module.exports = {
 		}
 	},
 
-
+	/**
+	 * @notice Reset Password
+	 * @param req.body.user_id
+	 * @param req.body.verificationCode Code sent to email
+	 * @param req.body.password New password to be set
+	*/
 	resetPassword: async ({ req }) => {
 		try {
 			if (
