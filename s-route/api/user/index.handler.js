@@ -1,10 +1,10 @@
 // [REQUIRE] //
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const uuid = require('uuid')
 
 
 // [REQUIRE] Personal //
-const UserCollection = require('../../../s-collections/UserCollection');
 const UserModel = require('../../../s-models/UserModel');
 
 
@@ -17,7 +17,7 @@ module.exports = {
 	 * @notice Update User
 	 * @param {string} req.body.img_url
 	 * @returns {object} Updated user
-	 */
+	*/
 	update: async ({ req }) => {
 		try {
 			// [VALIDATE] //
@@ -27,16 +27,37 @@ module.exports = {
 					status: false,
 					location: `${location}`,
 					message: 'Invalid params',
-				}
+				};
 			}
 
-			const returned = await UserCollection.c_update({
-				user_id: req.user_decoded._id,
-				img_url: req.body.img_url,
-				bio: req.body.bio
-			})
+			// [VALIDATE] bio //
+			if (
+				req.body.bio.includes('<script') ||
+				req.body.bio.includes('</script>')
+			) {
+				return {
+					executed: true,
+					status: false,
+					message: `${location}: XSS not aloud`
+				};
+			}
+			
+			const updatedUser = await UserModel.findOneAndUpdate(
+				{ _id: req.user_decoded._id },
+				{
+					$set: {
+						profile_img: req.body.img_url,
+						bio: req.body.bio,
+					}
+				}
+			).select('-password -api.publicKey -verified').exec()
 	
-			return returned
+			return {
+				executed: true,
+				status: true,
+				message: 'Updated profile',
+				updatedUser: updatedUser
+			}
 		}
 		catch (err) {
 			return {
@@ -51,7 +72,7 @@ module.exports = {
 	/**
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
-	 */
+	*/
 	updateWorkspacewebApp: async ({ req }) => {
 		// [UPDATE] Password for User //
 		const userObj = await UserModel.findOneAndUpdate(
@@ -70,6 +91,11 @@ module.exports = {
 	},
 
 
+	/**
+	 * @notice Update user.password
+	 * @param {string} req.body.currentPassword Old password
+	 * @param {string} req.body.password New password
+	*/
 	changePassword: async ({ req }) => {
 		try {
 			if (
@@ -80,24 +106,21 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}/change-password`,
-					message: `Invalid Params`,
-				}
+					message: 'Invalid Params',
+				};
 			}
 
-			const userObj = await UserCollection.c_read(
-				req.user_decoded._id
-			)
-			
-			if (!userObj.status) { return userObj }
+			// [MONGODB][FIND] user //
+			const query = await UserModel.findOne({ _id: req.user_decoded._id });
 
 			// [VALIDATE-PASSWORD] //
-			if (!bcrypt.compareSync(req.body.currentPassword, userObj.user.password)) {
+			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
 				return {
 					executed: true,
 					status: false,
 					location: `${location}/change-password`,
-					message: `Invalid password`,
-				}
+					message: 'Invalid password',
+				};
 			}
 
 			// [MONGODB][UPDATE] user.password //
@@ -108,13 +131,13 @@ module.exports = {
 						password: await bcrypt.hash(req.body.password, 10)
 					}
 				}
-			)
+			);
 
 			return {
 				executed: true,
 				status: true,
 				message: `${location}: Updated password`,
-			}
+			};
 		}
 		catch (err) {
 			return {
@@ -122,26 +145,32 @@ module.exports = {
 				status: false,
 				location: `${location}/change-password`,
 				message: `Error --> ${err}`,
-			}
+			};
 		}
 	},
 
 
 	generateApiKey: async ({ req }) => {
 		try {
-			const userObj = await UserCollection.c_read_select({
-				user_id: req.user_decoded._id
-			})
-	
-			const pk = await UserCollection.c_create_apiPrivateKey({
-				user_id: userObj.user._id
-			})
+			// [UPDATE] Generate new API Key //
+			const updatedUser = await UserModel.findOneAndUpdate(
+				{ _id: req.user_decoded._id },
+				{
+					$set: {
+						api: {
+							publicKey: uuid.v4(),
+							privateKey: uuid.v4(),
+						}
+					}
+				},
+				{ new: true }
+			)
 	
 			return {
 				executed: true,
 				status: true,
 				location: `${location}/generate-api-key`,
-				privateKey: pk.privateKey
+				privateKey: updatedUser.privateKey
 			}
 		}
 		catch (err) {

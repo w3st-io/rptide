@@ -1,7 +1,6 @@
 // [REQUIRE] Personal //
 const api_stripe = require('../../../s-api/stripe');
 const api_stripe_price = require('../../../s-api/stripe/price');
-const UserCollection = require('../../../s-collections/UserCollection');
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection');
 const config = require('../../../s-config');
 
@@ -9,13 +8,15 @@ const config = require('../../../s-config');
 module.exports = {
 	index: async ({ req }) => {
 		try {
-			const userObj = await UserCollection.c_read_select({
-				user_id: req.user_decoded._id,
-				select: '-password -api.publicKey -api.privateKey'
-			});
+			const user = await UserModel.findOne({ _id: req.user_decoded._id })
+				.select('-password -api.publicKey -api.privateKey')
 			
-			if (!userObj.status) {
-				return userObj;
+			if (!user) {
+				return {
+					executed: true,
+					status: false,
+					message: 'Nothing found'
+				};
 			}
 
 			// [READ][ApiSubscription] //
@@ -45,7 +46,7 @@ module.exports = {
 			return {
 				executed: true,
 				status: true,
-				user: userObj.user,
+				user: user,
 				paymentMethod: pMObj.paymentMethod,
 				apiSubscriptionTier: apiSubscriptionObj.apiSubscription.tier,
 				tier1Price: (tier1PriceObj.stripePrice.unit_amount / 100),

@@ -2,7 +2,6 @@
 const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 const validator = require('validator')
-const uuid = require('uuid')
 
 
 // [REQUIRE] Personal //
@@ -14,59 +13,6 @@ const location = 'UserCollection'
 
 
 module.exports = {
-	/******************* [CRUD] *******************/
-	c_create_apiPrivateKey: async ({ user_id }) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid user_id`
-				}
-			}
-
-			// Generate a hash to be used at a token //
-			const publicKey = uuid.v4()
-			const privateKey = uuid.v4()
-
-			// [READ] Old User //
-			const preEditUser = await UserModel.findOne({ _id: user_id })
-
-			// [UPDATE] Generate new API Key //
-			const updatedUser = await UserModel.findOneAndUpdate(
-				{ _id: user_id },
-				{
-					$set: {
-						api: {
-							publicKey: publicKey,
-							privateKey: privateKey,
-						}
-					}
-				},
-				{ new: true }
-			)
-
-			console.log(updatedUser);
-
-			return {
-				executed: true,
-				status: true,
-				location: location,
-				privateKey: updatedUser.api.privateKey
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-	
-
 	c_read: async (_id) => {
 		try {
 			// [VALIDATE] user_id //
@@ -112,65 +58,6 @@ module.exports = {
 			}
 		}
 	},
-
-
-	// [UPDATE] Profile Picture //
-	c_update: async ({ user_id, img_url, bio }) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					location: location,
-					message: `Invalid user_id`
-				}
-			}
-	
-			// [VALIDATE] img_url //
-			if (!validator.isURL(img_url)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid URL (Must be URL)`
-				}
-			}
-	
-			// [VALIDATE] bio //
-			if (bio.includes('<script') || bio.includes('</script>')) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: XSS not aloud`
-				}
-			}
-	
-			const updatedUser = await UserModel.findOneAndUpdate(
-				{ _id: user_id },
-				{
-					$set: {
-						profile_img: img_url,
-						bio: bio,
-					}
-				}
-			).select('-password -api.publicKey -verified').exec()
-	
-			return {
-				executed: true,
-				status: true,
-				message: 'Updated profile',
-				updatedUser: updatedUser
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-
 
 	/******************* [OTHER-CRUD] *******************/
 	// [CREATE] User (with password) //
@@ -302,45 +189,6 @@ module.exports = {
 				executed: true,
 				status: true,
 				users: users
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `UserCollection: Error --> ${err}`
-			}
-		}
-	},
-
-
-	// [READ-ALL] Sorted (No password) //
-	c_read_select: async ({ user_id, select = undefined }) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid user_id`
-				}
-			}
-	
-			// [VALIDATE] user_id //
-			if (select != undefined && !validator.isAscii(select)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid select`
-				}
-			}
-		
-			const user = await UserModel.findOne({ _id: user_id }).select(select)
-	
-			return {
-				executed: true,
-				status: true,
-				user: user
 			}
 		}
 		catch (err) {

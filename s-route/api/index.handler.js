@@ -13,7 +13,7 @@ const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCo
 const config = require('../../s-config');
 const mailerUtil = require('../../s-utils/mailerUtil');
 const WebAppModel = require('../../s-models/WebAppModel');
-const WebAppModel = require('../../s-models/UserModel');
+const UserModel = require('../../s-models/UserModel');
 
 
 // [INIT] //
@@ -89,7 +89,7 @@ module.exports = {
 			if (!userObj.user) {
 				return {
 					executed: true,
-					status: true,
+					status: false,
 					location: `${location}/login:`,
 					message: `Invalid email or password`,
 					validation: false

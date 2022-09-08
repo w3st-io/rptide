@@ -133,6 +133,7 @@
 					}
 				}
 				catch (err) { this.message = err }
+				
 				this.submitted = false
 				
 				console.log('reqData:', this.reqData)
