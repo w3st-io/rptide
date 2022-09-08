@@ -14,18 +14,18 @@ const rateLimiter = require('./s-rate-limiters');
 const s_socket = require('./s-socket');
 
 const a_ = require('./s-route/api');
-const a_apiSubscription = require('./s-route/api/user/api-subscription');
-const a_product = require('./s-route/api/user/product');
-const a_productOption = require('./s-route/api/user/product-option');
 const a_socket = require('./s-route/api/socket');
+const a_apiSubscription = require('./s-route/api/user/api-subscription');
+const a_productOption = require('./s-route/api/user/product-option');
+const a_product = require('./s-route/api/user/product');
 const a_user = require('./s-route/api/user');
 const a_webApp = require('./s-route/api/user/web-app');
 const a_webContent = require('./s-route/api/user/web-content');
 
-const p_ = require ('./s-route/pages');
-const p_dashboard = require('./s-route/pages/dashboard');
-const p_product_read = require('./s-route/pages/product/read');
-const p_user = require('./s-route/pages/user');
+const p_                = require ('./s-route/pages');
+const p_dashboard       = require('./s-route/pages/dashboard');
+const p_product_read    = require('./s-route/pages/product/read');
+const p_user            = require('./s-route/pages/user');
 
 
 // [EXPRESS] //
