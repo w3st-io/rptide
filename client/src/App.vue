@@ -43,8 +43,6 @@
 						user_authorization: `Bearer ${localStorage.usertoken}`,
 					}
 				}),
-
-				reqData: {},
 			};
 		},
 
@@ -52,25 +50,22 @@
 			async initializeApp() {
 				this.$store.state.loading = true;
 
-				this.reqData = (await this.authAxios.get('/')).data;
+				const res = (await this.authAxios.get('/')).data;
 
-				if (this.reqData.status) {
+				if (res.status) {
 					// [LOCAL-STORAGE] //
-					localStorage.setItem('node_env', this.reqData.node_env);
+					localStorage.setItem('node_env', res.node_env);
 				}
 			
-				if (this.reqData.user) {
+				if (res.user) {
 					// [STORE] user
-					this.$store.state.user = this.reqData.user;
+					this.$store.state.user = res.user;
 				}
-				
-				if (this.reqData.webApps) {
+
+				if (res.webApps) {
 					// [STORE] webApps
-					this.$store.state.webApps = this.reqData.webApps;
+					this.$store.state.webApps = res.webApps;
 				}
-				
-				// key
-				this.$store.state.key++;
 
 				this.$store.state.loading = false;
 			},
