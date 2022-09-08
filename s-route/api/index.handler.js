@@ -13,6 +13,7 @@ const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCo
 const config = require('../../s-config');
 const mailerUtil = require('../../s-utils/mailerUtil');
 const WebAppModel = require('../../s-models/WebAppModel');
+const WebAppModel = require('../../s-models/UserModel');
 
 
 // [INIT] //
@@ -440,13 +441,15 @@ module.exports = {
 
 			if (!pwdRecovery.status || !pwdRecovery.valid) { return pwdRecovery }
 
-			// [UPDATE][User] Password //
-			const updatedPwd = await UserCollection.c_update_password(
-				req.body.user_id,
-				req.body.password
+			// [MONGODB][UPDATE] user.password //
+			await UserModel.findOneAndUpdate(
+				{ _id: req.body.user_id },
+				{
+					$set: {
+						password: await bcrypt.hash(req.body.password, 10)
+					}
+				}
 			)
-
-			if (!updatedPwd.status) { return updatedPwd }
 
 			// [DELETE][PasswordRecovery] //
 			const deletedPR = await PasswordRecoveryCollection.c_delete_byUser(

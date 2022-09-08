@@ -100,11 +100,21 @@ module.exports = {
 				}
 			}
 
-			// [UPDATE][User] Password //
-			return await UserCollection.c_update_password(
-				req.user_decoded._id,
-				req.body.password
+			// [MONGODB][UPDATE] user.password //
+			await UserModel.findOneAndUpdate(
+				{ _id: req.user_decoded._id },
+				{
+					$set: {
+						password: await bcrypt.hash(req.body.password, 10)
+					}
+				}
 			)
+
+			return {
+				executed: true,
+				status: true,
+				message: `${location}: Updated password`,
+			}
 		}
 		catch (err) {
 			return {

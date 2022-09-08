@@ -426,62 +426,6 @@ module.exports = {
 	},
 
 
-	// [UPDATE] //
-	c_update_password: async (user_id, password) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid user_id`
-				}
-			}
-			
-			// [VALIDATE] password //
-			if (!validator.isAscii(password)) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid password`
-				}
-			}
-	
-			// Password Length //
-			if (password.length < 8 || password.length > 50) {
-				return {
-					executed: true,
-					status: false,
-					message: `${location}: Invalid password (8 < password < 50)`,
-				}
-			}
-		
-			// Hash Password //
-			const hashedPassword = await bcrypt.hash(password, 10)
-			
-			// [UPDATE] Password for User //
-			const user = await UserModel.findOneAndUpdate(
-				{ _id: user_id },
-				{ $set: { password: hashedPassword } }
-			)
-	
-			return {
-				executed: true,
-				status: true,
-				message: `${location}: Updated password`,
-				user: user
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-
-
 	/******************* [VERIFY] *******************/
 	c_verify: async (user_id) => {
 		try {
