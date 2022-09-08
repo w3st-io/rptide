@@ -298,7 +298,10 @@ module.exports = {
 
 
 			// [UPDATE][User] Verify //
-			await UserCollection.c_verify(req.body.user_id)
+			await UserModel.findOneAndUpdate(
+				{ _id: req.body.user_id },
+				{ $set: { verified: true } }
+			);
 
 			// [SUCCESS] //
 			return {
