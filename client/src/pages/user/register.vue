@@ -80,7 +80,7 @@
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import UserService from '@/services/user/UserService'
+	import Service from '@/services'
 
 	// [EXPORT] //
 	export default {
@@ -108,7 +108,7 @@
 		methods: {
 			async register() {
 				try {
-					this.data = await UserService.s_register({
+					this.data = await Service.s_register({
 						email: this.formData.email,
 						password: this.formData.password,
 					})

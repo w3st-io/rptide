@@ -97,7 +97,7 @@
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import UserService from '@/services/user/UserService'
+	import service from '@/services'
 
 	// [EXPORT] //
 	export default {
@@ -131,7 +131,7 @@
 					}
 
 					// [LOGIN] //
-					this.reqData = await UserService.s_login(
+					this.reqData = await service.s_login(
 						this.email,
 						this.password
 					)

@@ -18,7 +18,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import UserService from '@/services/user/UserService'
+	import Service from '@/services'
 
 	export default {
 		data() {
@@ -33,7 +33,7 @@
 
 		async created() {
 			try {
-				this.returned = await UserService.s_completeRegistration(
+				this.returned = await Service.s_completeRegistration(
 					this.user_id,
 					this.verificationCode
 				)

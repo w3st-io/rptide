@@ -74,7 +74,7 @@
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import UserService from '@/services/user/UserService'
+	import Service from '@/services'
 
 	// [EXPORT] //
 	export default {
@@ -102,7 +102,7 @@
 				try {
 					this.submitted = true
 
-					this.data = await UserService.s_requestResetPassword(this.email)
+					this.data = await Service.s_requestResetPassword(this.email)
 
 					if (!this.data.status || this.data.existance) {
 						this.error = this.data.message

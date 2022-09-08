@@ -25,7 +25,6 @@
 	import AdminNavBar from './components/UI/AdminNavBar';
 	import Footer      from './components/UI/Footer';
 	import NavBar      from './components/UI/NavBar';
-	import UserService from './services/user/UserService';
 
 	export default {
 		name: 'App',
@@ -53,14 +52,22 @@
 			async initializeApp() {
 				this.$store.state.loading = true;
 
-				this.resData = (await this.authAxios.get('/')).data;
+				this.reqData = (await this.authAxios.get('/')).data;
 
 				if (this.reqData.status) {
 					// [LOCAL-STORAGE] //
 					localStorage.setItem('node_env', this.reqData.node_env);
 				}
-
-				await UserService.s_checkIn();
+			
+				if (localStorage.usertoken) {
+					// [STORE]
+					// user
+					this.$store.state.user = this.reqData.user;
+					// webApps
+					this.$store.state.webApps = this.reqData.webApps;
+					// key
+					this.$store.state.key++;
+				}
 
 				this.$store.state.loading = false;
 			},

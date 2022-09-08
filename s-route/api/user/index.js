@@ -31,61 +31,11 @@ router.post(
 ),
 
 
-/******************* [LOGIN/REGISTRATION] *******************/
-// [LOGIN] //
-router.post(
-	'/login',
-	async (req, res) => { res.send(await rh.login({ req })) }
-)
-
-
-// [LOGIN] //
-router.post(
-	'/check-in',
-	Auth.userTokenByPassVerification(),
-	async (req, res) => { res.send(await rh.checkIn({ req })) }
-)
-
-
-// [REGISTRATION] //
-router.post(
-	'/register',
-	rateLimiters.registration,
-	async (req, res) => { res.send(await rh.register({ req })) }
-)
-
-
-router.post(
-	'/complete-registration',
-	async (req, res) => { res.send(await rh.completeRegistration({ req })) }
-)
-
-
-/******************* [VERIFICATION] *******************/
-router.post(
-	'/resend-verification-email',
-	async (req, res) => { res.send(await rh.resendVerificationEmail({ req })) }
-)
-
-
 /******************* [PASSWORD] *******************/
 router.post(
 	'/change-password',
 	Auth.userToken(),
 	async (req, res) => { res.send(await rh.changePassword({ req })) }
-)
-
-
-// Send the email for the password reset
-router.post(
-	'/request-reset-password',
-	async (req, res) => { res.send(await rh.requestResetPassword({ req })) }
-)
-
-
-router.post(
-	'/reset-password',
-	async (req, res) => { res.send(await rh.resetPassword({ req })) }
 )
 
 

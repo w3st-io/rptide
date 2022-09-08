@@ -5,14 +5,14 @@ const validator = require('validator');
 
 
 // [REQUIRE] Personal //
-const api_stripe = require('../../../s-api/stripe');
-const PasswordRecoveryCollection = require('../../../s-collections/PasswordRecoveryCollection');
-const UserCollection = require('../../../s-collections/UserCollection');
-const VerificationCodeCollection = require('../../../s-collections/VerificationCodeCollection');
-const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection');
-const config = require('../../../s-config');
-const mailerUtil = require('../../../s-utils/mailerUtil');
-const WebAppModel = require('../../../s-models/WebAppModel');
+const api_stripe = require('../../s-api/stripe');
+const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
+const UserCollection = require('../../s-collections/UserCollection');
+const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
+const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection');
+const config = require('../../s-config');
+const mailerUtil = require('../../s-utils/mailerUtil');
+const WebAppModel = require('../../s-models/WebAppModel');
 
 
 // [INIT] //
@@ -28,12 +28,14 @@ module.exports = {
 
 		// [USER-LOGGED]
 		if (req.user_decoded) {
-			// [INIT]
+			// [MONGODB]
+			const uObj = await UserCollection.c_read(req.user_decoded._id);
 			const webApps = await WebAppModel.find({ user: req.user_decoded._id });
 			
 			// [APPEND]
 			returnObj = {
 				...returnObj,
+				user: uObj.user,
 				webApps: webApps,
 			};
 		}
@@ -104,6 +106,7 @@ module.exports = {
 				};
 			}
 
+			// [SUCCESS] Authentication
 			const token = jwt.sign(
 				{
 					_id: userObj.user._id,
@@ -118,6 +121,10 @@ module.exports = {
 					expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000
 				}
 			);
+
+			const uObj = await UserCollection.c_read(req.user_decoded._id);
+
+			const webApps = await WebAppModel.find({ user: uObj.user._id });
 	
 			return {
 				executed: true,
@@ -125,6 +132,8 @@ module.exports = {
 				message: 'success',
 				validation: true,
 				token: token,
+				user: uObj.user,
+				webApps: webApps,
 			};
 		}
 		catch (err) {
@@ -134,31 +143,6 @@ module.exports = {
 				location: `${location}/login:`,
 				message: `${location}/login: Error --> ${err}`,
 			};
-		}
-	},
-
-
-	checkIn: async ({ req }) => {
-		try {
-			// [INIT] //
-			const uObj = await UserCollection.c_read(req.user_decoded._id)
-			
-			const webApps = await WebAppModel.find({ user: uObj.user._id })
-
-			return {
-				executed: true,
-				status: true,
-				webApps: webApps,
-				user: uObj.user,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: `${location}/check-in:`,
-				message: `Error --> ${err}`,
-			}
 		}
 	},
 

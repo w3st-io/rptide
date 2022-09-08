@@ -85,7 +85,7 @@
 	import MyCard from '@/components/apiSubscription/stripe/MyCard'
 	import TierSelector from '@/components/apiSubscription/TierSelector'
 	import router from '@/router'
-	import UserService from '@/services/user/UserService'
+	import Service from '@/services'
 
 	export default {
 		data() {
@@ -175,7 +175,7 @@
 
 			async resendvCodeEmail() {
 				if (this.user) {
-					this.resData = await UserService.s_resendVerificationEmail(
+					this.resData = await Service.s_resendVerificationEmail(
 						this.user.email
 					)
 

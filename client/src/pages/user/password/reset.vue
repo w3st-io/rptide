@@ -78,7 +78,7 @@
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import UserService from '@/services/user/UserService'
+	import Service from '@/services'
 
 	// [EXPORT] //
 	export default {
@@ -101,7 +101,7 @@
 				this.submitted = true
 
 				try {
-					this.reqData = await UserService.s_notLoggedResetPassword(
+					this.reqData = await Service.s_notLoggedResetPassword(
 						this.$route.params.user_id,
 						this.$route.params.verification_code,
 						this.password

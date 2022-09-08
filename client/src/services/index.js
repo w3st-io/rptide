@@ -19,53 +19,24 @@ const authAxios = axios.create({
 });
 
 
-async function checkIn() {
-	// [USER-LOGGED]
-	if (localStorage.usertoken) {
-		const { data } = await authAxios.post('/check-in');
-		
-		if (data.status) {
-			// [STORE]
-			// user
-			store.state.user = data.user;
-			// webApps
-			store.state.webApps = data.webApps;
-			// key
-			store.state.key++;
-		}
-	}
-}
-
-
-function checkOut() {
-	// [STORE][JWT] Get decoded //
-	store.state.user = null
-		
-	// [STORE] //
-	store.state.dashboard = {
-		webApps: [],
-		webApp: ''
-	}
-
-	// [STORE][SOCKET][EMIT] //
-	store.state.socket.emit('user-logout')
-
-	store.state.key++
-}
-
-
 export default {
-	/******************* [USER-LOGIN-LOGOUT-REGISTER-CHECKIN] *******************/
+	/******************* [USER-LOGIN-LOGOUT-REGISTER] *******************/
 	// [LOGIN]
 	s_login: async function (email, password) {
 		try {
 			const { data } = await authAxios.post('/login', { email, password });
 			
 			if (data.validation) {
-				// [TOKEN] //
+				// [LOCAL-STORAGE] usertoken
 				localStorage.setItem('usertoken', data.token);
-	
-				await checkIn();
+
+				// [STORE]
+				// user
+				store.state.user = data.user;
+				// webApps
+				store.state.webApps = data.webApps;
+				// key
+				store.state.key++;
 			}
 	
 			return data;
@@ -77,15 +48,6 @@ export default {
 				message: `${location}: Error --> ${err}`
 			};
 		}
-	},
-
-
-	// [LOGOUT]
-	s_logout: async function () {
-		// [TOKEN]
-		localStorage.removeItem('usertoken')
-		
-		checkOut()
 	},
 
 
@@ -121,12 +83,6 @@ export default {
 				message: `${location}: Error --> ${err}`
 			}
 		}
-	},
-
-
-	// [CHECK-IN] //
-	s_checkIn: async function () {
-		await checkIn();
 	},
 	
 	
