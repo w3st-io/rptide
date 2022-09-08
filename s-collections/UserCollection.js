@@ -13,52 +13,6 @@ const location = 'UserCollection'
 
 
 module.exports = {
-	c_read: async (_id) => {
-		try {
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(_id)) {
-				return {
-					executed: true,
-					status: false,
-					location: location,
-					message: 'Invalid _id'
-				}
-			}
-		
-			// [QUERY] //
-			const queryResult = await UserModel.findOne({ _id })
-				.select('-password -api.publicKey')
-				.exec()
-	
-			// [NOTHING-FOUND] //
-			if (!queryResult) {
-				return {
-					executed: true,
-					status: false,
-					location: location,
-					message: 'No User object found',
-				}
-			}
-
-			// [SUCCESS] //
-			return {
-				executed: true,
-				status: true,
-				location: location,
-				user: queryResult,
-				message: 'User object found',
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `Error --> ${err}`
-			}
-		}
-	},
-
 	/******************* [OTHER-CRUD] *******************/
 	// [CREATE] User (with password) //
 	c_register: async ({ email, password }) => {

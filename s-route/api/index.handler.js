@@ -29,14 +29,17 @@ module.exports = {
 
 		// [USER-LOGGED]
 		if (req.user_decoded) {
-			// [MONGODB]
-			const uObj = await UserCollection.c_read(req.user_decoded._id);
+			// [MONGODB][QUERY]
+			const user = await UserModel.findOne({ _id: req.user_decoded._id })
+				.select('-password -api.publicKey')
+			.exec()
+
 			const webApps = await WebAppModel.find({ user: req.user_decoded._id });
 			
 			// [APPEND]
 			returnObj = {
 				...returnObj,
-				user: uObj.user,
+				user: user,
 				webApps: webApps,
 			};
 		}
@@ -123,7 +126,10 @@ module.exports = {
 				}
 			);
 
-			const uObj = await UserCollection.c_read(req.user_decoded._id);
+			// [MONGODB][QUERY]
+			const user = await UserModel.findOne({ _id: req.user_decoded._id })
+				.select('-password -api.publicKey')
+			.exec()
 
 			const webApps = await WebAppModel.find({ user: uObj.user._id });
 	
@@ -133,7 +139,7 @@ module.exports = {
 				message: 'success',
 				validation: true,
 				token: token,
-				user: uObj.user,
+				user: user,
 				webApps: webApps,
 			};
 		}
@@ -251,15 +257,14 @@ module.exports = {
 			// [VALIDATE-STATUS] vCObj //
 			if (!vCObj.status) { return vCObj }
 
-			// [READ][User] //
-			const userObj = await UserCollection.c_read(req.body.user_id)
-
-			// [VALIDATE-STATUS] userObj //
-			if (!userObj.status) { return userObj }
+			// [MONGODB][READ] User //
+			const user = await UserModel.findOne({ _id: req.user_decoded._id })
+				.select('-password -api.publicKey')
+				.exec();
 
 			// [UPDATE][ApiSubscription] //
 			const apiSubObj_findOne = await ApiSubscriptionCollection.c_read_byUser({
-				user_id: userObj.user._id
+				user_id: user._id
 			})
 
 			// [VALIDATE-STATUS] retrievedApiSubscriptionObj //
@@ -269,9 +274,9 @@ module.exports = {
 			if (!apiSubObj_findOne.apiSubscription.stripe.cusId) {
 				const stripeObj = await api_stripe.aa_createCustomer(
 					{
-						user_id: userObj.user._id,
-						email: userObj.user.email,
-						username: userObj.user.username,
+						user_id: user._id,
+						email: user.email,
+						username: user.username,
 					}
 				)
 	
@@ -281,7 +286,7 @@ module.exports = {
 				// [UPDATE][ApiSubscription] //
 				const apiSubObj_updated = await ApiSubscriptionCollection.c_update__cusId__user_id(
 					{
-						user_id: userObj.user._id,
+						user_id: user._id,
 						cusId: stripeObj.createdStripeCustomer.id,
 					}
 				)
