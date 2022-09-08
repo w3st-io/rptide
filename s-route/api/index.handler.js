@@ -148,7 +148,7 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: `${location}/login:`,
-				message: `${location}/login: Error --> ${err}`,
+				message: `${location}/login: Error --> ${err}`
 			};
 		}
 	},
@@ -161,7 +161,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}/register`,
-					message: "We are currently not accepting new registrations",
+					message: "We are currently not accepting new registrations"
 				};
 			}
 
@@ -264,7 +264,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}${subLocation}`,
-					message: 'Invalid user_id',
+					message: 'Invalid user_id'
 				};
 			}
 
@@ -274,7 +274,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}${subLocation}`,
-					message: 'Invalid verfication code',
+					message: 'Invalid verfication code'
 				};
 			}
 
@@ -327,7 +327,6 @@ module.exports = {
 				if (!apiSubObj_updated.status) { return apiSubObj_updated; }
 			}
 
-
 			// [UPDATE][User] Verify
 			await UserModel.findOneAndUpdate(
 				{ _id: req.body.user_id },
@@ -339,7 +338,7 @@ module.exports = {
 				executed: true,	
 				status: true,
 				location: `${location}${subLocation}`,
-				existance: vCObj.existance,
+				existance: vCObj.existance
 			};
 		}
 		catch (err) {
@@ -347,7 +346,7 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: `${location}${subLocation}`,
-				message: `Error --> ${err}`,
+				message: `Error --> ${err}`
 			};
 		}
 	},
