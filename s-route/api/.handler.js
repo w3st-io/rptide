@@ -157,12 +157,19 @@ module.exports = {
 	 * @param {string} req.body.password Password for account
 	*/
 	register: async ({ req }) => {
+		// [INIT]
+		let returnObj = {
+			executed: true,
+			status: false,
+			location: `${location}/register`,
+			message: '',
+			created: false
+		};
+
 		try {
 			if (config.app.acceptingUserRegistration == 'false') {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/register`,
+					...returnObj,
 					message: "We are currently not accepting new registrations"
 				};
 			}
@@ -170,44 +177,32 @@ module.exports = {
 			// [VALIDATE] req.body.email //
 			if (!validator.isEmail(req.body.email)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/register`,
-					message: 'Invalid email',
-					created: false
+					...returnObj,
+					message: 'Invalid email'
 				};
 			}
 
 			// Email Check //
 			if (await UserModel.findOne({ email: req.body.email })) {
 				return {
-					executed: true,
-					status: true,
-					location: `${location}/register`,
-					message: 'That email is already registered',
-					created: false
+					...returnObj,
+					message: 'That email is already registered'
 				};
 			}
 	
 			// [VALIDATE] req.body.password //
 			if (!validator.isAscii(req.body.password)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/register`,
-					message: 'Invalid password',
-					created: false
+					...returnObj,
+					message: 'Invalid password'
 				};
 			}
 	
 			// [VALIDATE] req.body.password //
 			if (password.req.body.password < 8 || req.body.password.length > 100) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/register`,
-					message: 'Invalid password',
-					created: false
+					...returnObj,
+					message: 'Invalid password'
 				};
 			}
 
@@ -236,9 +231,8 @@ module.exports = {
 			);
 
 			return {
-				executed: true,
+				...returnObj,
 				status: true,
-				location: `${location}/register`,
 				message: 'Successfully created account',
 				created: true,
 				user: user
@@ -246,9 +240,8 @@ module.exports = {
 		}
 		catch (err) {
 			return {
+				...returnObj,
 				executed: false,
-				status: false,
-				location: `${location}/register`,
 				message: `Error --> ${err}`
 			};
 		}
