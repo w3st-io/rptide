@@ -162,7 +162,7 @@ module.exports = {
 			executed: true,
 			status: false,
 			location: `${location}/register`,
-			message: '',
+			message: 'Successfully created account',
 			created: false
 		};
 
@@ -170,7 +170,7 @@ module.exports = {
 			if (config.app.acceptingUserRegistration == 'false') {
 				return {
 					...returnObj,
-					message: "We are currently not accepting new registrations"
+					message: 'We are currently not accepting new registrations'
 				};
 			}
 
@@ -219,9 +219,7 @@ module.exports = {
 			});
 
 			// [MONGODB][CREATE][ApiSubscription] //
-			const subscriptionObj = await ApiSubscriptionCollection.c_create({
-				user_id: userObj.user._id
-			});
+			await ApiSubscriptionCollection.c_create({ user_id: userObj.user._id });
 			
 			// [MAIL] Verification Email //
 			await mailerUtil.sendVerificationMail(
@@ -230,10 +228,10 @@ module.exports = {
 				vCodeObj.verificationCode.verificationCode
 			);
 
+			// [SUCCESS]
 			return {
 				...returnObj,
 				status: true,
-				message: 'Successfully created account',
 				created: true,
 				user: user
 			};
@@ -255,15 +253,18 @@ module.exports = {
 	*/
 	completeRegistration: async ({ req }) => {
 		// [INIT]
-		const subLocation = '/complete-registration';
+		let returnObj = {
+			executed: true,
+			status: false,
+			message: 'Completed registration', 
+			location: `${location}/complete-registration`
+		};
 
 		try {
 			// [VALIDATE] user_id
 			if (!validator.isAscii(req.body.user_id)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}${subLocation}`,
+					...returnObj,
 					message: 'Invalid user_id'
 				};
 			}
@@ -271,9 +272,7 @@ module.exports = {
 			// [VALIDATE] verificationCode
 			if (!validator.isAscii(req.body.verificationCode)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}${subLocation}`,
+					...returnObj,
 					message: 'Invalid verfication code'
 				};
 			}
@@ -316,12 +315,13 @@ module.exports = {
 				if (!stripeObj.status) { return stripeObj; }
 	
 				// [UPDATE][ApiSubscription]
-				const apiSubObj_updated = await ApiSubscriptionCollection.c_update__cusId__user_id(
-					{
-						user_id: user._id,
-						cusId: stripeObj.createdStripeCustomer.id,
-					}
-				);
+				const apiSubObj_updated = await ApiSubscriptionCollection
+					.c_update__cusId__user_id(
+						{
+							user_id: user._id,
+							cusId: stripeObj.createdStripeCustomer.id,
+						}
+					);
 	
 				// [VALIDATE] updatedApiSubscriptionObj
 				if (!apiSubObj_updated.status) { return apiSubObj_updated; }
@@ -335,17 +335,15 @@ module.exports = {
 
 			// [SUCCESS]
 			return {
-				executed: true,	
+				...returnObj,
 				status: true,
-				location: `${location}${subLocation}`,
 				existance: vCObj.existance
 			};
 		}
 		catch (err) {
 			return {
+				...returnObj,
 				executed: false,
-				status: false,
-				location: `${location}${subLocation}`,
 				message: `Error --> ${err}`
 			};
 		}
