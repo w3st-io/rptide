@@ -91,7 +91,7 @@
 				submitted: false,
 				password: '',
 				confirm: '',
-				reqData: '',
+				resData: '',
 				message: '',
 			} 
 		},
@@ -101,13 +101,13 @@
 				this.submitted = true
 
 				try {
-					this.reqData = await Service.s_notLoggedResetPassword(
+					this.resData = await Service.s_notLoggedResetPassword(
 						this.$route.params.user_id,
 						this.$route.params.verification_code,
 						this.password
 					)
 
-					this.message = this.reqData.message
+					this.message = this.resData.message
 				}
 				catch (err) {
 					this.message = err
@@ -115,7 +115,7 @@
 					this.submitted = false
 				}
 				
-				console.log('reqData:', this.reqData)
+				console.log('resData:', this.resData)
 
 				setTimeout(() => { router.push({ name: 'user_login' }) }, 1500)
 			},

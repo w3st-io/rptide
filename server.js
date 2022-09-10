@@ -1,4 +1,4 @@
-// [REQUIRE] //
+// [REQUIRE]
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
@@ -7,36 +7,36 @@ const mongoose = require('mongoose');
 const path = require('path');
 const socketIO = require('socket.io');
 
-// [REQUIRE][OTHER][API][PAGES][PUBLIC-API] Personal //
+// [REQUIRE][OTHER][API][PAGES][PUBLIC-API] Personal
 const config = require('./s-config');
 const Functionality = require('./s-middlewares/Functionality');
 const rateLimiter = require('./s-rate-limiters');
 const s_socket = require('./s-socket');
 
-const a_ = require('./s-route/api');
-const a_socket = require('./s-route/api/socket');
-const a_apiSubscription = require('./s-route/api/user/api-subscription');
-const a_productOption = require('./s-route/api/user/product-option');
-const a_product = require('./s-route/api/user/product');
-const a_user = require('./s-route/api/user');
-const a_webApp = require('./s-route/api/user/web-app');
-const a_webContent = require('./s-route/api/user/web-content');
+const a_                = require('./s-route/api');
+const a_apiSubscription = require('./s-route/api/api-subscription');
+const a_productOption   = require('./s-route/api/product-option');
+const a_product         = require('./s-route/api/product');
+const a_socket          = require('./s-route/api/socket');
+const a_user            = require('./s-route/api/user');
+const a_webApp          = require('./s-route/api/web-app');
+const a_webContent      = require('./s-route/api/web-content');
 
 const p_                = require ('./s-route/pages');
 const p_dashboard       = require('./s-route/pages/dashboard');
 const p_product_read    = require('./s-route/pages/product/read');
-const p_user            = require('./s-route/pages/user');
+const p_user             = require('./s-route/pages/user');
 
 
-// [EXPRESS] //
+// [EXPRESS]
 const app = express();
 
 
-// [SERVER] Upgrade app to server //
+// [SERVER] Upgrade app to server
 const server = http.createServer(app);
 
 
-// [SOCKET.IO] //
+// [SOCKET.IO]
 const io = socketIO(
 	server,
 	{
@@ -51,15 +51,15 @@ const io = socketIO(
 );
 
 
-// [SOCKET.IO] //
+// [SOCKET.IO]
 s_socket.start(io);
 
 
-// [SET] //
+// [SET]
 app.set('socketio', io);
 
 
-// [MONGOOSE-CONNECTION] //
+// [MONGOOSE-CONNECTION]
 mongoose.connect(
 	config.app.mongoURI,
 	{
@@ -74,7 +74,11 @@ mongoose.connect(
 );
 
 
-// [USE] // Set static Folder // Rate-Limiter //
+/**
+ * @notice [USE]
+ * Set static folder
+ * Rate Limiter
+ */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
@@ -82,7 +86,7 @@ app.use(express.static(__dirname + '/s-static'));
 app.use(rateLimiter.global);
 
 
-// [USE][ROUTE][API] //
+// [USE][ROUTE][API]
 app.use('/api', a_);
 app.use('/api/socket', a_socket);
 app.use('/api/user', Functionality.user(), a_user);
@@ -93,24 +97,26 @@ app.use('/api/web-app', a_webApp);
 app.use('/api/web-content', a_webContent);
 
 
-// [USE][ROUTE][PAGES] //
+// [USE][ROUTE][PAGES]
 app.use('/pages', p_);
 app.use('/pages/product/read', p_product_read);
 app.use('/pages/user', p_user);
 app.use('/pages/dashboard', p_dashboard);
 
 
-// [HEROKU] Set Static Folder for Heroku //
+// [HEROKU] Set Static Folder for Heroku
 if (config.nodeENV == 'production') {
 	app.use(express.static('client/dist'));
 
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+		res.sendFile(
+			path.resolve(__dirname, 'client', 'dist', 'index.html')
+		);
 	});
 }
 
 
-// [LISTEN] //
+// [LISTEN]
 server.listen(
 	config.port,
 	() => { console.log(`Server Running on Port: ${config.port}`); }

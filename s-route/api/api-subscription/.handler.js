@@ -5,7 +5,7 @@ const a_stripe_subscription = require('../../../s-api/stripe/subscription')
 
 
 // [INIT] //
-const location = '/user/api-subscription'
+const location = '/api-subscription'
 
 
 const tier1PriceId = config.api.stripe.priceTier1

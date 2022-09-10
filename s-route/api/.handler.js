@@ -16,7 +16,7 @@ const UserModel = require('../../s-models/UserModel');
 
 
 // [INIT] //
-const location = '/user/index'
+const location = '/.handler.js';
 
 
 module.exports = {
@@ -121,9 +121,7 @@ module.exports = {
 					verified: user.verified
 				},
 				config.app.secretKey,
-				{
-					expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000
-				}
+				{ expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000 }
 			);
 
 			const webApps = await WebAppModel.find({ user: user._id });
@@ -140,7 +138,7 @@ module.exports = {
 				validation: true,
 				token: token,
 				user: returnableUser,
-				webApps: webApps,
+				webApps: webApps
 			};
 		}
 		catch (err) {
@@ -175,7 +173,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}/register`,
-					message: "Invalid email",
+					message: 'Invalid email',
 					created: false
 				};
 			}
@@ -197,7 +195,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}/register`,
-					message: "Invalid password",
+					message: 'Invalid password',
 					created: false
 				};
 			}
@@ -208,7 +206,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}/register`,
-					message: "Invalid password",
+					message: 'Invalid password',
 					created: false
 				};
 			}

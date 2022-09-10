@@ -6,7 +6,7 @@ const validator = require('validator');
 const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection');
 const ProductCollection = require('../../../s-collections/ProductCollection');
 const config_const = require('../../../s-config/const');
-const h_apiSubscription = require('../../api/user/api-subscription.handler');
+const h_apiSubscription = require('../../api/api-subscription/.handler.js');
 
 
 // [CONST] //

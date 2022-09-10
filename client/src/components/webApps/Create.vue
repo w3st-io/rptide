@@ -35,7 +35,6 @@
 					}
 				}),
 
-				reqData: {},
 				error: '',
 
 				webApp: {
@@ -49,15 +48,15 @@
 				try {
 					this.error = ''
 					
-					this.resData = await this.authAxios.post('/create', {
+					const resData = await this.authAxios.post('/create', {
 						webApp: this.webApp
 					})
 
-					if (this.resData.data.status) {
-						this.$store.state.webApps = this.resData.data.webApps
+					if (resData.data.status) {
+						this.$store.state.webApps = resData.data.webApps
 					}
 					else {
-						this.error = this.resData.data.message
+						this.error = resData.data.message
 					}
 				}
 				catch (err) {

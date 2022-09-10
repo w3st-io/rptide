@@ -111,7 +111,7 @@
 				submitted: false,
 				email: '',
 				password: '',
-				reqData: '',
+				resData: '',
 				error: '',
 			}
 		},
@@ -131,17 +131,17 @@
 					}
 
 					// [LOGIN] //
-					this.reqData = await service.s_login(
+					this.resData = await service.s_login(
 						this.email,
 						this.password
 					)
 					
 					// Check Validation Status //
 					if (
-						this.reqData.status == true &&
-						this.reqData.validation == true
+						this.resData.status == true &&
+						this.resData.validation == true
 					) { router.go(-1) }
-					else { this.error = this.reqData.message }
+					else { this.error = this.resData.message }
 				}
 				catch (err) { this.error = err }
 			},

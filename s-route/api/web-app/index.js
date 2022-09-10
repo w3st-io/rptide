@@ -5,7 +5,8 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../../s-rate-limiters')
-const rh = require('./web-content.handler')
+const rh = require('./.handler.js')
+const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
 const Auth = require('../../../s-middlewares/Auth')
 
 
@@ -17,39 +18,21 @@ const router = express.Router().use(cors())
 // [CREATE] Auth Required //
 router.post(
 	'/create',
+	rateLimiter.post,
 	Auth.userToken(),
+	ApiSubscription.webAppLimitCheck(),
 	async (req, res) => {
-		res.send(await rh.createWebContent({ req }))
+		res.send(await rh.create({ req }))
 	}
 )
 
 
-// [FIND-ALL] Auth Required //
-router.post(
-	'/find',
-	Auth.userTokenOrAPIPrivateKey(),
-	async (req, res) => {
-		res.send(await rh.find({ req }))
-	}
-)
-
-
-// [FIND-ALL] Auth Required //
-router.post(
-	'/find-paginated/:limit/:page',
-	Auth.userTokenOrAPIPrivateKey(),
-	async (req, res) => {
-		res.send(await rh.findPaginated({ req }))
-	}
-)
-
-
-// [FIND] Auth Required //
 router.post(
 	'/find-one',
-	Auth.userTokenOrAPIPrivateKey(),
+	rateLimiter.post,
+	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.findOne({ req }))
+		res.send(await rh.findOne({ req }))	
 	}
 )
 
@@ -62,12 +45,13 @@ router.post(
 		res.send(await rh.findOneAndUpdate({ req }))
 	}
 )
-
-
-// [UPDATE] Auth Required //
+		
+		
+// [DELETE] Auth Required //
 router.post(
 	'/delete-one',
-	Auth.userTokenOrAPIPrivateKey(),
+	rateLimiter.post,
+	Auth.userToken(),
 	async (req, res) => {
 		res.send(await rh.deleteOne({ req }))
 	}

@@ -6,7 +6,7 @@ const validator = require('validator');
 // [REQUIRE] Personal
 const config = require('../s-config');
 const UserModel = require('../s-models/UserModel');
-const h_apiSubscription = require('../s-route/api/user/api-subscription.handler');
+const h_apiSubscription = require('../s-route/api/api-subscription/.handler.js');
 
 
 // [INIT]

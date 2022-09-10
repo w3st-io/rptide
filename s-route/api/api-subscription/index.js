@@ -6,7 +6,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
-const h_apiSub = require('./api-subscription.handler')
+const h_apiSub = require('./.handler.js')
 const Auth = require('../../../s-middlewares/Auth')
 
 
@@ -15,7 +15,7 @@ const router = express.Router().use(cors())
 
 
 // [INIT] //
-const location = '/s-route/api/user/api-subscription'
+const location = '/s-route/api/api-subscription'
 
 
 router.post(

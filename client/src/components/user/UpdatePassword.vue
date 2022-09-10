@@ -100,7 +100,7 @@
 		data() {
 			return {
 				submitted: false,
-				reqData: '',
+				resData: '',
 				message: '',
 				formData: {
 					currentPassword: '',
@@ -115,14 +115,14 @@
 				try {
 					this.submitted = true
 
-					this.reqData = await UserService.s_update_password(
+					this.resData = await UserService.s_update_password(
 						this.formData.currentPassword,
 						this.formData.password
 					)
 
-					this.message = this.reqData.message
+					this.message = this.resData.message
 
-					if (this.reqData.status) {
+					if (this.resData.status) {
 						this.submitted = true
 						setTimeout(
 							() => {
@@ -136,7 +136,7 @@
 				
 				this.submitted = false
 				
-				console.log('reqData:', this.reqData)
+				console.log('resData:', this.resData)
 			},
 		},
 	}

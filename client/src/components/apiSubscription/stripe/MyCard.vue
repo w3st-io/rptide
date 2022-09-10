@@ -76,7 +76,7 @@
 						<BRow class="text-light">
 							<BCol cols="12">
 								<VueCreditCard
-									v-model="reqData_updatePaymentMethod.card"
+									v-model="resData_updatePaymentMethod.card"
 									:preview-enabled="false"
 									class="my-5 font"
 								/>
@@ -139,7 +139,7 @@
 
 				resData: {},
 
-				reqData_updatePaymentMethod: {
+				resData_updatePaymentMethod: {
 					card: {
 						holder: '',
 						number: '',
@@ -163,11 +163,11 @@
 				this.loading = true
 
 				this.resData = await SubscriptionService.s_update_pm({
-					cardName: this.reqData_updatePaymentMethod.card.holder,
-					cardNumber: this.reqData_updatePaymentMethod.card.number,
-					cardMonth: this.reqData_updatePaymentMethod.card.month,
-					cardYear: this.reqData_updatePaymentMethod.card.year,
-					cardCvc: this.reqData_updatePaymentMethod.card.cvv,
+					cardName: this.resData_updatePaymentMethod.card.holder,
+					cardNumber: this.resData_updatePaymentMethod.card.number,
+					cardMonth: this.resData_updatePaymentMethod.card.month,
+					cardYear: this.resData_updatePaymentMethod.card.year,
+					cardCvc: this.resData_updatePaymentMethod.card.cvv,
 				})
 
 				if (this.resData.status) {

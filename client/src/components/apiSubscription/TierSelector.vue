@@ -166,7 +166,7 @@
 
 				resData: {},
 
-				reqData_updateTier: {
+				resData_updateTier: {
 					tier: '',
 				},
 
@@ -208,7 +208,7 @@
 
 		created() {
 			this.loading = false
-			this.reqData_updateTier.tier = this.apiSubscriptionTier
+			this.resData_updateTier.tier = this.apiSubscriptionTier
 		},
 	}
 </script>

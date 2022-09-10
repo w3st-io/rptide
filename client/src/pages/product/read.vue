@@ -838,7 +838,7 @@ export default {
 				}
 			}),
 
-			reqData: {},
+			resData: {},
 			loading: true,
 			error: '',
 			message: 'We do not support uploading images yet. please provide a URL for images.',
@@ -873,15 +873,15 @@ export default {
 		async getPageData() {
 			this.loading = true
 
-			this.reqData = (
+			this.resData = (
 				await this.authAxios.get(`/${this.$route.params.product_id}`)
 			).data
 
-			if (this.reqData.status) {
-				this.product = this.reqData.product
-				this.productOptions = this.reqData.productOptions
+			if (this.resData.status) {
+				this.product = this.resData.product
+				this.productOptions = this.resData.productOptions
 			}
-			else { this.error = this.reqData.message }
+			else { this.error = this.resData.message }
 
 			this.loading = false
 		},
@@ -919,10 +919,10 @@ export default {
 			this.product.optionalProductOptions = optionalProductOptions
 
 
-			this.reqData = await ProductService.s_update({ product: this.product })
+			this.resData = await ProductService.s_update({ product: this.product })
 
-			if (this.reqData.status) { this.product = this.reqData.updatedProduct }
-			else { this.error = this.reqData.message }
+			if (this.resData.status) { this.product = this.resData.updatedProduct }
+			else { this.error = this.resData.message }
 		},
 
 		async addRequiredPA() {
@@ -968,13 +968,13 @@ export default {
 		},
 
 		async deleteProduct() {
-			this.reqData = await ProductService.s_delete({
+			this.resData = await ProductService.s_delete({
 				product_id: this.product._id
 			})
 
 			this.showConfirm = false
 
-			if (this.reqData.status) {
+			if (this.resData.status) {
 				router.push('/dashboard/unset/product/0/5/1')
 			}
 		},
