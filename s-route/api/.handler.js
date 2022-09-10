@@ -365,16 +365,19 @@ module.exports = {
 	 * @param req.body.email Email to recover password for
 	*/
 	resendVerificationEmail: async ({ req }) => {
-		const subLocation = '/resend-verification-email'
+		let childReturnObj = {
+			executed: true,
+			status: false,
+			location: `${location}/resend-verification-email`,
+			message: 'Verification email sent'
+		};
 
 		try {
 			// [VALIDATE] //
 			if (!validator.isAscii(req.body.email)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}${subLocation}`,
-					message: `Invalid params`,
+					...childReturnObj,
+					message: 'Invalid params',
 				}
 			}
 
@@ -394,18 +397,15 @@ module.exports = {
 			)
 
 			return {
-				executed: true,
-				status: true,
-				location: `${location}${subLocation}`,
-				message: `Verification email sent`,
+				...childReturnObj,
+				status: true
 			}
 			
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}${subLocation}`,
 				message: `Error --> ${err}`,
 			}
 		}
