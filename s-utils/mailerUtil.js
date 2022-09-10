@@ -128,7 +128,7 @@ module.exports = {
 			return {
 				executed: true,
 				status: true,
-				message: 'Email Sent',
+				message: 'Email Sent'
 			}
 		}
 		catch (err) {

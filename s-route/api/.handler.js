@@ -64,6 +64,7 @@ module.exports = {
 			return {
 				...childReturnObj,
 				executed: false,
+				message: err
 			};
 		}
 	},
@@ -158,7 +159,7 @@ module.exports = {
 			return {
 				...childReturnObj,
 				executed: false,
-				message: `Error --> ${err}`
+				message: err
 			};
 		}
 	},
@@ -251,7 +252,7 @@ module.exports = {
 			return {
 				...childReturnObj,
 				executed: false,
-				message: `Error --> ${err}`
+				message: err
 			};
 		}
 	},
@@ -354,7 +355,7 @@ module.exports = {
 			return {
 				...childReturnObj,
 				executed: false,
-				message: `Error --> ${err}`
+				message: err
 			};
 		}
 	},
@@ -406,7 +407,7 @@ module.exports = {
 			return {
 				...childReturnObj,
 				executed: false,
-				message: `Error --> ${err}`,
+				message: err
 			}
 		}
 	},
@@ -469,7 +470,7 @@ module.exports = {
 			return {
 				...childReturnObj,
 				executed: false,
-				message: err,
+				message: err
 			};
 		}
 	},
@@ -481,6 +482,13 @@ module.exports = {
 	 * @param req.body.password New password to be set
 	*/
 	resetPassword: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+			...returnObj,
+			location: `${location}/reset-password`,
+			message: 'Password reset'
+		};
+
 		try {
 			if (
 				!validator.isAscii(req.body.user_id) ||
@@ -488,9 +496,7 @@ module.exports = {
 				!validator.isAscii(req.body.password)
 			) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/reset-password`,
+					...childReturnObj,
 					message: 'Invalid params',
 				}
 			}
@@ -502,9 +508,7 @@ module.exports = {
 
 			if (!existance.existance) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/reset-password`,
+					...childReturnObj,
 					message: 'You have not made a request to reset your password',
 				}
 			}
@@ -535,18 +539,15 @@ module.exports = {
 			if (!deletedPR.status) { return deletedPR }
 
 			return {
-				executed: true,
+				...childReturnObj,
 				status: true,
-				location: `${location}/reset-password`,
-				message: `Password reset`,
 			}
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}/reset-password`,
-				message: `Error --> ${err}`,
+				message: err
 			}
 		}
 	},

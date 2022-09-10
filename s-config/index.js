@@ -29,7 +29,7 @@ module.exports = {
 	
 	// [COMPANY] //
 	company: {
-		name: process.env.COMPANY__NAME || 'Company Name',
+		name: 'RpTide',
 	},
 	
 	// [FUNCTIONALITY] //
