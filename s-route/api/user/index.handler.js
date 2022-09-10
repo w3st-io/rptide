@@ -14,8 +14,9 @@ const location = '/user/index'
 
 module.exports = {
 	/**
-	 * @notice Update User
+	 * @notice Update User's profile image and bio
 	 * @param {string} req.body.img_url
+	 * @param {string} req.body.bio
 	 * @returns {object} Updated user
 	*/
 	update: async ({ req }) => {

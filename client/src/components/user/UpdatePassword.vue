@@ -124,7 +124,12 @@
 
 					if (this.reqData.status) {
 						this.submitted = true
-						setTimeout(() => { router.push({ name: 'user_profile' }) }, 1500)
+						setTimeout(
+							() => {
+								router.push({ name: 'user_profile' })
+							},
+						1500
+						)
 					}
 				}
 				catch (err) { this.message = err }
