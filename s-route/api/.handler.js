@@ -418,53 +418,59 @@ module.exports = {
 	requestResetPassword: async ({ req }) => {
 		// [INIT]
 		let childReturnObj = {
-
+			...returnObj,
+			location: `${location}/request-reset-password`,
+			message: 'Email sent'
 		};
 
 		try {
 			// [VALIDATE]
-			if (!validator.isAscii(req.body.email)) {
+			if (!validator.isEmail(req.body.email)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/request-reset-password:`,
-					message: `${location}/request-reset-password: Invalid params`,
-				}
+					...childReturnObj,
+					message: `Invalid params`,
+				};
 			}
 
+			// [MONGODB][FIND-ONE][User]
 			const user = await UserModel.findOne({ email: req.body.email });
 			
 			if (!user.status) {
 				return {
-					executed: true,
-					status: false,
+					...childReturnObj,
 					message: "No user found"
-				}
+				};
 			}
 
 			// [CREATE][PasswordRecovery]
 			const passwordRecovery = await PasswordRecoveryCollection.c_create(
 				user._id
-			)
+			);
 			
 			if (!passwordRecovery.status || passwordRecovery.existance) {
-				return passwordRecovery
+				return passwordRecovery;
 			}
 
 			// [SEND-MAIL]
-			return await mailerUtil.sendPasswordResetEmail(
+			const sent = await mailerUtil.sendPasswordResetEmail(
 				req.body.email,
 				user._id,
 				passwordRecovery.passwordRecovery.verificationCode
-			)
+			);
+
+			if (sent.status) {
+				return {
+					...childReturnObj,
+					status: true
+				};
+			}
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}/request-reset-password:`,
-				message: `${location}/request-reset-password: Error --> ${err}`,
-			}
+				message: err,
+			};
 		}
 	},
 
