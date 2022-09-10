@@ -34,7 +34,7 @@ router.post(
 	async (req, res) => {
 		res.send(await rh.register({ req }));
 	}
-)
+);
 
 
 router.post(
