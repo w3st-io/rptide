@@ -5,51 +5,67 @@ const validator = require('validator');
 
 
 // [REQUIRE] Personal //
-const api_stripe = require('../../s-api/stripe');
+const api_stripe                 = require('../../s-api/stripe');
 const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
 const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
-const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection');
-const config = require('../../s-config');
-const mailerUtil = require('../../s-utils/mailerUtil');
-const WebAppModel = require('../../s-models/WebAppModel');
-const UserModel = require('../../s-models/UserModel');
+const ApiSubscriptionCollection  = require('../../s-collections/ApiSubscriptionCollection');
+const config                     = require('../../s-config');
+const mailerUtil                 = require('../../s-utils/mailerUtil');
+const WebAppModel                = require('../../s-models/WebAppModel');
+const UserModel                  = require('../../s-models/UserModel');
 
 
 // [INIT] //
 const location = '/.handler.js';
+let returnObj = {
+	executed: true,
+	status: false,
+	location: location
+};
 
 
 module.exports = {
+	/**
+	 * @notice Default route to initialize app
+	 * @returns {Object}
+	 */
 	index: async ({ req }) => {
 		// [INIT]
-		let returnObj = {
+		let childReturnObj = {
+			...returnObj,
 			node_env: config.nodeENV
 		};
 
-		// [USER-LOGGED]
-		if (req.user_decoded) {
-			// [MONGODB][User]
-			const user = await UserModel.findOne({
-				_id: req.user_decoded._id
-			}).select('-password -api.publicKey').exec();
+		try {
+				// [USER-LOGGED]
+			if (req.user_decoded) {
+				// [MONGODB][User]
+				const user = await UserModel.findOne({
+					_id: req.user_decoded._id
+				}).select('-password -api.publicKey').exec();
 
-			// [MONGODB][WebApp]
-			const webApps = await WebAppModel.find({ user: req.user_decoded._id });
+				// [MONGODB][WebApp]
+				const webApps = await WebAppModel.find({ user: req.user_decoded._id });
+				
+				// [APPEND]
+				childReturnObj = {
+					...childReturnObj,
+					user: user,
+					webApps: webApps
+				};
+			}
 			
-			// [APPEND]
-			returnObj = {
-				...returnObj,
-				user: user,
-				webApps: webApps
+			return {
+				...childReturnObj,
+				status: true
 			};
 		}
-
-		// [SEND] 200
-		return {
-			status: true,
-			executed: true,
-			...returnObj
-		};
+		catch (err) {
+			return {
+				...childReturnObj,
+				executed: false,
+			};
+		}
 	},
 
 	/**
@@ -59,6 +75,14 @@ module.exports = {
 	 * @returns {string} Object containing token (JWT token)
 	*/
 	login: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+			...returnObj,
+			location: `${location}/login`,
+			message: 'Success',
+			validation: false
+		};
+
 		try {
 			// [VALIDATE] email //
 			if (
@@ -66,9 +90,7 @@ module.exports = {
 				!validator.isAscii(req.body.email)
 			) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/login:`,
+					...childReturnObj,
 					message: `Invalid email`,
 				};
 			}
@@ -79,9 +101,7 @@ module.exports = {
 				!validator.isAscii(req.body.password)
 			) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/login:`,
+					...childReturnObj,
 					message: `Invalid password`,
 				};
 			}
@@ -91,22 +111,16 @@ module.exports = {
 
 			if (!user) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/login:`,
-					message: `Invalid email or password`,
-					validation: false
+					...childReturnObj,
+					message: `Invalid email or password`
 				};
 			}
 
 			// [VALIDATE-PASSWORD] //
 			if (!bcrypt.compareSync(req.body.password, user.password)) {
 				return {
-					executed: true,
-					status: true,
-					location: `${location}/login:`,
-					message: `Invalid email or password`,
-					validation: false,
+					...childReturnObj,
+					message: `Invalid email or password`
 				};
 			}
 
@@ -132,10 +146,9 @@ module.exports = {
 			}).select('-password -api.publicKey').exec();
 
 			return {
-				executed: true,
+				...childReturnObj,
 				status: true,
 				message: 'success',
-				validation: true,
 				token: token,
 				user: returnableUser,
 				webApps: webApps
@@ -143,10 +156,9 @@ module.exports = {
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}/login:`,
-				message: `${location}/login: Error --> ${err}`
+				message: `Error --> ${err}`
 			};
 		}
 	},
@@ -158,9 +170,8 @@ module.exports = {
 	*/
 	register: async ({ req }) => {
 		// [INIT]
-		let returnObj = {
-			executed: true,
-			status: false,
+		let childReturnObj = {
+			...returnObj,
 			location: `${location}/register`,
 			message: 'Successfully created account',
 			created: false
@@ -169,7 +180,7 @@ module.exports = {
 		try {
 			if (config.app.acceptingUserRegistration == 'false') {
 				return {
-					...returnObj,
+					...childReturnObj,
 					message: 'We are currently not accepting new registrations'
 				};
 			}
@@ -177,7 +188,7 @@ module.exports = {
 			// [VALIDATE] req.body.email //
 			if (!validator.isEmail(req.body.email)) {
 				return {
-					...returnObj,
+					...childReturnObj,
 					message: 'Invalid email'
 				};
 			}
@@ -185,7 +196,7 @@ module.exports = {
 			// Email Check //
 			if (await UserModel.findOne({ email: req.body.email })) {
 				return {
-					...returnObj,
+					...childReturnObj,
 					message: 'That email is already registered'
 				};
 			}
@@ -193,7 +204,7 @@ module.exports = {
 			// [VALIDATE] req.body.password //
 			if (!validator.isAscii(req.body.password)) {
 				return {
-					...returnObj,
+					...childReturnObj,
 					message: 'Invalid password'
 				};
 			}
@@ -201,7 +212,7 @@ module.exports = {
 			// [VALIDATE] req.body.password //
 			if (password.req.body.password < 8 || req.body.password.length > 100) {
 				return {
-					...returnObj,
+					...childReturnObj,
 					message: 'Invalid password'
 				};
 			}
@@ -230,7 +241,7 @@ module.exports = {
 
 			// [SUCCESS]
 			return {
-				...returnObj,
+				...childReturnObj,
 				status: true,
 				created: true,
 				user: user
@@ -238,7 +249,7 @@ module.exports = {
 		}
 		catch (err) {
 			return {
-				...returnObj,
+				...childReturnObj,
 				executed: false,
 				message: `Error --> ${err}`
 			};
@@ -253,9 +264,8 @@ module.exports = {
 	*/
 	completeRegistration: async ({ req }) => {
 		// [INIT]
-		let returnObj = {
-			executed: true,
-			status: false,
+		let childReturnObj = {
+			...returnObj,
 			message: 'Completed registration', 
 			location: `${location}/complete-registration`
 		};
@@ -264,7 +274,7 @@ module.exports = {
 			// [VALIDATE] user_id
 			if (!validator.isAscii(req.body.user_id)) {
 				return {
-					...returnObj,
+					...childReturnObj,
 					message: 'Invalid user_id'
 				};
 			}
@@ -272,7 +282,7 @@ module.exports = {
 			// [VALIDATE] verificationCode
 			if (!validator.isAscii(req.body.verificationCode)) {
 				return {
-					...returnObj,
+					...childReturnObj,
 					message: 'Invalid verfication code'
 				};
 			}
@@ -335,14 +345,14 @@ module.exports = {
 
 			// [SUCCESS]
 			return {
-				...returnObj,
+				...childReturnObj,
 				status: true,
 				existance: vCObj.existance
 			};
 		}
 		catch (err) {
 			return {
-				...returnObj,
+				...childReturnObj,
 				executed: false,
 				message: `Error --> ${err}`
 			};
@@ -406,8 +416,13 @@ module.exports = {
 	 * @param req.body.email Email to recover password for
 	*/
 	requestResetPassword: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+
+		};
+
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (!validator.isAscii(req.body.email)) {
 				return {
 					executed: true,
@@ -427,7 +442,7 @@ module.exports = {
 				}
 			}
 
-			// [CREATE][PasswordRecovery] //
+			// [CREATE][PasswordRecovery]
 			const passwordRecovery = await PasswordRecoveryCollection.c_create(
 				user._id
 			)
@@ -436,7 +451,7 @@ module.exports = {
 				return passwordRecovery
 			}
 
-			// [SEND-MAIL] //
+			// [SEND-MAIL]
 			return await mailerUtil.sendPasswordResetEmail(
 				req.body.email,
 				user._id,
