@@ -1,13 +1,13 @@
-// [REQUIRE] //
+// [REQUIRE]
 const cors = require('cors')
 const express = require('express')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const socketService = require('../../s-socket/socketService')
 
 
-// [EXPRESS + USE] //
+// [EXPRESS + USE]
 const router = express.Router().use(cors())
 
 

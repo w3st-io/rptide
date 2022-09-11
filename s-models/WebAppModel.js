@@ -1,4 +1,4 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
 

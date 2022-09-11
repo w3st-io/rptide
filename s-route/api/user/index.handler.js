@@ -1,10 +1,10 @@
-// [REQUIRE] //
+// [REQUIRE]
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const uuid = require('uuid')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const UserModel = require('../../../s-models/UserModel');
 
 

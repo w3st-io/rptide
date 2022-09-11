@@ -1,10 +1,10 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 const validator = require('validator')
 const uuid = require('uuid')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const VerificationCodeModel = require('../s-models/VerificationCodeModel')
 
 

@@ -1,4 +1,4 @@
-// [REQUIRE] //
+// [REQUIRE]
 const ProductCollection = require('../s-collections/ProductCollection')
 const ApiSubscriptionCollection = require('../s-collections/ApiSubscriptionCollection')
 const config_const = require('../s-config/const')

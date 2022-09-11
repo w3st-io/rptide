@@ -1,4 +1,4 @@
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const config = require('../../../s-config')
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
 const a_stripe_subscription = require('../../../s-api/stripe/subscription')

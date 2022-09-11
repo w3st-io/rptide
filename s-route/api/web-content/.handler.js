@@ -1,8 +1,8 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const WebAppModel = require('../../../s-models/WebAppModel')
 const WebContentModel = require('../../../s-models/WebContentModel')
 

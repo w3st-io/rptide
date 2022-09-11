@@ -1,4 +1,4 @@
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const api_stripe_customer = require('../../s-api/stripe/customer')
 const api_stripe_paymentMethod = require('../../s-api/stripe/paymentMethod')
 const api_stripe_subscription = require('../../s-api/stripe/subscription')

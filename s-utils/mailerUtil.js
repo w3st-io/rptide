@@ -1,10 +1,10 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 const validator = require('validator')
 const SibApiV3Sdk = require('sib-api-v3-sdk')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const config = require('../s-config')
 
 

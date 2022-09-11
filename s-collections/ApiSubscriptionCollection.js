@@ -1,9 +1,9 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 const validator = require('validator')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const ApiSubscriptionModel = require('../s-models/ApiSubscriptionModel')
 
 

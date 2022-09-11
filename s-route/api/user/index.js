@@ -1,14 +1,14 @@
-// [REQUIRE] //
+// [REQUIRE]
 const cors = require('cors');
 const express = require('express');
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const rh = require('./index.handler');
 const Auth = require('../../../s-middlewares/Auth');
 
 
-// [EXPRESS + USE] //
+// [EXPRESS + USE]
 const router = express.Router().use(cors());
 
 

@@ -1,4 +1,4 @@
-// [REQUIRE] //
+// [REQUIRE]
 const e = require('express')
 const mongoose = require('mongoose')
 

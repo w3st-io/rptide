@@ -1,18 +1,18 @@
-// [REQUIRE] //
+// [REQUIRE]
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
 
-// [REQUIRE] Personal //
-const api_stripe                 = require('../../s-api/stripe');
+// [REQUIRE] Personal
+const api_stripe = require('../../s-api/stripe');
 const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
 const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
-const ApiSubscriptionCollection  = require('../../s-collections/ApiSubscriptionCollection');
-const config                     = require('../../s-config');
-const mailerUtil                 = require('../../s-utils/mailerUtil');
-const WebAppModel                = require('../../s-models/WebAppModel');
-const UserModel                  = require('../../s-models/UserModel');
+const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection');
+const config = require('../../s-config');
+const WebAppModel = require('../../s-models/WebAppModel');
+const UserModel = require('../../s-models/UserModel');
+const mailerUtil = require('../../s-utils/mailerUtil');
 
 
 // [INIT] //

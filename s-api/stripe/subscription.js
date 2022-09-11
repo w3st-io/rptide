@@ -1,9 +1,9 @@
-// [REQUIRE] //
+// [REQUIRE]
 const stripe = require('stripe')
 const validator = require('validator')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const config = require('../../s-config')
 
 

@@ -1,16 +1,16 @@
-// [REQUIRE] //
+// [REQUIRE]
 const cors = require('cors')
 const express = require('express')
 const validator = require('validator')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
 const h_apiSub = require('./.handler.js')
 const Auth = require('../../../s-middlewares/Auth')
 
 
-// [EXPRESS + USE] //
+// [EXPRESS + USE]
 const router = express.Router().use(cors())
 
 

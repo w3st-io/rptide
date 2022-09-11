@@ -1,4 +1,4 @@
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const rateLimit = require('express-rate-limit')
 
 

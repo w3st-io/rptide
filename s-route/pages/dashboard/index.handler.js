@@ -1,8 +1,8 @@
-// [REQUIRE] //
+// [REQUIRE]
 const validator = require('validator');
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection');
 const ProductCollection = require('../../../s-collections/ProductCollection');
 const config_const = require('../../../s-config/const');

@@ -1,19 +1,19 @@
-// [REQUIRE] //
+// [REQUIRE]
 const cors = require('cors')
 const express = require('express')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const rh = require('./.handler.js')
 const Auth = require('../../../s-middlewares/Auth')
 
 
-// [EXPRESS + USE] //
+// [EXPRESS + USE]
 const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [CREATE] Auth Required //
+// [CREATE] Auth Required
 router.post(
 	'/create',
 	Auth.userToken(),
@@ -23,7 +23,7 @@ router.post(
 )
 
 
-// [FIND-ALL] Auth Required //
+// [FIND-ALL] Auth Required
 router.post(
 	'/find',
 	Auth.userTokenOrAPIPrivateKey(),
@@ -33,7 +33,7 @@ router.post(
 )
 
 
-// [FIND-ALL] Auth Required //
+// [FIND-ALL] Auth Required
 router.post(
 	'/find-paginated/:limit/:page',
 	Auth.userTokenOrAPIPrivateKey(),
@@ -43,7 +43,7 @@ router.post(
 )
 
 
-// [FIND] Auth Required //
+// [FIND] Auth Required
 router.post(
 	'/find-one',
 	Auth.userTokenOrAPIPrivateKey(),
@@ -53,7 +53,7 @@ router.post(
 )
 
 
-// [UPDATE] Auth Required //
+// [UPDATE] Auth Required
 router.post(
 	'/find-one-and-update',
 	Auth.userTokenOrAPIPrivateKey(),
@@ -63,7 +63,7 @@ router.post(
 )
 
 
-// [UPDATE] Auth Required //
+// [UPDATE] Auth Required
 router.post(
 	'/delete-one',
 	Auth.userTokenOrAPIPrivateKey(),

@@ -1,4 +1,4 @@
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const socketService = require('./socketService')
 
 

@@ -1,16 +1,16 @@
-// [REQUIRE] //
+// [REQUIRE]
 const cors = require('cors')
 const express = require('express')
 const validator = require('validator')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const ProductCollection = require('../../../s-collections/ProductCollection')
 const Auth = require('../../../s-middlewares/Auth')
 const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
 
 
-// [EXPRESS + USE] //
+// [EXPRESS + USE]
 const router = express.Router().use(cors())
 
 

@@ -1,10 +1,10 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 const validator = require('validator')
 const stripe = require('stripe')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const config = require('../../s-config')
 
 

@@ -1,9 +1,9 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 const uuid = require('uuid')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const PasswordRecoveryModel = require('../s-models/PasswordRecoveryModel')
 
 

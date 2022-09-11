@@ -21,7 +21,7 @@ const authAxios = axios.create({
 
 export default {
 	/******************* [CRUD] *******************/
-	// [UPDATE] Auth Required //
+	// [UPDATE] Auth Required
 	s_update: async function (img_url, bio) {
 		try {
 			return (await authAxios.post('/update', { img_url, bio })).data
@@ -35,7 +35,7 @@ export default {
 		}
 	},
 
-	// [UPDATE] Auth Required //
+	// [UPDATE] Auth Required
 	s_update_workspacewebApp: async function (webApp) {
 		try {
 			return (await authAxios.post('/update/workspace-selected-web-app', { webApp })).data

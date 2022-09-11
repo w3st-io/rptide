@@ -1,30 +1,30 @@
-// [REQUIRE] //
-const cors = require('cors')
-const express = require('express')
+// [REQUIRE]
+const cors = require('cors');
+const express = require('express');
 
 
-// [REQUIRE] Personal //
-const rateLimiter = require('../../../s-rate-limiters')
-const rh = require('./.handler.js')
-const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
-const Auth = require('../../../s-middlewares/Auth')
+// [REQUIRE] Personal
+const rateLimiter = require('../../../s-rate-limiters');
+const rh = require('./.handler.js');
+const ApiSubscription = require('../../../s-middlewares/ApiSubscription');
+const Auth = require('../../../s-middlewares/Auth');
 
 
-// [EXPRESS + USE] //
-const router = express.Router().use(cors())
+// [EXPRESS + USE]
+const router = express.Router().use(cors());
 
 
 /******************* [CRUD] *******************/
-// [CREATE] Auth Required //
+// [CREATE] Auth Required
 router.post(
 	'/create',
 	rateLimiter.post,
 	Auth.userToken(),
 	ApiSubscription.webAppLimitCheck(),
 	async (req, res) => {
-		res.send(await rh.create({ req }))
+		res.send(await rh.create({ req }));
 	}
-)
+);
 
 
 router.post(
@@ -32,30 +32,30 @@ router.post(
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.findOne({ req }))	
+		res.send(await rh.findOne({ req }));
 	}
-)
+);
 
 
-// [UPDATE] Auth Required //
+// [UPDATE] Auth Required
 router.post(
 	'/find-one-and-update',
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
-		res.send(await rh.findOneAndUpdate({ req }))
+		res.send(await rh.findOneAndUpdate({ req }));
 	}
-)
+);
 		
 		
-// [DELETE] Auth Required //
+// [DELETE] Auth Required
 router.post(
 	'/delete-one',
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.deleteOne({ req }))
+		res.send(await rh.deleteOne({ req }));
 	}
-)
+);
 
 
-module.exports = router
+module.exports = router;

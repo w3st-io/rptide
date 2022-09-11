@@ -1,4 +1,4 @@
-// [REQUIRE] //
+// [REQUIRE]
 require('dotenv').config()
 
 

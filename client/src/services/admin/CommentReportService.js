@@ -14,7 +14,7 @@ async function authAxios() {
 
 
 /******************* [MARK-HANDLED-STATUS] *******************/
-// [DELETE] Auth Required //
+// [DELETE] Auth Required
 async function s_markHandled(report_id) {
 	const authAxios = await this.authAxios()
 

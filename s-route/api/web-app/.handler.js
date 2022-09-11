@@ -1,9 +1,9 @@
-// [REQUIRE] //
+// [REQUIRE]
 const mongoose = require('mongoose')
 const validator = require('validator')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const WebAppModel = require('../../../s-models/WebAppModel')
 const WebContentModel = require('../../../s-models/WebContentModel')
 

@@ -1,15 +1,15 @@
-// [REQUIRE] //
+// [REQUIRE]
 const cors = require('cors')
 const express = require('express')
 const validator = require('validator')
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal
 const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection')
 const Auth = require('../../../s-middlewares/Auth')
 
 
-// [EXPRESS + USE] //
+// [EXPRESS + USE]
 const router = express.Router().use(cors())
 
 
