@@ -22,7 +22,7 @@ module.exports = {
 	 * @notice Create a Web App
 	 * @param {String} req.body.webApp.name Name of the web app
 	 * @returns {Object}
-	 */
+	*/
 	create: async ({ req }) => {
 		// [INIT]
 		let childReturnObj = {
@@ -70,6 +70,11 @@ module.exports = {
 	},
 
 
+	/**
+	 * @notice Find One Web App
+	 * @param {String} req.body.webApp._id
+	 * @returns {Object}
+	*/
 	findOne: async ({ req }) => {
 		// [INIT]
 		let childReturnObj = {
@@ -90,6 +95,12 @@ module.exports = {
 	},
 
 
+	/**
+	 * @notice Find One Web App & Update
+	 * @param {String} req.body.webApp._id
+	 * @param {String} req.body.webApp.name
+	 * @returns {Object}
+	*/
 	findOneAndUpdate: async ({ req }) => {
 		// [INIT]
 		let childReturnObj = {
@@ -133,6 +144,10 @@ module.exports = {
 	},
 
 
+	/**
+	 * @notice Find One Web App by _id and user_id
+	 * @param {String} req.body.webApp._id
+	*/
 	deleteOne: async ({ req }) => {
 		// [INIT]
 		let childReturnObj = {
