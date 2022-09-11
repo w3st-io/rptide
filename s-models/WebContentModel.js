@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 // [VALIDATE]
 function validate({ cleanJSON, tags = [] }) {
-	// [LENGTH-CHECK] cleanJSON.blocks //
+	// [LENGTH-CHECK] cleanJSON.blocks
 	if (cleanJSON.blocks.length > 20) {
 		return {
 			status: false,
@@ -13,11 +13,11 @@ function validate({ cleanJSON, tags = [] }) {
 		}
 	}
 	
-	// [FOR-EACH] cleanJSON.blocks //
+	// [FOR-EACH] cleanJSON.blocks
 	for (let i = 0; i < cleanJSON.blocks.length; i++) {
 		const block = cleanJSON.blocks[i]
 		
-		// [LENGTH-CHECK] List Items //
+		// [LENGTH-CHECK] List Items
 		if (block.data.items.length > 20) {
 			return {
 				status: false,
@@ -60,7 +60,7 @@ function validate({ cleanJSON, tags = [] }) {
 		}
 	}
 
-	// [LENGTH-CHECK] cleanJSON.blocks //
+	// [LENGTH-CHECK] cleanJSON.blocks
 	if (tags.length > 20) {
 		return {
 			status: false,

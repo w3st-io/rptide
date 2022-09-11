@@ -72,11 +72,11 @@ module.exports = {
 	disconnected: (socket_id) => {
 		console.log('Socket Left:', socket_id)
 
-		// [SOCKET] Get index --> Remove from sockets //
+		// [SOCKET] Get index --> Remove from sockets
 		const sIndex = sockets.findIndex((s) => s === socket_id)
 		if (sIndex !== -1) { sockets.splice(sIndex, 1)[0] }
 
-		// [SOCKET-USERS] Get index --> Remove from socketUsers //
+		// [SOCKET-USERS] Get index --> Remove from socketUsers
 		const uSIndex = socketUsers.findIndex((uS) => uS.socket_id === socket_id)
 		if (uSIndex !== -1) { socketUsers.splice(uSIndex, 1)[0] }
 

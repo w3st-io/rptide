@@ -45,7 +45,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] description //
+			// [VALIDATE] description
 			if (description) {
 				if (!validator.isAscii(description)) {
 					return {
@@ -57,7 +57,7 @@ module.exports = {
 				}
 			}
 			
-			// [VALIDATE] price.dollars //
+			// [VALIDATE] price.dollars
 			if (
 				isNaN(price.dollars) ||
 				!validator.isAscii(price.dollars) ||
@@ -71,7 +71,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] price.cents //
+			// [VALIDATE] price.cents
 			if (
 				isNaN(price.cents) ||
 				!validator.isAscii(price.cents) ||
@@ -85,7 +85,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] category //
+			// [VALIDATE] category
 			if (category) {
 				if (!validator.isAscii(category)) {
 					return {
@@ -97,7 +97,7 @@ module.exports = {
 				}
 			}
 			
-			// [VALIDATE] subCategories //
+			// [VALIDATE] subCategories
 			subCategories.forEach((subCategory, i) => {
 				if (!validator.isAscii(subCategory)) {
 					return {
@@ -109,7 +109,7 @@ module.exports = {
 				}
 			})
 
-			// [VALIDATE] images //
+			// [VALIDATE] images
 			images.forEach((image, i) => {
 				if (!validator.isURL(image)) {
 					return {
@@ -121,7 +121,7 @@ module.exports = {
 				}
 			})
 
-			// [VALIDATE] optionalProductOptions //
+			// [VALIDATE] optionalProductOptions
 			for (let i = 0; i < optionalProductOptions.length; i++) {
 				const pa = optionalProductOptions[i]
 				
@@ -135,7 +135,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] requiredProductOptions //
+			// [VALIDATE] requiredProductOptions
 			for (let i = 0; i < requiredProductOptions.length; i++) {
 				const pa = requiredProductOptions[i]
 				
@@ -248,7 +248,7 @@ module.exports = {
 
 	c_update: async ({ user_id, product }) => {
 		try {
-			// [VALIDATE] product.requiredProductOptions //
+			// [VALIDATE] product.requiredProductOptions
 			for (let i = 0; i < product.requiredProductOptions.length; i++) {
 				const pa = product.requiredProductOptions[i]
 				
@@ -262,7 +262,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] product.optionalProductOptions //
+			// [VALIDATE] product.optionalProductOptions
 			for (let i = 0; i < product.optionalProductOptions.length; i++) {
 				const pa = product.optionalProductOptions[i]
 				

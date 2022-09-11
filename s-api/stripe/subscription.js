@@ -70,7 +70,7 @@ module.exports = {
 				}
 			}
 			
-			// [API][stripe] Create subscription //
+			// [API][stripe] Create subscription
 			const subscription = await Stripe.subscriptions.create({
 				customer: cusId,
 				items: [

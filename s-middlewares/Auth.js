@@ -24,7 +24,7 @@ class Auth {
 				const tokenBody = req.headers.user_authorization.slice(7);
 
 				if (validator.isJWT(tokenBody)) {
-					// [VERIFY] tokenBody //
+					// [VERIFY] tokenBody
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						try {
 							if (decoded) {

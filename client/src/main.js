@@ -12,7 +12,7 @@ import 'viewerjs/dist/viewer.css'
 import 'tiny-slider/src/tiny-slider.scss'
 
 
-// [IMPORT] Personal //
+// [IMPORT] Personal
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
@@ -33,7 +33,7 @@ Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
 
 
-// [EXPORT] Event Bus //
+// [EXPORT] Event Bus
 export const EventBus = new Vue()
 
 

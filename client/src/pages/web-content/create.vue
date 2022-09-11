@@ -95,7 +95,7 @@
 // [IMPORT]
 import axios from 'axios'
 
-// [IMPORT] Personal //
+// [IMPORT] Personal
 import router from '@/router'
 
 export default {

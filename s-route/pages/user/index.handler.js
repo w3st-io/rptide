@@ -27,19 +27,19 @@ module.exports = {
 
 			if (!apiSubscriptionObj.status) { return apiSubscriptionObj; }
 
-			// [API][stripe] Retrieve payment method details if it exists //
+			// [API][stripe] Retrieve payment method details if it exists
 			const pMObj = await api_stripe.aa_retrieve_ifExistant_paymentMethod({
 				pmId: apiSubscriptionObj.apiSubscription.stripe.pmId
 			});
 
 			if (!pMObj.status) { return pMObj; }
 
-			// [API][stripe] Retrieve payment method details if it exists //
+			// [API][stripe] Retrieve payment method details if it exists
 			const tier1PriceObj = await api_stripe_price.a_retrieve({
 				priceId: config.api.stripe.priceTier1
 			});
 
-			// [API][stripe] Retrieve payment method details if it exists //
+			// [API][stripe] Retrieve payment method details if it exists
 			const tier2PriceObj = await api_stripe_price.a_retrieve({
 				priceId: config.api.stripe.priceTier2
 			});

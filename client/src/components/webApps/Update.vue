@@ -71,7 +71,7 @@
 	// [IMPORT]
 	import axios from 'axios'
 
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import Confirm from '@/components/popups/Confirm'
 	import router from '@/router'
 
@@ -114,7 +114,7 @@
 				if (this.resData.data.status) {
 					this.success = true
 
-					// [store] webApps //
+					// [store] webApps
 					this.$store.state.webApps = this.resData.data.webApps
 
 					router.push({

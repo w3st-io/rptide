@@ -83,7 +83,7 @@
 	// [IMPORT]
 	import axios from 'axios'
 
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import API from '@/components/apiSubscription/API.vue'
 	import MyCard from '@/components/apiSubscription/stripe/MyCard'
 	import TierSelector from '@/components/apiSubscription/TierSelector'
@@ -145,11 +145,11 @@
 				if (this.resData.status) {
 					this.data = this.resData
 					
-					// user //
+					// user
 					this.user = this.resData.user
 					this.isVerified = this.user.verified
 
-					// apiSubscriptionTier //
+					// apiSubscriptionTier
 					this.apiSubscriptionTier = this.resData.apiSubscriptionTier
 
 					// currentCard

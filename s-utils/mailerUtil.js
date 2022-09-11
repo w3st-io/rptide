@@ -8,7 +8,7 @@ const SibApiV3Sdk = require('sib-api-v3-sdk')
 const config = require('../s-config')
 
 
-// [SibApiV3Sdk] Configure API key authorization: api-key //
+// [SibApiV3Sdk] Configure API key authorization: api-key
 let apiKey = SibApiV3Sdk.ApiClient.instance.authentications['api-key']
 
 

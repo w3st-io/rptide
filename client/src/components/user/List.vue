@@ -40,7 +40,7 @@
 </template>
 
 <script>
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import NoContent from '@/components/placeholders/NoContent'
 	import router from '@/router'
 
@@ -77,7 +77,7 @@
 </script>
 
 <style lang="scss" scoped>
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	@import 'src/assets/styles/style.scss';
 
 	.list-group-item {

@@ -16,7 +16,7 @@
 	// [IMPORT]
 	import { XIcon } from 'vue-feather-icons'
 
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import router from '@/router'
 
 	export default {

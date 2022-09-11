@@ -39,7 +39,7 @@
 		},
 
 		created: async function() {
-			// Set Active Tab //
+			// Set Active Tab
 			this.activeTab = this.tabs[this.initialTab]
 
 			// [EMIT]

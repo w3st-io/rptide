@@ -37,7 +37,7 @@
 </script>
 
 <style lang="scss" scoped>
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	@import 'src/assets/styles/style.scss';
 
 	.card {

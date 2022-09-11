@@ -36,7 +36,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] cents & dollars //
+			// [VALIDATE] cents & dollars
 			for (let i = 0; i < productOption.variants.length; i++) {
 				const v = productOption.variants[i]
 

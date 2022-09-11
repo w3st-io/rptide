@@ -29,7 +29,7 @@ router.post(
 				validator.isAscii(req.body.cardYear) &&
 				validator.isAscii(req.body.cardCvc)
 			) {
-				// [READ][ApiSubscription] Get by User //
+				// [READ][ApiSubscription] Get by User
 				const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
 					user_id: req.user_decoded._id
 				})
@@ -82,7 +82,7 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			// [READ][ApiSubscription] Get by User //
+			// [READ][ApiSubscription] Get by User
 			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
 				user_id: req.user_decoded._id
 			})
@@ -150,7 +150,7 @@ router.post(
 					currentTier = 2
 				}
 
-				// Current Tier //
+				// Current Tier
 				switch (currentTier) {
 					// Previous Tier 1 //
 					case 1:
@@ -234,7 +234,7 @@ router.post(
 						currentTier = 2
 					}
 
-					// Current Tier //
+					// Current Tier
 					switch (currentTier) {
 						// Previous Tier 0 //
 						case 0:
@@ -327,7 +327,7 @@ router.post(
 						currentTier = 2
 					}
 
-					// Current Tier //
+					// Current Tier
 					switch (currentTier) {
 						// Previous Tier 0 //
 						case 0:

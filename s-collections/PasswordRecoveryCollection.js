@@ -45,7 +45,7 @@ const c_create = async (user_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-// [DELETE] User //
+// [DELETE] User
 const c_delete_byUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id
@@ -77,7 +77,7 @@ const c_delete_byUser = async (user_id) => {
 // [DELETE] Custom //
 const c_delete_custom = async (filter) => {
 	try {
-		// [VALIDATE] filter //
+		// [VALIDATE] filter
 		if (!filter || filter == {}) {
 			return {
 				executed: true,

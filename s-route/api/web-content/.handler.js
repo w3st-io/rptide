@@ -29,7 +29,7 @@ module.exports = {
 				}
 			}
 
-			// [OVERRIDE] the user passed by the token //
+			// [OVERRIDE] the user passed by the token
 			req.body.webContent.user = req.user_decoded._id
 
 			// [WEB-CONTENT][SAVE]

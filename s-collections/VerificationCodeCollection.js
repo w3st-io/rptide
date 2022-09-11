@@ -139,7 +139,7 @@ module.exports = {
 
 
 	/******************* [OTHER-CRUD] *******************/
-	// [DELETE] user //
+	// [DELETE] user
 	c_delete_byUser: async ({ user_id }) => {
 		try {
 			// [VALIDATE] user_id

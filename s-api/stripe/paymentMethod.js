@@ -18,7 +18,7 @@ const location = '/s-api/stripe/paymentMethod'
 module.exports = {
 	a_create: async function ({ cardNumber, cardMonth, cardYear, cardCvc }) {
 		try {
-			// [VALIDATOR] cardNumber //
+			// [VALIDATOR] cardNumber
 			if (!validator.isAscii(cardNumber)) {
 				return {
 					executed: true,
@@ -38,7 +38,7 @@ module.exports = {
 				}
 			}
 			
-			// [VALIDATOR] cardYear //
+			// [VALIDATOR] cardYear
 			if (!validator.isAscii(cardYear)) {
 				return {
 					executed: true,
@@ -110,7 +110,7 @@ module.exports = {
 				}
 			}
 			
-			// [API][stripe] Detach paymentMethod from customer //
+			// [API][stripe] Detach paymentMethod from customer
 			const detachedPM = await Stripe.paymentMethods.detach(pmId)
 
 			return {

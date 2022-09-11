@@ -10,7 +10,7 @@
 import { extend } from 'vee-validate'
 import { email } from 'vee-validate/dist/rules'
 
-// [VEE-VALIDATE] Rules //
+// [VEE-VALIDATE] Rules
 // Confirmed
 extend('confirmed', {
 	params: ['target'],
@@ -20,7 +20,7 @@ extend('confirmed', {
 	message: 'Password confirmation does not match'
 })
 
-// Email //
+// Email
 extend('email', email)
 
 // Required

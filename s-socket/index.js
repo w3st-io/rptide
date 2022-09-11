@@ -5,11 +5,11 @@ const socketService = require('./socketService')
 module.exports = {
 	start: (io) => {
 		io.on('connection', (socket) => {
-			// [JOIN] sockets //
+			// [JOIN] sockets
 			socketService.joinSockets(socket.id)
 		
 
-			// [ON] User Join //
+			// [ON] User Join
 			socket.on(
 				'user-login',
 				(user_id) => {

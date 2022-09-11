@@ -77,7 +77,7 @@
 </template>
 
 <script>
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
 	import Service from '@/services'
@@ -113,7 +113,7 @@
 						password: this.formData.password,
 					})
 
-					// Check Status //
+					// Check Status
 					if (this.data.created) { router.push({ name: 'user_registered' }) }
 					else { this.error = this.data.message }
 				}

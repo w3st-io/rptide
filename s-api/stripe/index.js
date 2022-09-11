@@ -12,7 +12,7 @@ module.exports = {
 	// Wrapper for creating a customer on stripe
 	aa_createCustomer: async function ({ user_id, email, username }) {
 		try {
-			// [API][stripe] Create a customer //
+			// [API][stripe] Create a customer
 			return await api_stripe_customer.a_createCustomer({
 				user_id,
 				email: email,
@@ -117,7 +117,7 @@ module.exports = {
 	},
 
 
-	// Wrapper for canceling subscription //
+	// Wrapper for canceling subscription
 	aa_cancel_subscription_ifApplicable: async function ({ subId }) {
 		try {
 			if (subId) {
@@ -148,7 +148,7 @@ module.exports = {
 	},
 
 
-	// Wrapper for canceling subscription //
+	// Wrapper for canceling subscription
 	aa_cancelAtEndOfPeriod_subscription_ifApplicable: async function ({ subId }) {
 		try {
 			if (subId) {
@@ -183,7 +183,7 @@ module.exports = {
 	aa_retrieve_ifExistant_paymentMethod: async function ({ pmId }) {
 		try {
 			if (pmId) {
-				// [API][stripe] Retrieve Payment Method Details //
+				// [API][stripe] Retrieve Payment Method Details
 				const pmObj = await api_stripe_paymentMethod.a_retrieve({
 					pmId: pmId
 				})
@@ -214,7 +214,7 @@ module.exports = {
 			// [INIT]
 			let flag = false
 
-			// [API][stripe] Purchase subscription //
+			// [API][stripe] Purchase subscription
 			const stripeSubscriptionListObj = await api_stripe_subscription.a_list({
 				cusId: cusId,
 			})
@@ -226,7 +226,7 @@ module.exports = {
 					// Flag found
 					flag = true
 
-					// [API][Stripe] Reactivate Subscription //
+					// [API][Stripe] Reactivate Subscription
 					const reactivatedSubObj = await api_stripe_subscription.a_reactivateSubscription({
 						subId: s.id,
 						priceId: priceId

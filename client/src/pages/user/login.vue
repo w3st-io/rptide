@@ -94,7 +94,7 @@
 	// [IMPORT]
 	import { LogInIcon } from 'vue-feather-icons'
 
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
 	import service from '@/services'
@@ -136,7 +136,7 @@
 						this.password
 					)
 					
-					// Check Validation Status //
+					// Check Validation Status
 					if (
 						this.resData.status == true &&
 						this.resData.validation == true

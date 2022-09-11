@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 
-// [IMPORT] Personal //
+// [IMPORT] Personal
 import store from '@/store';
 
 

@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 // [VALIDATE]
 function validate({ product }) {
-	// [LENGTH-CHECK] variants //
+	// [LENGTH-CHECK] variants
 	if (product.variants.length > 20) {
 		return {
 			status: false,
@@ -15,7 +15,7 @@ function validate({ product }) {
 	for (let i = 0; i < product.variants.length; i++) {
 		const p = product.variants[i]
 
-		// [LENGTH-CHECK] variants //
+		// [LENGTH-CHECK] variants
 		if (p.images.length > 5) {
 			return {
 				status: false,

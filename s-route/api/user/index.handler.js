@@ -75,7 +75,7 @@ module.exports = {
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
 	update_workspacewebApp: async ({ req }) => {
-		// [UPDATE] Password for User //
+		// [UPDATE] Password for User
 		const userObj = await UserModel.findOneAndUpdate(
 			{ _id: req.user_decoded._id },
 			{
@@ -113,7 +113,7 @@ module.exports = {
 				};
 			}
 
-			// [MONGODB][FIND] user //
+			// [MONGODB][FIND] user
 			const query = await UserModel.findOne({ _id: req.user_decoded._id });
 
 			// [VALIDATE-PASSWORD]
@@ -155,7 +155,7 @@ module.exports = {
 
 	generateApiKey: async ({ req }) => {
 		try {
-			// [UPDATE] Generate new API Key //
+			// [UPDATE] Generate new API Key
 			const updatedUser = await UserModel.findOneAndUpdate(
 				{ _id: req.user_decoded._id },
 				{

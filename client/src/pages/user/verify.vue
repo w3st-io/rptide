@@ -17,7 +17,7 @@
 </template>
 
 <script>
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import Service from '@/services'
 
 	export default {

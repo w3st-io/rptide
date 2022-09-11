@@ -1,4 +1,4 @@
-// [IMPORT] Personal //
+// [IMPORT] Personal
 @import './variables.scss';
 
 #app {
@@ -38,10 +38,10 @@ body {
 	;
 }
 
-// Comment List Image Fix //
+// Comment List Image Fix
 .comment img { max-width: 100%; }
 
-// Distinct blockquotes //
+// Distinct blockquotes
 .comment blockquote {
 	margin: 0;
 	background-color: rgba(0, 0, 0, 0.171);
@@ -51,10 +51,10 @@ body {
 	padding: 0px 10px;
 }
 
-// Distinct p //
+// Distinct p
 .comment p { margin: 0; }
 
-// Nav Spacer //
+// Nav Spacer
 .nav-spacer {
 	padding-top: 147px;
 
@@ -69,7 +69,7 @@ body {
 
 
 
-// [OVERRIDE] vue-json-pretty //
+// [OVERRIDE] vue-json-pretty
 .vjs-tree__node.is-highlight,
 .vjs-tree__node:hover {
     background-color: #00000000;

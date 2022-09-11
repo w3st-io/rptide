@@ -50,7 +50,7 @@
 	import axios from 'axios';
 	import validator from 'validator';
 
-	// [IMPORT] Personal //
+	// [IMPORT] Personal
 	import Left           from '../../components/dashboard/Left';
 	import Product        from '../../components/dashboard/Product';
 	import ProductOptions from '../../components/dashboard/ProductOptions';

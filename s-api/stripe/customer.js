@@ -29,7 +29,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATOR] email //
+			// [VALIDATOR] email
 			if (!validator.isAscii(email)) {
 				return {
 					executed: true,

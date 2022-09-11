@@ -104,7 +104,7 @@ module.exports = {
 				}
 			}
 
-			// [UPDATE] Subscription //
+			// [UPDATE] Subscription
 			const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
 				{ user: user_id },
 				{
@@ -166,7 +166,7 @@ module.exports = {
 				}
 			}
 
-			// [UPDATE] Subscription //
+			// [UPDATE] Subscription
 			const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
 				{
 					_id: apiSubscription_id,
@@ -225,7 +225,7 @@ module.exports = {
 				}
 			}
 
-			// [UPDATE] Subscription //
+			// [UPDATE] Subscription
 			const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
 				{
 					_id: apiSubscription_id,
@@ -285,7 +285,7 @@ module.exports = {
 				}
 			}
 
-			// [UPDATE] apiSubscription //
+			// [UPDATE] apiSubscription
 			const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
 				{
 					_id: apiSubscription_id,
@@ -340,7 +340,7 @@ module.exports = {
 			}
 
 			
-			// [UPDATE] Subscription //
+			// [UPDATE] Subscription
 			const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
 				{
 					_id: apiSubscription_id,
@@ -369,7 +369,7 @@ module.exports = {
 
 
 	c_reset_lastCleared: async ({ apiSubscription_id, user_id }) => {
-		// [UPDATE] Subscription //
+		// [UPDATE] Subscription
 		const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
 			{
 				_id: apiSubscription_id,
