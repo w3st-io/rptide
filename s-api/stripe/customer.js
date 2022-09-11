@@ -19,7 +19,7 @@ const location = '/s-api/stripe/customer'
 module.exports = {
 	a_createCustomer: async function ({ user_id, email, name }) {
 		try {
-			// [VALIDATOR] user_id //
+			// [VALIDATOR] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -39,7 +39,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATOR] name //
+			// [VALIDATOR] name
 			if (!validator.isAscii(name)) {
 				return {
 					executed: true,

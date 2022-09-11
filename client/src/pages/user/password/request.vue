@@ -93,7 +93,7 @@
 		},
 
 		async created() {
-			// [REDIRECT] Log Required //
+			// [REDIRECT] Log Required
 			if (localStorage.usertoken) { router.push({ name: 'user_profile' }) }
 		},
 

@@ -152,7 +152,7 @@
 					// apiSubscriptionTier //
 					this.apiSubscriptionTier = this.resData.apiSubscriptionTier
 
-					// currentCard //
+					// currentCard
 					if (this.resData.paymentMethod) {
 						this.currentCard.brand = this.resData.paymentMethod.card.brand
 						this.currentCard.last4 = this.resData.paymentMethod.card.last4
@@ -166,7 +166,7 @@
 						this.currentCard.exp_year = ''
 					}
 
-					// price //
+					// price
 					this.tier1Price = this.resData.tier1Price
 					this.tier2Price = this.resData.tier2Price
 				}
@@ -194,7 +194,7 @@
 
 		async created() {
 			try {
-				// [REDIRECT] Not Log Required //
+				// [REDIRECT] Not Log Required
 				if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
 
 				await this.getPageData()

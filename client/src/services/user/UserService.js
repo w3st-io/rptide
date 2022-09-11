@@ -55,7 +55,7 @@ export default {
 		// [TOKEN]
 		localStorage.removeItem('usertoken');
 		
-		// [STORE][JWT] Get decoded //
+		// [STORE][JWT] Get decoded
 		store.state.user = null;
 			
 		// [STORE]

@@ -18,7 +18,7 @@ const location = '/s-api/stripe/subscription'
 module.exports = {
 	a_getSubscription: async function ({ subId }) {
 		try {
-			// [VALIDATOR] subId //
+			// [VALIDATOR] subId
 			if (!validator.isAscii(subId)) {
 				return {
 					executed: true,
@@ -50,7 +50,7 @@ module.exports = {
 
 	a_purchase: async function ({ cusId, priceId }) {
 		try {
-			// [VALIDATOR] cusId //
+			// [VALIDATOR] cusId
 			if (!validator.isAscii(cusId)) {
 				return {
 					executed: true,
@@ -60,7 +60,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATOR] priceId //
+			// [VALIDATOR] priceId
 			if (!validator.isAscii(priceId)) {
 				return {
 					executed: true,

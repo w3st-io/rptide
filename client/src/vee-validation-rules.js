@@ -11,7 +11,7 @@ import { extend } from 'vee-validate'
 import { email } from 'vee-validate/dist/rules'
 
 // [VEE-VALIDATE] Rules //
-// Confirmed //
+// Confirmed
 extend('confirmed', {
 	params: ['target'],
 	validate(value, { target }) {
@@ -23,7 +23,7 @@ extend('confirmed', {
 // Email //
 extend('email', email)
 
-// Required //
+// Required
 extend('required', {
 	validate (value) {
 		return {
@@ -35,7 +35,7 @@ extend('required', {
 	message: 'This field is required'
 })
 
-// Password //
+// Password
 extend('password', {
 	params: ['min', 'max'],
 	validate(value, { min, max }) {

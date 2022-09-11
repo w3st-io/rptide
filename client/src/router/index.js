@@ -6,7 +6,7 @@ import Router from 'vue-router';
 // [IMPORT] Personal (Ordered by path)
 // Index
 import index from '@/pages';
-// Dashboard //
+// Dashboard
 import dashboard from '@/pages/dashboard';
 
 // Documentation

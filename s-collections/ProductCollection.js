@@ -25,7 +25,7 @@ module.exports = {
 		requiredProductOptions = [],
 	}) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!validator.isAscii(user_id)) {
 				return {
 					executed: true,
@@ -35,7 +35,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] name //
+			// [VALIDATE] name
 			if (!validator.isAscii(name)) {
 				return {
 					executed: true,
@@ -153,7 +153,7 @@ module.exports = {
 			price.dollars = parseInt(price.dollars)
 			price.cents = formatterUtil.centFormatter(price.cents)
 			
-			// Price //
+			// Price
 			const price_number = `${price.dollars}.${price.cents}`
 			const price_inPennies = parseFloat(price_number) * 100
 
@@ -334,7 +334,7 @@ module.exports = {
 
 	c_delete_byUserAndId: async ({ user_id, product_id }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -344,7 +344,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] product_id //
+			// [VALIDATE] product_id
 			if (!mongoose.isValidObjectId(product_id)) {
 				return {
 					executed: true,
@@ -379,7 +379,7 @@ module.exports = {
 	/******************* [COUNT] *******************/
 	c_count_byUser: async ({ user_id }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,

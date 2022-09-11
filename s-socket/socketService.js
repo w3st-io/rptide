@@ -25,13 +25,13 @@ module.exports = {
 	},
 
 
-	// [READ] By socket_id //
+	// [READ] By socket_id
 	getSocketUser: (socket_id) => {
 		return socketUsers.find(uS => uS.socket_id === socket_id)
 	},
 
 
-	// [READ] By user_id //
+	// [READ] By user_id
 	getSocketUserByUser_id: (user_id) => {
 		return socketUsers.find(uS => uS.user_id == user_id)
 	},
@@ -53,7 +53,7 @@ module.exports = {
 
 	// [LEAVE]
 	leaveSocketsCoinbase: ({ socket_id }) => {
-		// [SOCKETS-COINBASE] Get index --> Remove from socketsCoinbase //
+		// [SOCKETS-COINBASE] Get index --> Remove from socketsCoinbase
 		const sCIndex = socketsCoinbase.findIndex((uS) => uS.socket_id === socket_id)
 		if (sCIndex !== -1) { socketsCoinbase.splice(sCIndex, 1)[0] }
 	},
@@ -64,7 +64,7 @@ module.exports = {
 		// Get Indexes of Specified "socket_id" //
 		const uSIndex = socketUsers.findIndex((uS) => uS.socket_id === socket_id)
 		
-		// Remove user from userSocket //
+		// Remove user from userSocket
 		if (uSIndex !== -1) { socketUsers.splice(uSIndex, 1)[0] }
 	},
 
@@ -80,7 +80,7 @@ module.exports = {
 		const uSIndex = socketUsers.findIndex((uS) => uS.socket_id === socket_id)
 		if (uSIndex !== -1) { socketUsers.splice(uSIndex, 1)[0] }
 
-		// [SOCKETS-COINBASE] Get index --> Remove from socketsCoinbase //
+		// [SOCKETS-COINBASE] Get index --> Remove from socketsCoinbase
 		const sCIndex = socketsCoinbase.findIndex((uS) => uS.socket_id === socket_id)
 		if (sCIndex !== -1) { socketsCoinbase.splice(sCIndex, 1)[0] }
 	},

@@ -117,7 +117,7 @@
 		},
 
 		created: async function() {
-			// [REDIRECT] Logged //
+			// [REDIRECT] Logged
 			if (localStorage.usertoken) { router.push({ name: '/' }) }
 		},
 

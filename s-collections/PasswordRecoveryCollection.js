@@ -11,7 +11,7 @@ const PasswordRecoveryModel = require('../s-models/PasswordRecoveryModel')
 // [CREATE]
 const c_create = async (user_id) => {
 	try {
-		// [VALIDATE] user_id //
+		// [VALIDATE] user_id
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
@@ -48,7 +48,7 @@ const c_create = async (user_id) => {
 // [DELETE] User //
 const c_delete_byUser = async (user_id) => {
 	try {
-		// [VALIDATE] user_id //
+		// [VALIDATE] user_id
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
@@ -152,7 +152,7 @@ const c_validateToken = async (user_id, verificationCode) => {
 			}
 		}
 
-		// [VALIDATE] user_id //
+		// [VALIDATE] user_id
 		if (!verificationCode) {
 			return {
 				executed: true,

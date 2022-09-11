@@ -2,7 +2,7 @@
 const rateLimit = require('express-rate-limit')
 
 
-// [INIT] Const //
+// [INIT] Const
 const defaultMessage = 'Too many requests, please try again later'
 
 

@@ -14,7 +14,7 @@ const location = 'ApiSubscriptionCollection'
 module.exports = {
 	c_create: async ({ user_id }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -84,7 +84,7 @@ module.exports = {
 
 	c_update__cusId__user_id: async ({ user_id, cusId }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -94,7 +94,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATOR] cusId //
+			// [VALIDATOR] cusId
 			if (!validator.isAscii(cusId)) {
 				return {
 					executed: true,
@@ -134,7 +134,7 @@ module.exports = {
 
 	c_update_pmId: async ({ apiSubscription_id, user_id, pmId }) => {
 		try {
-			// [VALIDATOR] apiSubscription_id //
+			// [VALIDATOR] apiSubscription_id
 			if (!mongoose.isValidObjectId(apiSubscription_id)) {
 				return {
 					executed: true,
@@ -144,7 +144,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -154,7 +154,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATOR] pmId //
+			// [VALIDATOR] pmId
 			if (pmId) {
 				if (!validator.isAscii(pmId)) {
 					return {
@@ -205,7 +205,7 @@ module.exports = {
 		tier,
 	}) => {
 		try {
-			// [VALIDATOR] apiSubscription_id //
+			// [VALIDATOR] apiSubscription_id
 			if (!mongoose.isValidObjectId(apiSubscription_id)) {
 				return {
 					executed: true,
@@ -215,7 +215,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -265,7 +265,7 @@ module.exports = {
 		tier,
 	}) => {
 		try {
-			// [VALIDATOR] apiSubscription_id //
+			// [VALIDATOR] apiSubscription_id
 			if (!mongoose.isValidObjectId(apiSubscription_id)) {
 				return {
 					executed: true,
@@ -275,7 +275,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -319,7 +319,7 @@ module.exports = {
 
 	c_update__stripe_subId_previous: async ({ apiSubscription_id, user_id, subId }) => {
 		try {
-			// [VALIDATOR] apiSubscription_id //
+			// [VALIDATOR] apiSubscription_id
 			if (!mongoose.isValidObjectId(apiSubscription_id)) {
 				return {
 					executed: true,
@@ -329,7 +329,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,

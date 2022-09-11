@@ -81,7 +81,7 @@ module.exports = {
 
 	findPaginated: async ({ req }) => {
 		try {
-			// [INIT] Const //
+			// [INIT] Const
 			const limit = parseInt(req.params.limit)
 			const skip = (parseInt(req.params.page) - 1) * limit
 

@@ -18,7 +18,7 @@ const location = '/s-api/stripe/price'
 module.exports = {
 	a_retrieve: async function ({ priceId }) {
 		try {
-			// [VALIDATOR] priceId //
+			// [VALIDATOR] priceId
 			if (!validator.isAscii(priceId)) {
 				return {
 					executed: true,

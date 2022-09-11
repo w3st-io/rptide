@@ -21,11 +21,11 @@ module.exports = {
 			)
 
 		
-			// [ON] User Leave //
+			// [ON] User Leave
 			socket.on('user-logout', () => { socketService.userLogout(socket.id) })
 		
 		
-			// [ON] Disconnect //
+			// [ON] Disconnect
 			socket.on('disconnect', () => { socketService.disconnected(socket.id) })
 		})
 	},

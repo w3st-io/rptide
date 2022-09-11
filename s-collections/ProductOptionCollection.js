@@ -16,7 +16,7 @@ module.exports = {
 	/******************* [CRUD] *******************/
 	c_create: async ({ user_id, productOption }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -26,7 +26,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] name //
+			// [VALIDATE] name
 			if (!validator.isAscii(productOption.name)) {
 				return {
 					executed: true,

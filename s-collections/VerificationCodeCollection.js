@@ -17,7 +17,7 @@ module.exports = {
 	// [CREATE]
 	c_create: async ({ user_id }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -56,7 +56,7 @@ module.exports = {
 	// [READ]
 	c_read_byUser_id: async ({ user_id }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -142,7 +142,7 @@ module.exports = {
 	// [DELETE] user //
 	c_delete_byUser: async ({ user_id }) => {
 		try {
-			// [VALIDATE] user_id //
+			// [VALIDATE] user_id
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,

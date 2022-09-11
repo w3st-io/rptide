@@ -100,7 +100,7 @@ module.exports = {
 	
 	a_detach: async function ({ pmId }) {
 		try {
-			// [VALIDATOR] pmId //
+			// [VALIDATOR] pmId
 			if (!validator.isAscii(pmId)) {
 				return {
 					executed: true,
@@ -132,7 +132,7 @@ module.exports = {
 
 	a_attachToCustomer: async function ({ pmId, cusId }) {
 		try {
-			// [VALIDATOR] pmId //
+			// [VALIDATOR] pmId
 			if (!validator.isAscii(pmId)) {
 				return {
 					executed: true,
@@ -142,7 +142,7 @@ module.exports = {
 				}
 			}
 			
-			// [VALIDATOR] cusId //
+			// [VALIDATOR] cusId
 			if (!validator.isAscii(cusId)) {
 				return {
 					executed: true,

@@ -145,7 +145,7 @@ module.exports = {
 			const user_id = req.user_decoded._id;
 			const webApp_id = req.body.webApp._id;
 
-			// [VALIDATE] webApp_id //
+			// [VALIDATE] webApp_id
 			if (!validator.isAscii(webApp_id)) {
 				return {
 					...childReturnObj,

@@ -20,7 +20,7 @@ async function cancel_tier1StripeSub ({ user_id, apiSubscription_id, tier1_activ
 
 	if (!canceledSubObj.status) { return canceledSubObj }
 	
-	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId //
+	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
 	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
 		apiSubscription_id,
 		user_id,
@@ -58,7 +58,7 @@ async function cancel_tier2StripeSub ({ user_id, apiSubscription_id, tier2_activ
 
 	if (!canceledSubObj.status) { return canceledSubObj }
 	
-	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId //
+	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
 	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
 		apiSubscription_id,
 		user_id,
@@ -89,7 +89,7 @@ async function cancel_tier2StripeSub ({ user_id, apiSubscription_id, tier2_activ
 
 
 async function archive_stripeSub ({ user_id, apiSubscription_id, subId }) {
-	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId //
+	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
 	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
 		apiSubscription_id,
 		user_id,
@@ -269,7 +269,7 @@ module.exports = {
 			})
 		}
 
-		// Archived subId //
+		// Archived subId
 		if (flag == true) {
 			console.log('Invalid Subscription Found. Removed from apiSubscription')
 		}
@@ -293,7 +293,7 @@ module.exports = {
 		cardCvc
 	}) => {
 		try {	
-			// [API][stripe] paymentMethod //
+			// [API][stripe] paymentMethod
 			const apiStripe_updatedPM = await api_stripe.aa_updatePaymentMethod({
 				cusId,
 				previous_pmId,
@@ -305,7 +305,7 @@ module.exports = {
 
 			if (!apiStripe_updatedPM.status) { return apiStripe_updatedPM }
 
-			// [UPDATE][ApiSubscription] update pmId //
+			// [UPDATE][ApiSubscription] update pmId
 			const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
 				apiSubscription_id,
 				user_id,
@@ -334,12 +334,12 @@ module.exports = {
 
 	deletePaymentMethod: async ({ user_id, apiSubscription_id, pmId, }) => {
 		try {
-			// [API][stripe] Remove previous payment method //
+			// [API][stripe] Remove previous payment method
 			const deleteStripePMObj = await api_stripe.aa_deletePaymentMethod({ pmId })
 
 			if (!deleteStripePMObj.status) { return deleteStripePMObj }
 
-			// [UPDATE][ApiSubscription] pmId //
+			// [UPDATE][ApiSubscription] pmId
 			const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
 				user_id,
 				apiSubscription_id,
@@ -420,7 +420,7 @@ module.exports = {
 		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 
-		// [SET] stripe_subId_tier1_active //
+		// [SET] stripe_subId_tier1_active
 		if (reactivatedStripeSubObj.reactivated) {
 			stripe_subId_tier1_active = reactivatedStripeSubObj.subscription.id
 		}
@@ -479,7 +479,7 @@ module.exports = {
 		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 
-		// [SET] stripe_subId_tier1_active //
+		// [SET] stripe_subId_tier1_active
 		if (reactivatedStripeSubObj.reactivated) {
 			stripe_subId_tier1_active = reactivatedStripeSubObj.subscription.id
 		}
@@ -527,7 +527,7 @@ module.exports = {
 		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 		
-		// [SET] stripe_subId_tier2_active //
+		// [SET] stripe_subId_tier2_active
 		if (reactivatedStripeSubObj.reactivated) {
 			stripe_subId_tier2_active = reactivatedStripeSubObj.subscription.id
 		}
@@ -587,7 +587,7 @@ module.exports = {
 		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 
-		// [SET] stripe_subId_tier2_active //
+		// [SET] stripe_subId_tier2_active
 		if (reactivatedStripeSubObj.reactivated) {
 			stripe_subId_tier2_active = reactivatedStripeSubObj.subscription.id
 		}

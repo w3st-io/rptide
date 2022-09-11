@@ -9,7 +9,7 @@ const location = '/s-api/stripe'
 
 
 module.exports = {
-	// Wrapper for creating a customer on stripe //
+	// Wrapper for creating a customer on stripe
 	aa_createCustomer: async function ({ user_id, email, username }) {
 		try {
 			// [API][stripe] Create a customer //
@@ -30,7 +30,7 @@ module.exports = {
 	},
 
 
-	// wrapper for changing a paymentMethod for a customer on stripe //
+	// wrapper for changing a paymentMethod for a customer on stripe
 	aa_updatePaymentMethod: async function ({
 		cusId,
 		previous_pmId,
@@ -40,12 +40,12 @@ module.exports = {
 		cardCvc
 	}) {
 		try {
-			// [API][stripe] Remove previous payment method //
+			// [API][stripe] Remove previous payment method
 			if (previous_pmId !== '') {
 				await api_stripe_paymentMethod.a_detach({ pmId: previous_pmId })
 			}
 
-			// [API][stripe] Create a paymentMethod //
+			// [API][stripe] Create a paymentMethod
 			const pMObj = await api_stripe_paymentMethod.a_create({
 				cardNumber: cardNumber,
 				cardMonth: cardMonth,
@@ -54,7 +54,7 @@ module.exports = {
 			})
 			
 			if (pMObj.status) {
-				// [API][stripe] connect the customer to the paymentMethod //
+				// [API][stripe] connect the customer to the paymentMethod
 				const PMAttachedToCusObj = await api_stripe_paymentMethod.a_attachToCustomer({
 					pmId: pMObj.stripeCreatedPaymentMethod.id,
 					cusId: cusId
@@ -92,10 +92,10 @@ module.exports = {
 	},
 
 
-	// wrapper for changing a paymentMethod for a customer on stripe //
+	// wrapper for changing a paymentMethod for a customer on stripe
 	aa_deletePaymentMethod: async function ({ pmId }) {
 		try {
-			// [API][stripe] Remove previous payment method //
+			// [API][stripe] Remove previous payment method
 			if (pmId !== '') {
 				await api_stripe_paymentMethod.a_detach({ pmId: pmId })
 			}
@@ -179,7 +179,7 @@ module.exports = {
 	},
 
 
-	// Wrapper for retrieving payment method //
+	// Wrapper for retrieving payment method
 	aa_retrieve_ifExistant_paymentMethod: async function ({ pmId }) {
 		try {
 			if (pmId) {

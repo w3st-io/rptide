@@ -126,7 +126,7 @@ module.exports = {
 				};
 			}
 
-			// [MONGODB][UPDATE] user.password //
+			// [MONGODB][UPDATE] user.password
 			await UserModel.findOneAndUpdate(
 				{ _id: req.user_decoded._id },
 				{

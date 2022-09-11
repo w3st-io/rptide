@@ -13,7 +13,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-// [READ] Auth Required - user_decoded //
+// [READ] Auth Required - user_decoded
 router.get(
 	'/index',
 	Auth.userTokenByPassVerification(),
