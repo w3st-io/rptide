@@ -9,6 +9,7 @@ const WebContentModel = require('../../../s-models/WebContentModel');
 
 // [INIT]
 const location = '/web-content'
+
 let returnObj = {
 	executed: true,
 	status: false,

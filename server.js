@@ -1,17 +1,17 @@
 // [REQUIRE]
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const express = require('express');
-const http = require('http');
-const mongoose = require('mongoose');
-const path = require('path');
-const socketIO = require('socket.io');
+const bodyParser        = require('body-parser');
+const cors              = require('cors');
+const express           = require('express');
+const http              = require('http');
+const mongoose          = require('mongoose');
+const path              = require('path');
+const socketIO          = require('socket.io');
 
 // [REQUIRE][OTHER][API][PAGES][PUBLIC-API] Personal
-const config = require('./s-config');
-const Functionality = require('./s-middlewares/Functionality');
-const rateLimiter = require('./s-rate-limiters');
-const s_socket = require('./s-socket');
+const config            = require('./s-config');
+const Functionality     = require('./s-middlewares/Functionality');
+const rateLimiter       = require('./s-rate-limiters');
+const s_socket          = require('./s-socket');
 
 const a_                = require('./s-route/api');
 const a_apiSubscription = require('./s-route/api/api-subscription');
@@ -25,7 +25,7 @@ const a_webContent      = require('./s-route/api/web-content');
 const p_                = require ('./s-route/pages');
 const p_dashboard       = require('./s-route/pages/dashboard');
 const p_product_read    = require('./s-route/pages/product/read');
-const p_user             = require('./s-route/pages/user');
+const p_user            = require('./s-route/pages/user');
 
 
 // [EXPRESS]
@@ -78,7 +78,7 @@ mongoose.connect(
  * @notice [USE]
  * Set static folder
  * Rate Limiter
- */
+*/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
