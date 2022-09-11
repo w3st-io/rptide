@@ -274,7 +274,7 @@ router.post(
 						executed: true,
 						status: false,
 						message: 'Attach payment method before changing tier'
-					})	
+					})
 				}
 			}
 			else { res.send(apiSubObj) }
@@ -367,7 +367,7 @@ router.post(
 						executed: true,
 						status: false,
 						message: 'Attach payment method before changing tier'
-					})	
+					})
 				}
 			}
 			else { res.send(apiSubObj) }

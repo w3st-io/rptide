@@ -40,9 +40,9 @@ router.get(
 							status: true,
 							product: productsObj.product,
 							productOptions: productOptionsObj.productOptions
-						})	
+						})
 					}
-					else { res.send(productOptionsObj) }	
+					else { res.send(productOptionsObj) }
 				}
 				else { res.send(productsObj) }
 			}

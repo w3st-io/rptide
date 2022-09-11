@@ -107,7 +107,7 @@ module.exports = {
 						message: `${location}: Invalid subCategories[${i}]`
 					}
 				}
-			})	
+			})
 
 			// [VALIDATE] images //
 			images.forEach((image, i) => {

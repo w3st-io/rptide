@@ -50,7 +50,7 @@ module.exports = {
 				status: false,
 				message: err,
 				location,
-			}	
+			}
 		}
 	},
 
@@ -74,7 +74,7 @@ module.exports = {
 				status: false,
 				message: err,
 				location,
-			}	
+			}
 		}
 	},
 
@@ -160,7 +160,7 @@ module.exports = {
 				status: false,
 				location,
 				message: `Caught error ${err}`,
-			}	
+			}
 		}
 	},
 
@@ -184,7 +184,7 @@ module.exports = {
 				status: false,
 				message: err,
 				location,
-			}	
+			}
 		}
 	},
 
@@ -224,7 +224,7 @@ module.exports = {
 				status: false,
 				message: err,
 				location,
-			}	
+			}
 		}
 	},
 
@@ -252,7 +252,7 @@ module.exports = {
 				status: false,
 				location,
 				message: err
-			}	
+			}
 		}
 	},
 }

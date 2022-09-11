@@ -82,7 +82,7 @@ export default {
 				executed: false,
 				status: false,
 				message: `${location}: Error --> ${err}`
-			}	
+			}
 		}
 	},
 
