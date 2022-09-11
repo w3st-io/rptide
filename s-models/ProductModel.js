@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 
-// [VALIDATE] //
+// [VALIDATE]
 function validate({ requiredProductOptions, optionalProductOptions, subCategories, images }) {
 	if (requiredProductOptions.length > 100) {
 		return {

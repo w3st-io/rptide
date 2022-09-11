@@ -3,7 +3,7 @@ require('dotenv').config()
 
 
 module.exports = {
-	// [LIMITS] //
+	// [LIMITS]
 	limit: {
 		webApp: [3, 10, 50],
 		product: [25, 100, 500],

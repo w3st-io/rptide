@@ -21,7 +21,7 @@ module.exports = {
 	*/
 	update: async ({ req }) => {
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (!validator.isAscii(req.body.img_url)) {
 				return {
 					executed: true,
@@ -116,7 +116,7 @@ module.exports = {
 			// [MONGODB][FIND] user //
 			const query = await UserModel.findOne({ _id: req.user_decoded._id });
 
-			// [VALIDATE-PASSWORD] //
+			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
 				return {
 					executed: true,

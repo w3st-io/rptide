@@ -54,7 +54,7 @@
 		},
 
 		created: async function() {
-			// [LOG] //
+			// [LOG]
 			//this.log()
 		},
 

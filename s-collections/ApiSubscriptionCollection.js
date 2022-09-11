@@ -50,7 +50,7 @@ module.exports = {
 
 	c_read_byUser: async ({ user_id }) => {
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
@@ -114,7 +114,7 @@ module.exports = {
 				},
 			)
 
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				executed: true,
 				status: true,

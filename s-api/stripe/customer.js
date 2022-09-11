@@ -8,7 +8,7 @@ const stripe = require('stripe')
 const config = require('../../s-config')
 
 
-// [STRIPE] //
+// [STRIPE]
 const Stripe = stripe(config.api.stripe.secretKey)
 
 
@@ -55,7 +55,7 @@ module.exports = {
 				metadata: { user_id: `${user_id}` },
 			})
 	
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				executed: true,
 				status: true,
@@ -85,7 +85,7 @@ module.exports = {
 				}
 			)
 
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				status: true,
 				executed: true,

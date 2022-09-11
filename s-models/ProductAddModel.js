@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 
-// [VALIDATE] //
+// [VALIDATE]
 function validate({ images }) {
 	if (images.length > 5) {
 		return {

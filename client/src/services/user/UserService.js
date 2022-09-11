@@ -1,4 +1,4 @@
-// [IMPORT] //
+// [IMPORT]
 import axios from 'axios';
 
 
@@ -10,7 +10,7 @@ import store from '@/store';
 const location = '/client/src/services/UserService';
 
 
-// [AUTH-AXIOS] //
+// [AUTH-AXIOS]
 const authAxios = axios.create({
 	baseURL: '/api/user',
 	headers: {
@@ -58,10 +58,10 @@ export default {
 		// [STORE][JWT] Get decoded //
 		store.state.user = null;
 			
-		// [STORE] //
+		// [STORE]
 		store.state = { webApps: [], };
 
-		// [STORE][SOCKET][EMIT] //
+		// [STORE][SOCKET][EMIT]
 		store.state.socket.emit('user-logout');
 
 		store.state.key++;

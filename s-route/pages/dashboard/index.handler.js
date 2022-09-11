@@ -9,7 +9,7 @@ const config_const = require('../../../s-config/const');
 const h_apiSubscription = require('../../api/api-subscription/.handler.js');
 
 
-// [CONST] //
+// [CONST]
 const location = '/pages/dashboard/index';
 
 

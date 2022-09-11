@@ -18,14 +18,14 @@ const location = '/api/user/product-options'
 
 
 /******************* [CRUD] *******************/
-// [CREATE] //
+// [CREATE]
 router.post(
 	'/create',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
 			if (validator.isAscii(req.body.name)) {
-				// [COLLECTION][ProductOption][CREATE] //
+				// [COLLECTION][ProductOption][CREATE]
 				const productObj = await ProductOptionCollection.c_create({
 					user_id: req.user_decoded._id,
 					productOption: req.body

@@ -3,7 +3,7 @@ const e = require('express')
 const mongoose = require('mongoose')
 
 
-// [VALIDATE] //
+// [VALIDATE]
 function validate({ cleanJSON, tags = [] }) {
 	// [LENGTH-CHECK] cleanJSON.blocks //
 	if (cleanJSON.blocks.length > 20) {
@@ -50,7 +50,7 @@ function validate({ cleanJSON, tags = [] }) {
 
 		// items
 		if (block.data.items) {
-			// [LENGTH-CHECK] //
+			// [LENGTH-CHECK]
 			if (block.data.items.length > 20) {
 				return {
 					status: false,

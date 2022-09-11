@@ -124,7 +124,7 @@ module.exports = {
 	
 	c_readAll_sorted_byUser: async ({ user_id }) => {
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,

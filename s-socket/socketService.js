@@ -6,7 +6,7 @@ let socketsCoinbase = []
 
 module.exports = {
 	/************ [SOCKET] ************/
-	// [JOIN] //
+	// [JOIN]
 	joinSockets(socket_id) {
 		console.log('Socket Joined:', socket_id)
 
@@ -17,7 +17,7 @@ module.exports = {
 
 	
 	/************ [SOCKET-USER] ************/
-	// [JOIN] //
+	// [JOIN]
 	joinSocketUsers: (socket_id, user_id) => {
 		socketUsers.push({ socket_id, user_id })
 
@@ -38,7 +38,7 @@ module.exports = {
 
 
 	/************ [COINBASE] ************/
-	// [JOIN] //
+	// [JOIN]
 	joinSocketsCoinbase: ({ socket_id, exchange, product_id }) => {
 		socketsCoinbase.push({
 			socket_id,
@@ -51,7 +51,7 @@ module.exports = {
 	},
 
 
-	// [LEAVE] //
+	// [LEAVE]
 	leaveSocketsCoinbase: ({ socket_id }) => {
 		// [SOCKETS-COINBASE] Get index --> Remove from socketsCoinbase //
 		const sCIndex = socketsCoinbase.findIndex((uS) => uS.socket_id === socket_id)
@@ -87,7 +87,7 @@ module.exports = {
 
 
 	/************ [ADMIN] ************/
-	// [STATUS] //
+	// [STATUS]
 	status: () => {
 		return {
 			sockets: sockets,

@@ -1,4 +1,4 @@
-// [IMPORT] //
+// [IMPORT]
 import axios from 'axios';
 
 
@@ -10,7 +10,7 @@ import store from '@/store';
 const location = '/client/src/services';
 
 
-// [AUTH-AXIOS] //
+// [AUTH-AXIOS]
 const authAxios = axios.create({
 	baseURL: '/api',
 	headers: {

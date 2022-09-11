@@ -891,7 +891,7 @@ export default {
 			let requiredProductOptions = []
 			let optionalProductOptions = []
 
-			// [HIDE] //
+			// [HIDE]
 			this.edit.images = false
 			this.edit.name = false
 			this.edit.category = false
@@ -900,7 +900,7 @@ export default {
 			this.edit.requiredProductOptions = false
 			this.edit.optionalProductOptions = false
 			
-			// [REQUIRED-PRODUCT-ADDITIONS] //
+			// [REQUIRED-PRODUCT-ADDITIONS]
 			for (let i = 0; i < this.product.requiredProductOptions.length; i++) {
 				const rpa = this.product.requiredProductOptions[i]
 				
@@ -909,7 +909,7 @@ export default {
 
 			this.product.requiredProductOptions = requiredProductOptions
 
-			// [OPTIONAL-PRODUCT-ADDITIONS] //
+			// [OPTIONAL-PRODUCT-ADDITIONS]
 			for (let i = 0; i < this.product.optionalProductOptions.length; i++) {
 				const rpa = this.product.optionalProductOptions[i]
 				

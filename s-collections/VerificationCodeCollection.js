@@ -14,7 +14,7 @@ const location = 'VerificationCodeCollection'
 
 module.exports = {
 	/******************* [CRUD] *******************/
-	// [CREATE] //
+	// [CREATE]
 	c_create: async ({ user_id }) => {
 		try {
 			// [VALIDATE] user_id //
@@ -27,14 +27,14 @@ module.exports = {
 				}
 			}
 		
-			// [SAVE] //
+			// [SAVE]
 			const verificationCode = await new VerificationCodeModel({
 				_id: mongoose.Types.ObjectId(),
 				user: user_id,
 				verificationCode: uuid.v4(),
 			}).save()
 	
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				executed: true,
 				status: true,
@@ -53,7 +53,7 @@ module.exports = {
 	},
 
 
-	// [READ] //
+	// [READ]
 	c_read_byUser_id: async ({ user_id }) => {
 		try {
 			// [VALIDATE] user_id //
@@ -66,12 +66,12 @@ module.exports = {
 				}
 			}
 	
-			// [QUERY] //
+			// [QUERY]
 			const queryResult = await VerificationCodeModel.findOne({
 				user: user_id
 			})
 	
-			// [NOTHING-FOUND] //
+			// [NOTHING-FOUND]
 			if (!queryResult) {
 				return {
 					executed: true,
@@ -81,7 +81,7 @@ module.exports = {
 				}
 			}
 
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				executed: true,
 				status: true,
@@ -102,13 +102,13 @@ module.exports = {
 	},
 
 
-	// [READ] //
+	// [READ]
 	c__read__query: async ({ query }) => {
 		try {
-			// [QUERY] //
+			// [QUERY]
 			const queryResult = await VerificationCodeModel.findOne(query)
 	
-			// [NOTHING-FOUND] //
+			// [NOTHING-FOUND]
 			if (!queryResult) {
 				return {
 					executed: true,
@@ -118,7 +118,7 @@ module.exports = {
 				}
 			}
 
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				executed: true,
 				status: true,
@@ -152,10 +152,10 @@ module.exports = {
 				}
 			}
 		
-			// [DELETE] //
+			// [DELETE]
 			const vCode = await VerificationCodeModel.deleteMany({ user: user_id })
 	
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				executed: true,
 				status: true,

@@ -2,7 +2,7 @@
 @import './variables.scss';
 
 
-// [BOOTSTRAP-COLORS] //
+// [BOOTSTRAP-COLORS]
 $theme-colors: (
 	'primary': $primary,
 	'dark': $dark,
@@ -10,10 +10,10 @@ $theme-colors: (
 );
 	
 
-// [IMPORT] //
+// [IMPORT]
 @import 'bootstrap/scss/bootstrap.scss';
 @import 'bootstrap-vue/src/index.scss';
 
 
-// [CONTAINER] //
+// [CONTAINER]
 @media (min-width: 1600px) { .container { max-width: 1500px; } }

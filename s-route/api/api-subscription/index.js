@@ -34,7 +34,7 @@ router.post(
 					user_id: req.user_decoded._id
 				})
 
-				// [H][apiSub_paymentMethod][UPDATE] //
+				// [H][apiSub_paymentMethod][UPDATE]
 				const upmObj = await h_apiSub.updatePaymentMethod({
 					user_id: req.user_decoded._id,
 					apiSubscription_id: apiSubObj.apiSubscription._id,
@@ -47,7 +47,7 @@ router.post(
 				})
 
 				if (upmObj.status) {
-					// [SUCCESS] //
+					// [SUCCESS]
 					res.send({
 						executed: true,
 						status: true,
@@ -94,7 +94,7 @@ router.post(
 			})
 
 			if (dpmObj.status) {
-				// [SUCCESS] //
+				// [SUCCESS]
 				res.send({
 					executed: true,
 					status: true,
@@ -175,7 +175,7 @@ router.post(
 					break
 
 					default:
-						// [ERROR] //
+						// [ERROR]
 						res.send({
 							executed: true,
 							status: false,
@@ -260,7 +260,7 @@ router.post(
 						break
 					
 						default:
-							// [ERROR] //
+							// [ERROR]
 							res.send({
 								executed: true,
 								status: false,
@@ -353,7 +353,7 @@ router.post(
 						break
 					
 						default:
-							// [ERROR] //
+							// [ERROR]
 							res.send({
 								executed: true,
 								status: false,

@@ -15,7 +15,7 @@ module.exports = {
 			// [INIT]
 			let flag = false
 
-			// [READ][ApiSubscription] //
+			// [READ][ApiSubscription]
 			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
 				user_id: req.user_decoded._id
 			})
@@ -40,7 +40,7 @@ module.exports = {
 				) { flag = true }
 			}
 
-			// [LIMIT-CHECK] //
+			// [LIMIT-CHECK]
 			if (count >= config_const.limit.webApp[2]) {
 				flag = true
 			}
@@ -63,7 +63,7 @@ module.exports = {
 			// [INIT]
 			let flag = false
 
-			// [READ][ApiSubscription] //
+			// [READ][ApiSubscription]
 			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
 				user_id: req.user_decoded._id
 			})
@@ -90,7 +90,7 @@ module.exports = {
 				) { flag = true }
 			}
 
-			// [LIMIT-CHECK] //
+			// [LIMIT-CHECK]
 			if (pObj.count >= config_const.limit.product[2]) {
 				flag = true
 			}
@@ -113,7 +113,7 @@ module.exports = {
 			// [INIT]
 			let flag = false
 
-			// [READ][ApiSubscription] //
+			// [READ][ApiSubscription]
 			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
 				user_id: req.user_decoded._id
 			})
@@ -140,7 +140,7 @@ module.exports = {
 				) { flag = true }
 			}
 
-			// [LIMIT-CHECK] //
+			// [LIMIT-CHECK]
 			if (pObj.count >= pObj.count >= config_const.limit.productOptions[2]) {
 				flag = true
 			}

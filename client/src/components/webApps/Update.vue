@@ -68,7 +68,7 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import axios from 'axios'
 
 	// [IMPORT] Personal //
@@ -84,7 +84,7 @@
 
 		data() {
 			return {
-				// [AUTH-AXIOS] //
+				// [AUTH-AXIOS]
 				authAxios: axios.create({
 					baseURL: '/api/web-app',
 					headers: {

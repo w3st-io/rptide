@@ -7,7 +7,7 @@ const defaultMessage = 'Too many requests, please try again later'
 
 
 module.exports = {
-	// [GLOBAL] //
+	// [GLOBAL]
 	global: rateLimit({
 		windowMs: 15 * 60 * 1000, // 15 minutes
 		max: 500,
@@ -19,7 +19,7 @@ module.exports = {
 	}),
 
 
-	// [POST] //
+	// [POST]
 	post: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 60,
@@ -31,7 +31,7 @@ module.exports = {
 	}),
 
 
-	// [COMMENT] //
+	// [COMMENT]
 	comment: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 60,
@@ -43,7 +43,7 @@ module.exports = {
 	}),
 
 
-	// [FOLLOW] //
+	// [FOLLOW]
 	follow: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 100,
@@ -55,7 +55,7 @@ module.exports = {
 	}),
 
 
-	// [LIKE] //
+	// [LIKE]
 	like: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 200,
@@ -67,7 +67,7 @@ module.exports = {
 	}),
 
 
-	// [REGISTRATION] //
+	// [REGISTRATION]
 	registration: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 20,
@@ -79,7 +79,7 @@ module.exports = {
 	}),
 
 
-	// [REPORT] //
+	// [REPORT]
 	report: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 10,
@@ -91,7 +91,7 @@ module.exports = {
 	}),
 
 
-	// [GENERATE-API-KEY] //
+	// [GENERATE-API-KEY]
 	generateApiKey: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 1,

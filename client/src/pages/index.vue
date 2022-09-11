@@ -134,7 +134,7 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import { DatabaseIcon } from 'vue-feather-icons'
 
 
@@ -155,7 +155,7 @@
 		},
 
 		created() {
-			// [USER-LOGGED][REDIRECT] //
+			// [USER-LOGGED][REDIRECT]
 			if (localStorage.usertoken) {
 				router.push({
 					name: 'dashboard',

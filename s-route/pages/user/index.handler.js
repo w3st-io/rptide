@@ -20,7 +20,7 @@ module.exports = {
 				};
 			}
 
-			// [READ][ApiSubscription] //
+			// [READ][ApiSubscription]
 			const apiSubscriptionObj = await ApiSubscriptionCollection.c_read_byUser({
 				user_id: req.user_decoded._id
 			});

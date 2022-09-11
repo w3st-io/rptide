@@ -2,7 +2,7 @@ const { CeramicClient } = require('@ceramicnetwork/http-client')
 const { DataModel } = require('@glazed/datamodel')
 
 
-// [CERAMIC] //
+// [CERAMIC]
 const ceramic = new CeramicClient()
 
 

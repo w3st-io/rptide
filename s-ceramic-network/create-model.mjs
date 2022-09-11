@@ -19,19 +19,19 @@ const did = new DID({
 await did.authenticate()
 
 
-// [CERAMIC] //
+// [CERAMIC]
 const ceramic = new CeramicClient('http://localhost:7007')
 
 
-// [CERAMIC-DID] //
+// [CERAMIC-DID]
 ceramic.did = did
 
 
-// [MODEL-MANAGER] //
+// [MODEL-MANAGER]
 const manager = new ModelManager(ceramic)
 
 
-// [MODEL-MANAGER][CREATE-SCHEMA] //
+// [MODEL-MANAGER][CREATE-SCHEMA]
 const noteSchemaID = await manager.createSchema(
 	'SimpleNote',
 	{

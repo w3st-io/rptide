@@ -92,7 +92,7 @@
 </template>
 
 <script>
-// [IMPORT] //
+// [IMPORT]
 import axios from 'axios'
 
 // [IMPORT] Personal //

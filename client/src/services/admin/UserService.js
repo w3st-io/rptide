@@ -1,8 +1,8 @@
-// [IMPORT] //
+// [IMPORT]
 import axios from 'axios'
 
 
-// [AUTH-TOKEN-SETUP] //
+// [AUTH-TOKEN-SETUP]
 async function authAxios() {
 	return axios.create({
 		baseURL: '/api/admin/user',
@@ -30,7 +30,7 @@ async function s_banUser(user_id, hours) {
 }
 
 
-// [EXPORT] //
+// [EXPORT]
 export default {
 	authAxios,
 	s_banUser,

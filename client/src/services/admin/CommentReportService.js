@@ -1,8 +1,8 @@
-// [IMPORT] //
+// [IMPORT]
 import axios from 'axios'
 
 
-// [AUTH-TOKEN-SETUP] //
+// [AUTH-TOKEN-SETUP]
 async function authAxios() {
 	return axios.create({
 		baseURL: '/api/admin/comment-report',
@@ -26,7 +26,7 @@ async function s_markHandled(report_id) {
 }
 
 
-// [EXPORT] //
+// [EXPORT]
 export default {
 	authAxios,
 	s_markHandled,

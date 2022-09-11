@@ -46,7 +46,7 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import axios from 'axios';
 	import validator from 'validator';
 
@@ -103,7 +103,7 @@
 				).data;
 
 				if (this.resData.status) {
-					// [PRODUCTS] //
+					// [PRODUCTS]
 					if (this.resData.products) {
 						this.pageData.products = this.resData.products;
 
@@ -112,7 +112,7 @@
 						];
 					}
 					
-					// [PRODUCT-OPTION] //
+					// [PRODUCT-OPTION]
 					if (this.resData.productOptions) {
 						this.pageData.productOptions = this.resData.productOptions
 

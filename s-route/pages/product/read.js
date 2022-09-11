@@ -14,7 +14,7 @@ const Auth = require('../../../s-middlewares/Auth')
 const router = express.Router().use(cors())
 
 
-// [SEARCH] //
+// [SEARCH]
 router.get(
 	'/:product_id',
 	Auth.userToken(),

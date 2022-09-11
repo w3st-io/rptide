@@ -16,7 +16,7 @@
 	// [IMPORT] Personal //
 	import router from '@/router'
 
-	// [EXPORT] //
+	// [EXPORT]
 	export default {
 		methods: {
 			redirectAdmin() { router.push({ name: 'admin' }) },

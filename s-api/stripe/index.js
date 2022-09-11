@@ -67,7 +67,7 @@ module.exports = {
 					})
 
 					if (cSDPMObj.status) {
-						// [SUCCESS] //
+						// [SUCCESS]
 						return {
 							executed: true,
 							status: true,
@@ -232,7 +232,7 @@ module.exports = {
 						priceId: priceId
 					})
 
-					// [SUCCESS] //
+					// [SUCCESS]
 					return {
 						executed: true,
 						status: true,

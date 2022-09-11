@@ -82,7 +82,7 @@
 	import router from '@/router'
 	import Service from '@/services'
 
-	// [EXPORT] //
+	// [EXPORT]
 	export default {
 		components: {
 			Alert,

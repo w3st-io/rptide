@@ -8,7 +8,7 @@ const PasswordRecoveryModel = require('../s-models/PasswordRecoveryModel')
 
 
 /******************* [CRUD] *******************/
-// [CREATE] //
+// [CREATE]
 const c_create = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
@@ -20,7 +20,7 @@ const c_create = async (user_id) => {
 			}
 		}
 
-		// [SAVE] //
+		// [SAVE]
 		const passwordRecovery = await new PasswordRecoveryModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -161,12 +161,12 @@ const c_validateToken = async (user_id, verificationCode) => {
 			}
 		}
 
-		// [VALIDATE][EXISTANCE] //
+		// [VALIDATE][EXISTANCE]
 		const existance = await c_existance(user_id)
 
 		if (!existance.status || !existance.existance) { return existance }
 
-		// [VALIDATE] //
+		// [VALIDATE]
 		const passwordRecovery = await PasswordRecoveryModel.findOne({
 			user: user_id,
 			verificationCode: verificationCode

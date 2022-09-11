@@ -1,8 +1,8 @@
-// [IMPORT] //
+// [IMPORT]
 import axios from 'axios'
 
 
-// [AUTH-AXIOS] //
+// [AUTH-AXIOS]
 const authAxios = axios.create({
 	baseURL: '/api/mail',
 	headers: {

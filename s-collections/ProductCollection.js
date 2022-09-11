@@ -149,7 +149,7 @@ module.exports = {
 				}
 			}
 
-			// [FORMAT] //
+			// [FORMAT]
 			price.dollars = parseInt(price.dollars)
 			price.cents = formatterUtil.centFormatter(price.cents)
 			
@@ -158,7 +158,7 @@ module.exports = {
 			const price_inPennies = parseFloat(price_number) * 100
 
 
-			// [PRODUCT][SAVE] //
+			// [PRODUCT][SAVE]
 			const createdProduct = await new ProductModel({
 				_id: mongoose.Types.ObjectId(),
 				user: user_id,
@@ -276,14 +276,14 @@ module.exports = {
 				}
 			}
 
-			// [INIT][FORMAT] //
+			// [INIT][FORMAT]
 			product.price.dollars = parseInt(product.price.dollars)
 			product.price.cents = formatterUtil.centFormatter(product.price.cents)
 
 			const price_number = `${product.price.dollars}.${product.price.cents}`
 			const price_inPennies = parseFloat(price_number) * 100
 
-			// [UPDATE] //
+			// [UPDATE]
 			const updatedProduct = await ProductModel.findOneAndUpdate(
 				{
 					user: user_id,

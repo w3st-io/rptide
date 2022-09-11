@@ -1,6 +1,6 @@
 module.exports = {
 	centFormatter: function (cents) {
-		// [FORMAT] //
+		// [FORMAT]
 		cents = cents.substring(0, 2)
 		
 		switch (cents) {

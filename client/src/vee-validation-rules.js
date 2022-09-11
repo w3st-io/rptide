@@ -6,7 +6,7 @@
  * which lets you make forms be verified for
  * validity before being summited. 
 */
-// [IMPORT] //
+// [IMPORT]
 import { extend } from 'vee-validate'
 import { email } from 'vee-validate/dist/rules'
 

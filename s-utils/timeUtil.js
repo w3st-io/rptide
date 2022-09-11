@@ -20,11 +20,11 @@ module.exports = {
 		// [INIT]
 		const coeff = 1000 * 60 * 5
 		
-		// [TIME] //
+		// [TIME]
 		const now = new Date()
 		const nextInterval = new Date(Math.ceil(now.getTime() / coeff) * coeff)
 
-		// [CALCULATE] //
+		// [CALCULATE]
 		const seconds = Math.abs(nextInterval - now) / 1000
 
 		console.log(`5m Time Till Intiation: ${seconds}`)
@@ -37,11 +37,11 @@ module.exports = {
 		// [INIT]
 		const coeff = 1000 * 60 * 15
 		
-		// [TIME] //
+		// [TIME]
 		const now = new Date()
 		const nextInterval = new Date(Math.ceil(now.getTime() / coeff) * coeff)
 		
-		// [CALCULATE] //
+		// [CALCULATE]
 		const seconds = Math.abs(nextInterval - now) / 1000
 
 		console.log(`15m Time Till Intiation: ${seconds}`)
@@ -54,11 +54,11 @@ module.exports = {
 		// [INIT]
 		const coeff = 1000 * 60 * 60
 		
-		// [TIME] //
+		// [TIME]
 		const now = new Date()
 		const nextInterval = new Date(Math.ceil(now.getTime() / coeff) * coeff)
 		
-		// [CALCULATE] //
+		// [CALCULATE]
 		const seconds = Math.abs(nextInterval - now) / 1000
 
 		console.log(`1h Time Till Intiation: ${seconds}`)
@@ -71,11 +71,11 @@ module.exports = {
 		// [INIT]
 		const coeff = 1000 * 60 * 360
 
-		// [TIME] //
+		// [TIME]
 		const now = new Date()
 		const nextInterval = new Date(Math.ceil(now.getTime() / coeff) * coeff)
 
-		// [CALCULATE] //
+		// [CALCULATE]
 		const seconds = Math.abs(nextInterval - now) / 1000
 
 		console.log(`6h Time Till Intiation: ${seconds}`)
@@ -87,11 +87,11 @@ module.exports = {
 		// [INIT]
 		const coeff = 1000 * 60 * 1440
 
-		// [TIME] //
+		// [TIME]
 		const now = new Date()
 		const nextInterval = new Date(Math.ceil(now.getTime() / coeff) * coeff)
 
-		// [CALCULATE] //
+		// [CALCULATE]
 		const seconds = Math.abs(nextInterval - now) / 1000
 
 		console.log(`1d Time Till Intiation: ${seconds}`)

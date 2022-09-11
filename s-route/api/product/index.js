@@ -37,7 +37,7 @@ router.post(
 					validator.isAscii(req.body.description)
 				)
 			) {
-				// [COLLECTION][Product][CREATE] //
+				// [COLLECTION][Product][CREATE]
 				const productObj = await ProductCollection.c_create({
 					user_id: req.user_decoded._id,
 					name: req.body.name,
@@ -78,7 +78,7 @@ router.post(
 )
 
 
-// [READ] //
+// [READ]
 router.get(
 	'/read-all/:limit/:page',
 	Auth.userToken(),
@@ -119,14 +119,14 @@ router.get(
 )
 
 
-// [UPDATE] //
+// [UPDATE]
 router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
 			if (validator.isAscii(req.body.name)) {
-				// [COLLECTION][Product][UPDATE] //
+				// [COLLECTION][Product][UPDATE]
 				const productObj = await ProductCollection.c_update({
 					user_id: req.user_decoded._id,
 					product: req.body,
@@ -158,14 +158,14 @@ router.post(
 )
 
 
-// [DELETE] //
+// [DELETE]
 router.post(
 	'/delete',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
 			if (validator.isAscii(req.body.product_id)) {
-				// [COLLECTION][Product][DELETE] //
+				// [COLLECTION][Product][DELETE]
 				const deleteProductObj = await ProductCollection.c_delete_byUserAndId({
 					user_id: req.user_decoded._id,
 					product_id: req.body.product_id,

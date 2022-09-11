@@ -12,7 +12,7 @@ const config = require('../s-config')
 let apiKey = SibApiV3Sdk.ApiClient.instance.authentications['api-key']
 
 
-// [SET] //
+// [SET]
 apiKey.apiKey = config.api.sendinBlue.key
 
 
@@ -42,10 +42,10 @@ function mail({ to, subject, textContent }) {
 
 
 module.exports = {
-	// [VERIFICATION] //
+	// [VERIFICATION]
 	sendVerificationMail: async function (to, user_id, VCode) {
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (
 				!validator.isEmail(to) ||
 				!mongoose.isValidObjectId(user_id) ||
@@ -90,10 +90,10 @@ module.exports = {
 	},
 
 
-	// [RESET-PASSWORD] //
+	// [RESET-PASSWORD]
 	sendPasswordResetEmail: async function (to, user_id, VCode) {
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (
 				!validator.isEmail(to) ||
 				!mongoose.isValidObjectId(user_id) ||

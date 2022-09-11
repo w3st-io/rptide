@@ -91,7 +91,7 @@
 	import router from '@/router'
 	import UserService from '@/services/user/UserService'
 
-	// [EXPORT] //
+	// [EXPORT]
 	export default {
 		components: {
 			Alert,

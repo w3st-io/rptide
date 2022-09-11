@@ -12,7 +12,7 @@ const Auth = require('../../../s-middlewares/Auth');
 const router = express.Router().use(cors());
 
 
-// [SEARCH] //
+// [SEARCH]
 router.get(
 	'/index/:webapp/:tab/:sort/:limit/:page',
 	Auth.userToken(),

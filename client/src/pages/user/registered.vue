@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import { MailIcon } from 'vue-feather-icons'
 
 	export default {

@@ -3,42 +3,42 @@ require('dotenv').config()
 
 
 module.exports = {
-	// [HEROKU] //
+	// [HEROKU]
 	nodeENV: process.env.NODE_ENV || 'development',
 	port: process.env.PORT || 5000,
 	
-	// [APP] //
+	// [APP]
 	app: {
 		acceptingUserRegistration: process.env.APP__ACCEPTING_NEW_REGISTRATIONS || 'false',
 
-		// [MONGODB] //
+		// [MONGODB]
 		mongoURI: process.env.APP__MONGO_URI || '',
 		
-		// [CUSTOM-HOME] //
+		// [CUSTOM-HOME]
 		customHome: process.env.APP__CUSTOM_HOME || 'false',
 		
-		// [SECRET] //
+		// [SECRET]
 		secretKey: process.env.APP__SECRET_KEY || 'secret',
 
-		// [BASE-URL] //
+		// [BASE-URL]
 		baseURL: {
 			client: process.env.APP__BASE_URL || 'http://localhost:8080',
 			server: process.env.APP__BASE_URL || 'http://localhost:5000',
 		}
 	},
 	
-	// [COMPANY] //
+	// [COMPANY]
 	company: {
 		name: 'RpTide',
 	},
 	
-	// [FUNCTIONALITY] //
+	// [FUNCTIONALITY]
 	functionality: {
 		user: process.env.FUNCTIONALITY__USER || 'false',
 		payment: process.env.FUNCTIONALITY__PAYMENT || 'false',
 	},
 	
-	// [EMAIL] //
+	// [EMAIL]
 	email: {
 		address: process.env.EMAIL__ADDRESS || '',
 	},

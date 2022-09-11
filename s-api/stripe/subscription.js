@@ -7,7 +7,7 @@ const validator = require('validator')
 const config = require('../../s-config')
 
 
-// [STRIPE] //
+// [STRIPE]
 const Stripe = stripe(config.api.stripe.secretKey)
 
 

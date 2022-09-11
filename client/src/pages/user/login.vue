@@ -91,7 +91,7 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import { LogInIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //
@@ -99,7 +99,7 @@
 	import router from '@/router'
 	import service from '@/services'
 
-	// [EXPORT] //
+	// [EXPORT]
 	export default {
 		components: {
 			LogInIcon,
@@ -124,13 +124,13 @@
 		methods: {
 			async login() {
 				try {
-					// [VALIDATE] //
+					// [VALIDATE]
 					if (!this.email || !this.password)  {
 						this.error = 'Fields are required'
 						return
 					}
 
-					// [LOGIN] //
+					// [LOGIN]
 					this.resData = await service.s_login(
 						this.email,
 						this.password

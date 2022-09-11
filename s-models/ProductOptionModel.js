@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 
-// [VALIDATE] //
+// [VALIDATE]
 function validate({ product }) {
 	// [LENGTH-CHECK] variants //
 	if (product.variants.length > 20) {

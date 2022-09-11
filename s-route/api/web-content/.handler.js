@@ -32,7 +32,7 @@ module.exports = {
 			// [OVERRIDE] the user passed by the token //
 			req.body.webContent.user = req.user_decoded._id
 
-			// [WEB-CONTENT][SAVE] //
+			// [WEB-CONTENT][SAVE]
 			const result = await new WebContentModel({
 				_id: mongoose.Types.ObjectId(),
 				...req.body.webContent,
@@ -57,7 +57,7 @@ module.exports = {
 
 	find: async ({ req }) => {
 		try {
-			// [WEB-CONTENT][SAVE] //
+			// [WEB-CONTENT][SAVE]
 			const result = await WebContentModel.find({
 				webApp: req.body.webApp,
 			})
@@ -89,7 +89,7 @@ module.exports = {
 			let query = { user: req.user_decoded._id }
 			let sort
 
-			// [query] //
+			// [query]
 			if (req.body.webApp) {
 				query = {
 					...query,
@@ -118,7 +118,7 @@ module.exports = {
 				}
 			}
 
-			// [sort] //
+			// [sort]
 			switch (req.query.sort) {
 				case 'newest':
 					sort = { createdTimeStamp: -1 }
@@ -129,7 +129,7 @@ module.exports = {
 				break
 			}
 
-			// [limit] //
+			// [limit]
 			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 				return {
 					executed: true,
@@ -141,7 +141,7 @@ module.exports = {
 			
 			console.log(query);
 
-			// [WEB-CONTENT][FIND] //
+			// [WEB-CONTENT][FIND]
 			const result = await WebContentModel.find(query)
 				.sort(sort)
 				.limit(limit)
@@ -167,7 +167,7 @@ module.exports = {
 
 	findOne: async ({ req }) => {
 		try {
-			// [WEB-CONTENT][SAVE] //
+			// [WEB-CONTENT][SAVE]
 			const result = await WebContentModel.findOne({
 				_id: req.body.webContent,
 			})

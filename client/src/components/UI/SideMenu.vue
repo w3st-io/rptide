@@ -13,7 +13,7 @@
 	</nav>
 </template>
 <script>
-	// [IMPORT] //
+	// [IMPORT]
 	import { XIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //

@@ -40,7 +40,7 @@ async function cancel_tier1StripeSub ({ user_id, apiSubscription_id, tier1_activ
 
 	if (!updatedApiSubObj1.status) { return updatedApiSubObj1 }
 
-	// [SUCCESS] //
+	// [SUCCESS]
 	return {
 		executed: true,
 		status: true,
@@ -78,7 +78,7 @@ async function cancel_tier2StripeSub ({ user_id, apiSubscription_id, tier2_activ
 
 	if (!updatedApiSubObj1.status) { return updatedApiSubObj1 }
 
-	// [SUCCESS] //
+	// [SUCCESS]
 	return {
 		executed: true,
 		status: true,
@@ -120,7 +120,7 @@ async function archive_stripeSub ({ user_id, apiSubscription_id, subId }) {
 
 	if (!updatedApiSubObj2.status) { return updatedApiSubObj2 }
 
-	// [SUCCESS] //
+	// [SUCCESS]
 	return {
 		executed: true,
 		status: true,
@@ -140,10 +140,10 @@ module.exports = {
 		// [INIT]
 		let apiSubscriptionTier = 0
 
-		// [READ][ApiSubscription] //
+		// [READ][ApiSubscription]
 		const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({ user_id })
 
-		// [ERROR] //
+		// [ERROR]
 		if (!apiSubObj.status) {
 			console.log('/apiSubscription Error:', apiSubObj.message)
 			return
@@ -173,10 +173,10 @@ module.exports = {
 		// [INIT]
 		let flag = false
 
-		// [READ][ApiSubscription] //
+		// [READ][ApiSubscription]
 		const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({ user_id })
 
-		// [ERROR] //
+		// [ERROR]
 		if (!apiSubObj.status) {
 			console.log('/apiSubscription Error:', apiSubObj.message)
 			return
@@ -187,9 +187,9 @@ module.exports = {
 		
 		// If last time checked was over 24 hours ago
 		if (hours > .5 || force == true) {
-			// [TIER-1][ACTIVE] //
+			// [TIER-1][ACTIVE]
 			if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
-				// [API][subscriptionObj][READ] //
+				// [API][subscriptionObj][READ]
 				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
 					subId: apiSubObj.apiSubscription.stripe.subId.tier1.active
 				})
@@ -206,9 +206,9 @@ module.exports = {
 				}
 			}
 
-			// [TIER-1][CANCELED] //
+			// [TIER-1][CANCELED]
 			if (apiSubObj.apiSubscription.stripe.subId.tier1.canceled) {
-				// [API][subscriptionObj][READ] //
+				// [API][subscriptionObj][READ]
 				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
 					subId: apiSubObj.apiSubscription.stripe.subId.tier1.canceled
 				})
@@ -225,9 +225,9 @@ module.exports = {
 				}
 			}
 
-			// [TIER-2][ACTIVE] //
+			// [TIER-2][ACTIVE]
 			if (apiSubObj.apiSubscription.stripe.subId.tier2.active) {
-				// [API][subscriptionObj][READ] //
+				// [API][subscriptionObj][READ]
 				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
 					subId: apiSubObj.apiSubscription.stripe.subId.tier2.active
 				})
@@ -244,9 +244,9 @@ module.exports = {
 				}
 			}
 
-			// [TIER-2][CANCELED] //
+			// [TIER-2][CANCELED]
 			if (apiSubObj.apiSubscription.stripe.subId.tier2.canceled) {
-				// [API][subscriptionObj][READ] //
+				// [API][subscriptionObj][READ]
 				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
 					subId: apiSubObj.apiSubscription.stripe.subId.tier2.canceled
 				})
@@ -373,10 +373,10 @@ module.exports = {
 			tier1_active,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!cancel_tier1StripeSubObj.status) { return cancel_tier1StripeSubObj }
 
-		// [SUCCESS] //
+		// [SUCCESS]
 		return {
 			status: true,
 			executed: true,
@@ -394,10 +394,10 @@ module.exports = {
 			tier2_active,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!cancel_tier2StripeSubObj.status) { return cancel_tier2StripeSubObj }
 
-		// [SUCCESS] //
+		// [SUCCESS]
 		return {
 			status: true,
 			executed: true,
@@ -417,7 +417,7 @@ module.exports = {
 			priceId: tier1PriceId
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 
 		// [SET] stripe_subId_tier1_active //
@@ -443,10 +443,10 @@ module.exports = {
 			tier: 1,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!updatedSubObj.status) { return updatedSubObj }
 
-		// [SUCCESS] //
+		// [SUCCESS]
 		return {
 			executed: true,
 			status: true,
@@ -467,7 +467,7 @@ module.exports = {
 			tier2_active,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!cancel_tier2StripeSubObj.status) { return cancel_tier2StripeSubObj }
 
 		// [API][stripe][REACTIVATE] tier 1 (If Existant) //
@@ -476,7 +476,7 @@ module.exports = {
 			priceId: tier1PriceId
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 
 		// [SET] stripe_subId_tier1_active //
@@ -502,7 +502,7 @@ module.exports = {
 			tier: 1,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!updatedSubObj.status) { return updatedSubObj }
 
 		return {
@@ -524,7 +524,7 @@ module.exports = {
 			priceId: tier2PriceId
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 		
 		// [SET] stripe_subId_tier2_active //
@@ -551,7 +551,7 @@ module.exports = {
 			tier: 2,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!updatedSubObj.status) { return updatedSubObj }
 
 		return {
@@ -575,7 +575,7 @@ module.exports = {
 			tier: 2,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!cancel_tier1StripeSubObj.status) { return cancel_tier1StripeSubObj }
 
 		// [API][stripe][REACTIVATE] tier 1 (If Existant) //
@@ -584,7 +584,7 @@ module.exports = {
 			priceId: tier2PriceId
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
 
 		// [SET] stripe_subId_tier2_active //
@@ -610,7 +610,7 @@ module.exports = {
 			tier: 2,
 		})
 
-		// [ERROR] //
+		// [ERROR]
 		if (!updatedSubObj.status) { return updatedSubObj }
 
 		return {

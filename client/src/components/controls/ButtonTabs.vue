@@ -18,7 +18,7 @@
 	 * 1) the list of tabs
 	 * 2) what the emit is going to be called
 	*/
-	// [EXPORT] //
+	// [EXPORT]
 	export default {
 		props: {
 			tabs: {
@@ -42,7 +42,7 @@
 			// Set Active Tab //
 			this.activeTab = this.tabs[this.initialTab]
 
-			// [EMIT] //
+			// [EMIT]
 			this.$emit('tabClicked', this.activeTab)
 		},
 

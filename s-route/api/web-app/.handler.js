@@ -18,6 +18,11 @@ let returnObj = {
 
 
 module.exports = {
+	/**
+	 * @notice Create a Web App
+	 * @param {String} req.body.webApp.name Name of the web app
+	 * @returns {Object}
+	 */
 	create: async ({ req }) => {
 		// [INIT]
 		let childReturnObj = {
@@ -27,7 +32,7 @@ module.exports = {
 		};
 
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (!req.body.webApp.name) {
 				console.log('RUNNING');
 				return {
@@ -36,7 +41,7 @@ module.exports = {
 				};
 			}
 
-			// [COLLECTION][webApp][SAVE] //
+			// [COLLECTION][webApp]
 			const result = await new WebAppModel({
 				_id: mongoose.Types.ObjectId(),
 				user: req.user_decoded._id,
@@ -47,7 +52,7 @@ module.exports = {
 				user: req.user_decoded._id
 			})
 
-			// [SUCCESS] //
+			// [SUCCESS]
 			return {
 				...childReturnObj,
 				status: true,
@@ -148,13 +153,13 @@ module.exports = {
 				}
 			}
 
-			// [WebApp][DELETE] //
+			// [WebApp][DELETE]
 			const result = await WebAppModel.deleteOne({
 				_id: webApp_id,
 				user: user_id
 			})
 
-			// [WebApp][DELETE] //
+			// [WebApp][DELETE]
 			const resultWebContents = await WebContentModel.deleteMany({
 				webApp: webApp_id,
 				user: user_id

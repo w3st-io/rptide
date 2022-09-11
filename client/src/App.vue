@@ -53,7 +53,7 @@
 				const res = (await this.authAxios.get('/')).data;
 
 				if (res.status) {
-					// [LOCAL-STORAGE] //
+					// [LOCAL-STORAGE]
 					localStorage.setItem('node_env', res.node_env);
 				}
 			
