@@ -31,7 +31,7 @@ module.exports = {
 	 */
 	index: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			node_env: config.nodeENV,
 			location: returnObj.location + ''
@@ -49,21 +49,21 @@ module.exports = {
 				const webApps = await WebAppModel.find({ user: req.user_decoded._id });
 				
 				// [APPEND]
-				childReturnObj = {
-					...childReturnObj,
+				_returnObj = {
+					..._returnObj,
 					user: user,
 					webApps: webApps
 				};
 			}
 			
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true
 			};
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
@@ -78,7 +78,7 @@ module.exports = {
 	*/
 	login: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/login',
 			message: 'Success',
@@ -92,7 +92,7 @@ module.exports = {
 				!validator.isAscii(req.body.email)
 			) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: `Invalid email`,
 				};
 			}
@@ -103,7 +103,7 @@ module.exports = {
 				!validator.isAscii(req.body.password)
 			) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: `Invalid password`,
 				};
 			}
@@ -113,7 +113,7 @@ module.exports = {
 
 			if (!user) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: `Invalid email or password`
 				};
 			}
@@ -121,7 +121,7 @@ module.exports = {
 			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.password, user.password)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: `Invalid email or password`
 				};
 			}
@@ -148,7 +148,7 @@ module.exports = {
 			}).select('-password -api.publicKey').exec();
 
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				validation: true,
 				token: token,
@@ -158,7 +158,7 @@ module.exports = {
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
@@ -172,7 +172,7 @@ module.exports = {
 	*/
 	register: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/register',
 			message: 'Successfully created account',
@@ -182,7 +182,7 @@ module.exports = {
 		try {
 			if (config.app.acceptingUserRegistration == 'false') {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'We are currently not accepting new registrations'
 				};
 			}
@@ -190,7 +190,7 @@ module.exports = {
 			// [VALIDATE] req.body.email
 			if (!validator.isEmail(req.body.email)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid email'
 				};
 			}
@@ -198,7 +198,7 @@ module.exports = {
 			// Email Check
 			if (await UserModel.findOne({ email: req.body.email })) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'That email is already registered'
 				};
 			}
@@ -206,7 +206,7 @@ module.exports = {
 			// [VALIDATE] req.body.password
 			if (!validator.isAscii(req.body.password)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid password'
 				};
 			}
@@ -214,7 +214,7 @@ module.exports = {
 			// [VALIDATE] req.body.password
 			if (password.req.body.password < 8 || req.body.password.length > 100) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid password'
 				};
 			}
@@ -243,7 +243,7 @@ module.exports = {
 
 			// [SUCCESS]
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				created: true,
 				user: user
@@ -251,7 +251,7 @@ module.exports = {
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
@@ -266,7 +266,7 @@ module.exports = {
 	*/
 	completeRegistration: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/complete-registration',
 			message: 'Completed registration'
@@ -276,7 +276,7 @@ module.exports = {
 			// [VALIDATE] user_id
 			if (!validator.isAscii(req.body.user_id)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid user_id'
 				};
 			}
@@ -284,7 +284,7 @@ module.exports = {
 			// [VALIDATE] verificationCode
 			if (!validator.isAscii(req.body.verificationCode)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid verfication code'
 				};
 			}
@@ -347,14 +347,14 @@ module.exports = {
 
 			// [SUCCESS]
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				existance: vCObj.existance
 			};
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
@@ -367,7 +367,7 @@ module.exports = {
 	 * @param req.body.email Email to recover password for
 	*/
 	resendVerificationEmail: async ({ req }) => {
-		let childReturnObj = {
+		let _returnObj = {
 			executed: true,
 			status: false,
 			location: returnObj.location + '/resent-verification-email',
@@ -378,7 +378,7 @@ module.exports = {
 			// [VALIDATE]
 			if (!validator.isAscii(req.body.email)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid params',
 				}
 			}
@@ -399,14 +399,14 @@ module.exports = {
 			)
 
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true
 			}
 			
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			}
@@ -419,7 +419,7 @@ module.exports = {
 	*/
 	requestResetPassword: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/request-reset-password',
 			message: 'Email sent'
@@ -431,7 +431,7 @@ module.exports = {
 			// [VALIDATE]
 			if (!validator.isEmail(req.body.email)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: `Invalid params`,
 				};
 			}
@@ -441,7 +441,7 @@ module.exports = {
 			
 			if (!user) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'No user found'
 				};
 			}
@@ -464,14 +464,14 @@ module.exports = {
 
 			if (sent.status) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					status: true
 				};
 			}
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
@@ -486,7 +486,7 @@ module.exports = {
 	*/
 	resetPassword: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/reset-password',
 			message: 'Password reset'
@@ -499,7 +499,7 @@ module.exports = {
 				!validator.isAscii(req.body.password)
 			) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid params',
 				}
 			}
@@ -511,7 +511,7 @@ module.exports = {
 
 			if (!existance.existance) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'You have not made a request to reset your password',
 				}
 			}
@@ -542,13 +542,13 @@ module.exports = {
 			if (!deletedPR.status) { return deletedPR }
 
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 			}
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			}

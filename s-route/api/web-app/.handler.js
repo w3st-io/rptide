@@ -25,7 +25,7 @@ module.exports = {
 	*/
 	create: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/create',
 			message: 'Created WebApp'
@@ -36,7 +36,7 @@ module.exports = {
 			if (!req.body.webApp.name) {
 				console.log('RUNNING');
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid params'
 				};
 			}
@@ -54,7 +54,7 @@ module.exports = {
 
 			// [SUCCESS]
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				createdWebApp: result,
 				webApps: resultWebApp,
@@ -62,7 +62,7 @@ module.exports = {
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err,
 			};
@@ -77,7 +77,7 @@ module.exports = {
 	*/
 	findOne: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/find-one',
 		};
@@ -88,7 +88,7 @@ module.exports = {
 		});
 
 		return {
-			...childReturnObj,
+			..._returnObj,
 			status: true,
 			webApp: result,
 		};
@@ -103,7 +103,7 @@ module.exports = {
 	*/
 	findOneAndUpdate: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/find-one-and-update',
 			message: 'Successfully updated WebContent'
@@ -128,7 +128,7 @@ module.exports = {
 			});
 
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				webContent: result,
 				webApps: resultWebApp,
@@ -136,7 +136,7 @@ module.exports = {
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err,
 			};
@@ -150,7 +150,7 @@ module.exports = {
 	*/
 	deleteOne: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/delete-one',
 			message: 'Deleted WebApp'
@@ -163,7 +163,7 @@ module.exports = {
 			// [VALIDATE] webApp_id
 			if (!validator.isAscii(webApp_id)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid params'
 				};
 			}
@@ -183,7 +183,7 @@ module.exports = {
 			const webApps = await WebAppModel.find({ user: user_id });
 			
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				deleted: {
 					webApp: result,
@@ -194,7 +194,7 @@ module.exports = {
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err,
 			};

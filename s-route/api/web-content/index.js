@@ -18,7 +18,7 @@ router.post(
 	'/create',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.createWebContent({ req }))
+		res.send(await rh.create({ req }))
 	}
 )
 

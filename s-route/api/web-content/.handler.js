@@ -1,56 +1,67 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 
 // [REQUIRE] Personal
-const WebAppModel = require('../../../s-models/WebAppModel')
-const WebContentModel = require('../../../s-models/WebContentModel')
+const WebAppModel = require('../../../s-models/WebAppModel');
+const WebContentModel = require('../../../s-models/WebContentModel');
 
 
 // [INIT]
 const location = '/web-content'
+let returnObj = {
+	executed: true,
+	status: false,
+	location: '/api/web-content',
+	message: ''
+};
 
 
 module.exports = {
-	createWebContent: async ({ req }) => {
+	create: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'Created WebContent',
+			location: returnObj.location + '/create'
+		}
+
 		try {
 			// Check if owned
 			const webApp = await WebAppModel.findOne({
 				_id: req.body.webContent.webApp,
 				user: req.user_decoded._id,
-			})
+			});
 			
 			// does not own this webApp
 			if (!webApp) {
 				return {
-					executed: true,
-					status: false,
+					..._returnObj,
 					message: 'You do not own this webApp',
-				}
+				};
 			}
 
 			// [OVERRIDE] the user passed by the token
-			req.body.webContent.user = req.user_decoded._id
+			req.body.webContent.user = req.user_decoded._id;
 
 			// [WEB-CONTENT][SAVE]
 			const result = await new WebContentModel({
 				_id: mongoose.Types.ObjectId(),
 				...req.body.webContent,
-			}).save()
+			}).save();
 
 			return {
+				..._returnObj,
 				status: true,
-				executed: true,
 				result: result,
-			}
+			};
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				message: err,
-				location,
-			}
+				message: err
+			};
 		}
 	},
 

@@ -25,7 +25,7 @@ module.exports = {
 	 * @returns {object} Updated user
 	*/
 	update: async ({ req }) => {
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/update',
 			message: 'Updated profile'
@@ -35,7 +35,7 @@ module.exports = {
 			// [VALIDATE]
 			if (!validator.isAscii(req.body.img_url)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid params',
 				};
 			}
@@ -46,7 +46,7 @@ module.exports = {
 				req.body.bio.includes('</script>')
 			) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'XSS not allowed'
 				};
 			}
@@ -62,14 +62,14 @@ module.exports = {
 			).select('-password -api.publicKey -verified').exec();
 	
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				updatedUser: updatedUser
 			};
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err,
 			};
@@ -81,7 +81,7 @@ module.exports = {
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
 	update_workspaceWebApp: async ({ req }) => {
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			message: 'Updated workspace',
 			location: returnObj.location + '/update/workspace-web-app',
@@ -101,20 +101,20 @@ module.exports = {
 
 			if (!user) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'No user found'
 				};
 			}
 
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				user
 			};
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
@@ -129,7 +129,7 @@ module.exports = {
 	*/
 	update_password: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			message: 'Updated password',
 			location: returnObj.location + '/update/password',
@@ -141,7 +141,7 @@ module.exports = {
 				!validator.isAscii(req.body.password)
 			) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid params',
 				};
 			}
@@ -152,7 +152,7 @@ module.exports = {
 			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
 				return {
-					...childReturnObj,
+					..._returnObj,
 					message: 'Invalid password',
 				};
 			}
@@ -168,13 +168,13 @@ module.exports = {
 			);
 
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 			};
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
@@ -189,7 +189,7 @@ module.exports = {
 	*/
 	generateApiKey: async ({ req }) => {
 		// [INIT]
-		let childReturnObj = {
+		let _returnObj = {
 			...returnObj,
 			message: 'Generated new API key',
 			location: returnObj.location + '/generate-api-key'
@@ -211,14 +211,14 @@ module.exports = {
 			);
 	
 			return {
-				...childReturnObj,
+				..._returnObj,
 				status: true,
 				privateKey: updatedUser.privateKey
 			};
 		}
 		catch (err) {
 			return {
-				...childReturnObj,
+				..._returnObj,
 				executed: false,
 				message: err
 			};
