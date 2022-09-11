@@ -25,7 +25,7 @@ module.exports = {
 			...returnObj,
 			message: 'Created WebContent',
 			location: returnObj.location + '/create'
-		}
+		};
 
 		try {
 			// Check if owned
@@ -68,139 +68,160 @@ module.exports = {
 
 
 	find: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'Created WebContent',
+			location: returnObj.location + '/create'
+		};
+
 		try {
 			// [WEB-CONTENT][SAVE]
 			const result = await WebContentModel.find({
 				webApp: req.body.webApp,
-			})
+			});
 
 			return {
+				..._returnObj,	
 				status: true,
-				executed: true,
 				webContents: result,
-			}
+			};
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				message: err,
-				location,
-			}
+				message: err
+			};
 		}
 	},
 
 
 	findPaginated: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'WebContent(s) found',
+			location: returnObj.location + '/find-paginated'
+		};
+
 		try {
 			// [INIT] Const
-			const limit = parseInt(req.params.limit)
-			const skip = (parseInt(req.params.page) - 1) * limit
-
-			// [INIT]
-			let query = { user: req.user_decoded._id }
-			let sort
+			const limit = parseInt(req.params.limit);
+			const skip = (parseInt(req.params.page) - 1) * limit;
 
 			// [query]
+			let query = { user: req.user_decoded._id };
+
 			if (req.body.webApp) {
 				query = {
 					...query,
 					webApp: req.body.webApp,
-				}
+				};
 			}
 
 			if (req.body.visible) {
 				query = {
 					...query,
 					visible: req.body.visible,
-				}
+				};
 			}
 
 			if (req.body.tags) {
 				query = {
 					...query,
-					tags: { $all: req.body.tags } 
-				}
+					tags: { $all: req.body.tags }
+				};
 			}
 
 			if (req.body.notInTags) {
 				query = {
 					...query,
 					tags: { $nin: req.body.notInTags } 
-				}
+				};
 			}
 
 			// [sort]
+			let sort;
+
 			switch (req.query.sort) {
 				case 'newest':
-					sort = { createdTimeStamp: -1 }
-				break
+					sort = { createdTimeStamp: -1 };
+				break;
 			
 				default:
-					sort = {}
-				break
+					sort = {};
+				break;
 			}
 
 			// [limit]
 			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 				return {
-					executed: true,
-					status: false,
+					..._returnObj,
 					location: location,
-					message: `${location}: Invalid limit`,
-				}
+					message: `${location}: Invalid limit`
+				};
 			}
-			
-			console.log(query);
 
 			// [WEB-CONTENT][FIND]
 			const result = await WebContentModel.find(query)
 				.sort(sort)
 				.limit(limit)
 				.skip(skip)
-			.exec()
+			.exec();
 
 			return {
-				status: true,
-				executed: true,
-				webContents: result,
-			}
+				..._returnObj,
+				webContents: result
+			};
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				location,
-				message: `Caught error ${err}`,
-			}
+				message: err
+			};
 		}
 	},
 
 
 	findOne: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'WebContent found',
+			location: returnObj.location + '/find-one'
+		};
+
 		try {
 			// [WEB-CONTENT][SAVE]
 			const result = await WebContentModel.findOne({
-				_id: req.body.webContent,
-			})
+				_id: req.body.webContent
+			});
 
 			return {
+				..._returnObj,
 				status: true,
-				executed: true,
-				webContent: result,
-			}
+				webContent: result
+			};
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				message: err,
-				location,
-			}
+				message: err
+			};
 		}
 	},
 
 	findOneAndUpdate: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'Successfully updated WebContent',
+			location: returnObj.location + '/find-one-and-update'
+		};
+
 		try {
 			const result = await WebContentModel.findOneAndUpdate(
 				{
@@ -223,19 +244,16 @@ module.exports = {
 			).select().exec()
 
 			return {
+				..._returnObj,
 				status: true,
-				executed: true,
-				webContent: result,
-				location,
-				message: 'Successfully updated WebContent'
+				webContent: result
 			}
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				message: err,
-				location,
+				message: err
 			}
 		}
 	},
