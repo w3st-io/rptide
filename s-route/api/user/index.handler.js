@@ -109,7 +109,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: `${location}${subLocation}`,
-					message: 'Invalid Params',
+					message: 'Invalid params',
 				};
 			}
 

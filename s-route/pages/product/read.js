@@ -50,7 +50,7 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: 'Invalid Params'
+					message: 'Invalid params'
 				})
 			}
 		}

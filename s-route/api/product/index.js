@@ -103,7 +103,7 @@ router.get(
 					executed: true,
 					status: false,
 					location: `${location}/read-all`,
-					message: 'Invalid Params'
+					message: 'Invalid params'
 				})
 			}
 		}

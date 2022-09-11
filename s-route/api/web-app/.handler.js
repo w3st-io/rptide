@@ -37,7 +37,7 @@ module.exports = {
 				console.log('RUNNING');
 				return {
 					...childReturnObj,
-					message: 'Invalid Params'
+					message: 'Invalid params'
 				};
 			}
 
@@ -46,11 +46,11 @@ module.exports = {
 				_id: mongoose.Types.ObjectId(),
 				user: req.user_decoded._id,
 				name: req.body.webApp.name,
-			}).save()
+			}).save();
 
 			const resultWebApp = await WebAppModel.find({
 				user: req.user_decoded._id
-			})
+			});
 
 			// [SUCCESS]
 			return {
@@ -58,14 +58,14 @@ module.exports = {
 				status: true,
 				createdWebApp: result,
 				webApps: resultWebApp,
-			}
+			};
 		}
 		catch (err) {
 			return {
 				...childReturnObj,
 				executed: false,
 				message: err,
-			}
+			};
 		}
 	},
 
@@ -80,13 +80,13 @@ module.exports = {
 		const result = await WebAppModel.findOne({
 			user: req.user_decoded._id,
 			_id: req.body.webApp._id,
-		})
+		});
 
 		return {
 			...childReturnObj,
 			status: true,
 			webApp: result,
-		}
+		};
 	},
 
 
@@ -110,25 +110,25 @@ module.exports = {
 					}
 				},
 				{ new: true },
-			).select().exec()
+			).select().exec();
 
 			const resultWebApp = await WebAppModel.find({
 				user: req.user_decoded._id
-			})
+			});
 
 			return {
 				...childReturnObj,
 				status: true,
 				webContent: result,
 				webApps: resultWebApp,
-			}
+			};
 		}
 		catch (err) {
 			return {
 				...childReturnObj,
 				executed: false,
 				message: err,
-			}
+			};
 		}
 	},
 
@@ -138,34 +138,34 @@ module.exports = {
 		let childReturnObj = {
 			...returnObj,
 			location: returnObj.location + '/delete-one',
-			message: 'Deleted WebApp',
+			message: 'Deleted WebApp'
 		};
 
 		try {
-			const user_id = req.user_decoded._id
-			const webApp_id = req.body.webApp._id
+			const user_id = req.user_decoded._id;
+			const webApp_id = req.body.webApp._id;
 
 			// [VALIDATE] webApp_id //
 			if (!validator.isAscii(webApp_id)) {
 				return {
 					...childReturnObj,
-					message: 'Invalid Params'
-				}
+					message: 'Invalid params'
+				};
 			}
 
 			// [WebApp][DELETE]
 			const result = await WebAppModel.deleteOne({
 				_id: webApp_id,
 				user: user_id
-			})
+			});
 
 			// [WebApp][DELETE]
 			const resultWebContents = await WebContentModel.deleteMany({
 				webApp: webApp_id,
 				user: user_id
-			})
+			});
 
-			const webApps = await WebAppModel.find({ user: user_id })
+			const webApps = await WebAppModel.find({ user: user_id });
 			
 			return {
 				...childReturnObj,
@@ -175,14 +175,14 @@ module.exports = {
 					webContents: resultWebContents,
 				},
 				webApps: webApps
-			}
+			};
 		}
 		catch (err) {
 			return {
 				...childReturnObj,
 				executed: false,
 				message: err,
-			}
+			};
 		}
 	}
 }

@@ -34,7 +34,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'Invalid Params'
+					message: 'Invalid params'
 				};
 			}
 
