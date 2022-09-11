@@ -9,11 +9,22 @@ const WebContentModel = require('../../../s-models/WebContentModel');
 
 
 // [INIT]
-const location = '/web-app'
+const location = '/web-app';
+let returnObj = {
+	executed: false,
+	status: true,
+	location: location
+};
 
 
 module.exports = {
 	create: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+			...returnObj,
+			location: returnObj.location + '/create'
+		};
+
 		try {
 			// [VALIDATE] //
 			if (!req.body.webApp.name) {

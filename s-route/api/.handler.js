@@ -16,11 +16,10 @@ const mailerUtil = require('../../s-utils/mailerUtil');
 
 
 // [INIT]
-const location = '/.handler.js';
 let returnObj = {
 	executed: true,
 	status: false,
-	location: location
+	location: '/.handler.js'
 };
 
 
@@ -33,7 +32,8 @@ module.exports = {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
-			node_env: config.nodeENV
+			node_env: config.nodeENV,
+			location: returnObj.location + ''
 		};
 
 		try {
@@ -54,6 +54,11 @@ module.exports = {
 					webApps: webApps
 				};
 			}
+
+			console.log({
+				...childReturnObj,
+				status: true
+			});
 			
 			return {
 				...childReturnObj,
@@ -79,7 +84,7 @@ module.exports = {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
-			location: `${location}/login`,
+			location: returnObj.location + '/login',
 			message: 'Success',
 			validation: false
 		};
@@ -173,7 +178,7 @@ module.exports = {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
-			location: `${location}/register`,
+			location: returnObj.location + '/register',
 			message: 'Successfully created account',
 			created: false
 		};
@@ -267,8 +272,8 @@ module.exports = {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
-			message: 'Completed registration', 
-			location: `${location}/complete-registration`
+			location: returnObj.location + '/complete-registration',
+			message: 'Completed registration'
 		};
 
 		try {
@@ -369,7 +374,7 @@ module.exports = {
 		let childReturnObj = {
 			executed: true,
 			status: false,
-			location: `${location}/resend-verification-email`,
+			location: returnObj.location + '/resent-verification-email',
 			message: 'Verification email sent'
 		};
 
@@ -420,7 +425,7 @@ module.exports = {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
-			location: `${location}/request-reset-password`,
+			location: returnObj.location + '/request-reset-password',
 			message: 'Email sent'
 		};
 
@@ -488,7 +493,7 @@ module.exports = {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
-			location: `${location}/reset-password`,
+			location: returnObj.location + '/reset-password',
 			message: 'Password reset'
 		};
 
