@@ -35,7 +35,7 @@
 
 		methods: {
 			async selectOrganization() {
-				this.resData = await UserService.s_update_workspacewebApp(
+				this.resData = await UserService.s_update_workspaceWebApp(
 					this.currentWebApp
 				);
 

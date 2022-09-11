@@ -9,37 +9,46 @@ const UserModel = require('../../../s-models/UserModel');
 
 
 // [INIT]
-const location = '/user/index'
+const location = '/api/user'
+let returnObj = {
+	executed: true,
+	status: false,
+	location: '/api/user',
+	message: ''
+};
 
 
 module.exports = {
 	/**
-	 * @notice Update User's profile image and bio
+	 * @notice Update User profile image and bio
 	 * @param {string} req.body.img_url
 	 * @param {string} req.body.bio
 	 * @returns {object} Updated user
 	*/
 	update: async ({ req }) => {
+		let childReturnObj = {
+			...returnObj,
+			location: returnObj.location + '/update',
+			message: 'Updated profile'
+		};
+
 		try {
 			// [VALIDATE]
 			if (!validator.isAscii(req.body.img_url)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}`,
+					...childReturnObj,
 					message: 'Invalid params',
 				};
 			}
 
-			// [VALIDATE] bio //
+			// [VALIDATE] bio
 			if (
 				req.body.bio.includes('<script') ||
 				req.body.bio.includes('</script>')
 			) {
 				return {
-					executed: true,
-					status: false,
-					message: `${location}: XSS not aloud`
+					...childReturnObj,
+					message: 'XSS not allowed'
 				};
 			}
 			
@@ -51,22 +60,20 @@ module.exports = {
 						bio: req.body.bio,
 					}
 				}
-			).select('-password -api.publicKey -verified').exec()
+			).select('-password -api.publicKey -verified').exec();
 	
 			return {
-				executed: true,
+				...childReturnObj,
 				status: true,
-				message: 'Updated profile',
 				updatedUser: updatedUser
-			}
+			};
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}`,
-				message: `Error --> ${err}`,
-			}
+				message: err,
+			};
 		}
 	},
 
@@ -74,21 +81,45 @@ module.exports = {
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
-	update_workspacewebApp: async ({ req }) => {
-		// [UPDATE] Password for User
-		const userObj = await UserModel.findOneAndUpdate(
-			{ _id: req.user_decoded._id },
-			{
-				$set: {
-					"workspace.webApp": req.body.webApp
-				}
-			},
-			{ returnOriginal: false }
-		)
+	update_workspaceWebApp: async ({ req }) => {
+		let childReturnObj = {
+			...returnObj,
+			message: 'Updated workspace',
+			location: returnObj.location + '/update/workspace-web-app',
+		};
 
-		console.log(userObj.workspace);
+		try {
+			// [UPDATE] Password for User
+			const user = await UserModel.findOneAndUpdate(
+				{ _id: req.user_decoded._id },
+				{
+					$set: {
+						"workspace.webApp": req.body.webApp
+					}
+				},
+				{ returnOriginal: false }
+			);
 
-		return userObj
+			if (!user) {
+				return {
+					...childReturnObj,
+					message: 'No user found'
+				};
+			}
+
+			return {
+				...childReturnObj,
+				status: true,
+				user
+			};
+		}
+		catch (err) {
+			return {
+				...childReturnObj,
+				executed: false,
+				message: err
+			};
+		}
 	},
 
 

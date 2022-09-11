@@ -24,10 +24,10 @@ router.post(
 );
 
 router.post(
-	'/update/workspace-selected-web-app',
+	'/update/workspace-web-app',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.update_workspacewebApp({ req }));
+		res.send(await rh.update_workspaceWebApp({ req }));
 	}
 );
 

@@ -55,11 +55,6 @@ module.exports = {
 					webApps: webApps
 				};
 			}
-
-			console.log({
-				...childReturnObj,
-				status: true
-			});
 			
 			return {
 				...childReturnObj,
