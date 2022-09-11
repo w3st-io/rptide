@@ -186,13 +186,13 @@ module.exports = {
 	 * 
 	 * @notice Find user and generate a new API key
 	 * @returns {Object} containing the new API Key
-	 */
+	*/
 	generateApiKey: async ({ req }) => {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
 			message: 'Generated new API key',
-			location: returnObj.location + '/generate-api-key',
+			location: returnObj.location + '/generate-api-key'
 		};
 		
 		try {
@@ -208,20 +208,20 @@ module.exports = {
 					}
 				},
 				{ new: true }
-			)
+			);
 	
 			return {
 				...childReturnObj,
 				status: true,
 				privateKey: updatedUser.privateKey
-			}
+			};
 		}
 		catch (err) {
 			return {
 				...childReturnObj,
 				executed: false,
 				message: err
-			}
+			};
 		}
 	},
 }
