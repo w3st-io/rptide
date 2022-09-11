@@ -11,9 +11,10 @@ const WebContentModel = require('../../../s-models/WebContentModel');
 // [INIT]
 const location = '/web-app';
 let returnObj = {
-	executed: false,
-	status: true,
-	location: location
+	executed: true,
+	status: false,
+	location: '/api/web-app',
+	message: '',
 };
 
 
@@ -22,18 +23,18 @@ module.exports = {
 		// [INIT]
 		let childReturnObj = {
 			...returnObj,
-			location: returnObj.location + '/create'
+			location: returnObj.location + '/create',
+			message: 'Created WebApp'
 		};
 
 		try {
 			// [VALIDATE] //
 			if (!req.body.webApp.name) {
+				console.log('RUNNING');
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/create`,
-					message: `${location}: Invalid Params`,
-				}
+					...childReturnObj,
+					message: 'Invalid Params'
+				};
 			}
 
 			// [COLLECTION][webApp][SAVE] //
@@ -49,33 +50,37 @@ module.exports = {
 
 			// [SUCCESS] //
 			return {
-				executed: true,
+				...childReturnObj,
 				status: true,
-				message: 'Created webApp',
 				createdWebApp: result,
 				webApps: resultWebApp,
 			}
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}/create`,
-				message: `${location}: Error --> ${err}`,
+				message: err,
 			}
 		}
 	},
 
 
 	findOne: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+			...returnObj,
+			location: returnObj.location + '/find-one',
+		};
+
 		const result = await WebAppModel.findOne({
 			user: req.user_decoded._id,
 			_id: req.body.webApp._id,
 		})
 
 		return {
+			...childReturnObj,
 			status: true,
-			executed: true,
 			webApp: result,
 		}
 	},

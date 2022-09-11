@@ -19,7 +19,8 @@ const mailerUtil = require('../../s-utils/mailerUtil');
 let returnObj = {
 	executed: true,
 	status: false,
-	location: '/.handler.js'
+	location: '/api',
+	message: ''
 };
 
 
@@ -37,7 +38,7 @@ module.exports = {
 		};
 
 		try {
-				// [USER-LOGGED]
+			// [USER-LOGGED]
 			if (req.user_decoded) {
 				// [MONGODB][User]
 				const user = await UserModel.findOne({
@@ -90,7 +91,7 @@ module.exports = {
 		};
 
 		try {
-			// [VALIDATE] email //
+			// [VALIDATE] email
 			if (
 				!validator.isEmail(req.body.email) ||
 				!validator.isAscii(req.body.email)
@@ -101,7 +102,7 @@ module.exports = {
 				};
 			}
 				
-			// [VALIDATE] password //
+			// [VALIDATE] password
 			if (
 				!validator.isAscii(req.body.password) ||
 				!validator.isAscii(req.body.password)
@@ -112,7 +113,7 @@ module.exports = {
 				};
 			}
 
-			// [READ][User] Get user by email //
+			// [READ][User] Get user by email
 			const user = await UserModel.findOne({ email: req.body.email });
 
 			if (!user) {
@@ -122,7 +123,7 @@ module.exports = {
 				};
 			}
 
-			// [VALIDATE-PASSWORD] //
+			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.password, user.password)) {
 				return {
 					...childReturnObj,
@@ -154,7 +155,7 @@ module.exports = {
 			return {
 				...childReturnObj,
 				status: true,
-				message: 'success',
+				validation: true,
 				token: token,
 				user: returnableUser,
 				webApps: webApps
@@ -191,7 +192,7 @@ module.exports = {
 				};
 			}
 
-			// [VALIDATE] req.body.email //
+			// [VALIDATE] req.body.email
 			if (!validator.isEmail(req.body.email)) {
 				return {
 					...childReturnObj,
@@ -199,7 +200,7 @@ module.exports = {
 				};
 			}
 
-			// Email Check //
+			// Email Check
 			if (await UserModel.findOne({ email: req.body.email })) {
 				return {
 					...childReturnObj,
@@ -207,7 +208,7 @@ module.exports = {
 				};
 			}
 	
-			// [VALIDATE] req.body.password //
+			// [VALIDATE] req.body.password
 			if (!validator.isAscii(req.body.password)) {
 				return {
 					...childReturnObj,
@@ -215,7 +216,7 @@ module.exports = {
 				};
 			}
 	
-			// [VALIDATE] req.body.password //
+			// [VALIDATE] req.body.password
 			if (password.req.body.password < 8 || req.body.password.length > 100) {
 				return {
 					...childReturnObj,
@@ -230,15 +231,15 @@ module.exports = {
 				password: await bcrypt.hash(password, 10)
 			}).save();
 
-			// [MONGODB][CREATE][VerificationCode] //
+			// [MONGODB][CREATE][VerificationCode]
 			const vCodeObj = await VerificationCodeCollection.c_create({
 				user_id: userObj.user._id
 			});
 
-			// [MONGODB][CREATE][ApiSubscription] //
+			// [MONGODB][CREATE][ApiSubscription]
 			await ApiSubscriptionCollection.c_create({ user_id: userObj.user._id });
 			
-			// [MAIL] Verification Email //
+			// [MAIL] Verification Email
 			await mailerUtil.sendVerificationMail(
 				userObj.user.email,
 				userObj.user._id,
@@ -379,7 +380,7 @@ module.exports = {
 		};
 
 		try {
-			// [VALIDATE] //
+			// [VALIDATE]
 			if (!validator.isAscii(req.body.email)) {
 				return {
 					...childReturnObj,
@@ -387,15 +388,15 @@ module.exports = {
 				}
 			}
 
-			// [READ][User] Get User by Email //
+			// [READ][User] Get User by Email
 			const user = await UserModel.findOne({ email: req.body.email })
 
-			// [READ][VerificationCode] by user_id //
+			// [READ][VerificationCode] by user_id
 			const vCode = await VerificationCodeCollection.c_read_byUser_id({
 				user_id: user._id
 			})
 			
-			// [SEND-MAIL] //
+			// [SEND-MAIL]
 			mailerUtil.sendVerificationMail(
 				req.body.email,
 				user._id,
@@ -509,7 +510,7 @@ module.exports = {
 				}
 			}
 
-			// [EXISTANCE][PasswordRecovery] //
+			// [EXISTANCE][PasswordRecovery]
 			const existance = await PasswordRecoveryCollection.c_existance(
 				req.body.user_id
 			)
@@ -521,7 +522,7 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE][PasswordRecovery] //
+			// [VALIDATE][PasswordRecovery]
 			const pwdRecovery = await PasswordRecoveryCollection.c_validateToken(
 				req.body.user_id,
 				req.body.verificationCode
@@ -529,7 +530,7 @@ module.exports = {
 
 			if (!pwdRecovery.status || !pwdRecovery.valid) { return pwdRecovery }
 
-			// [MONGODB][UPDATE] user.password //
+			// [MONGODB][UPDATE] user.password
 			await UserModel.findOneAndUpdate(
 				{ _id: req.body.user_id },
 				{
@@ -539,7 +540,7 @@ module.exports = {
 				}
 			)
 
-			// [DELETE][PasswordRecovery] //
+			// [DELETE][PasswordRecovery]
 			const deletedPR = await PasswordRecoveryCollection.c_delete_byUser(
 				req.body.user_id
 			)
