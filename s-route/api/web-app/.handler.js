@@ -9,7 +9,6 @@ const WebContentModel = require('../../../s-models/WebContentModel');
 
 
 // [INIT]
-const location = '/web-app';
 let returnObj = {
 	executed: true,
 	status: false,
@@ -87,6 +86,13 @@ module.exports = {
 
 
 	findOneAndUpdate: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+			...returnObj,
+			location: returnObj.location + '/find-one-and-update',
+			message: 'Successfully updated WebContent'
+		};
+
 		try {
 			const result = await WebAppModel.findOneAndUpdate(
 				{
@@ -106,26 +112,30 @@ module.exports = {
 			})
 
 			return {
+				...childReturnObj,
 				status: true,
-				executed: true,
 				webContent: result,
 				webApps: resultWebApp,
-				location,
-				message: 'Successfully updated WebContent'
 			}
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
 				message: err,
-				location,
 			}	
 		}
 	},
 
 
 	deleteOne: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+			...returnObj,
+			location: returnObj.location + '/delete-one',
+			message: 'Deleted WebApp',
+		};
+
 		try {
 			const user_id = req.user_decoded._id
 			const webApp_id = req.body.webApp._id
@@ -133,9 +143,7 @@ module.exports = {
 			// [VALIDATE] webApp_id //
 			if (!validator.isAscii(webApp_id)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}/delete`,
+					...childReturnObj,
 					message: 'Invalid Params'
 				}
 			}
@@ -155,23 +163,20 @@ module.exports = {
 			const webApps = await WebAppModel.find({ user: user_id })
 			
 			return {
-				executed: true,
+				...childReturnObj,
 				status: true,
 				deleted: {
 					webApp: result,
 					webContents: resultWebContents,
 				},
-				webApps: webApps,
-				location: `${location}/delete`,
-				message: 'DELETED SectionText',
+				webApps: webApps
 			}
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}/delete`,
-				message: `Error --> ${err}`,
+				message: err,
 			}
 		}
 	}
