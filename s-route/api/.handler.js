@@ -456,7 +456,6 @@ module.exports = {
 			}
 
 			// [SEND-MAIL]
-			console.log('running');
 			const sent = await mailerUtil.sendPasswordResetEmail(
 				req.body.email,
 				user._id,

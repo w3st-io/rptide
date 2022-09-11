@@ -9,7 +9,6 @@ const UserModel = require('../../../s-models/UserModel');
 
 
 // [INIT]
-const location = '/api/user'
 let returnObj = {
 	executed: true,
 	status: false,
@@ -130,16 +129,19 @@ module.exports = {
 	*/
 	update_password: async ({ req }) => {
 		// [INIT]
-		const subLocation = "/update/password";
+		let childReturnObj = {
+			...returnObj,
+			message: 'Updated password',
+			location: returnObj.location + '/update/password',
+		};
+
 		try {
 			if (
 				!validator.isAscii(req.body.currentPassword) ||
 				!validator.isAscii(req.body.password)
 			) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}${subLocation}`,
+					...childReturnObj,
 					message: 'Invalid params',
 				};
 			}
@@ -150,9 +152,7 @@ module.exports = {
 			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
 				return {
-					executed: true,
-					status: false,
-					location: `${location}${subLocation}`,
+					...childReturnObj,
 					message: 'Invalid password',
 				};
 			}
@@ -168,17 +168,15 @@ module.exports = {
 			);
 
 			return {
-				executed: true,
+				...childReturnObj,
 				status: true,
-				message: `${location}: Updated password`,
 			};
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}${subLocation}`,
-				message: `Error --> ${err}`,
+				message: err
 			};
 		}
 	},
@@ -190,6 +188,13 @@ module.exports = {
 	 * @returns {Object} containing the new API Key
 	 */
 	generateApiKey: async ({ req }) => {
+		// [INIT]
+		let childReturnObj = {
+			...returnObj,
+			message: 'Generated new API key',
+			location: returnObj.location + '/generate-api-key',
+		};
+		
 		try {
 			// [UPDATE] Generate new API Key
 			const updatedUser = await UserModel.findOneAndUpdate(
@@ -206,18 +211,16 @@ module.exports = {
 			)
 	
 			return {
-				executed: true,
+				...childReturnObj,
 				status: true,
-				location: `${location}/generate-api-key`,
 				privateKey: updatedUser.privateKey
 			}
 		}
 		catch (err) {
 			return {
+				...childReturnObj,
 				executed: false,
-				status: false,
-				location: `${location}/generate-api-key`,
-				message: `Error --> ${err}`,
+				message: err
 			}
 		}
 	},
