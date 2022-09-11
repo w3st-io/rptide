@@ -424,6 +424,8 @@ module.exports = {
 			message: 'Email sent'
 		};
 
+		console.log('s',req.body);
+
 		try {
 			// [VALIDATE]
 			if (!validator.isEmail(req.body.email)) {
@@ -436,10 +438,10 @@ module.exports = {
 			// [MONGODB][FIND-ONE][User]
 			const user = await UserModel.findOne({ email: req.body.email });
 			
-			if (!user.status) {
+			if (!user) {
 				return {
 					...childReturnObj,
-					message: "No user found"
+					message: 'No user found'
 				};
 			}
 
@@ -453,6 +455,7 @@ module.exports = {
 			}
 
 			// [SEND-MAIL]
+			console.log('running');
 			const sent = await mailerUtil.sendPasswordResetEmail(
 				req.body.email,
 				user._id,

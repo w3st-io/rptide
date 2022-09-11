@@ -26,10 +26,7 @@ function mail({ to, subject, textContent }) {
 		},
 		
 		to: [
-			{
-				email: to,
-				name: 'Name here',
-			},
+			{ email: to },
 		],
 
 		subject: subject,
@@ -39,7 +36,7 @@ function mail({ to, subject, textContent }) {
 	apiInstance.sendTransacEmail(sendSmtpEmail)
 		.then(
 			function (data) { console.log('[SUCCESS]:', data) },
-			function (err) { console.log('[ERR]:', err) }
+			function (err) { console.log('Mailer Util --> [ERROR]:', err) }
 		)
 }
 
@@ -111,11 +108,9 @@ module.exports = {
 
 			mail({
 				to: to,
-				subject: `Reset Password For Your ${config.company.name} Account`,
+				subject: `{config.company.name}: Password Reset`,
 				textContent: `
-					<h1>
-						Click the Link Below to Reset Your Password
-					<h1/>
+					<h1>Click the Link Below to Reset Your Password<h1/>
 					<h3>
 						If you did not request to change your password please ignore this email
 					</h3>
