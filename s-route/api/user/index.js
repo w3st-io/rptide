@@ -13,7 +13,7 @@ const router = express.Router().use(cors());
 
 
 /**
- * @notice [CRUD]
+ * [CRUD]
 */
 router.post(
 	'/update',
@@ -41,7 +41,7 @@ router.post(
 
 
 /**
- * @notice Generate API key
+ * [OTHER]
 */
 router.post(
 	'/generate-api-key',

@@ -153,6 +153,11 @@ module.exports = {
 	},
 
 
+	/**
+	 * 
+	 * @notice Find user and generate a new API key
+	 * @returns {Object} containing the new API Key
+	 */
 	generateApiKey: async ({ req }) => {
 		try {
 			// [UPDATE] Generate new API Key
