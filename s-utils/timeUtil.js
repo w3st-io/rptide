@@ -17,7 +17,7 @@ module.exports = {
 
 
 	secondsTillNext5MinInterval: () => {
-		// [INIT] //
+		// [INIT]
 		const coeff = 1000 * 60 * 5
 		
 		// [TIME] //
@@ -34,7 +34,7 @@ module.exports = {
 
 
 	secondsTillNext15MinInterval: () => {
-		// [INIT] //
+		// [INIT]
 		const coeff = 1000 * 60 * 15
 		
 		// [TIME] //
@@ -51,7 +51,7 @@ module.exports = {
 
 
 	secondsTillNext1HourInterval: () => {
-		// [INIT] //
+		// [INIT]
 		const coeff = 1000 * 60 * 60
 		
 		// [TIME] //
@@ -68,7 +68,7 @@ module.exports = {
 
 
 	secondsTillNext6HourInterval: () => {
-		// [INIT] //
+		// [INIT]
 		const coeff = 1000 * 60 * 360
 
 		// [TIME] //
@@ -84,7 +84,7 @@ module.exports = {
 	},
 
 	secondsTillNext1DayInterval: () => {
-		// [INIT] //
+		// [INIT]
 		const coeff = 1000 * 60 * 1440
 
 		// [TIME] //

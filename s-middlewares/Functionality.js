@@ -2,7 +2,7 @@
 const config = require('../s-config')
 
 
-// [INIT] //
+// [INIT]
 const location = '/s-middleware/Functionality'
 
 

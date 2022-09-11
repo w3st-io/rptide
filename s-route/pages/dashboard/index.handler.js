@@ -38,7 +38,7 @@ module.exports = {
 				};
 			}
 
-			// [INIT] //
+			// [INIT]
 			const sort = parseInt(req.params.sort);
 			const limit = parseInt(req.params.limit);
 			const pageIndex = parseInt(req.params.page) - 1;

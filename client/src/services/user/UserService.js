@@ -6,7 +6,7 @@ import axios from 'axios';
 import store from '@/store';
 
 
-// [INIT] //
+// [INIT]
 const location = '/client/src/services/UserService';
 
 

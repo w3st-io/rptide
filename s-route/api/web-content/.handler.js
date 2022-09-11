@@ -7,7 +7,7 @@ const WebAppModel = require('../../../s-models/WebAppModel')
 const WebContentModel = require('../../../s-models/WebContentModel')
 
 
-// [INIT] //
+// [INIT]
 const location = '/web-content'
 
 
@@ -85,7 +85,7 @@ module.exports = {
 			const limit = parseInt(req.params.limit)
 			const skip = (parseInt(req.params.page) - 1) * limit
 
-			// [INIT] //
+			// [INIT]
 			let query = { user: req.user_decoded._id }
 			let sort
 

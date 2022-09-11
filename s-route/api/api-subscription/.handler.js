@@ -4,7 +4,7 @@ const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptio
 const a_stripe_subscription = require('../../../s-api/stripe/subscription')
 
 
-// [INIT] //
+// [INIT]
 const location = '/api-subscription'
 
 
@@ -137,7 +137,7 @@ module.exports = {
 	* ===================
 	*/
 	getSubscriptionTier:async ({ user_id }) => {
-		// [INIT] //
+		// [INIT]
 		let apiSubscriptionTier = 0
 
 		// [READ][ApiSubscription] //
@@ -170,7 +170,7 @@ module.exports = {
 
 
 	cycleCheckApiSubscription: async ({ user_id, force = false }) => {
-		// [INIT] //
+		// [INIT]
 		let flag = false
 
 		// [READ][ApiSubscription] //
@@ -408,7 +408,7 @@ module.exports = {
 
 	// [TIER-1] From Tier 0 //
 	h_switchTier1FromTier0: async ({ user_id, apiSubscription_id, cusId, }) => {
-		// [INIT] //
+		// [INIT]
 		let stripe_subId_tier1_active
 
 		// [API][stripe][REACTIVATE] tier 1 (If Existant) //
@@ -457,7 +457,7 @@ module.exports = {
 
 	// [TIER-1] From Tier 2 //
 	h_switchTier1FromTier2: async ({ user_id, apiSubscription_id, cusId, tier2_active }) => {
-		// [INIT] //
+		// [INIT]
 		let stripe_subId_tier1_active
 
 		// [CANCEL] Tier 2 //
@@ -515,7 +515,7 @@ module.exports = {
 
 	// [TIER-2] From Tier 0 //
 	h_switchTier2FromTier0: async ({ user_id, apiSubscription_id, cusId, }) => {
-		// [INIT] //
+		// [INIT]
 		let stripe_subId_tier2_active
 
 		// [API][stripe][REACTIVATE] tier 2 (If Existant) //
@@ -564,7 +564,7 @@ module.exports = {
 
 	// [TIER-2] FROM Tier 1 //
 	h_switchTier2FromTier1: async ({ user_id, apiSubscription_id, cusId, tier1_active }) => {
-		// [INIT] //
+		// [INIT]
 		let stripe_subId_tier2_active
 
 		// [CANCEL] Tier 1 //

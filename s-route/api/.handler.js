@@ -15,7 +15,7 @@ const UserModel = require('../../s-models/UserModel');
 const mailerUtil = require('../../s-utils/mailerUtil');
 
 
-// [INIT] //
+// [INIT]
 const location = '/.handler.js';
 let returnObj = {
 	executed: true,

@@ -14,7 +14,7 @@ const Auth = require('../../../s-middlewares/Auth')
 const router = express.Router().use(cors())
 
 
-// [INIT] //
+// [INIT]
 const location = '/s-route/api/api-subscription'
 
 

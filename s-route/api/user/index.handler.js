@@ -8,7 +8,7 @@ const uuid = require('uuid')
 const UserModel = require('../../../s-models/UserModel');
 
 
-// [INIT] //
+// [INIT]
 const location = '/user/index'
 
 

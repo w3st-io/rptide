@@ -14,7 +14,7 @@ const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
 const router = express.Router().use(cors())
 
 
-// [INIT] //
+// [INIT]
 const location = '/api/user/product'
 
 
@@ -88,7 +88,7 @@ router.get(
 				validator.isAscii(req.params.limit) &&
 				validator.isAscii(req.params.page)
 			) {
-				// [INIT] //
+				// [INIT]
 				const user_id = (req.user_decoded) ? req.user_decoded._id : undefined
 
 				const productsObj = await ProductCollection.c_readAll_sorted({

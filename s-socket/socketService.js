@@ -1,4 +1,4 @@
-// [INIT] //
+// [INIT]
 let sockets = []
 let socketUsers = []
 let socketsCoinbase = []

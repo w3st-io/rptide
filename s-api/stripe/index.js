@@ -4,7 +4,7 @@ const api_stripe_paymentMethod = require('../../s-api/stripe/paymentMethod')
 const api_stripe_subscription = require('../../s-api/stripe/subscription')
 
 
-// [INIT] //
+// [INIT]
 const location = '/s-api/stripe'
 
 
@@ -211,7 +211,7 @@ module.exports = {
 
 	aa_reactivateSubscription_ifExistant: async function ({ cusId, priceId }) {
 		try {
-			// [INIT] //
+			// [INIT]
 			let flag = false
 
 			// [API][stripe] Purchase subscription //

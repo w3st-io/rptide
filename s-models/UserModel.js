@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
 
 
-// [INIT] //
+// [INIT]
 const defaultImage = 'https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg'
 
 

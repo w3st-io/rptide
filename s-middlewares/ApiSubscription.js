@@ -5,14 +5,14 @@ const config_const = require('../s-config/const')
 const WebAppModel = require('../s-models/WebAppModel')
 
 
-// [INIT] //
+// [INIT]
 const location = '/s-middleware/Subscription'
 
 
 module.exports = {
 	webAppLimitCheck: function () {
 		return async (req, res, next) => {
-			// [INIT] //
+			// [INIT]
 			let flag = false
 
 			// [READ][ApiSubscription] //
@@ -60,7 +60,7 @@ module.exports = {
 
 	productLimitCheck: function () {
 		return async (req, res, next) => {
-			// [INIT] //
+			// [INIT]
 			let flag = false
 
 			// [READ][ApiSubscription] //
@@ -110,7 +110,7 @@ module.exports = {
 
 	productOptionLimitCheck: function () {
 		return async (req, res, next) => {
-			// [INIT] //
+			// [INIT]
 			let flag = false
 
 			// [READ][ApiSubscription] //

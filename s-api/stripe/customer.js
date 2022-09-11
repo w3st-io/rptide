@@ -12,7 +12,7 @@ const config = require('../../s-config')
 const Stripe = stripe(config.api.stripe.secretKey)
 
 
-// [INIT] //
+// [INIT]
 const location = '/s-api/stripe/customer'
 
 

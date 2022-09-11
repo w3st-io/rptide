@@ -8,7 +8,7 @@ const uuid = require('uuid')
 const VerificationCodeModel = require('../s-models/VerificationCodeModel')
 
 
-// [INIT] //
+// [INIT]
 const location = 'VerificationCodeCollection'
 
 

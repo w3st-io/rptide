@@ -7,7 +7,7 @@ const validator = require('validator')
 const ApiSubscriptionModel = require('../s-models/ApiSubscriptionModel')
 
 
-// [INIT] //
+// [INIT]
 const location = 'ApiSubscriptionCollection'
 
 

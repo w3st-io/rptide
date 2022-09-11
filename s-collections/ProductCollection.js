@@ -7,7 +7,7 @@ const validator = require('validator')
 const ProductModel = require('../s-models/ProductModel')
 const formatterUtil = require('../s-utils/formatterUtil')
 
-// [INIT] //
+// [INIT]
 const location = 'ProductCollection'
 
 

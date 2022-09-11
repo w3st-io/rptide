@@ -21,7 +21,7 @@ router.get(
 	async (req, res) => {
 		try {
 			if (validator.isAscii(req.params.product_id)) {
-				// [INIT] //
+				// [INIT]
 				const user_id = (req.user_decoded) ? req.user_decoded._id : undefined
 
 				const productsObj = await ProductCollection.c_read({

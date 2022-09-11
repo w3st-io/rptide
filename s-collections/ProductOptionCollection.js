@@ -8,7 +8,7 @@ const ProductOptionModel = require('../s-models/ProductOptionModel')
 const formatterUtil = require('../s-utils/formatterUtil')
 
 
-// [INIT] //
+// [INIT]
 const location = 'ProductOptionCollection'
 
 
@@ -72,7 +72,7 @@ module.exports = {
 				}
 			}
 
-			// [INIT] //
+			// [INIT]
 			let variants = []
 
 			for (let i = 0; i < productOption.variants.length; i++) {

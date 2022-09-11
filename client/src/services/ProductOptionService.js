@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 
-// [INIT] //
+// [INIT]
 const location = '/client/src/services/ProductService'
 
 

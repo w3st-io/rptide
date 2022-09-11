@@ -1,14 +1,14 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
-const validator = require('validator')
+const mongoose = require('mongoose');
+const validator = require('validator');
 
 
 // [REQUIRE] Personal
-const WebAppModel = require('../../../s-models/WebAppModel')
-const WebContentModel = require('../../../s-models/WebContentModel')
+const WebAppModel = require('../../../s-models/WebAppModel');
+const WebContentModel = require('../../../s-models/WebContentModel');
 
 
-// [INIT] //
+// [INIT]
 const location = '/web-app'
 
 

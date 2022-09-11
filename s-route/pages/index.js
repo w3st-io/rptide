@@ -16,7 +16,7 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
-			// [INIT] //
+			// [INIT]
 			const user_id = (req.user_decoded) ? req.user_decoded._id : undefined
 			
 			res.send({

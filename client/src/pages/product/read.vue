@@ -887,7 +887,7 @@ export default {
 		},
 
 		async updateProduct() {
-			// [INIT] //
+			// [INIT]
 			let requiredProductOptions = []
 			let optionalProductOptions = []
 
