@@ -8,8 +8,6 @@ const WebContentModel = require('../../../s-models/WebContentModel');
 
 
 // [INIT]
-const location = '/web-content'
-
 let returnObj = {
 	executed: true,
 	status: false,
@@ -158,8 +156,7 @@ module.exports = {
 			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 				return {
 					..._returnObj,
-					location: location,
-					message: `${location}: Invalid limit`
+					message: 'Invalid limit'
 				};
 			}
 
@@ -259,6 +256,13 @@ module.exports = {
 	},
 
 	deleteOne: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'Successfully deleted WebContent',
+			location: returnObj.location + '/find-one-and-update'
+		};
+
 		try {
 			const result = await WebContentModel.deleteOne(
 				{
@@ -269,18 +273,15 @@ module.exports = {
 			).exec()
 
 			return {
+				..._returnObj,
 				status: true,
-				executed: true,
 				webContent: result,
-				location,
-				message: 'Successfully deleted WebContent'
 			}
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				location,
 				message: err
 			}
 		}
