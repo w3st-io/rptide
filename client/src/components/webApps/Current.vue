@@ -44,7 +44,6 @@
 				router.push({
 					name: 'dashboard',
 					params: {
-						webapp: this.$store.state.user.workspace.webApp || null,
 						tab: this.$route.params.tab || 'web-content',
 						sort: parseInt(this.$route.params.sort) || 0,
 						limit: parseInt(this.$route.params.limit) || 5,

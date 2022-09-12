@@ -47,8 +47,8 @@
 
 <script>
 	// [IMPORT]
-	import axios from 'axios';
-	import validator from 'validator';
+	import axios          from 'axios';
+	import validator      from 'validator';
 
 	// [IMPORT] Personal
 	import Left           from '../../components/dashboard/Left';
@@ -136,7 +136,6 @@
 				router.push({
 					name: 'dashboard',
 					params: {
-						webapp: this.$store.state.user.workspace.webApp,
 						tab: tab,
 						sort: this.$route.params.sort,
 						limit: this.$route.params.limit,

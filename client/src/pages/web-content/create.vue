@@ -115,7 +115,7 @@ export default {
 
 			webContent: {
 				name: '',
-				webApp: this.$route.params.webapp,
+				webApp: this.$store.state.user.workspace.webApp,
 				visible: false,
 				cleanJSON: {},
 			},
@@ -151,7 +151,6 @@ export default {
 				router.push({
 					name: 'dashboard',
 					params: {
-						webapp: this.$store.state.user.workspace.webApp,
 						tab: 'web-content',
 						sort: 0,
 						limit: 5,

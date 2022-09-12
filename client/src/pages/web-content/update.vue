@@ -189,7 +189,6 @@
 						router.push({
 							name: 'dashboard',
 							params: {
-								webapp: this.$store.state.user.workspace.webApp,
 								tab: 'web-content',
 								sort: 0,
 								limit: 5,
@@ -232,7 +231,6 @@
 					router.push({
 						name: 'dashboard',
 						params: {
-							webapp: this.$store.state.user.workspace.webApp,
 							tab: 'web-content',
 							sort: 0,
 							limit: 5,

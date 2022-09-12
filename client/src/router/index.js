@@ -116,7 +116,7 @@ const router = new Router ({
 		},
 		// Dashboard
 		{
-			path: '/dashboard/:webapp/:tab/:sort/:limit/:page',
+			path: '/dashboard/:tab/:sort/:limit/:page',
 			name: 'dashboard',
 			component: dashboard,
 			meta: {
@@ -188,7 +188,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/web-app/update/:webapp',
+			path: '/web-app/update',
 			name: 'Web App Update',
 			component: webApp_update,
 			meta: {
@@ -197,7 +197,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/web-content/create/:webapp',
+			path: '/web-content/create',
 			name: 'Web Content Create',
 			component: webContent_create,
 			meta: {

@@ -3,9 +3,9 @@
 		<BCard
 			no-body bg-variant="dark"
 			text-variant="light"
-			border-variant="secondary"
+			class="shadow"
 		>
-			<BCardHeader class="border-secondary">
+			<BCardHeader>
 				<BRow>
 					<BCol cols="9" sm="9" md="10" lg="10">
 						<h3 class="m-0 text-center text-primary">Update Web App</h3>
@@ -149,7 +149,6 @@
 					router.push({
 						name: 'dashboard',
 						params: {
-							webapp: this.$store.state.user.workspace.webApp,
 							tab: 'web-content',
 							sort: 0,
 							limit: 5,
