@@ -22,7 +22,6 @@
     "fuzzy-search": "^3.2.1",
     "jquery": "^3.5.1",
     "jwt-decode": "^2.2.0",
-    "sass": "^1.49.7",
     "socket.io-client": "^2.3.0",
     "v-viewer": "^1.5.1",
     "validator": "^13.7.0",
@@ -63,6 +62,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^27.0.5",
+    "sass": "^1.54.9",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   }
