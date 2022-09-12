@@ -1,14 +1,39 @@
 <template>
 	<BRow class="w-100">
-		<BCol lg="3" xl="2" class="bg-dark border-right border-primary">
+		<BCol cols="3" lg="3" xl="2" class="">
+			<div class="w-100 h-100 px-3 py-5 bg-dark border-right border-primary">
+				<h6 class="mb-3 text-center text-light">
+					Documentation
+				</h6>
 
+				<BButton
+					pill
+					:variant="active == 'authorization' ? 'primary' : 'outline-primary'"
+					class="w-100 mb-3"
+					@click="active = 'authorization'"
+				>Authorization</BButton>
+
+				<BButton
+					pill
+					:variant="active == 'products' ? 'primary' : 'outline-primary'"
+					class="w-100 mb-3"
+					@click="active = 'products'"
+				>Products</BButton>
+
+				<BButton
+					pill
+					:variant="active == 'product-options' ? 'primary' : 'outline-primary'"
+					class="w-100 mb-3"
+					@click="active = 'product-options'"
+				>Product-options</BButton>
+			</div>
 		</BCol>
 	
-		<BCol cols="9" xl="10">
+		<BCol cols="9" lg="9" xl="10">
 			<BContainer class="py-5">
-				<CAuthorization />
-				<CProducts />
-				<CProductOptions />
+				<CAuthorization v-if="active == 'authorization'" />
+				<CProducts  v-if="active == 'products'" />
+				<CProductOptions  v-if="active == 'product-options'" />
 			</BContainer>
 		</BCol>
 	</BRow>
@@ -25,6 +50,12 @@
 			CAuthorization,
 			CProducts,
 			CProductOptions,
+		},
+
+		data() {
+			return {
+				active: 'authorization'
+			}
 		},
 	}
 </script>

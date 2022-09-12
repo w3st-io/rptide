@@ -11,7 +11,7 @@
 		<BRow>
 			<BCol cols="12">
 				<h1>
-					<span class="px-2 bg-primary text-dark rounded">Product Option</span>
+					<span class="px-2 bg-primary text-dark rounded">Product-options</span>
 				</h1>
 				<p>
 					Products may have additional properties that a customer may choose (or be required to choose), which is handled by creating a <code class="p-1 text-primary bg-code">productOption</code>. Merchants are able to attach them to a <code class="p-1 text-primary bg-code">product</code> by selecting it in the product creation page.
