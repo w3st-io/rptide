@@ -14,7 +14,7 @@
 				<BCol md="6" class="text-right">
 					<div v-if="$store.state.user != null">
 						<BButton
-							variant="outline-primary"
+							variant="outline-light"
 							pill
 							class=""
 							@click="routerRedirect({ name: 'user' })"
@@ -37,7 +37,7 @@
 					<BRow>
 						<BCol cols="4" class="m-0 p-0">
 							<BButton
-									variant="outline-light"
+									variant="outline-primary"
 									@click="routerRedirect({ name: 'web-app' })"
 								>Web Apps</BButton>
 						</BCol>
@@ -53,7 +53,7 @@
 				<BCol md="8" class="text-right">
 					<div v-if="$store.state.user != null">
 						<BButton
-							variant="primary"
+							variant="outline-primary"
 							pill
 							class="ml-2"
 							@click="routerRedirect(dashboard)"
@@ -90,9 +90,9 @@
 	import { MenuIcon } from 'vue-feather-icons';
 
 	// [IMPORT] Personal
-	import SideMenu from '@/components/UI/SideMenu';
+	import SideMenu from './SideMenu';
 	import Current from '../webApps/Current.vue';
-	import router from '@/router';
+	import router from '../../router';
 
 	export default {
 		components: {

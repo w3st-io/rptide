@@ -93,3 +93,11 @@ body {
 .hover-card:hover {
 	background-color: rgba(255, 255, 255, 0.15) !important;
 }
+
+code {
+	color: $primary
+}
+
+.bg-code {
+	background-color: rgba(127.5, 127.5, 127.5, 0.2) !important;
+}

@@ -4,8 +4,8 @@
 		class="
 			form-control
 			form-select
-			text-light
-			border-light
+			text-primary
+			border-primary
 			bg-dark
 		"
 		@click="selectOrganization()"
