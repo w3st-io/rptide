@@ -34,18 +34,15 @@
 	
 			<BRow>
 				<BCol md="4" class="text-center">
-					<BRow>
+					<BRow v-if="$store.state.user != null">
 						<BCol cols="4" class="m-0 p-0">
 							<BButton
-									variant="outline-primary"
-									@click="routerRedirect({ name: 'web-app' })"
-								>Web Apps</BButton>
+								variant="outline-primary"
+								@click="routerRedirect({ name: 'web-app' })"
+							>Web Apps</BButton>
 						</BCol>
 						<BCol cols="8" class="m-0 p-0">
-							<Current
-								v-if="$store.state.user != null"
-								class="mb-3 mb-md-0"
-							/>
+							<Current class="mb-3 mb-md-0" />
 						</BCol>
 					</BRow>
 				</BCol>
