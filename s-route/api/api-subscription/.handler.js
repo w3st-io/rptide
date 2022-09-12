@@ -12,7 +12,7 @@ const tier1PriceId = config.api.stripe.priceTier1
 const tier2PriceId = config.api.stripe.proceTier2
 
 
-async function cancel_tier1StripeSub ({ user_id, apiSubscription_id, tier1_active }) {
+async function cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active }) {
 	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable)
 	const canceledSubObj = await api_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
 		subId: tier1_active,
