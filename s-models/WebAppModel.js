@@ -1,6 +1,5 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
-const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
+const mongoose = require('mongoose');
 
 
 const WebApp = mongoose.Schema({
@@ -22,18 +21,7 @@ const WebApp = mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
-}).plugin(
-	mongooseFuzzySearching,
-	{
-		fields: [
-			{
-				name: 'title',
-				minSize: 4,
-				weight: 5,
-			},
-		]
-	}
-)
+});
 
 
-module.exports = mongoose.model('WebApp', WebApp)
+module.exports = mongoose.model('WebApp', WebApp);
