@@ -16,13 +16,6 @@
 						<BButton
 							variant="outline-primary"
 							pill
-							class="mr-2"
-							@click="routerRedirect({ name: 'web-app' })"
-						>Web Apps</BButton>
-
-						<BButton
-							variant="outline-primary"
-							pill
 							class=""
 							@click="routerRedirect({ name: 'user' })"
 						>Your Account</BButton>
@@ -41,10 +34,20 @@
 	
 			<BRow>
 				<BCol md="4" class="text-center">
-					<Current
-						v-if="$store.state.user != null"
-						class="mb-3 mb-md-0"
-					/>
+					<BRow>
+						<BCol cols="4" class="m-0 p-0">
+							<BButton
+									variant="outline-light"
+									@click="routerRedirect({ name: 'web-app' })"
+								>Web Apps</BButton>
+						</BCol>
+						<BCol cols="8" class="m-0 p-0">
+							<Current
+								v-if="$store.state.user != null"
+								class="mb-3 mb-md-0"
+							/>
+						</BCol>
+					</BRow>
 				</BCol>
 
 				<BCol md="8" class="text-right">

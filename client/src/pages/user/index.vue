@@ -54,7 +54,7 @@
 						bg-variant="dark"
 						class="shadow"
 					>
-						<API />
+						<APIKeys />
 					</BCard>
 				</BCol>
 			</BRow>
@@ -84,11 +84,11 @@
 	import axios from 'axios'
 
 	// [IMPORT] Personal
-	import API from '@/components/apiSubscription/API.vue'
-	import MyCard from '@/components/apiSubscription/stripe/MyCard'
-	import TierSelector from '@/components/apiSubscription/TierSelector'
-	import router from '@/router'
-	import Service from '@/services'
+	import APIKeys from '../../components/apiSubscription/APIKeys.vue'
+	import TierSelector from '../../components/apiSubscription/TierSelector'
+	import MyCard from '../../components/stripe/MyCard'
+	import router from '../../router'
+	import Service from '../../services'
 	import UpdatePassword from '../../components/user/UpdatePassword.vue'
 
 	export default {
@@ -128,7 +128,7 @@
 		},
 
 		components: {
-			API,
+			APIKeys,
 			MyCard,
 			TierSelector,
 			UpdatePassword,
