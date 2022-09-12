@@ -1,6 +1,6 @@
 <template>
 	<BRow class="w-100">
-		<BCol cols="3" lg="3" xl="2" class="">
+		<BCol cols="3" lg="3" xl="2">
 			<div class="w-100 h-100 px-3 py-5 bg-dark border-right border-primary">
 				<h6 class="mb-3 text-center text-light">
 					Documentation
@@ -14,6 +14,7 @@
 				>Authorization</BButton>
 
 				<BButton
+					v-if="false"
 					pill
 					:variant="active == 'products' ? 'primary' : 'outline-primary'"
 					class="w-100 mb-3"
@@ -21,6 +22,7 @@
 				>Products</BButton>
 
 				<BButton
+					v-if="false"
 					pill
 					:variant="active == 'product-options' ? 'primary' : 'outline-primary'"
 					class="w-100 mb-3"
@@ -32,8 +34,8 @@
 		<BCol cols="9" lg="9" xl="10">
 			<BContainer class="py-5">
 				<CAuthorization v-if="active == 'authorization'" />
-				<CProducts  v-if="active == 'products'" />
-				<CProductOptions  v-if="active == 'product-options'" />
+				<CProducts  v-if="false && active == 'products'" />
+				<CProductOptions  v-if="false && active == 'product-options'" />
 			</BContainer>
 		</BCol>
 	</BRow>

@@ -2,7 +2,7 @@
 	<div id="nav-bar" class="pb-3 border-bottom border-primary bg-dark">
 		<BContainer>
 			<BRow class="py-3">
-				<BCol md="6" class="">
+				<BCol md="6">
 					<!-- Logo -->
 					<RouterLink to="/" class="navbar-brand">
 						<h4

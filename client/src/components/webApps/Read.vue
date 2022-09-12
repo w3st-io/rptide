@@ -24,7 +24,7 @@
 			</BCol>
 		</BRow>
 
-		<div v-else class="">
+		<div v-else>
 			<h6 class="my-1 text-center text-secondary">No web apps</h6>
 		</div>
 	</div>

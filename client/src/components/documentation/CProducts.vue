@@ -59,14 +59,14 @@
 					class="border border-primary text-light bg-code"
 				>
 					<BThead class="border-bottom border-primary">
-						<BTr class="">
+						<BTr>
 							<BTh><u>Property</u></BTh>
 							<BTh><u>Type</u></BTh>
 							<BTh><u>Definition</u></BTh>
 						</BTr>
 					</BThead>
 			
-					<BTbody class="">
+					<BTbody>
 						<BTr>
 							<BTd><code class="p-1 bg-code">name</code></BTd>
 							<BTd>String</BTd>

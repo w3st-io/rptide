@@ -1,10 +1,10 @@
 <template>
 	<BContainer fluid class="p-0">
 		<main>
-			<BContainer class="py-5">
+			<BContainer class="py-3">
 				<BRow>
 					<BCol cols="12">
-						<header class="pb-3 mb-4 text-center">
+						<header class="pb-3 text-center">
 							<!-- Logo -->
 							<RouterLink to="/" class="navbar-brand">
 								<mark class="h2 px-5 bg-primary text-dark rounded">
@@ -15,7 +15,7 @@
 					</BCol>
 
 					<!-- 1 -->
-					<BCol cols="12" lg="9" class="py-3">
+					<BCol cols="12" lg="8">
 						<div
 							class="
 								h-100
@@ -23,8 +23,6 @@
 								bg-primary 
 								text-light
 								rounded-3
-								border
-								border-secondary
 								rounded-lg
 								shadow
 							"
@@ -32,14 +30,14 @@
 							<h1 class="display-3 display-5 text-center font-weight-bold text-light">
 								Your Content, Our Service.
 							</h1>
-							<h1 class="font-weight-light text-center text-dark">{{ caption1 }}</h1>
-							<h5 class="font-weight-light text-center text-dark">{{ caption2 }}</h5>
+							<h3 class="font-weight-light text-center text-dark">{{ caption1 }}</h3>
 							
+							<DatabaseIcon size="10x" stroke-width=".4" class="w-100 text-center text-dark" />
 						</div>
 					</BCol>
 
 					<!-- 2 -->
-					<BCol cols="12" lg="3" class="py-3">
+					<BCol cols="12" lg="4">
 						<div
 							class="
 								h-100
@@ -47,8 +45,6 @@
 								bg-dark
 								text-light
 								rounded-3
-								border
-								border-secondary
 								rounded-lg
 								shadow
 							"
@@ -60,70 +56,19 @@
 									variant="primary"
 									size="lg"
 									type="button"
-									class="w-100 my-4 p-3"
+									class="w-100 mb-4 p-3"
 								><h5 class="m-0">Register</h5></BButton>
 							</RouterLink>
 
-							<DatabaseIcon size="10x" stroke-width=".75" class="w-100 text-center text-primary" />
-						</div>
-					</BCol>
-				</BRow>
-
-				<BRow class="row align-items-md-stretch">
-					<!-- 3 -->
-					<BCol cols="12" md="6" lg="5" class="py-3">
-						<div
-							class="
-								h-100
-								p-3 p-lg-5
-								bg-dark
-								text-light
-								rounded-3
-								border
-								border-secondary
-								rounded-lg
-								shadow
-							"
-						>
-							<h3 class="text-center text-primary">Already have an account?</h3>
-							<hr class="bg-primary">
+							<h4 class="text-center text-light">Already have an account?</h4>
 
 							<RouterLink to="/user/login">
 								<BButton
-									variant="primary"
+									variant="light"
 									size="lg"
 									type="button"
-									class="w-100 my-4 p-3"
-								><h3 class="m-0">Login</h3></BButton>
-							</RouterLink>
-						</div>
-					</BCol>
-
-					<!-- 4 -->
-					<BCol cols="12" md="6" lg="7" class="py-3">
-						<div
-							class="
-								h-100
-								p-3 p-lg-5
-								bg-primary
-								text-light
-								rounded-3
-								border
-								border-secondary
-								rounded-lg
-								shadow
-							"
-						>
-							<h2 class="text-center text-dark">Check Out Our Plans!</h2>
-							<hr class="bg-dark">
-
-							<RouterLink to="/user/login">
-								<BButton
-									variant="dark"
-									size="lg"
-									type="button"
-									class="w-100 my-4 p-3 text-primary"
-								><h3 class="m-0">View</h3></BButton>
+									class="w-100 mb-4 p-3"
+								><h5 class="m-0">Login</h5></BButton>
 							</RouterLink>
 						</div>
 					</BCol>
@@ -146,7 +91,7 @@
 			return {
 				caption1: 'Its hard to manage your content in so many different places, we want to simplify that for you..',
 				caption2: 'Store all of your content on 1 platform and let all of your digital outlets come to us!',
-				caption3: 'Its Simple, Free, & Easy to Start!',
+				caption3: 'Its Simple & Easy to Start!',
 			}
 		},
 

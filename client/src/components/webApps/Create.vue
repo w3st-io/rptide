@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div>
 		<div class="input-group">
 			<input
 				v-model="webApp.name"
