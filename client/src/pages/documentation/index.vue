@@ -21,7 +21,7 @@
 				>Web-Content</BButton>
 
 				<BButton
-					v-if="false"
+					v-if="node_env == 'development'"
 					pill
 					:variant="active == 'products' ? 'primary' : 'outline-primary'"
 					class="w-100 mb-3"
@@ -29,7 +29,7 @@
 				>Products</BButton>
 
 				<BButton
-					v-if="false"
+					v-if="node_env == 'development'"
 					pill
 					:variant="active == 'product-options' ? 'primary' : 'outline-primary'"
 					class="w-100 mb-3"
@@ -42,8 +42,8 @@
 			<BContainer class="py-5">
 				<CAuthorization v-if="active == 'authorization'" />
 				<CWebContent v-if="active == 'web-content'" />
-				<CProducts  v-if="false && active == 'products'" />
-				<CProductOptions  v-if="false && active == 'product-options'" />
+				<CProducts  v-if="node_env == 'development' && active == 'products'" />
+				<CProductOptions  v-if="node_env == 'development' && active == 'product-options'" />
 			</BContainer>
 		</BCol>
 	</BRow>
@@ -66,6 +66,7 @@
 
 		data() {
 			return {
+				node_env: localStorage.node_env,
 				active: 'authorization'
 			}
 		},
