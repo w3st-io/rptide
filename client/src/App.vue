@@ -63,6 +63,11 @@
 						this.$store.state.user = res.user;
 					}
 
+					if (res.apiSubscription) {
+						// [STORE] webApps
+						this.$store.state.webApps = res.webApps;
+					}
+
 					if (res.webApps) {
 						// [STORE] webApps
 						this.$store.state.webApps = res.webApps;
