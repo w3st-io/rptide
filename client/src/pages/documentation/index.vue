@@ -14,6 +14,13 @@
 				>Authorization</BButton>
 
 				<BButton
+					pill
+					:variant="active == 'web-content' ? 'primary' : 'outline-primary'"
+					class="w-100 mb-3"
+					@click="active = 'web-content'"
+				>Web-Content</BButton>
+
+				<BButton
 					v-if="false"
 					pill
 					:variant="active == 'products' ? 'primary' : 'outline-primary'"
@@ -34,6 +41,7 @@
 		<BCol cols="9" lg="9" xl="10">
 			<BContainer class="py-5">
 				<CAuthorization v-if="active == 'authorization'" />
+				<CWebContent v-if="active == 'web-content'" />
 				<CProducts  v-if="false && active == 'products'" />
 				<CProductOptions  v-if="false && active == 'product-options'" />
 			</BContainer>
@@ -46,12 +54,14 @@
 	import CAuthorization from '../../components/documentation/CAuthorization.vue';
 	import CProducts from '../../components/documentation/CProducts.vue';
 	import CProductOptions from '../../components/documentation/CProductOptions.vue';
+	import CWebContent from '../../components/documentation/CWebContent.vue';
 
 	export default {
 		components: {
 			CAuthorization,
 			CProducts,
 			CProductOptions,
+			CWebContent,
 		},
 
 		data() {

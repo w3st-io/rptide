@@ -69,8 +69,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Created WebContent',
-			location: returnObj.location + '/create'
+			message: 'Found WebContent',
+			location: returnObj.location + '/find'
 		};
 
 		try {
