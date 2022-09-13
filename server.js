@@ -1,29 +1,29 @@
 // [REQUIRE]
-const bodyParser        = require('body-parser');
-const cors              = require('cors');
-const express           = require('express');
-const http              = require('http');
-const mongoose          = require('mongoose');
-const path              = require('path');
-const socketIO          = require('socket.io');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const express = require('express');
+const http = require('http');
+const mongoose = require('mongoose');
+const path = require('path');
+const socketIO = require('socket.io');
 
 // [REQUIRE][OTHER][API][PAGES][PUBLIC-API] Personal
-const config            = require('./s-config');
-const Functionality     = require('./s-middlewares/Functionality');
-const rateLimiter       = require('./s-rate-limiters');
-const s_socket          = require('./s-socket');
+const config = require('./s-config');
+const Functionality = require('./s-middlewares/Functionality');
+const rateLimiter = require('./s-rate-limiters');
+const s_socket = require('./s-socket');
 
-const a_                = require('./s-route/api');
+const a_ = require('./s-route/api');
 const a_apiSubscription = require('./s-route/api/api-subscription');
-const a_productOption   = require('./s-route/api/product-option');
-const a_product         = require('./s-route/api/product');
-const a_socket          = require('./s-route/api/socket');
-const a_user            = require('./s-route/api/user');
-const a_webApp          = require('./s-route/api/web-app');
-const a_webContent      = require('./s-route/api/web-content');
+const a_productOption = require('./s-route/api/product-option');
+const a_product = require('./s-route/api/product');
+const a_socket = require('./s-route/api/socket');
+const a_user = require('./s-route/api/user');
+const a_webApp = require('./s-route/api/web-app');
+const a_webContent = require('./s-route/api/web-content');
 
-const p_                = require ('./s-route/pages');
-const p_user            = require('./s-route/pages/user');
+const p_ = require ('./s-route/pages');
+const p_user = require('./s-route/pages/user');
 
 
 // [EXPRESS]
