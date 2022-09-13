@@ -1,15 +1,15 @@
 // [REQUIRE]
-const cors = require('cors')
-const express = require('express')
+const cors = require('cors');
+const express = require('express');
 
 
 // [REQUIRE] Personal
-const rh = require('./index.handler')
-const Auth = require('../../../s-middlewares/Auth')
+const { index } = require('./index.handler');
+const Auth = require('../../../s-middlewares/Auth');
 
 
 // [EXPRESS + USE]
-const router = express.Router().use(cors())
+const router = express.Router().use(cors());
 
 
 /******************* [USER PROFILE] *******************/
@@ -17,8 +17,8 @@ const router = express.Router().use(cors())
 router.get(
 	'/index',
 	Auth.userTokenByPassVerification(),
-	async (req, res) => { res.send(await rh.index({ req })) }
-)
+	async (req, res) => { res.send(await index({ req })); }
+);
 
 
-module.exports = router
+module.exports = router;
