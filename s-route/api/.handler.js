@@ -13,6 +13,7 @@ const config = require('../../s-config');
 const config_const = require('../../s-config/const');
 const WebAppModel = require('../../s-models/WebAppModel');
 const UserModel = require('../../s-models/UserModel');
+const ApiSubscriptionModel = require('../../s-models/ApiSubscriptionModel');
 const mailerUtil = require('../../s-utils/mailerUtil');
 
 
@@ -47,14 +48,22 @@ module.exports = {
 					_id: req.user_decoded._id
 				}).select('-password -api.publicKey').exec();
 
+				// [MONGODB][apiSubscription]
+				const apiSubscription = await ApiSubscriptionModel.findOne({
+					user: req.user_decoded._id
+				});
+
 				// [MONGODB][WebApp]
-				const webApps = await WebAppModel.find({ user: req.user_decoded._id });
+				const webApps = await WebAppModel.find({
+					user: req.user_decoded._id
+				});
 				
 				// [APPEND]
 				_returnObj = {
 					..._returnObj,
 					user: user,
-					webApps: webApps
+					apiSubscription: apiSubscription,
+					webApps: webApps,
 				};
 			}
 			

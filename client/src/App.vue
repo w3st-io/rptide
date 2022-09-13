@@ -65,7 +65,7 @@
 
 					if (res.apiSubscription) {
 						// [STORE] webApps
-						this.$store.state.webApps = res.webApps;
+						this.$store.state.apiSubscription = res.apiSubscription;
 					}
 
 					if (res.webApps) {

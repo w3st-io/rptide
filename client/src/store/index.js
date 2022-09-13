@@ -24,9 +24,8 @@ export default new Vuex.Store({
 
 		limit: null,
 		
-		webApps: [],
-		
 		user: null,
+		webApps: [],
 	},
 
 	// Syncrous

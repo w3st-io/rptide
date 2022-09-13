@@ -22,7 +22,13 @@
 					<BCol cols="12">
 						<BCol cols="12">
 							<h6 class="my-3 text-right text-light">
-								{{ products.length }} / limit
+								{{ products.length }}
+								/
+								{{
+									this.$store.state.limit.product[
+										this.$store.state.apiSubscription.tier
+									]
+								}}
 								<span>
 									<RouterLink to="/user">
 										<BButton size="sm" class="ml-3">Upgrade</BButton>
