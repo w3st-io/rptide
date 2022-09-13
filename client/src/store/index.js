@@ -21,6 +21,8 @@ export default new Vuex.Store({
 			Footer: true,
 			SideMenu: false,
 		},
+
+		limit: null,
 		
 		webApps: [],
 		

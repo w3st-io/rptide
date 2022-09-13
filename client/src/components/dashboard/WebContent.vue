@@ -18,7 +18,7 @@
 			<BCol
 				v-for="(w,i) in webContents" :key="i"
 				cols="12" md="6" lg="4"
-				class="d-flex align-items-stretch"
+				class="d-flex align-items-stretch mb-3"
 			>
 				<RouterLink
 					:to="`/web-content/update/${w._id}`"

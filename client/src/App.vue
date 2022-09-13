@@ -55,16 +55,18 @@
 				if (res.status) {
 					// [LOCAL-STORAGE]
 					localStorage.setItem('node_env', res.node_env);
-				}
-			
-				if (res.user) {
-					// [STORE] user
-					this.$store.state.user = res.user;
-				}
 
-				if (res.webApps) {
-					// [STORE] webApps
-					this.$store.state.webApps = res.webApps;
+					this.$store.state.limit = res.limit;
+						
+					if (res.user) {
+						// [STORE] user
+						this.$store.state.user = res.user;
+					}
+
+					if (res.webApps) {
+						// [STORE] webApps
+						this.$store.state.webApps = res.webApps;
+					}
 				}
 
 				this.$store.state.loading = false;

@@ -10,6 +10,7 @@ const PasswordRecoveryCollection = require('../../s-collections/PasswordRecovery
 const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
 const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection');
 const config = require('../../s-config');
+const config_const = require('../../s-config/const');
 const WebAppModel = require('../../s-models/WebAppModel');
 const UserModel = require('../../s-models/UserModel');
 const mailerUtil = require('../../s-utils/mailerUtil');
@@ -34,6 +35,7 @@ module.exports = {
 		let _returnObj = {
 			...returnObj,
 			node_env: config.nodeENV,
+			limit: config_const.limit,
 			location: returnObj.location + ''
 		};
 
