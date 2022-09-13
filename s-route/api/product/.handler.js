@@ -49,41 +49,7 @@ module.exports = {
 		}
 	},
 
-	find: async ({ req }) => {
-		// [INIT]
-		let _returnObj = {
-			...returnObj,
-			message: 'Found product(s)',
-			location: returnObj.location + '/create'
-		};
-
-		try {
-			// [PRODUCT]
-			const result = await ProductModel.find({
-				webApp: req.body.webApp,
-				user: req.user_decoded._id
-			})
-				.populate('requiredProductOptions')
-				.populate('optionalProductOptions')
-				.exec()
-
-			return {
-				..._returnObj,
-				status: true,
-				products: result,
-			}
-		}
-		catch (err) {
-			return {
-				..._returnObj,
-				executed: false,
-				message: err
-			};
-		}
-	},
-
 	deleteOne: async ({ req }) => {
-		console.log(req.body);
 		let _returnObj = {
 			...returnObj,
 			deleted: false,
@@ -118,6 +84,91 @@ module.exports = {
 		catch (err) {
 			return {
 				..._returnObj,
+				executed: false,
+				message: err
+			};
+		}
+	},
+
+	find: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'Found product(s)',
+			location: returnObj.location + '/create'
+		};
+
+		try {
+			// [PRODUCT]
+			const result = await ProductModel.find({
+				webApp: req.body.webApp,
+				user: req.user_decoded._id
+			})
+				.populate('requiredProductOptions')
+				.populate('optionalProductOptions')
+			.exec()
+
+			return {
+				..._returnObj,
+				status: true,
+				products: result,
+			}
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: err
+			};
+		}
+	},
+
+	findOne: async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			message: 'Found product',
+			location: returnObj.location + '/create'
+		};
+
+		try {
+			// [PRODUCT][findOne]
+			const result = await ProductModel.findOne({
+				_id: req.body.product_id,
+				user: req.user_decoded._id
+			})
+				.populate('requiredProductOptions')
+				.populate('optionalProductOptions')
+			.exec()
+
+			return {
+				..._returnObj,
+				status: true,
+				product: result,
+			}
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: err
+			};
+		}
+	},
+
+	update: async ({ req }) => {
+		try {
+			// [COLLECTION][Product][UPDATE]
+			const productObj = await ProductCollection.c_update({
+				user_id: req.user_decoded._id,
+				product: req.body,
+			});
+
+			return productObj;
+		}
+		catch (err) {
+			return {
+				...returnObj,
 				executed: false,
 				message: err
 			};

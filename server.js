@@ -23,7 +23,6 @@ const a_webApp          = require('./s-route/api/web-app');
 const a_webContent      = require('./s-route/api/web-content');
 
 const p_                = require ('./s-route/pages');
-const p_product_read    = require('./s-route/pages/product/read');
 const p_user            = require('./s-route/pages/user');
 
 
@@ -98,7 +97,6 @@ app.use('/api/web-content', a_webContent);
 
 // [USE][ROUTE][PAGES]
 app.use('/pages', p_);
-app.use('/pages/product/read', p_product_read);
 app.use('/pages/user', p_user);
 
 

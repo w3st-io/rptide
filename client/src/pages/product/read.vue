@@ -832,7 +832,7 @@ export default {
 		return {
 			// [AUTH-AXIOS]
 			authAxios: axios.create({
-				baseURL: '/pages/product/read',
+				baseURL: '/api/product',
 				headers: {
 					user_authorization: `Bearer ${localStorage.usertoken}`
 				}
@@ -874,7 +874,9 @@ export default {
 			this.loading = true
 
 			this.resData = (
-				await this.authAxios.get(`/${this.$route.params.product_id}`)
+				await this.authAxios.post('/find-one', {
+					product_id: this.$route.params.product_id
+				})
 			).data
 
 			if (this.resData.status) {
@@ -976,7 +978,7 @@ export default {
 			this.showConfirm = false
 
 			if (this.resData.status) {
-				router.push('/dashboard/unset/product/0/5/1')
+				router.push('/dashboard/product/0/5/1')
 			}
 		},
 	},
