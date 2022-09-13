@@ -22,7 +22,7 @@
 					<BCol cols="12">
 						<BCol cols="12">
 							<h6 class="my-3 text-right text-light">
-								{{ products.length }} / {{ productsLimit }}
+								{{ products.length }} / limit
 								<span>
 									<RouterLink to="/user">
 										<BButton size="sm" class="ml-3">Upgrade</BButton>
@@ -96,27 +96,41 @@
 </template>
 
 <script>
-	import router from '@/router'
+	import axios from 'axios';
+
+	import router from '../../router';
 
 	export default {
-		props: {
-			products: {
-				type: Array,
-				required: true,
-				default: () => {
-					return []
-				},
-			},
+		data() {
+			return {
+				authAxios: axios.create({
+					baseURL: '/api/product',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`
+					}
+				}),
 
-			productsLimit: {
-				type: Number,
-				required: true,
-				default: 0,
-			},
+				products: [],
+			}
 		},
 
 		methods: {
 			routerPush(r) { router.push(r) }
+		},
+
+		async created() {
+			try {
+				const resData = await this.authAxios.post('/find', {
+					webApp: this.$store.state.user.workspace.webApp
+				})
+
+				if (resData.status) {
+					this.webContents = resData.data.webContents
+				}
+			}
+			catch (err) {
+				this.error = err
+			}
 		},
 	}
 </script>

@@ -22,7 +22,7 @@
 			<BCol cols="12">
 				<BCol cols="12">
 					<h6 class="my-3 text-right text-light">
-						{{ productOptions.length }} / {{ productOptionsLimit }}
+						{{ productOptions.length }} / limit
 						<span>
 							<RouterLink to="/user">
 								<BButton size="sm" class="ml-3">Upgrade</BButton>
@@ -66,21 +66,11 @@
 
 <script>
 	export default {
-		props: {
-			productOptions: {
-				type: Array,
-				required: true,
-				default: () => {
-					return []
-				},
-			},
-
-			productOptionsLimit: {
-				type: Number,
-				required: true,
-				default: 0,
-			},
-		},
+		data() {
+			return {
+				productOptions: [],
+			}
+		}
 	}
 </script>
 

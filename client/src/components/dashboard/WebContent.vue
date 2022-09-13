@@ -44,13 +44,6 @@
 	import axios from 'axios'
 
 	export default {
-		props: {
-			webApp: {
-				required: true,
-				type: String,
-			},
-		},
-
 		data() {
 			return {
 				authAxios: axios.create({
@@ -69,7 +62,7 @@
 		async created() {
 			try {
 				this.resData = await this.authAxios.post('/find', {
-					webApp: this.webApp
+					webApp: this.$store.state.user.workspace.webApp
 				})
 
 				if (this.resData.status) {

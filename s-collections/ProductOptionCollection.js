@@ -120,38 +120,4 @@ module.exports = {
 			}
 		}
 	},
-
-	
-	c_readAll_sorted_byUser: async ({ user_id }) => {
-		try {
-			// [VALIDATE]
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					location: location,
-					message: 'Invalid user_id',
-				}
-			}
-
-			const productOptions = await ProductOptionModel.find({
-				user: user_id
-			})
-
-			return {
-				executed: true,
-				status: true,
-				productOptions: productOptions
-			}
-
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-}
+};

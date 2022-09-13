@@ -11,30 +11,17 @@
 
 			<!-- [RIGHT][CONTENT] -->
 			<BCol
-				v-if="!loading"
 				cols="9" md="10"
 				class="bg-dark right-content"
 			>
-				<!-- [TAB] Product Options -->
-				<WebContent
-					v-if="$route.params.tab == 'web-content'"
-					:webApp="$store.state.user.workspace.webApp"
-
-				/>
+				<!-- [TAB] Web Contents -->
+				<WebContent v-if="$route.params.tab == 'web-content'" />
 				
 				<!-- [TAB] Products -->
-				<Product
-					v-if="$route.params.tab == 'product'"
-					:products="pageData.products"
-					:productsLimit="pageData.productsLimit"
-				/>
+				<Product v-if="$route.params.tab == 'product'" />
 
 				<!-- [TAB] Product Options -->
-				<ProductOptions
-					v-if="$route.params.tab == 'product-options'"
-					:productOptions="pageData.productOptions"
-					:productOptionsLimit="pageData.productOptionsLimit"
-				/>
+				<ProductOptions v-if="$route.params.tab == 'product-options'" />
 
 				<!-- [ERROR] -->
 				<BAlert v-if="error" variant="danger" show class="my-3">
@@ -47,7 +34,6 @@
 
 <script>
 	// [IMPORT]
-	import axios          from 'axios';
 	import validator      from 'validator';
 
 	// [IMPORT] Personal
@@ -60,24 +46,7 @@
 	export default {
 		data() {
 			return {
-				authAxios: axios.create({
-					baseURL: '/pages/dashboard/index',
-					headers: {
-						user_authorization: `Bearer ${localStorage.usertoken}`
-					}
-				}),
-
-				loading: true,
-				resData: {},
 				error: '',
-
-				pageData: {
-					products: [],
-					productsLimit: 0,
-
-					productOptions: [],
-					productOptionsLimit: 0,
-				},
 			}
 		},
 
@@ -89,43 +58,6 @@
 		},
 
 		methods: {
-			async getPageData() {
-				this.loading = true;
-
-				this.resData = (
-					await this.authAxios.get(`
-						/${this.$store.state.user.workspace.webApp}
-						/${this.$route.params.tab}
-						/${this.$route.params.sort}
-						/${this.$route.params.limit}
-						/${this.$route.params.page}
-					`)
-				).data;
-
-				if (this.resData.status) {
-					// [PRODUCTS]
-					if (this.resData.products) {
-						this.pageData.products = this.resData.products;
-
-						this.pageData.productsLimit = this.resData.limit.product[
-							this.resData.apiSubscriptionTier
-						];
-					}
-					
-					// [PRODUCT-OPTION]
-					if (this.resData.productOptions) {
-						this.pageData.productOptions = this.resData.productOptions
-
-						this.pageData.productOptionsLimit = this.resData.limit.productOptions[
-							this.resData.apiSubscriptionTier
-						];
-					}
-				}
-				else { this.error = this.resData.message; }
-				
-				this.loading = false;
-			},
-
 			async switchTab(tab) {
 				this.error = ''
 
@@ -142,8 +74,6 @@
 						page: this.$route.params.page
 					},
 				});
-
-				await this.getPageData()
 			},
 		},
 
@@ -155,8 +85,6 @@
 			if (!validator.isMongoId(this.$store.state.user.workspace.webApp)) {
 				await this.switchTab('web-app')
 			}
-
-			await this.getPageData()
 		},
 	}
 </script>

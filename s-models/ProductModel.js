@@ -67,6 +67,12 @@ const product = mongoose.Schema({
 		required: true,
 	},
 
+	webApp: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'WebApp',
+		required: true,
+	},
+
 	name: {
 		type: String,
 		maxlength: 100,

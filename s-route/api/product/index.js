@@ -5,7 +5,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal
-const ProductCollection = require('../../../s-collections/ProductCollection')
+const { create, find } = require('./.handler.js')
 const Auth = require('../../../s-middlewares/Auth')
 const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
 
@@ -23,62 +23,20 @@ router.post(
 	Auth.userToken(),
 	ApiSubscription.productLimitCheck(),
 	async (req, res) => {
-		try {
-			if (
-				validator.isAscii(req.body.name) &&
-				validator.isAscii(req.body.price.dollars) &&
-				validator.isAscii(req.body.price.cents) &&
-				(
-					req.body.category == '' ||
-					validator.isAscii(req.body.category)
-				) &&
-				(
-					req.body.description == '' ||
-					validator.isAscii(req.body.description)
-				)
-			) {
-				// [COLLECTION][Product][CREATE]
-				const productObj = await ProductCollection.c_create({
-					user_id: req.user_decoded._id,
-					name: req.body.name,
-					description: req.body.description,
-					price: req.body.price,
-					category: req.body.category,
-					images: req.body.images,
-				})
-
-				if (productObj.status) {
-					res.send({
-						executed: true,
-						status: true,
-						location: `${location}/create`,
-						productObj: productObj,
-					})
-				}
-				else { res.send(productObj) }
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: location,
-					message: `${location}: Invalid Parameters`
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}/create`,
-				message: `${location}: Error --> ${err}`
-			})
-		}
+		res.send(await create({ req }));
 	}
-)
+);
 
 
-// [READ]
+router.get(
+	'/find',
+	Auth.userToken(),
+	async (req, res) => {
+		res.send(await find({ req }));
+	}
+);
+
+
 router.get(
 	'/read-all/:limit/:page',
 	Auth.userToken(),
@@ -119,7 +77,7 @@ router.get(
 )
 
 
-// [UPDATE]
+
 router.post(
 	'/update',
 	Auth.userToken(),
@@ -158,7 +116,6 @@ router.post(
 )
 
 
-// [DELETE]
 router.post(
 	'/delete',
 	Auth.userToken(),
@@ -203,4 +160,4 @@ router.post(
 )
 
 
-module.exports = router
+module.exports = router;
