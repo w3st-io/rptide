@@ -131,7 +131,7 @@
 				})
 
 				if (resData.status) {
-					this.webContents = resData.data.webContents
+					this.products = resData.data.products
 				}
 			}
 			catch (err) {

@@ -5,7 +5,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal
-const { create, find } = require('./.handler.js')
+const { create, deleteOne, find } = require('./.handler.js')
 const Auth = require('../../../s-middlewares/Auth')
 const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
 
@@ -15,7 +15,7 @@ const router = express.Router().use(cors())
 
 
 // [INIT]
-const location = '/api/user/product'
+const location = '/api/product'
 
 
 router.post(
@@ -28,54 +28,13 @@ router.post(
 );
 
 
-router.get(
+router.post(
 	'/find',
 	Auth.userToken(),
 	async (req, res) => {
 		res.send(await find({ req }));
 	}
 );
-
-
-router.get(
-	'/read-all/:limit/:page',
-	Auth.userToken(),
-	async (req, res) => {
-		try {
-			if (
-				validator.isAscii(req.params.limit) &&
-				validator.isAscii(req.params.page)
-			) {
-				// [INIT]
-				const user_id = (req.user_decoded) ? req.user_decoded._id : undefined
-
-				const productsObj = await ProductCollection.c_readAll_sorted({
-					user_id: user_id,
-
-				})
-
-				res.send(productsObj)
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: `${location}/read-all`,
-					message: 'Invalid params'
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}/read-all/:limit/:page`,
-				message: `${location}: Error --> ${err}`
-			})
-		}
-	}
-)
-
 
 
 router.post(
@@ -117,47 +76,12 @@ router.post(
 
 
 router.post(
-	'/delete',
+	'/delete-one',
 	Auth.userToken(),
 	async (req, res) => {
-		try {
-			if (validator.isAscii(req.body.product_id)) {
-				// [COLLECTION][Product][DELETE]
-				const deleteProductObj = await ProductCollection.c_delete_byUserAndId({
-					user_id: req.user_decoded._id,
-					product_id: req.body.product_id,
-				})
-
-				if (deleteProductObj.status) {
-					res.send({
-						executed: true,
-						status: true,
-						deleted: true,
-						deleteProductObj: deleteProductObj,
-						message: 'Product Deleted'
-					})
-				}
-				else { res.send(deleteProductObj) }
-			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: location,
-					message: `${location}: Invalid Parameters`
-				})
-			}
-		}
-		catch (err) {
-			res.send({
-				executed: false,
-				status: false,
-				location: `${location}/read-all/:limit/:page`,
-				message: `${location}: Error --> ${err}`
-			})
-		}
+		res.send(await deleteOne({ req }));
 	}
-)
+);
 
 
 module.exports = router;

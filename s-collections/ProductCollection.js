@@ -15,6 +15,7 @@ module.exports = {
 	/******************* [CRUD] *******************/
 	c_create: async ({
 		user_id,
+		webApp_id,
 		name,
 		description,
 		price,
@@ -26,12 +27,22 @@ module.exports = {
 	}) => {
 		try {
 			// [VALIDATE] user_id
-			if (!validator.isAscii(user_id)) {
+			if (!mongoose.isValidObjectId(user_id)) {
 				return {
 					executed: true,
 					status: false,
 					location: location,
 					message: `${location}: Invalid user_id`
+				}
+			}
+
+			// [VALIDATE] webApp_id
+			if (!mongoose.isValidObjectId(webApp_id)) {
+				return {
+					executed: true,
+					status: false,
+					location: location,
+					message: `${location}: Invalid webApp_id`
 				}
 			}
 
@@ -110,8 +121,8 @@ module.exports = {
 			})
 
 			// [VALIDATE] images
-			images.forEach((image, i) => {
-				if (!validator.isURL(image)) {
+			images.forEach((img, i) => {
+				if (!validator.isURL(img)) {
 					return {
 						executed: true,
 						status: false,
@@ -162,6 +173,7 @@ module.exports = {
 			const createdProduct = await new ProductModel({
 				_id: mongoose.Types.ObjectId(),
 				user: user_id,
+				webApp: webApp_id,
 				name: name,
 				price: {
 					number: price_number,

@@ -1,5 +1,6 @@
 // [REQUIRE]
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 
 // [REQUIRE] Personal
@@ -19,41 +20,23 @@ let returnObj = {
 module.exports = {
 	create: async ({ req }) => {
 		try {
-			if (
-				!validator.isAscii(req.body.name) ||
-				!validator.isAscii(req.body.price.dollars) ||
-				!validator.isAscii(req.body.price.cents) ||
-				(
-					req.body.category !== '' &&
-					!validator.isAscii(req.body.category)
-				) ||
-				(
-					req.body.description !== '' &&
-					!validator.isAscii(req.body.description)
-				)
-			) {
-				return {
-					...returnObj,
-					message: 'Invalid Parameters'
-				}
-			}
-
 			// [COLLECTION][Product][CREATE]
 			const productObj = await ProductCollection.c_create({
 				user_id: req.user_decoded._id,
+				webApp_id: req.user_decoded.workspace.webApp,
 				name: req.body.name,
 				description: req.body.description,
 				price: req.body.price,
 				category: req.body.category,
 				images: req.body.images,
-			})
+			});
 
 			if (productObj.status) {
 				return {
 					...returnObj,
 					status: true,
 					productObj: productObj,
-				}
+				};
 			}
 			else { return productObj; }
 		}
@@ -62,7 +45,7 @@ module.exports = {
 				...returnObj,
 				executed: false,
 				message: err
-			}
+			};
 		}
 	},
 
@@ -85,8 +68,7 @@ module.exports = {
 				.exec()
 
 			return {
-				..._returnObj,	
-				status: true,
+				..._returnObj,
 				status: true,
 				products: result,
 			}
@@ -99,4 +81,46 @@ module.exports = {
 			};
 		}
 	},
+
+	deleteOne: async ({ req }) => {
+		console.log(req.body);
+		let _returnObj = {
+			...returnObj,
+			deleted: false,
+			message: 'Product Deleted'
+		};
+
+		try {
+			if (!validator.isAscii(req.body.product_id)) {
+				return {
+					..._returnObj,
+					message: 'Invalid Parameters'
+				};
+			}
+
+			// [COLLECTION][Product][DELETE]
+			const deleteProductObj = await ProductCollection.c_delete_byUserAndId({
+				user_id: req.user_decoded._id,
+				product_id: req.body.product_id,
+			})
+
+			if (!deleteProductObj.status) {
+				return deleteProductObj;
+			}
+
+			return {
+				..._returnObj,
+				status: true,
+				deleted: true,
+				deleteProductObj: deleteProductObj,
+			};
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: err
+			};
+		}
+	}
 }

@@ -167,7 +167,9 @@
 						}
 					})
 				}
-				else { this.error = this.resData.message }
+				else {
+					console.log(this.resData);
+					this.error = this.resData.message }
 			},
 		},
 

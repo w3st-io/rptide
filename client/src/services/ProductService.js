@@ -52,7 +52,7 @@ export default {
 
 	s_delete: async function ({ product_id }) {
 		try {
-			const res = await authAxios.post('/delete', { product_id })
+			const res = await authAxios.post('/delete-one', { product_id })
 
 			return res.data
 		}

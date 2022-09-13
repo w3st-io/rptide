@@ -38,6 +38,8 @@ class Auth {
 								});
 
 								if (user) {
+									req.user_decoded.workspace = user.workspace;
+
 									// Check apiSubscription status
 									await h_apiSubscription.cycleCheckApiSubscription({
 										user_id: decoded._id

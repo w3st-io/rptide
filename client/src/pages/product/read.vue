@@ -12,7 +12,7 @@
 			<BCardHeader v-if="product !== {}">
 				<BRow>
 					<BCol cols="10">
-						<RouterLink to="/dashboard/unset/product/0/5/1">
+						<RouterLink to="/dashboard/product/0/5/1">
 							<BButton
 								variant="primary"
 								size="sm"
@@ -968,6 +968,7 @@ export default {
 		},
 
 		async deleteProduct() {
+			console.log(this.product);
 			this.resData = await ProductService.s_delete({
 				product_id: this.product._id
 			})
