@@ -22,7 +22,6 @@ const a_user = require('./s-route/api/user');
 const a_webApp = require('./s-route/api/web-app');
 const a_webContent = require('./s-route/api/web-content');
 
-const p_ = require ('./s-route/pages');
 const p_user = require('./s-route/pages/user');
 
 
@@ -96,7 +95,6 @@ app.use('/api/web-content', a_webContent);
 
 
 // [USE][ROUTE][PAGES]
-app.use('/pages', p_);
 app.use('/pages/user', p_user);
 
 
@@ -115,5 +113,7 @@ if (config.nodeENV == 'production') {
 // [LISTEN]
 server.listen(
 	config.port,
-	() => { console.log(`Server Running on Port: ${config.port}`); }
+	() => {
+		console.log(`Server Running on Port: ${config.port}`);
+	}
 );
