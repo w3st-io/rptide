@@ -23,7 +23,7 @@
 <script>
 	import router from '@/router';
 
-	import UserService from '../../services/user/UserService';
+	import UserService from '../../services/UserService';
 
 	export default {
 		data() {

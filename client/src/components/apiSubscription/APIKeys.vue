@@ -25,7 +25,7 @@
 </template>
 
 <script>
-	import UserService from '@/services/user/UserService'
+	import UserService from '@/services/UserService'
 
 	export default {
 		methods: {
