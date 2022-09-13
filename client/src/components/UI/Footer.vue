@@ -20,7 +20,9 @@
 					<RouterLink to="/documentation">Documentation</RouterLink>
 				</BCol>
 
-				<BCol cols="12" md="4" class="text-center"></BCol>
+				<BCol cols="12" md="4" class="text-center">
+					
+				</BCol>
 
 				<BCol cols="12" md="4" class="text-center">
 					<BButton
