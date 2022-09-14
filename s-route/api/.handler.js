@@ -425,8 +425,6 @@ module.exports = {
 			message: 'Email sent'
 		};
 
-		console.log('s',req.body);
-
 		try {
 			// [VALIDATE]
 			if (!validator.isEmail(req.body.email)) {
@@ -501,28 +499,28 @@ module.exports = {
 				return {
 					..._returnObj,
 					message: 'Invalid params',
-				}
+				};
 			}
 
 			// [EXISTANCE][PasswordRecovery]
 			const existance = await PasswordRecoveryCollection.c_existance(
 				req.body.user_id
-			)
+			);
 
 			if (!existance.existance) {
 				return {
 					..._returnObj,
 					message: 'You have not made a request to reset your password',
-				}
+				};
 			}
 
 			// [VALIDATE][PasswordRecovery]
 			const pwdRecovery = await PasswordRecoveryCollection.c_validateToken(
 				req.body.user_id,
 				req.body.verificationCode
-			)
+			);
 
-			if (!pwdRecovery.status || !pwdRecovery.valid) { return pwdRecovery }
+			if (!pwdRecovery.status || !pwdRecovery.valid) { return pwdRecovery; }
 
 			// [MONGODB][UPDATE] user.password
 			await UserModel.findOneAndUpdate(
@@ -532,26 +530,26 @@ module.exports = {
 						password: await bcrypt.hash(req.body.password, 10)
 					}
 				}
-			)
+			);
 
 			// [DELETE][PasswordRecovery]
 			const deletedPR = await PasswordRecoveryCollection.c_delete_byUser(
 				req.body.user_id
-			)
+			);
 
-			if (!deletedPR.status) { return deletedPR }
+			if (!deletedPR.status) { return deletedPR; }
 
 			return {
 				..._returnObj,
 				status: true,
-			}
+			};
 		}
 		catch (err) {
 			return {
 				..._returnObj,
 				executed: false,
 				message: err
-			}
+			};
 		}
 	},
 }
