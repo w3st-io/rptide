@@ -303,7 +303,7 @@ module.exports = {
 			// [MONGODB][READ] User
 			const user = await UserModel.findOne({ _id: req.user_decoded._id })
 				.select('-password -api.publicKey')
-				.exec();
+			.exec();
 
 			// [UPDATE][ApiSubscription]
 			const apiSubObj_findOne = await ApiSubscriptionCollection.c_read_byUser({
@@ -376,7 +376,7 @@ module.exports = {
 
 		try {
 			// [VALIDATE]
-			if (!validator.isAscii(req.body.email)) {
+			if (!validator.isEmail(req.body.email)) {
 				return {
 					..._returnObj,
 					message: 'Invalid params',
