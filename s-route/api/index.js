@@ -4,7 +4,7 @@ const express = require('express');
 
 
 // [REQUIRE] Personal
-const rh = require('./.handler.js');
+const h = require('./.handler.js');
 const Auth = require('../../s-middlewares/Auth');
 
 
@@ -16,7 +16,7 @@ router.get(
 	'/',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		res.send(await rh.index({ req }));
+		res.send(await h.index({ req }));
 	}
 );
 
@@ -24,7 +24,7 @@ router.get(
 router.post(
 	'/login',
 	async (req, res) => {
-		res.send(await rh.login({ req }));
+		res.send(await h.login({ req }));
 	}
 );
 
@@ -32,7 +32,7 @@ router.post(
 router.post(
 	'/register',
 	async (req, res) => {
-		res.send(await rh.register({ req }));
+		res.send(await h.register({ req }));
 	}
 );
 
@@ -40,7 +40,7 @@ router.post(
 router.post(
 	'/complete-registration',
 	async (req, res) => {
-		res.send(await rh.completeRegistration({ req }));
+		res.send(await h.completeRegistration({ req }));
 	}
 );
 
@@ -48,7 +48,7 @@ router.post(
 router.post(
 	'/resend-verification-email',
 	async (req, res) => {
-		res.send(await rh.resendVerificationEmail({ req }));
+		res.send(await h.resendVerificationEmail({ req }));
 	}
 );
 
@@ -56,7 +56,7 @@ router.post(
 router.post(
 	'/request-reset-password',
 	async (req, res) => {
-		res.send(await rh.requestResetPassword({ req }));
+		res.send(await h.requestResetPassword({ req }));
 	}
 );
 
@@ -64,7 +64,7 @@ router.post(
 router.post(
 	'/reset-password',
 	async (req, res) => {
-		res.send(await rh.resetPassword({ req }));
+		res.send(await h.resetPassword({ req }));
 	}
 );
 
