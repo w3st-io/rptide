@@ -1,6 +1,7 @@
 // [REQUIRE]
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const validator = require('validator');
 
 
@@ -30,7 +31,7 @@ module.exports = {
 	/**
 	 * @notice Default route to initialize app
 	 * @returns {Object}
-	 */
+	*/
 	index: async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
@@ -98,34 +99,30 @@ module.exports = {
 
 		try {
 			// [VALIDATE] email
-			if (
-				!validator.isEmail(req.body.email) ||
-				!validator.isAscii(req.body.email)
-			) {
+			if (!validator.isEmail(req.body.email)) {
 				return {
 					..._returnObj,
-					message: `Invalid email`,
+					message: 'Invalid email',
 				};
 			}
 				
 			// [VALIDATE] password
-			if (
-				!validator.isAscii(req.body.password) ||
-				!validator.isAscii(req.body.password)
-			) {
+			if (!validator.isAscii(req.body.password)) {
 				return {
 					..._returnObj,
-					message: `Invalid password`,
+					message: 'Invalid password',
 				};
 			}
 
 			// [READ][User] Get user by email
-			const user = await UserModel.findOne({ email: req.body.email });
+			const user = await UserModel.findOne({ email: req.body.email })
+				.select('-password -api.publicKey')
+			.exec();
 
 			if (!user) {
 				return {
 					..._returnObj,
-					message: `Invalid email or password`
+					message: 'Invalid email or password'
 				};
 			}
 
@@ -133,7 +130,7 @@ module.exports = {
 			if (!bcrypt.compareSync(req.body.password, user.password)) {
 				return {
 					..._returnObj,
-					message: `Invalid email or password`
+					message: 'Invalid email or password'
 				};
 			}
 
@@ -153,17 +150,13 @@ module.exports = {
 
 			const webApps = await WebAppModel.find({ user: user._id });
 	
-			// [MONGODB][QUERY]
-			const returnableUser = await UserModel.findOne({
-				_id: user._id
-			}).select('-password -api.publicKey').exec();
-
+			// [200]
 			return {
 				..._returnObj,
 				status: true,
 				validation: true,
 				token: token,
-				user: returnableUser,
+				user: user,
 				webApps: webApps
 			};
 		}
@@ -215,18 +208,14 @@ module.exports = {
 			}
 	
 			// [VALIDATE] req.body.password
-			if (!validator.isAscii(req.body.password)) {
+			if (
+				!validator.isAscii(req.body.password) ||
+				password.req.body.password < 8 ||
+				req.body.password.length > 500
+			) {
 				return {
 					..._returnObj,
-					message: 'Invalid password'
-				};
-			}
-	
-			// [VALIDATE] req.body.password
-			if (password.req.body.password < 8 || req.body.password.length > 100) {
-				return {
-					..._returnObj,
-					message: 'Invalid password'
+					message: 'Password Must be ASCII & longer than 8 characters'
 				};
 			}
 
@@ -285,7 +274,7 @@ module.exports = {
 
 		try {
 			// [VALIDATE] user_id
-			if (!validator.isAscii(req.body.user_id)) {
+			if (!mongoose.isValidObjectId(req.body.user_id)) {
 				return {
 					..._returnObj,
 					message: 'Invalid user_id'
