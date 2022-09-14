@@ -134,19 +134,17 @@ router.post(
 			if (apiSubObj.status) {
 				let currentTier = 0
 
-				if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
+				if (
+					apiSubObj.apiSubscription.stripe.subId.tier1.active ||
+					apiSubObj.apiSubscription.stripe.subId.tier1.canceled
+				) {
 					currentTier = 1
 				}
 
-				if (apiSubObj.apiSubscription.stripe.subId.tier1.canceled) {
-					currentTier = 1
-				}
-
-				if (apiSubObj.apiSubscription.stripe.subId.tier2.active) {
-					currentTier = 2
-				}
-
-				if (apiSubObj.apiSubscription.stripe.subId.tier2.canceled) {
+				if (
+					apiSubObj.apiSubscription.stripe.subId.tier2.active ||
+					apiSubObj.apiSubscription.stripe.subId.tier2.canceled
+				) {
 					currentTier = 2
 				}
 
