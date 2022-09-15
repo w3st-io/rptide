@@ -1,7 +1,7 @@
 // [REQUIRE] Personal
-const api_stripe_customer = require('../../s-api/stripe/customer')
-const api_stripe_paymentMethod = require('../../s-api/stripe/paymentMethod')
-const api_stripe_subscription = require('../../s-api/stripe/subscription')
+const a_stripe_customer = require('../../s-api/stripe/customer')
+const a_stripe_paymentMethod = require('../../s-api/stripe/paymentMethod')
+const a_stripe_subscription = require('../../s-api/stripe/subscription')
 
 
 // [INIT]
@@ -13,7 +13,7 @@ module.exports = {
 	aa_createCustomer: async function ({ user_id, email, username }) {
 		try {
 			// [API][stripe] Create a customer
-			return await api_stripe_customer.a_createCustomer({
+			return await a_stripe_customer.a_createCustomer({
 				user_id,
 				email: email,
 				name: username,
@@ -42,11 +42,11 @@ module.exports = {
 		try {
 			// [API][stripe] Remove previous payment method
 			if (previous_pmId !== '') {
-				await api_stripe_paymentMethod.a_detach({ pmId: previous_pmId })
+				await a_stripe_paymentMethod.a_detach({ pmId: previous_pmId })
 			}
 
 			// [API][stripe] Create a paymentMethod
-			const pMObj = await api_stripe_paymentMethod.a_create({
+			const pMObj = await a_stripe_paymentMethod.a_create({
 				cardNumber: cardNumber,
 				cardMonth: cardMonth,
 				cardYear: cardYear,
@@ -55,13 +55,13 @@ module.exports = {
 			
 			if (pMObj.status) {
 				// [API][stripe] connect the customer to the paymentMethod
-				const PMAttachedToCusObj = await api_stripe_paymentMethod.a_attachToCustomer({
+				const PMAttachedToCusObj = await a_stripe_paymentMethod.a_attachToCustomer({
 					pmId: pMObj.stripeCreatedPaymentMethod.id,
 					cusId: cusId
 				})
 				
 				if (PMAttachedToCusObj.status) {
-					const cSDPMObj = await api_stripe_customer.aa_setDefaultPaymentMethod({
+					const cSDPMObj = await a_stripe_customer.aa_setDefaultPaymentMethod({
 						cusId: cusId,
 						pmId: pMObj.stripeCreatedPaymentMethod.id,
 					})
@@ -97,7 +97,7 @@ module.exports = {
 		try {
 			// [API][stripe] Remove previous payment method
 			if (pmId !== '') {
-				await api_stripe_paymentMethod.a_detach({ pmId: pmId })
+				await a_stripe_paymentMethod.a_detach({ pmId: pmId })
 			}
 			
 			return {
@@ -121,7 +121,7 @@ module.exports = {
 	aa_cancel_subscription_ifApplicable: async function ({ subId }) {
 		try {
 			if (subId) {
-				const subscription_canceled = await api_stripe_subscription.a_cancel({
+				const subscription_canceled = await a_stripe_subscription.a_cancel({
 					subId,
 				})
 
@@ -152,7 +152,7 @@ module.exports = {
 	aa_cancelAtEndOfPeriod_subscription_ifApplicable: async function ({ subId }) {
 		try {
 			if (subId) {
-				const subscription_canceled = await api_stripe_subscription.a_cancelAtEndOfPeriod({
+				const subscription_canceled = await a_stripe_subscription.a_cancelAtEndOfPeriod({
 					subId,
 				})
 
@@ -184,7 +184,7 @@ module.exports = {
 		try {
 			if (pmId) {
 				// [API][stripe] Retrieve Payment Method Details
-				const pmObj = await api_stripe_paymentMethod.a_retrieve({
+				const pmObj = await a_stripe_paymentMethod.a_retrieve({
 					pmId: pmId
 				})
 				
@@ -215,7 +215,7 @@ module.exports = {
 			let flag = false
 
 			// [API][stripe] Purchase subscription
-			const stripeSubscriptionListObj = await api_stripe_subscription.a_list({
+			const stripeSubscriptionListObj = await a_stripe_subscription.a_list({
 				cusId: cusId,
 			})
 		
@@ -227,7 +227,7 @@ module.exports = {
 					flag = true
 
 					// [API][Stripe] Reactivate Subscription
-					const reactivatedSubObj = await api_stripe_subscription.a_reactivateSubscription({
+					const reactivatedSubObj = await a_stripe_subscription.a_reactivateSubscription({
 						subId: s.id,
 						priceId: priceId
 					})

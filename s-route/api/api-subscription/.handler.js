@@ -1,7 +1,8 @@
 // [REQUIRE] Personal
+const a_stripe = require('../../../s-api/stripe')
+const a_stripe_subscription = require('../../../s-api/stripe/subscription')
 const config = require('../../../s-config')
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
-const a_stripe_subscription = require('../../../s-api/stripe/subscription')
 
 
 // [INIT]
@@ -14,7 +15,7 @@ const tier2PriceId = config.api.stripe.proceTier2
 
 async function cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active }) {
 	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable)
-	const canceledSubObj = await api_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
+	const canceledSubObj = await a_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
 		subId: tier1_active,
 	})
 
@@ -52,7 +53,7 @@ async function cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active
 
 async function cancel_tier2StripeSub ({ user_id, apiSubscription_id, tier2_active }) {
 	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable)
-	const canceledSubObj = await api_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
+	const canceledSubObj = await a_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
 		subId: tier2_active,
 	})
 
@@ -294,7 +295,7 @@ module.exports = {
 	}) => {
 		try {	
 			// [API][stripe] paymentMethod
-			const apiStripe_updatedPM = await api_stripe.aa_updatePaymentMethod({
+			const apiStripe_updatedPM = await a_stripe.aa_updatePaymentMethod({
 				cusId,
 				previous_pmId,
 				cardNumber,
@@ -335,7 +336,7 @@ module.exports = {
 	deletePaymentMethod: async ({ user_id, apiSubscription_id, pmId, }) => {
 		try {
 			// [API][stripe] Remove previous payment method
-			const deleteStripePMObj = await api_stripe.aa_deletePaymentMethod({ pmId })
+			const deleteStripePMObj = await a_stripe.aa_deletePaymentMethod({ pmId })
 
 			if (!deleteStripePMObj.status) { return deleteStripePMObj }
 
@@ -412,7 +413,7 @@ module.exports = {
 		let stripe_subId_tier1_active
 
 		// [API][stripe][REACTIVATE] tier 1 (If Existant)
-		const reactivatedStripeSubObj = await api_stripe.aa_reactivateSubscription_ifExistant({
+		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
 			cusId,
 			priceId: tier1PriceId
 		})
@@ -426,7 +427,7 @@ module.exports = {
 		}
 		else {
 			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await api_stripe_subscription.a_purchase({
+			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
 				cusId,
 				priceId: tier1PriceId
 			})
@@ -471,7 +472,7 @@ module.exports = {
 		if (!cancel_tier2StripeSubObj.status) { return cancel_tier2StripeSubObj }
 
 		// [API][stripe][REACTIVATE] tier 1 (If Existant)
-		const reactivatedStripeSubObj = await api_stripe.aa_reactivateSubscription_ifExistant({
+		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
 			cusId: cusId,
 			priceId: tier1PriceId
 		})
@@ -485,7 +486,7 @@ module.exports = {
 		}
 		else {
 			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await api_stripe_subscription.a_purchase({
+			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
 				cusId: cusId,
 				priceId: tier1PriceId
 			})
@@ -519,7 +520,7 @@ module.exports = {
 		let stripe_subId_tier2_active
 
 		// [API][stripe][REACTIVATE] tier 2 (If Existant)
-		const reactivatedStripeSubObj = await api_stripe.aa_reactivateSubscription_ifExistant({
+		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
 			cusId: cusId,
 			priceId: tier2PriceId
 		})
@@ -533,7 +534,7 @@ module.exports = {
 		}
 		else {
 			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await api_stripe_subscription.a_purchase({
+			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
 				cusId: cusId,
 				priceId: tier2PriceId
 			})
@@ -579,7 +580,7 @@ module.exports = {
 		if (!cancel_tier1StripeSubObj.status) { return cancel_tier1StripeSubObj }
 
 		// [API][stripe][REACTIVATE] tier 1 (If Existant)
-		const reactivatedStripeSubObj = await api_stripe.aa_reactivateSubscription_ifExistant({
+		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
 			cusId: cusId,
 			priceId: tier2PriceId
 		})
@@ -593,7 +594,7 @@ module.exports = {
 		}
 		else {
 			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await api_stripe_subscription.a_purchase({
+			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
 				cusId: cusId,
 				priceId: tier2PriceId
 			})
