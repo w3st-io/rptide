@@ -145,30 +145,6 @@ module.exports = {
 	},
 
 
-	a_cancelAtEndOfPeriod: async function ({ subId }) {
-		try {
-			const subscription_canceled = await Stripe.subscriptions.update(
-				subId,
-				{ cancel_at_period_end: true }
-			)
-
-			return {
-				executed: true,
-				status: true,
-				subscription_canceled: subscription_canceled,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
 	a_reactivateSubscription: async function ({ subId, priceId }) {
 		try {
 			const subscription = await Stripe.subscriptions.retrieve(subId)

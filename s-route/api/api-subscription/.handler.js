@@ -1,8 +1,16 @@
+// [REQUIRE]
+const stripe = require('stripe')
+
+
 // [REQUIRE] Personal
 const a_stripe = require('../../../s-api/stripe')
 const a_stripe_subscription = require('../../../s-api/stripe/subscription')
 const config = require('../../../s-config')
 const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
+
+
+// [STRIPE]
+const Stripe = stripe(config.api.stripe.secretKey)
 
 
 // [INIT]
@@ -13,14 +21,123 @@ const tier1PriceId = config.api.stripe.priceTier1
 const tier2PriceId = config.api.stripe.proceTier2
 
 
+async function cycleCheckApiSubscription({ user_id, force = false }) {
+	// [INIT]
+	let flag = false
+
+	// [READ][ApiSubscription]
+	const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({ user_id })
+
+	// [ERROR]
+	if (!apiSubObj.status) {
+		console.log('/apiSubscription Error:', apiSubObj.message)
+		return
+	}
+
+	// [CALCULATE] Hours since last check //
+	const hours = Math.abs(apiSubObj.apiSubscription.lastCleared - new Date()) / 36e5
+
+	// If last time checked was over 24 hours ago
+	if (hours > .5 || force == true) {
+		// [TIER-1][ACTIVE]
+		if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
+			// [API][subscriptionObj][READ]
+			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
+				subId: apiSubObj.apiSubscription.stripe.subId.tier1.active
+			})
+
+			if (subscriptionObj.stripeSub.status !== 'active') {
+				// set the subscription to canceled.
+				await archive_stripeSub({
+					user_id,
+					apiSubscription_id: apiSubObj.apiSubscription._id,
+					subId: apiSubObj.apiSubscription.stripe.subId.tier1.active,
+				})
+
+				flag = true
+			}
+		}
+
+		// [TIER-1][CANCELED]
+		if (apiSubObj.apiSubscription.stripe.subId.tier1.canceled) {
+			// [API][subscriptionObj][READ]
+			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
+				subId: apiSubObj.apiSubscription.stripe.subId.tier1.canceled
+			})
+
+			if (subscriptionObj.stripeSub.status !== 'active') {
+				// set the subscription to canceled.
+				await archive_stripeSub({
+					user_id,
+					apiSubscription_id: apiSubObj.apiSubscription._id,
+					subId: apiSubObj.apiSubscription.stripe.subId.tier1.canceled,
+				})
+
+				flag = true
+			}
+		}
+
+		// [TIER-2][ACTIVE]
+		if (apiSubObj.apiSubscription.stripe.subId.tier2.active) {
+			// [API][subscriptionObj][READ]
+			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
+				subId: apiSubObj.apiSubscription.stripe.subId.tier2.active
+			})
+
+			if (subscriptionObj.stripeSub.status !== 'active') {
+				// set the subscription to canceled.
+				await archive_stripeSub({
+					user_id,
+					apiSubscription_id: apiSubObj.apiSubscription._id,
+					subId: apiSubObj.apiSubscription.stripe.subId.tier2.active,
+				})
+
+				flag = true
+			}
+		}
+
+		// [TIER-2][CANCELED]
+		if (apiSubObj.apiSubscription.stripe.subId.tier2.canceled) {
+			// [API][subscriptionObj][READ]
+			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
+				subId: apiSubObj.apiSubscription.stripe.subId.tier2.canceled
+			})
+
+			if (subscriptionObj.stripeSub.status !== 'active') {
+				// set the subscription to canceled.
+				await archive_stripeSub({
+					user_id,
+					apiSubscription_id: apiSubObj.apiSubscription._id,
+					subId: apiSubObj.apiSubscription.stripe.subId.tier2.canceled
+				})
+
+				flag = true
+			}
+		}
+
+		await ApiSubscriptionCollection.c_reset_lastCleared({
+			user_id,
+			apiSubscription_id: apiSubObj.apiSubscription._id,
+		})
+	}
+
+	// Archived subId
+	if (flag == true) {
+		console.log('Invalid Subscription Found. Removed from apiSubscription')
+	}
+
+	return {
+		executed: true,
+		status: true,
+		valid: true,
+	}
+}
+
+
 async function cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active }) {
 	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable)
-	const canceledSubObj = await a_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
-		subId: tier1_active,
-	})
+	await Stripe.subscriptions.update(tier1_active, { cancel_at_period_end: true })
 
-	if (!canceledSubObj.status) { return canceledSubObj }
-	
 	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
 	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
 		apiSubscription_id,
@@ -51,13 +168,9 @@ async function cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active
 }
 
 
-async function cancel_tier2StripeSub ({ user_id, apiSubscription_id, tier2_active }) {
+async function cancel_tier2StripeSub({ user_id, apiSubscription_id, tier2_active }) {
 	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable)
-	const canceledSubObj = await a_stripe.aa_cancelAtEndOfPeriod_subscription_ifApplicable({
-		subId: tier2_active,
-	})
-
-	if (!canceledSubObj.status) { return canceledSubObj }
+	await Stripe.subscriptions.update(tier2_active, { cancel_at_period_end: true })
 	
 	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
 	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
@@ -132,6 +245,74 @@ async function archive_stripeSub ({ user_id, apiSubscription_id, subId }) {
 
 
 module.exports = {
+	updateTier0: async ([ req ]) => {
+		try {
+			// [H][apiSubscription] Force update 
+			await cycleCheckApiSubscription({
+				user_id: req.user_decoded._id,
+				force: true,
+			})
+
+			// [C][READ][ApiSubscription] Retrieve associated apiSubscription obj //
+			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
+				user_id: req.user_decoded._id
+			})
+
+			if (apiSubObj.status) { return apiSubObj; }
+
+			if (
+				apiSubObj.apiSubscription.stripe.subId.tier1.active ||
+				apiSubObj.apiSubscription.stripe.subId.tier1.canceled
+			) {
+				// [CANCEL] Tier 1 //
+				const cancel_tier1StripeSubObj = await cancel_tier1StripeSub({
+					user_id: req.user_decoded._id,
+					apiSubscription_id: apiSubObj.apiSubscription._id,
+					tier1_active: apiSubObj.apiSubscription.stripe.subId.tier1.active ||
+					apiSubObj.apiSubscription.stripe.subId.tier1.canceled
+				})
+
+				// [ERROR]
+				if (!cancel_tier1StripeSubObj.status) {
+					return cancel_tier1StripeSubObj;
+				}
+
+				// [SUCCESS]
+				return {
+					status: true,
+					executed: true,
+					message: 'Successfully changed tier'
+				}	
+			}
+
+			if (
+				apiSubObj.apiSubscription.stripe.subId.tier2.active ||
+				apiSubObj.apiSubscription.stripe.subId.tier2.canceled
+			) {
+				await h_apiSub.h_switchTier0FromTier2({
+					user_id: req.user_decoded._id,
+					apiSubscription_id: apiSubObj.apiSubscription._id,
+					tier2_active: apiSubObj.apiSubscription.stripe.subId.tier2.active
+				})
+			}
+
+			// [ERROR]
+			return {
+				executed: true,
+				status: true
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				location: `${location}/update-tier-0`,
+				message: err
+			}
+		}
+	},
+
+
 	/*
 	* ===================
 	* = BASIC FUNCTIONS =
@@ -171,115 +352,7 @@ module.exports = {
 
 
 	cycleCheckApiSubscription: async ({ user_id, force = false }) => {
-		// [INIT]
-		let flag = false
-
-		// [READ][ApiSubscription]
-		const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({ user_id })
-
-		// [ERROR]
-		if (!apiSubObj.status) {
-			console.log('/apiSubscription Error:', apiSubObj.message)
-			return
-		}
-
-		// [CALCULATE] Hours since last check //
-		const hours = Math.abs(apiSubObj.apiSubscription.lastCleared - new Date()) / 36e5
-		
-		// If last time checked was over 24 hours ago
-		if (hours > .5 || force == true) {
-			// [TIER-1][ACTIVE]
-			if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
-				// [API][subscriptionObj][READ]
-				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-					subId: apiSubObj.apiSubscription.stripe.subId.tier1.active
-				})
-
-				if (subscriptionObj.stripeSub.status !== 'active') {
-					// set the subscription to canceled.
-					await archive_stripeSub({
-						user_id,
-						apiSubscription_id: apiSubObj.apiSubscription._id,
-						subId: apiSubObj.apiSubscription.stripe.subId.tier1.active,
-					})
-
-					flag = true
-				}
-			}
-
-			// [TIER-1][CANCELED]
-			if (apiSubObj.apiSubscription.stripe.subId.tier1.canceled) {
-				// [API][subscriptionObj][READ]
-				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-					subId: apiSubObj.apiSubscription.stripe.subId.tier1.canceled
-				})
-
-				if (subscriptionObj.stripeSub.status !== 'active') {
-					// set the subscription to canceled.
-					await archive_stripeSub({
-						user_id,
-						apiSubscription_id: apiSubObj.apiSubscription._id,
-						subId: apiSubObj.apiSubscription.stripe.subId.tier1.canceled,
-					})
-
-					flag = true
-				}
-			}
-
-			// [TIER-2][ACTIVE]
-			if (apiSubObj.apiSubscription.stripe.subId.tier2.active) {
-				// [API][subscriptionObj][READ]
-				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-					subId: apiSubObj.apiSubscription.stripe.subId.tier2.active
-				})
-
-				if (subscriptionObj.stripeSub.status !== 'active') {
-					// set the subscription to canceled.
-					await archive_stripeSub({
-						user_id,
-						apiSubscription_id: apiSubObj.apiSubscription._id,
-						subId: apiSubObj.apiSubscription.stripe.subId.tier2.active,
-					})
-
-					flag = true
-				}
-			}
-
-			// [TIER-2][CANCELED]
-			if (apiSubObj.apiSubscription.stripe.subId.tier2.canceled) {
-				// [API][subscriptionObj][READ]
-				const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-					subId: apiSubObj.apiSubscription.stripe.subId.tier2.canceled
-				})
-
-				if (subscriptionObj.stripeSub.status !== 'active') {
-					// set the subscription to canceled.
-					await archive_stripeSub({
-						user_id,
-						apiSubscription_id: apiSubObj.apiSubscription._id,
-						subId: apiSubObj.apiSubscription.stripe.subId.tier2.canceled
-					})
-
-					flag = true
-				}
-			}
-
-			await ApiSubscriptionCollection.c_reset_lastCleared({
-				user_id,
-				apiSubscription_id: apiSubObj.apiSubscription._id,
-			})
-		}
-
-		// Archived subId
-		if (flag == true) {
-			console.log('Invalid Subscription Found. Removed from apiSubscription')
-		}
-		
-		return {
-			executed: true,
-			status: true,
-			valid: true,
-		}
+		return await cycleCheckApiSubscription({ user_id, force })
 	},
 
 
