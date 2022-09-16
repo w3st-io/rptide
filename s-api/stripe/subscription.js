@@ -97,30 +97,6 @@ module.exports = {
 	},
 
 
-	a_list: async function ({ cusId }) {
-		try {
-			const subscriptions = await Stripe.subscriptions.list({
-				customer: cusId,
-				limit: 100,
-			})
-
-			return {
-				executed: true,
-				status: true,
-				subscriptions: subscriptions.data
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
 	a_cancel: async function ({ subId }) {
 		try {
 			// change to update where it ends at the end of the s;lslks
@@ -132,41 +108,6 @@ module.exports = {
 				executed: true,
 				status: true,
 				subscription_canceled: subscription_canceled,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
-	a_reactivateSubscription: async function ({ subId, priceId }) {
-		try {
-			const subscription = await Stripe.subscriptions.retrieve(subId)
-	
-			const reactivatedSubscription = await Stripe.subscriptions.update(
-				subId,
-				{
-					cancel_at_period_end: false,
-					proration_behavior: 'create_prorations',
-					items: [
-						{
-							id: subscription.items.data[0].id,
-							price: priceId,
-						}
-					]
-				}
-			)
-
-			return {
-				executed: true,
-				status: true,
-				reactivatedSubscription: reactivatedSubscription,
 			}
 		}
 		catch (err) {

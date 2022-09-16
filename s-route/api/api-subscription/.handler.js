@@ -1,162 +1,322 @@
 // [REQUIRE]
-const stripe = require('stripe')
+const stripe = require('stripe');
+const validator = require('validator');
 
 
 // [REQUIRE] Personal
-const a_stripe = require('../../../s-api/stripe')
-const a_stripe_subscription = require('../../../s-api/stripe/subscription')
-const config = require('../../../s-config')
-const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection')
+const a_stripe = require('../../../s-api/stripe');
+const a_stripe_subscription = require('../../../s-api/stripe/subscription');
+const config = require('../../../s-config');
+const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection');
+const ApiSubscriptionModel = require('../s-models/ApiSubscriptionModel');
 
 
 // [STRIPE]
-const Stripe = stripe(config.api.stripe.secretKey)
+const Stripe = stripe(config.api.stripe.secretKey);
 
 
 // [INIT]
-const location = '/api-subscription'
+const location = '/api-subscription';
 
 
-const tier1PriceId = config.api.stripe.priceTier1
-const tier2PriceId = config.api.stripe.proceTier2
+const tier1PriceId = config.api.stripe.priceTier1;
+const tier2PriceId = config.api.stripe.proceTier2;
 
-
+/**
+ * =========
+ * = BASIC =
+ * =========
+ */
 async function cycleCheckApiSubscription({ user_id, force = false }) {
 	// [INIT]
-	let flag = false
+	let flag = false;
 
 	// [READ][ApiSubscription]
-	const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({ user_id })
+	const apiSubscription = await ApiSubscriptionModel.findOne({
+		user: user_id
+	});
 
 	// [ERROR]
-	if (!apiSubObj.status) {
-		console.log('/apiSubscription Error:', apiSubObj.message)
-		return
+	if (!apiSubscription) {
+		return {
+			executed: true,
+			status: false,
+			message: 'No API Subscription found'
+		};
 	}
 
-	// [CALCULATE] Hours since last check //
-	const hours = Math.abs(apiSubObj.apiSubscription.lastCleared - new Date()) / 36e5
+	// [CALCULATE] Hours since last check
+	const hours = Math.abs(apiSubscription.lastCleared - new Date()) / 36e5;
 
 	// If last time checked was over 24 hours ago
 	if (hours > .5 || force == true) {
 		// [TIER-1][ACTIVE]
-		if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
+		if (apiSubscription.stripe.subId.tier1.active) {
 			// [API][subscriptionObj][READ]
 			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-				subId: apiSubObj.apiSubscription.stripe.subId.tier1.active
-			})
+				subId: apiSubscription.stripe.subId.tier1.active
+			});
 
 			if (subscriptionObj.stripeSub.status !== 'active') {
 				// set the subscription to canceled.
 				await archive_stripeSub({
 					user_id,
-					apiSubscription_id: apiSubObj.apiSubscription._id,
-					subId: apiSubObj.apiSubscription.stripe.subId.tier1.active,
-				})
+					apiSubscription_id: apiSubscription._id,
+					subId: apiSubscription.stripe.subId.tier1.active,
+				});
 
-				flag = true
+				await ApiSubscriptionModel.updateOne(
+					{
+						_id: apiSubscription_id,
+						user: user_id
+					},
+					{
+						$addToSet: {
+							"stripe.subId.previous": subId
+						}
+						
+					},
+				)
+
+				flag = true;
 			}
 		}
 
 		// [TIER-1][CANCELED]
-		if (apiSubObj.apiSubscription.stripe.subId.tier1.canceled) {
+		if (apiSubscription.stripe.subId.tier1.canceled) {
 			// [API][subscriptionObj][READ]
 			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-				subId: apiSubObj.apiSubscription.stripe.subId.tier1.canceled
-			})
+				subId: apiSubscription.stripe.subId.tier1.canceled
+			});
 
 			if (subscriptionObj.stripeSub.status !== 'active') {
 				// set the subscription to canceled.
 				await archive_stripeSub({
 					user_id,
-					apiSubscription_id: apiSubObj.apiSubscription._id,
-					subId: apiSubObj.apiSubscription.stripe.subId.tier1.canceled,
-				})
+					apiSubscription_id: apiSubscription._id,
+					subId: apiSubscription.stripe.subId.tier1.canceled,
+				});
 
-				flag = true
+				await ApiSubscriptionModel.updateOne(
+					{
+						_id: apiSubscription_id,
+						user: user_id
+					},
+					{
+						$addToSet: {
+							"stripe.subId.previous": subId
+						}
+						
+					},
+				)
+
+				flag = true;
 			}
 		}
 
 		// [TIER-2][ACTIVE]
-		if (apiSubObj.apiSubscription.stripe.subId.tier2.active) {
+		if (apiSubscription.stripe.subId.tier2.active) {
 			// [API][subscriptionObj][READ]
 			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-				subId: apiSubObj.apiSubscription.stripe.subId.tier2.active
-			})
+				subId: apiSubscription.stripe.subId.tier2.active
+			});
 
 			if (subscriptionObj.stripeSub.status !== 'active') {
 				// set the subscription to canceled.
 				await archive_stripeSub({
 					user_id,
-					apiSubscription_id: apiSubObj.apiSubscription._id,
-					subId: apiSubObj.apiSubscription.stripe.subId.tier2.active,
-				})
+					apiSubscription_id: apiSubscription._id,
+					subId: apiSubscription.stripe.subId.tier2.active,
+				});
 
-				flag = true
+				await ApiSubscriptionModel.updateOne(
+					{
+						_id: apiSubscription_id,
+						user: user_id
+					},
+					{
+						$addToSet: {
+							"stripe.subId.previous": subId
+						}
+						
+					},
+				)
+
+				flag = true;
 			}
 		}
 
 		// [TIER-2][CANCELED]
-		if (apiSubObj.apiSubscription.stripe.subId.tier2.canceled) {
+		if (apiSubscription.stripe.subId.tier2.canceled) {
 			// [API][subscriptionObj][READ]
 			const subscriptionObj = await a_stripe_subscription.a_getSubscription({
-				subId: apiSubObj.apiSubscription.stripe.subId.tier2.canceled
-			})
+				subId: apiSubscription.stripe.subId.tier2.canceled
+			});
 
 			if (subscriptionObj.stripeSub.status !== 'active') {
 				// set the subscription to canceled.
 				await archive_stripeSub({
 					user_id,
-					apiSubscription_id: apiSubObj.apiSubscription._id,
-					subId: apiSubObj.apiSubscription.stripe.subId.tier2.canceled
-				})
+					apiSubscription_id: apiSubscription._id,
+					subId: apiSubscription.stripe.subId.tier2.canceled
+				});
 
-				flag = true
+				await ApiSubscriptionModel.updateOne(
+					{
+						_id: apiSubscription._id,
+						user: user_id
+					},
+					{
+						$addToSet: {
+							"stripe.subId.previous": apiSubscription.stripe.subId.tier2.canceled
+						}
+						
+					},
+				)
+
+				flag = true;
 			}
 		}
 
-		await ApiSubscriptionCollection.c_reset_lastCleared({
-			user_id,
-			apiSubscription_id: apiSubObj.apiSubscription._id,
-		})
+		await ApiSubscriptionModel.updateOne(
+			{
+				_id: apiSubscription._id,
+				user: user_id
+			},
+			{
+				$set: { "lastCleared": new Date() }
+			},
+		);
 	}
 
 	// Archived subId
 	if (flag == true) {
-		console.log('Invalid Subscription Found. Removed from apiSubscription')
+		console.log('Invalid Subscription Found. Removed from apiSubscription');
 	}
 
 	return {
 		executed: true,
 		status: true,
 		valid: true,
+	};
+}
+
+async function archive_stripeSub({ user_id, apiSubscription_id, subId }) {
+	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
+	await ApiSubscriptionModel.updateOne(
+		{
+			_id: apiSubscription_id,
+			user: user_id
+		},
+		{
+			$addToSet: {
+				"stripe.subId.previous": subId
+			}
+			
+		},
+	)
+
+	// [SUCCESS]
+	return {
+		executed: true,
+		status: true,
+		location: location,
+		message: 'Successfully archived Stripe subscription',
+	}
+}
+
+async function reactivateSubscription_ifExistant() {
+	try {
+		// [INIT]
+		let flag = false
+
+		// [API][stripe] Purchase subscription
+		const { data: subscriptions } = await Stripe.subscriptions.list({
+			customer: cusId,
+			limit: 100,
+		})
+	
+		for (let i = 0; i < subscriptions.length; i++) {
+			const s = stripeSubscriptionListObj.subscriptions[i]
+
+			if (s.plan.id == priceId && flag == false) {
+				// Flag found
+				flag = true
+
+				// [API][Stripe] Reactivate Subscription
+				const subscription = await Stripe.subscriptions.retrieve(s.id)
+
+				await Stripe.subscriptions.update(
+					s.id,
+					{
+						cancel_at_period_end: false,
+						proration_behavior: 'create_prorations',
+						items: [
+							{
+								id: subscription.items.data[0].id,
+								price: priceId,
+							}
+						]
+					}
+				)
+
+				// [SUCCESS]
+				return {
+					executed: true,
+					status: true,
+					message: 'Your previous subscription has been reactivated',
+					reactivated: true,
+					subscription: reactivatedSubObj.reactivatedSubscription,
+				}
+			}
+		}
+			
+		return {
+			executed: true,
+			status: true,
+			message: 'No previous subscription found',
+			reactivated: false,
+			
+		}
+	}
+	catch (err) {
+		return {
+			executed: true,
+			status: false,
+			location: location,
+			message: `${location}: Error --> ${err}`,
+			reactivated: false,
+		}
 	}
 }
 
 
+/**
+ * ============
+ * = CANCELER =
+ * ============
+*/
 async function cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active }) {
-	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable)
+	// [API][stripe][CANCEL-AEP] tier1 active
 	await Stripe.subscriptions.update(tier1_active, { cancel_at_period_end: true })
 
-	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
-	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
-		apiSubscription_id,
-		user_id,
-		subId: tier1_active,
-	})
-	
-	if (!updatedApiSubObj.status) { return updatedApiSubObj }
-
-	// [C][ApiSubscription][UPDATE] remove active, add canceled, & change tier
-	const updatedApiSubObj1 = await ApiSubscriptionCollection.c_update__stripe_subId_tier1_active__and__stripe_subId_tier1_canceled__and__tier({
-		apiSubscription_id,
-		user_id,
-		stripe_subId_tier1_active: '',
-		stripe_subId_tier1_canceled: tier1_active,
-		tier: 0,
-	})
-
-	if (!updatedApiSubObj1.status) { return updatedApiSubObj1 }
+	// [MONGODB][ApiSubscription][UPDATE] remove active, add canceled, store in previous, & change tier
+	await ApiSubscriptionModel.updateOne(
+		{
+			_id: apiSubscription_id,
+			user: user_id
+		},
+		{
+			$set: {
+				"tier": 0,
+				"stripe.subId.tier1.active": "",
+				"stripe.subId.tier1.canceled": tier1_active,
+			},
+			$addToSet: {
+				"stripe.subId.previous": tier1_active
+			}
+		},
+	)
 
 	// [SUCCESS]
 	return {
@@ -167,30 +327,27 @@ async function cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active
 	}
 }
 
-
 async function cancel_tier2StripeSub({ user_id, apiSubscription_id, tier2_active }) {
-	// [API][stripe][CANCEL-AEP] tier2 active (If Applicable)
+	// [API][stripe][CANCEL-AEP] tier2 active
 	await Stripe.subscriptions.update(tier2_active, { cancel_at_period_end: true })
 	
-	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
-	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
-		apiSubscription_id,
-		user_id,
-		subId: tier2_active,
-	})
-	
-	if (!updatedApiSubObj.status) { return updatedApiSubObj }
-
-	// [C][ApiSubscription][UPDATE] remove active, add canceled, & change tier
-	const updatedApiSubObj1 = await ApiSubscriptionCollection.c_update__stripe_subId_tier2_active__and__stripe_subId_tier2_canceled__and__tier({
-		apiSubscription_id,
-		user_id,
-		stripe_subId_tier2_active: '',
-		stripe_subId_tier2_canceled: tier2_active,
-		tier: 0,
-	})
-
-	if (!updatedApiSubObj1.status) { return updatedApiSubObj1 }
+	// [MONGODB][ApiSubscription][UPDATE] remove active, add canceled, & change tier
+	await ApiSubscriptionModel.updateOne(
+		{
+			_id: apiSubscription_id,
+			user: user_id
+		},
+		{
+			$set: {
+				"tier": 0,
+				"stripe.subId.tier2.active": '',
+				"stripe.subId.tier2.canceled": tier2_active,
+			},
+			$addToSet: {
+				"stripe.subId.previous": tier2_active
+			}
+		},
+	)
 
 	// [SUCCESS]
 	return {
@@ -202,44 +359,271 @@ async function cancel_tier2StripeSub({ user_id, apiSubscription_id, tier2_active
 }
 
 
-async function archive_stripeSub ({ user_id, apiSubscription_id, subId }) {
-	// [C][ApiSubscription][UPDATE][previousSubIds] Save subId
-	const updatedApiSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_previous({
-		apiSubscription_id,
+/**
+ * =================
+ * = TIER SWITCHER =
+ * =================
+*/
+// [TIER-0] From Tier 1
+async function h_switchTier0FromTier1({ user_id, apiSubscription_id, tier1_active }) {
+	// [CANCEL] Tier 2 //
+	const cancel_tier1StripeSubObj = await cancel_tier1StripeSub({
 		user_id,
-		subId,
-	})
-	
-	if (!updatedApiSubObj.status) { return updatedApiSubObj }
-
-	// [C][ApiSubscription][UPDATE] remove active, add canceled, & change tier
-	const updatedApiSubObj1 = await ApiSubscriptionCollection.c_update__stripe_subId_tier1_active__and__stripe_subId_tier1_canceled__and__tier({
 		apiSubscription_id,
-		user_id,
-		stripe_subId_tier1_active: '',
-		stripe_subId_tier1_canceled: '',
-		tier: 0,
+		tier1_active,
 	})
 
-	if (!updatedApiSubObj1.status) { return updatedApiSubObj1 }
+	// [ERROR]
+	if (!cancel_tier1StripeSubObj.status) { return cancel_tier1StripeSubObj }
 
-	// [C][ApiSubscription][UPDATE] remove active, add canceled, & change tier
-	const updatedApiSubObj2 = await ApiSubscriptionCollection.c_update__stripe_subId_tier2_active__and__stripe_subId_tier2_canceled__and__tier({
-		apiSubscription_id,
+	// [SUCCESS]
+	return {
+		status: true,
+		executed: true,
+		message: 'Successfully changed tier'
+	}
+}
+
+// [TIER-0] From Tier 2
+async function h_switchTier0FromTier2({ user_id, apiSubscription_id, tier2_active }) {
+	// [CANCEL] Tier 2 //
+	const cancel_tier2StripeSubObj = await cancel_tier2StripeSub({
 		user_id,
-		stripe_subId_tier2_active: '',
-		stripe_subId_tier2_canceled: '',
-		tier: 0,
+		apiSubscription_id,
+		tier2_active,
 	})
 
-	if (!updatedApiSubObj2.status) { return updatedApiSubObj2 }
+	// [ERROR]
+	if (!cancel_tier2StripeSubObj.status) { return cancel_tier2StripeSubObj }
+
+	// [SUCCESS]
+	return {
+		status: true,
+		executed: true,
+		message: 'Successfully changed tier'
+	}
+}
+
+// [TIER-1] From Tier 0
+async function h_switchTier1FromTier0({ user_id, apiSubscription_id, cusId }) {
+	// [INIT]
+	let stripe_subId_tier1_active
+
+	// [API][stripe][REACTIVATE] tier 1 (If Existant)
+	const reactivatedStripeSubObj = await reactivateSubscription_ifExistant({
+		cusId,
+		priceId: tier1PriceId
+	})
+
+	// [ERROR]
+	if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
+
+	// [SET] stripe_subId_tier1_active
+	if (reactivatedStripeSubObj.reactivated) {
+		stripe_subId_tier1_active = reactivatedStripeSubObj.subscription.id
+	}
+	else {
+		// [API][stripe][PURCHASE] subscription
+		const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
+			cusId,
+			priceId: tier1PriceId
+		})
+		
+		stripe_subId_tier1_active = updatedStripeSubObj.subscription.id
+	}
+
+	// [MONGODB][ApiSubscription][UPDATE] add active, remove canceled, & change tier
+	await ApiSubscriptionModel.updateOne(
+		{
+			_id: apiSubscription_id,
+			user: user_id
+		},
+		{
+			$set: {
+				"tier": 1,
+				"stripe.subId.tier1.active": stripe_subId_tier1_active,
+				"stripe.subId.tier1.canceled": '',
+			}
+		},
+	);
 
 	// [SUCCESS]
 	return {
 		executed: true,
 		status: true,
-		location: location,
-		message: 'Successfully archived Stripe subscription',
+		message: 'Successfully Changed API Subscription Tier'
+	}
+}
+
+// [TIER-1] From Tier 2
+async function h_switchTier1FromTier2({ user_id, apiSubscription_id, cusId, tier2_active }) {
+	// [INIT]
+	let stripe_subId_tier1_active
+
+	// [CANCEL] Tier 2 //
+	const cancel_tier2StripeSubObj = await cancel_tier2StripeSub({
+		user_id,
+		apiSubscription_id,
+		tier2_active,
+	})
+
+	// [ERROR]
+	if (!cancel_tier2StripeSubObj.status) { return cancel_tier2StripeSubObj }
+
+	// [API][stripe][REACTIVATE] tier 1 (If Existant)
+	const reactivatedStripeSubObj = await reactivateSubscription_ifExistant({
+		cusId: cusId,
+		priceId: tier1PriceId
+	})
+
+	// [ERROR]
+	if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
+
+	// [SET] stripe_subId_tier1_active
+	if (reactivatedStripeSubObj.reactivated) {
+		stripe_subId_tier1_active = reactivatedStripeSubObj.subscription.id
+	}
+	else {
+		// [API][stripe][PURCHASE] subscription
+		const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
+			cusId: cusId,
+			priceId: tier1PriceId
+		})
+		
+		stripe_subId_tier1_active = updatedStripeSubObj.subscription.id
+	}
+
+	// [MONGODB][ApiSubscription][UPDATE] add active, remove canceled, & change tier
+	await ApiSubscriptionModel.updateOne(
+		{
+			_id: apiSubscription_id,
+			user: user_id
+		},
+		{
+			$set: {
+				"tier": 1,
+				"stripe.subId.tier1.active": stripe_subId_tier1_active,
+				"stripe.subId.tier1.canceled": '',
+			}
+		},
+	)
+
+	return {
+		executed: true,
+		status: true,
+		message: 'Successfully Changed API Subscription Tier'
+	}
+}
+
+// [TIER-2] From Tier 0
+async function h_switchTier2FromTier0({ user_id, apiSubscription_id, cusId, }) {
+	// [INIT]
+	let stripe_subId_tier2_active
+
+	// [API][stripe][REACTIVATE] tier 2 (If Existant)
+	const reactivatedStripeSubObj = await reactivateSubscription_ifExistant({
+		cusId: cusId,
+		priceId: tier2PriceId
+	})
+
+	// [ERROR]
+	if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
+	
+	// [SET] stripe_subId_tier2_active
+	if (reactivatedStripeSubObj.reactivated) {
+		stripe_subId_tier2_active = reactivatedStripeSubObj.subscription.id
+	}
+	else {
+		// [API][stripe][PURCHASE] subscription
+		const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
+			cusId: cusId,
+			priceId: tier2PriceId
+		})
+		
+		stripe_subId_tier2_active = updatedStripeSubObj.subscription.id
+	}
+
+
+	// [MONGODB][UPDATE][apiSubscription] add active, remove canceled, & change tier
+	await ApiSubscriptionModel.updateOne(
+		{
+			_id: apiSubscription_id,
+			user: user_id
+		},
+		{
+			$set: {
+				"tier": 2,
+				"stripe.subId.tier2.active": stripe_subId_tier2_active,
+				"stripe.subId.tier2.canceled": '',
+			}
+		},
+	)
+
+	return {
+		executed: true,
+		status: true,
+		message: 'Successfully Changed API Subscription Tier'
+	}
+}
+
+// [TIER-2] FROM Tier 1
+async function h_switchTier2FromTier1({ user_id, apiSubscription_id, cusId, tier1_active }) {
+	// [INIT]
+	let stripe_subId_tier2_active
+
+	// [CANCEL] Tier 1 //
+	const cancel_tier1StripeSubObj = await cancel_tier1StripeSub({
+		user_id,
+		apiSubscription_id,
+		tier1_active,
+		tier: 2,
+	})
+
+	// [ERROR]
+	if (!cancel_tier1StripeSubObj.status) { return cancel_tier1StripeSubObj }
+
+	// [API][stripe][REACTIVATE] tier 1 (If Existant)
+	const reactivatedStripeSubObj = await reactivateSubscription_ifExistant({
+		cusId: cusId,
+		priceId: tier2PriceId
+	})
+
+	// [ERROR]
+	if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
+
+	// [SET] stripe_subId_tier2_active
+	if (reactivatedStripeSubObj.reactivated) {
+		stripe_subId_tier2_active = reactivatedStripeSubObj.subscription.id
+	}
+	else {
+		// [API][stripe][PURCHASE] subscription
+		const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
+			cusId: cusId,
+			priceId: tier2PriceId
+		})
+		
+		stripe_subId_tier2_active = updatedStripeSubObj.subscription.id
+	}
+
+	// [MONGODB][ApiSubscription][UPDATE] add active, remove canceled, & change tier
+	await ApiSubscriptionModel.updateOne(
+		{
+			_id: apiSubscription_id,
+			user: user_id
+		},
+		{
+			$set: {
+				"tier": 2,
+				"stripe.subId.tier2.active": stripe_subId_tier2_active,
+				"stripe.subId.tier2.canceled": '',
+			}
+		},
+	)
+
+	return {
+		executed: true,
+		status: true,
+		message: 'Successfully Changed API Subscription Tier'
 	}
 }
 
@@ -250,7 +634,7 @@ module.exports = {
 			// [H][apiSubscription] Force update 
 			await cycleCheckApiSubscription({
 				user_id: req.user_decoded._id,
-				force: true,
+				force: true
 			})
 
 			// [C][READ][ApiSubscription] Retrieve associated apiSubscription obj //
@@ -260,36 +644,49 @@ module.exports = {
 
 			if (apiSubObj.status) { return apiSubObj; }
 
+			// [READ][ApiSubscription]
+			const apiSubscription = await ApiSubscriptionModel.findOne({
+				user: user_id
+			});
+
+			// [ERROR]
+			if (!apiSubscription) {
+				return {
+					executed: true,
+					status: false,
+					message: 'No API Subscription found'
+				};
+			}
+
 			if (
 				apiSubObj.apiSubscription.stripe.subId.tier1.active ||
 				apiSubObj.apiSubscription.stripe.subId.tier1.canceled
 			) {
 				// [CANCEL] Tier 1 //
-				const cancel_tier1StripeSubObj = await cancel_tier1StripeSub({
+				await cancel_tier1StripeSub({
 					user_id: req.user_decoded._id,
 					apiSubscription_id: apiSubObj.apiSubscription._id,
 					tier1_active: apiSubObj.apiSubscription.stripe.subId.tier1.active ||
 					apiSubObj.apiSubscription.stripe.subId.tier1.canceled
 				})
+			}
 
-				// [ERROR]
-				if (!cancel_tier1StripeSubObj.status) {
-					return cancel_tier1StripeSubObj;
-				}
-
-				// [SUCCESS]
-				return {
-					status: true,
-					executed: true,
-					message: 'Successfully changed tier'
-				}	
+			if (
+				apiSubObj.apiSubscription.stripe.subId.tier1.active ||
+				apiSubObj.apiSubscription.stripe.subId.tier1.canceled
+			) {
+				await h_switchTier0FromTier1({
+					user_id: req.user_decoded._id,
+					apiSubscription_id: apiSubObj.apiSubscription._id,
+					tier1_active: apiSubObj.apiSubscription.stripe.subId.tier1.active
+				})
 			}
 
 			if (
 				apiSubObj.apiSubscription.stripe.subId.tier2.active ||
 				apiSubObj.apiSubscription.stripe.subId.tier2.canceled
 			) {
-				await h_apiSub.h_switchTier0FromTier2({
+				await h_switchTier0FromTier2({
 					user_id: req.user_decoded._id,
 					apiSubscription_id: apiSubObj.apiSubscription._id,
 					tier2_active: apiSubObj.apiSubscription.stripe.subId.tier2.active
@@ -313,68 +710,209 @@ module.exports = {
 	},
 
 
-	/*
-	* ===================
-	* = BASIC FUNCTIONS =
-	* ===================
-	*/
-	getSubscriptionTier:async ({ user_id }) => {
-		// [INIT]
-		let apiSubscriptionTier = 0
+	updateTier1: async ({ req }) => {
+		try {
+			// [H][apiSubscription] Force update 
+			await cycleCheckApiSubscription({
+				user_id: req.user_decoded._id,
+				force: true,
+			})
+			
+			// [READ][ApiSubscription] Retrieve associated subscription obj //
+			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
+				user_id: req.user_decoded._id
+			})
 
-		// [READ][ApiSubscription]
-		const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({ user_id })
+			if (!apiSubObj.status) { return apiSubObj; }
 
-		// [ERROR]
-		if (!apiSubObj.status) {
-			console.log('/apiSubscription Error:', apiSubObj.message)
-			return
+			if (!apiSubObj.apiSubscription.stripe.pmId) {
+				return {
+					executed: true,
+					status: false,
+					message: 'Attach payment method before changing tier'
+				};
+			}
+
+			let currentTier = 0
+
+			if (
+				apiSubObj.apiSubscription.stripe.subId.tier1.active ||
+				apiSubObj.apiSubscription.stripe.subId.tier1.canceled
+			) {
+				currentTier = 1
+			}
+
+			if (
+				apiSubObj.apiSubscription.stripe.subId.tier2.active ||
+				apiSubObj.apiSubscription.stripe.subId.tier2.canceled
+			) {
+				currentTier = 2
+			}
+
+			// Current Tier
+			switch (currentTier) {
+				// Previous Tier 0 //
+				case 0:
+					res.send(
+						h_switchTier1FromTier0({
+							user_id: req.user_decoded._id,
+							apiSubscription_id: apiSubObj.apiSubscription._id,
+							cusId: apiSubObj.apiSubscription.stripe.cusId,
+						})
+					)
+				break
+
+				// Previous Tier 2 //
+				case 2:
+					res.send(
+						await h_switchTier1FromTier2({
+							user_id: req.user_decoded._id,
+							apiSubscription_id: apiSubObj.apiSubscription._id,
+							cusId: apiSubObj.apiSubscription.stripe.cusId,
+							tier2_active: apiSubObj.apiSubscription.stripe.subId.tier2.active,
+						})
+					)
+				break
+			
+				default:
+					// [ERROR]
+					res.send({
+						executed: true,
+						status: false,
+						message: 'Something went wrong'
+					})
+				break
+			}
 		}
-
-		if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
-			apiSubscriptionTier = 1
+		catch (err) {
+			res.send({
+				executed: false,
+				status: false,
+				location: `${location}/update-tier-1`,
+				message: err
+			})
 		}
-
-		if (apiSubObj.apiSubscription.stripe.subId.tier1.canceled) {
-			apiSubscriptionTier = 1
-		}
-
-		if (apiSubObj.apiSubscription.stripe.subId.tier2.active) {
-			apiSubscriptionTier = 2
-		}
-
-		if (apiSubObj.apiSubscription.stripe.subId.tier2.canceled) {
-			apiSubscriptionTier = 2
-		}
-
-		return apiSubscriptionTier
 	},
 
 
-	cycleCheckApiSubscription: async ({ user_id, force = false }) => {
-		return await cycleCheckApiSubscription({ user_id, force })
+	updateTier2: async ({ req }) => {
+		try {
+			// [H][apiSubscription] Force update 
+			await cycleCheckApiSubscription({
+				user_id: req.user_decoded._id,
+				force: true,
+			})
+
+			// [READ][ApiSubscription] Retrieve associated subscription obj //
+			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
+				user_id: req.user_decoded._id
+			})
+
+			if (apiSubObj.status) {
+				if (apiSubObj.apiSubscription.stripe.pmId) {
+					let currentTier = 0
+
+					if (apiSubObj.apiSubscription.stripe.subId.tier1.active) {
+						currentTier = 1
+					}
+
+					if (apiSubObj.apiSubscription.stripe.subId.tier1.canceled) {
+						currentTier = 1
+					}
+
+					if (apiSubObj.apiSubscription.stripe.subId.tier2.active) {
+						currentTier = 2
+					}
+
+					if (apiSubObj.apiSubscription.stripe.subId.tier2.canceled) {
+						currentTier = 2
+					}
+
+					// Current Tier
+					switch (currentTier) {
+						// Previous Tier 0 //
+						case 0:
+							res.send(
+								await h_switchTier2FromTier0({
+									user_id: req.user_decoded._id,
+									apiSubscription_id: apiSubObj.apiSubscription._id,
+									cusId: apiSubObj.apiSubscription.stripe.cusId,
+								})
+							)
+						break
+
+						// Previous Tier 1 //
+						case 1:
+							res.send(
+								await h_switchTier2FromTier1({
+									user_id: req.user_decoded._id,
+									apiSubscription_id: apiSubObj.apiSubscription._id,
+									cusId: apiSubObj.apiSubscription.stripe.cusId,
+									tier1_active: apiSubObj.apiSubscription.stripe.subId.tier1.active,
+								})
+							)
+						break
+					
+						default:
+							// [ERROR]
+							res.send({
+								executed: true,
+								status: false,
+								message: 'Something went wrong'
+							})
+						break
+					}
+				}
+				else {
+					res.send({
+						executed: true,
+						status: false,
+						message: 'Attach payment method before changing tier'
+					})
+				}
+			}
+			else { res.send(apiSubObj) }
+		}
+		catch (err) {
+			res.send({
+				executed: false,
+				status: false,
+				location: `${location}/update-tier-2`,
+				message: `${location}/update-tier-2: Error --> ${err}`
+			})
+		}
 	},
 
 
-	updatePaymentMethod: async ({
-		user_id,
-		apiSubscription_id,
-		cusId,
-		previous_pmId,
-		cardNumber,
-		cardMonth,
-		cardYear,
-		cardCvc
-	}) => {
-		try {	
+	updatePm: async ({ req }) => {
+		try {
+			if (
+				!validator.isAscii(req.body.cardNumber) ||
+				!validator.isAscii(req.body.cardMonth) ||
+				!validator.isAscii(req.body.cardYear) ||
+				!validator.isAscii(req.body.cardCvc)
+			) {
+				return {
+					executed: true,
+					status: false,
+					location: location,
+					message: 'Invalid parameters'
+				};
+			}
+
+			// [READ][ApiSubscription] Get by User
+			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
+				user_id: req.user_decoded._id
+			})
+
 			// [API][stripe] paymentMethod
 			const apiStripe_updatedPM = await a_stripe.aa_updatePaymentMethod({
-				cusId,
-				previous_pmId,
-				cardNumber,
-				cardMonth,
-				cardYear,
-				cardCvc,
+				cusId: apiSubObj.apiSubscription.stripe.cusId,
+				previous_pmId: apiSubObj.apiSubscription.stripe.pmId,
+				cardNumber: req.body.cardNumber,
+				cardMonth: req.body.cardMonth,
+				cardYear: req.body.cardYear,
+				cardCvc: req.body.cardCvc
 			})
 
 			if (!apiStripe_updatedPM.status) { return apiStripe_updatedPM }
@@ -392,7 +930,7 @@ module.exports = {
 				executed: true,
 				status: true,
 				card: apiStripe_updatedPM.stripeCreatedPaymentMethod.card,
-				message: '',
+				message: 'Payment Method successfully changed'
 			}
 		}
 		catch (err) {
@@ -400,27 +938,34 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: `${location}/deletePaymentMethod`,
-				message: `${location}/deletePaymentMethod: Error --> ${err}`
+				message: err
 			}
 		}
 	},
 
 
-	deletePaymentMethod: async ({ user_id, apiSubscription_id, pmId, }) => {
+	deletePm: async ({ req }) => {
 		try {
-			// [API][stripe] Remove previous payment method
-			const deleteStripePMObj = await a_stripe.aa_deletePaymentMethod({ pmId })
+			// [READ][ApiSubscription] Get by User
+			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
+				user_id: req.user_decoded._id
+			});
 
-			if (!deleteStripePMObj.status) { return deleteStripePMObj }
+			// [API][stripe] Remove previous payment method
+			const deleteStripePMObj = await a_stripe.aa_deletePaymentMethod({
+				pmId: apiSubObj.apiSubscription.stripe.pmId
+			});
+
+			if (!deleteStripePMObj.status) { return deleteStripePMObj; }
 
 			// [UPDATE][ApiSubscription] pmId
 			const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
-				user_id,
-				apiSubscription_id,
-				pmId: '',
-			})
+				user_id: req.user_decoded._id,
+				apiSubscription_id: apiSubObj.apiSubscription._id,
+				pmId: ''
+			});
 
-			return updatedSubObj
+			return updatedSubObj;
 		}
 		catch (err) {
 			return {
@@ -428,289 +973,7 @@ module.exports = {
 				status: false,
 				location: `${location}/deletePaymentMethod`,
 				message: `${location}/deletePaymentMethod: Error --> ${err}`
-			}
+			};
 		}
-	},
-
-
-	/*
-	* =================
-	* = TIER SWITCHER =
-	* =================
-	*/
-	// [TIER-0] From Tier 1 //
-	h_switchTier0FromTier1: async ({ user_id, apiSubscription_id, tier1_active }) => {
-		// [CANCEL] Tier 2 //
-		const cancel_tier1StripeSubObj = await cancel_tier1StripeSub({
-			user_id,
-			apiSubscription_id,
-			tier1_active,
-		})
-
-		// [ERROR]
-		if (!cancel_tier1StripeSubObj.status) { return cancel_tier1StripeSubObj }
-
-		// [SUCCESS]
-		return {
-			status: true,
-			executed: true,
-			message: 'Successfully changed tier'
-		}
-	},
-
-
-	// [TIER-0] From Tier 2 //
-	h_switchTier0FromTier2: async ({ user_id, apiSubscription_id, tier2_active }) => {
-		// [CANCEL] Tier 2 //
-		const cancel_tier2StripeSubObj = await cancel_tier2StripeSub({
-			user_id,
-			apiSubscription_id,
-			tier2_active,
-		})
-
-		// [ERROR]
-		if (!cancel_tier2StripeSubObj.status) { return cancel_tier2StripeSubObj }
-
-		// [SUCCESS]
-		return {
-			status: true,
-			executed: true,
-			message: 'Successfully changed tier'
-		}
-	},
-
-
-	// [TIER-1] From Tier 0 //
-	h_switchTier1FromTier0: async ({ user_id, apiSubscription_id, cusId, }) => {
-		// [INIT]
-		let stripe_subId_tier1_active
-
-		// [API][stripe][REACTIVATE] tier 1 (If Existant)
-		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
-			cusId,
-			priceId: tier1PriceId
-		})
-
-		// [ERROR]
-		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
-
-		// [SET] stripe_subId_tier1_active
-		if (reactivatedStripeSubObj.reactivated) {
-			stripe_subId_tier1_active = reactivatedStripeSubObj.subscription.id
-		}
-		else {
-			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
-				cusId,
-				priceId: tier1PriceId
-			})
-			
-			stripe_subId_tier1_active = updatedStripeSubObj.subscription.id
-		}
-
-		// [C][ApiSubscription][UPDATE] add active, remove canceled, & change tier
-		const updatedSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_tier1_active__and__stripe_subId_tier1_canceled__and__tier({
-			apiSubscription_id,
-			user_id,
-			stripe_subId_tier1_active: stripe_subId_tier1_active,
-			stripe_subId_tier1_canceled: '',
-			tier: 1,
-		})
-
-		// [ERROR]
-		if (!updatedSubObj.status) { return updatedSubObj }
-
-		// [SUCCESS]
-		return {
-			executed: true,
-			status: true,
-			message: 'Successfully Changed API Subscription Tier'
-		}
-	},
-
-
-	// [TIER-1] From Tier 2 //
-	h_switchTier1FromTier2: async ({ user_id, apiSubscription_id, cusId, tier2_active }) => {
-		// [INIT]
-		let stripe_subId_tier1_active
-
-		// [CANCEL] Tier 2 //
-		const cancel_tier2StripeSubObj = await cancel_tier2StripeSub({
-			user_id,
-			apiSubscription_id,
-			tier2_active,
-		})
-
-		// [ERROR]
-		if (!cancel_tier2StripeSubObj.status) { return cancel_tier2StripeSubObj }
-
-		// [API][stripe][REACTIVATE] tier 1 (If Existant)
-		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
-			cusId: cusId,
-			priceId: tier1PriceId
-		})
-
-		// [ERROR]
-		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
-
-		// [SET] stripe_subId_tier1_active
-		if (reactivatedStripeSubObj.reactivated) {
-			stripe_subId_tier1_active = reactivatedStripeSubObj.subscription.id
-		}
-		else {
-			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
-				cusId: cusId,
-				priceId: tier1PriceId
-			})
-			
-			stripe_subId_tier1_active = updatedStripeSubObj.subscription.id
-		}
-
-		// [C][ApiSubscription][UPDATE] add active, remove canceled, & change tier
-		const updatedSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_tier1_active__and__stripe_subId_tier1_canceled__and__tier({
-			apiSubscription_id,
-			user_id,
-			stripe_subId_tier1_active: stripe_subId_tier1_active,
-			stripe_subId_tier1_canceled: '',
-			tier: 1,
-		})
-
-		// [ERROR]
-		if (!updatedSubObj.status) { return updatedSubObj }
-
-		return {
-			executed: true,
-			status: true,
-			message: 'Successfully Changed API Subscription Tier'
-		}
-	},
-
-
-	// [TIER-2] From Tier 0 //
-	h_switchTier2FromTier0: async ({ user_id, apiSubscription_id, cusId, }) => {
-		// [INIT]
-		let stripe_subId_tier2_active
-
-		// [API][stripe][REACTIVATE] tier 2 (If Existant)
-		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
-			cusId: cusId,
-			priceId: tier2PriceId
-		})
-
-		// [ERROR]
-		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
-		
-		// [SET] stripe_subId_tier2_active
-		if (reactivatedStripeSubObj.reactivated) {
-			stripe_subId_tier2_active = reactivatedStripeSubObj.subscription.id
-		}
-		else {
-			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
-				cusId: cusId,
-				priceId: tier2PriceId
-			})
-			
-			stripe_subId_tier2_active = updatedStripeSubObj.subscription.id
-		}
-
-
-		// [C][ApiSubscription][UPDATE] add active, remove canceled, & change tier
-		const updatedSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_tier2_active__and__stripe_subId_tier2_canceled__and__tier({
-			apiSubscription_id,
-			user_id,
-			stripe_subId_tier2_active: stripe_subId_tier2_active,
-			stripe_subId_tier2_canceled: '',
-			tier: 2,
-		})
-
-		// [ERROR]
-		if (!updatedSubObj.status) { return updatedSubObj }
-
-		return {
-			executed: true,
-			status: true,
-			message: 'Successfully Changed API Subscription Tier'
-		}
-	},
-
-
-	// [TIER-2] FROM Tier 1 //
-	h_switchTier2FromTier1: async ({ user_id, apiSubscription_id, cusId, tier1_active }) => {
-		// [INIT]
-		let stripe_subId_tier2_active
-
-		// [CANCEL] Tier 1 //
-		const cancel_tier1StripeSubObj = await cancel_tier1StripeSub({
-			user_id,
-			apiSubscription_id,
-			tier1_active,
-			tier: 2,
-		})
-
-		// [ERROR]
-		if (!cancel_tier1StripeSubObj.status) { return cancel_tier1StripeSubObj }
-
-		// [API][stripe][REACTIVATE] tier 1 (If Existant)
-		const reactivatedStripeSubObj = await a_stripe.aa_reactivateSubscription_ifExistant({
-			cusId: cusId,
-			priceId: tier2PriceId
-		})
-
-		// [ERROR]
-		if (!reactivatedStripeSubObj.status) { return reactivatedStripeSubObj }
-
-		// [SET] stripe_subId_tier2_active
-		if (reactivatedStripeSubObj.reactivated) {
-			stripe_subId_tier2_active = reactivatedStripeSubObj.subscription.id
-		}
-		else {
-			// [API][stripe][PURCHASE] subscription
-			const updatedStripeSubObj = await a_stripe_subscription.a_purchase({
-				cusId: cusId,
-				priceId: tier2PriceId
-			})
-			
-			stripe_subId_tier2_active = updatedStripeSubObj.subscription.id
-		}
-
-		// [C][ApiSubscription][UPDATE] add active, remove canceled, & change tier
-		const updatedSubObj = await ApiSubscriptionCollection.c_update__stripe_subId_tier2_active__and__stripe_subId_tier2_canceled__and__tier({
-			apiSubscription_id,
-			user_id,
-			stripe_subId_tier2_active: stripe_subId_tier2_active,
-			stripe_subId_tier2_canceled: '',
-			tier: 2,
-		})
-
-		// [ERROR]
-		if (!updatedSubObj.status) { return updatedSubObj }
-
-		return {
-			executed: true,
-			status: true,
-			message: 'Successfully Changed API Subscription Tier'
-		}
-	},
-
-
-	/*
-	* ============
-	* = CANCELER =
-	* ============
-	*/
-	cancel_tier1StripeSub: async ({ user_id, apiSubscription_id, tier1_active }) => {
-		return cancel_tier1StripeSub({ user_id, apiSubscription_id, tier1_active })
-	},
-	
-	
-	cancel_tier2StripeSub: async ({ user_id, apiSubscription_id, tier2_active }) => {
-		return cancel_tier2StripeSub({ user_id, apiSubscription_id, tier2_active })
-	},
-	
-
-	archive_stripeSub: async ({ user_id, apiSubscription_id, subId }) => {
-		return archive_stripeSub({ user_id, apiSubscription_id, subId })
 	},
 }

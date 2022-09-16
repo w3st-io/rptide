@@ -1,7 +1,16 @@
+// [REQUIRE]
+const stripe = require('stripe')
+
+
 // [REQUIRE] Personal
 const a_stripe_customer = require('../../s-api/stripe/customer')
 const a_stripe_paymentMethod = require('../../s-api/stripe/paymentMethod')
 const a_stripe_subscription = require('../../s-api/stripe/subscription')
+const config = require('../../../s-config')
+
+
+// [STRIPE]
+const Stripe = stripe(config.api.stripe.secretKey)
 
 
 // [INIT]
@@ -173,60 +182,6 @@ module.exports = {
 				status: false,
 				location: location,
 				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
-	aa_reactivateSubscription_ifExistant: async function ({ cusId, priceId }) {
-		try {
-			// [INIT]
-			let flag = false
-
-			// [API][stripe] Purchase subscription
-			const stripeSubscriptionListObj = await a_stripe_subscription.a_list({
-				cusId: cusId,
-			})
-		
-			for (let i = 0; i < stripeSubscriptionListObj.subscriptions.length; i++) {
-				const s = stripeSubscriptionListObj.subscriptions[i]
-
-				if (s.plan.id == priceId && flag == false) {
-					// Flag found
-					flag = true
-
-					// [API][Stripe] Reactivate Subscription
-					const reactivatedSubObj = await a_stripe_subscription.a_reactivateSubscription({
-						subId: s.id,
-						priceId: priceId
-					})
-
-					// [SUCCESS]
-					return {
-						executed: true,
-						status: true,
-						message: 'Your previous subscription has been reactivated',
-						reactivated: true,
-						subscription: reactivatedSubObj.reactivatedSubscription,
-					}
-				}
-			}
-				
-			return {
-				executed: true,
-				status: true,
-				message: 'No previous subscription found',
-				reactivated: false,
-				
-			}
-		}
-		catch (err) {
-			return {
-				executed: true,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-				reactivated: false,
 			}
 		}
 	},
