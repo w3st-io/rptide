@@ -126,37 +126,6 @@ module.exports = {
 	},
 
 
-	// Wrapper for canceling subscription
-	aa_cancel_subscription_ifApplicable: async function ({ subId }) {
-		try {
-			if (subId) {
-				const subscription_canceled = await a_stripe_subscription.a_cancel({
-					subId,
-				})
-
-				return {
-					executed: true,
-					status: true,
-					subscription_canceled: subscription_canceled,
-				}
-			}
-
-			return {
-				executed: true,
-				status: true,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
 	// Wrapper for retrieving payment method
 	aa_retrieve_ifExistant_paymentMethod: async function ({ pmId }) {
 		try {
