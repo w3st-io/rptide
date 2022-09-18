@@ -6,7 +6,7 @@ const stripe = require('stripe')
 const a_stripe_customer = require('../../s-api/stripe/customer')
 const a_stripe_paymentMethod = require('../../s-api/stripe/paymentMethod')
 const a_stripe_subscription = require('../../s-api/stripe/subscription')
-const config = require('../../../s-config')
+const config = require('../../s-config')
 
 
 // [STRIPE]

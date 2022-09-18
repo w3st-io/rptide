@@ -70,13 +70,12 @@ module.exports = {
 				}
 			}
 			
-			// [API][stripe] Create subscription
+			// [API][stripe] Create subscription (Add free trial if exists)
 			const subscription = await Stripe.subscriptions.create({
 				customer: cusId,
 				items: [
 					{ price: priceId },
 				],
-				// Add free trial if exists
 				trial_from_plan: true,
 			})
 

@@ -60,10 +60,10 @@ module.exports = {
 
 			mail({
 				to: to,
-				subject: `Verify Your ${config.company.name} Account`,
+				subject: `Verify Your RpTide Account`,
 				textContent: `
 					<h1>
-						Thank you for creating an account at ${config.company.name}!
+						Thank you for creating an account at RpTide!
 					<h1/>
 					<h3>
 						Please click the button below to verify your account
@@ -108,7 +108,7 @@ module.exports = {
 
 			mail({
 				to: to,
-				subject: `{config.company.name}: Password Reset`,
+				subject: `RpTide: Password Reset`,
 				textContent: `
 					<h1>Click the Link Below to Reset Your Password<h1/>
 					<h3>

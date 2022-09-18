@@ -13,46 +13,28 @@ const router = express.Router().use(cors());
 
 
 router.post(
-	'/update-pm',
+	'/payment-method/update',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.updatePm({ req }));
+		res.send(await h.paymentMethod_update({ req }));
 	}
 );
 
 
 router.post(
-	'/delete-pm',
+	'/payment-method/delete',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.deletePm({ req }));
+		res.send(await h.paymentMethod_delete({ req }));
 	}
 );
 
 
 router.post(
-	'/update-tier-0',
+	'/tier/update',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.updateTier0({ req }));
-	}
-);
-
-
-router.post(
-	'/update-tier-1',
-	Auth.userToken(),
-	async (req, res) => {
-		res.send(await h.updateTier1({ req }));
-	}
-);
-
-
-router.post(
-	'/update-tier-2',
-	Auth.userToken(),
-	async (req, res) => {
-		res.send(await h.updateTier2({ req }));
+		res.send(await h.tier_update({ req }));
 	}
 );
 

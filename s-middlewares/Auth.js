@@ -26,51 +26,41 @@ class Auth {
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						try {
-							if (decoded) {
-								// [INIT] Put decoded in req //
-								req.user_decoded = decoded;
+						if (decoded) {
+							// [INIT] Put decoded in req //
+							req.user_decoded = decoded;
 
-								// [MONGODB] Check verified
-								const user = await UserModel.findOne({
-									_id: decoded._id,
-									verified: true,
+							// [MONGODB] Check verified
+							const user = await UserModel.findOne({
+								_id: decoded._id,
+								verified: true,
+							});
+
+							if (user) {
+								req.user_decoded.workspace = user.workspace;
+
+								// Check apiSubscription status
+								await h_apiSubscription.cycleCheckApiSubscription({
+									user_id: decoded._id
 								});
-
-								if (user) {
-									req.user_decoded.workspace = user.workspace;
-
-									// Check apiSubscription status
-									await h_apiSubscription.cycleCheckApiSubscription({
-										user_id: decoded._id
-									});
-									
-									next();
-								}
-								else {
-									res.send({
-										executed: true,
-										status: false,
-										message: 'User NOT verified',
-									});
-								}
+								
+								next();
 							}
 							else {
 								res.send({
 									executed: true,
 									status: false,
-									location: '/s-middlewares/Auth',
-									message: `Access denied: JWT Error --> ${err}`,
-									auth: false,
+									message: 'User NOT verified',
 								});
 							}
 						}
-						catch (err) {
+						else {
 							res.send({
-								executed: false,
+								executed: true,
 								status: false,
 								location: '/s-middlewares/Auth',
-								message: `Auth: Error --> ${err}`
+								message: `Access denied: JWT Error --> ${err}`,
+								auth: false,
 							});
 						}
 					})
@@ -107,19 +97,10 @@ class Auth {
 
 				// If a token exists => Validate JWT
 				if (tokenBody !== 'undefined') {
-					try {
-						const decoded = await jwt.verify(tokenBody, secretKey);
-						
-						// [INIT] Put decoded in req
-						req.user_decoded = decoded;
-					}
-					catch (err) {
-						res.send({
-							executed: true,
-							status: false,
-							message: err
-						});
-					}
+					const decoded = await jwt.verify(tokenBody, secretKey);
+					
+					// [INIT] Put decoded in req
+					req.user_decoded = decoded;
 				}
 			}
 			
@@ -144,15 +125,7 @@ class Auth {
 							// [INIT] Put decoded in req
 							req.user_decoded = decoded;
 
-							try { next(); }
-							catch (err) {
-								res.send({
-									executed: false,
-									status: false,
-									location: '/s-middlewares/Auth',
-									message: `Auth: Error --> ${err}`
-								});
-							}
+							next();
 						}
 						else {
 							res.send({
@@ -199,50 +172,39 @@ class Auth {
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						try {
-							if (decoded) {
-								// [INIT] Put decoded in req
-								req.user_decoded = decoded;
+						if (decoded) {
+							// [INIT] Put decoded in req
+							req.user_decoded = decoded;
 
-								// [MONGODB] Check verified
-								const user = await UserModel.findOne({
-									_id: decoded._id,
-									verified: true,
+							// [MONGODB] Check verified
+							const user = await UserModel.findOne({
+								_id: decoded._id,
+								verified: true,
+							});
+
+							if (user) {
+								// Check apiSubscription status
+								await h_apiSubscription.cycleCheckApiSubscription({
+									user_id: decoded._id
 								});
-
-								if (user) {
-									// Check apiSubscription status
-									await h_apiSubscription.cycleCheckApiSubscription({
-										user_id: decoded._id
-									});
-									
-									next();
-								}
-								else {
-									res.send({
-										executed: true,
-										status: false,
-										message: 'User NOT verified',
-									});
-								}
+								
+								next();
 							}
-
 							else {
 								res.send({
 									executed: true,
 									status: false,
-									location: '/s-middlewares/Auth',
-									message: `Access denied: JWT Error --> ${err}`,
-									auth: false,
+									message: 'User NOT verified',
 								});
 							}
 						}
-						catch (err) {
+						else {
 							res.send({
-								executed: false,
+								executed: true,
 								status: false,
 								location: '/s-middlewares/Auth',
-								message: `Auth: Error --> ${err}`
+								message: `Access denied: JWT Error --> ${err}`,
+								auth: false,
 							});
 						}
 					});

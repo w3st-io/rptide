@@ -1,9 +1,9 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 
 function validate() {
-	return { status: true }
+	return { status: true };
 }
 
 
@@ -16,66 +16,53 @@ const subscription = mongoose.Schema({
 		required: true,
 	},
 
-	tier: {
-		type: Number,
-		required: true,
-		maxlength: 1,
-		default: 0,
-	},
-
 	stripe: {
 		cusId: {
 			type: String,
 			required: false,
 			default: '',
+			maxlength: 100
 		},
 
 		pmId: {
 			type: String,
 			required: false,
 			default: '',
+			maxlength: 100
 		},
 
-		subId: {
+		subscription: {
 			tier1: {
-				active: {
+				subId: {
 					type: String,
 					required: false,
 					default: '',
+					maxlength: 100
 				},
-	
-				canceled: {
-					type: String,
-					required: false,
-					default: '',
+
+				cancelAtPeriodEnd: {
+					type: Boolean,
+					default: false,
 				},
 			},
 	
 			tier2: {
-				active: {
+				subId: {
 					type: String,
 					required: false,
 					default: '',
+					maxlength: 100
 				},
-	
-				canceled: {
-					type: String,
-					required: false,
-					default: '',
+
+				cancelAtPeriodEnd: {
+					type: Boolean,
+					default: false,
 				},
 			},
-
-			previous: [
-				{
-					type: String,
-					required: false,
-					default: '',
-				}
-			],
 		},
 	},
 
-	lastCleared: {
+	lastChecked: {
 		type: Date,
 		default: Date.now,
 	},
@@ -83,17 +70,17 @@ const subscription = mongoose.Schema({
 	createdAt: {
 		type: Date,
 		default: Date.now,
-	},
-})
+	}
+});
 
 
 subscription.pre('updateOne', function (next) {
-	const status = validate()
+	const status = validate();
 
-	if (status.status == false) { throw status.message }
+	if (status.status == false) { throw status.message; }
 	
-	next()
-})
+	next();
+});
 
 
-module.exports = mongoose.model('ApiSubscription', subscription)
+module.exports = mongoose.model('ApiSubscription', subscription);

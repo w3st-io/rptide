@@ -27,11 +27,6 @@ module.exports = {
 		}
 	},
 	
-	// [COMPANY]
-	company: {
-		name: 'RpTide',
-	},
-	
 	// [FUNCTIONALITY]
 	functionality: {
 		user: process.env.FUNCTIONALITY__USER || 'false',
@@ -54,4 +49,6 @@ module.exports = {
 			key: process.env.API__SENDINBLUE__KEY || '',
 		},
 	},
+
+	cycleHours: process.env.CYCLE_HOURS || .5
 }
