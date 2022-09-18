@@ -164,8 +164,6 @@
 
 				changeToTier: 0,
 
-				resData: {},
-
 				resData_updateTier: {
 					tier: '',
 				},
@@ -186,16 +184,16 @@
 				this.loading = true
 				this.disableButtons = true
 
-				this.resData = await SubscriptionService.s_update_tier({
+				const resData = await SubscriptionService.s_update_tier({
 					tier: this.changeToTier
 				})
 
-				if (this.resData.status) {
+				if (resData.status) {
 					this.changeCard = false
 					
 					this.$emit('refreshData')
 				}
-				else { this.error = this.resData.message }
+				else { this.error = resData.message }
 
 				this.loading = false
 				this.disableButtons = false
