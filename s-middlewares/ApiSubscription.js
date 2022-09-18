@@ -4,6 +4,7 @@ const ApiSubscriptionModel = require('../s-models/ApiSubscriptionModel');
 const ProductModel = require('../s-models/ProductModel');
 const ProductOptionModel = require('../s-models/ProductOptionModel');
 const WebAppModel = require('../s-models/WebAppModel');
+const h_apiSubscription = require('../s-route/api/api-subscription/.handler.js');
 
 
 // [INIT]
@@ -13,6 +14,11 @@ const location = '/s-middleware/Subscription';
 module.exports = {
 	webAppLimitCheck: function () {
 		return async (req, res, next) => {
+			// Check apiSubscription status
+			await h_apiSubscription.cycleCheckApiSubscription({
+				user_id: req.user_decoded._id
+			});
+
 			// [INIT]
 			let flag = false;
 
@@ -59,6 +65,11 @@ module.exports = {
 
 	productLimitCheck: function () {
 		return async (req, res, next) => {
+			// Check apiSubscription status
+			await h_apiSubscription.cycleCheckApiSubscription({
+				user_id: req.user_decoded._id
+			});
+			
 			// [INIT]
 			let flag = false
 
@@ -105,6 +116,11 @@ module.exports = {
 
 	productOptionLimitCheck: function () {
 		return async (req, res, next) => {
+			// Check apiSubscription status
+			await h_apiSubscription.cycleCheckApiSubscription({
+				user_id: req.user_decoded._id
+			});
+			
 			// [INIT]
 			let flag = false
 

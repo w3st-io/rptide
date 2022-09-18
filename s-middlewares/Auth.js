@@ -6,7 +6,6 @@ const validator = require('validator');
 // [REQUIRE] Personal
 const config = require('../s-config');
 const UserModel = require('../s-models/UserModel');
-const h_apiSubscription = require('../s-route/api/api-subscription/.handler.js');
 
 
 // [INIT]
@@ -38,11 +37,6 @@ class Auth {
 
 							if (user) {
 								req.user_decoded.workspace = user.workspace;
-
-								// Check apiSubscription status
-								await h_apiSubscription.cycleCheckApiSubscription({
-									user_id: decoded._id
-								});
 								
 								next();
 							}
@@ -63,7 +57,7 @@ class Auth {
 								auth: false,
 							});
 						}
-					})
+					});
 				}
 				else {
 					res.send({
@@ -183,11 +177,6 @@ class Auth {
 							});
 
 							if (user) {
-								// Check apiSubscription status
-								await h_apiSubscription.cycleCheckApiSubscription({
-									user_id: decoded._id
-								});
-								
 								next();
 							}
 							else {
