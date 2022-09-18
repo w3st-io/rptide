@@ -6,7 +6,6 @@ const validator = require('validator');
 // [REQUIRE] Personal
 const a_stripe = require('../../../s-api/stripe');
 const config = require('../../../s-config');
-const ApiSubscriptionCollection = require('../../../s-collections/ApiSubscriptionCollection');
 const ApiSubscriptionModel = require('../../../s-models/ApiSubscriptionModel');
 
 
@@ -129,20 +128,22 @@ module.exports = {
 				!validator.isAscii(req.body.cardMonth) ||
 				!validator.isAscii(req.body.cardYear) ||
 				!validator.isAscii(req.body.cardCvc)
-			) return {
-				..._returnObj,
-				message: 'Invalid parameters'
-			};
+			) {
+				return {
+					..._returnObj,
+					message: 'Invalid parameters'
+				};
+			}
 
-			// [READ][ApiSubscription] Get by User
-			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
-				user_id: req.user_decoded._id
+			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
+			const apiSubscription = await ApiSubscriptionModel.findOne({
+				user: user_id
 			});
 
 			// [API][stripe] paymentMethod
 			const apiStripe_updatedPM = await a_stripe.aa_updatePaymentMethod({
-				cusId: apiSubObj.apiSubscription.stripe.cusId,
-				previous_pmId: apiSubObj.apiSubscription.stripe.pmId,
+				cusId: apiSubscription.stripe.cusId,
+				previous_pmId: apiSubscription.stripe.pmId,
 				cardNumber: req.body.cardNumber,
 				cardMonth: req.body.cardMonth,
 				cardYear: req.body.cardYear,
@@ -154,7 +155,7 @@ module.exports = {
 			}
 			
 			// [UPDATE][ApiSubscription] update pmId
-			const updatedApiSubscription = await ApiSubscriptionModel.updateOne(
+			await ApiSubscriptionModel.updateOne(
 				{
 					_id: apiSubscription_id,
 					user: user_id
@@ -185,27 +186,42 @@ module.exports = {
 
 
 	paymentMethod_delete: async ({ req }) => {
+		let _returnObj = {
+			...returnObj,
+			location: returnObj.location + '/payment-method/update',
+			message: 'Payment Method successfully deleted'
+		};
+
 		try {
-			// [READ][ApiSubscription] Get by User
-			const apiSubObj = await ApiSubscriptionCollection.c_read_byUser({
-				user_id: req.user_decoded._id
+			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
+			const apiSubscription = await ApiSubscriptionModel.findOne({
+				user: user_id
 			});
 
 			// [API][stripe] Remove previous payment method
 			const deleteStripePMObj = await a_stripe.aa_deletePaymentMethod({
-				pmId: apiSubObj.apiSubscription.stripe.pmId
+				pmId: apiSubscription.stripe.pmId
 			});
 
 			if (!deleteStripePMObj.status) { return deleteStripePMObj; }
 
-			// [UPDATE][ApiSubscription] pmId
-			const updatedSubObj = await ApiSubscriptionCollection.c_update_pmId({
-				user_id: req.user_decoded._id,
-				apiSubscription_id: apiSubObj.apiSubscription._id,
-				pmId: ''
-			});
+			// [MONGODB][UPDATE][ApiSubscription] pmId
+			await ApiSubscriptionModel.updateOne(
+				{
+					_id: apiSubscription._id,
+					user: req.user_decoded._id
+				},
+				{
+					$set: {
+						"stripe.pmId": "",
+					}
+				},
+			)
 
-			return updatedSubObj;
+			return {
+				..._returnObj,
+				status: true
+			};
 		}
 		catch (err) {
 			return {
@@ -380,5 +396,9 @@ module.exports = {
 				message: err
 			};
 		}
+	},
+
+	cycleCheckApiSubscription: async ({ user_id }) => { 
+		await cycleCheckApiSubscription({ user_id })
 	},
 }
