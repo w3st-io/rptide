@@ -23,7 +23,7 @@ let returnObj = {
 
 
 const tier1PriceId = config.api.stripe.priceTier1;
-const tier2PriceId = config.api.stripe.proceTier2;
+const tier2PriceId = config.api.stripe.priceTier2;
 
 
 /**
@@ -363,7 +363,7 @@ module.exports = {
 						const result = await Stripe.subscriptions.create({
 							customer: apiSubscription.stripe.cusId,
 							items: [
-								{ price: tier1PriceId },
+								{ price: tier1PriceId }
 							],
 							trial_from_plan: true
 						});
@@ -384,12 +384,13 @@ module.exports = {
 				break;
 
 				case 2:
+					console.log('rnn');
 					// [TIER-1] Deal with existing
 					if (apiSubscription.stripe.subscription.tier1.subId) {
 						// [API][stripe] cancel_at_period_end 
 						await Stripe.subscriptions.update(
 							apiSubscription.stripe.subscription.tier1.subId,
-							{ cancel_at_period_end: TRUE }
+							{ cancel_at_period_end: true }
 						);
 
 						// [MONGODB][apiSubscription] tier
@@ -408,6 +409,7 @@ module.exports = {
 					
 					// [TIER-2] Deal with existing ELSE create
 					if (apiSubscription.stripe.subscription.tier2.subId) {
+						console.log('running');
 						// [API][stripe] Reactivate
 						await Stripe.subscriptions.update(
 							apiSubscription.stripe.subscription.tier2.subId,
@@ -428,11 +430,14 @@ module.exports = {
 						);
 					}
 					else {
+						console.log('sss');
+						console.log('wtf', tier2PriceId);
+
 						// [API][stripe] PURCHASE SUB tier 2
 						const result = await Stripe.subscriptions.create({
 							customer: apiSubscription.stripe.cusId,
 							items: [
-								{ price: tier2PriceId },
+								{ price: tier2PriceId }
 							],
 							trial_from_plan: true
 						});
@@ -462,6 +467,7 @@ module.exports = {
 			}
 		}
 		catch (err) {
+			console.log(err);
 			return {
 				..._returnObj,
 				executed: false,

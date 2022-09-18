@@ -13,23 +13,23 @@
 						If Silver or Gold plan is chosen, you will have 24 hours to downgrade to bronze without being charged.
 					</h6>
 				</BCol>
-
-				<BCol cols="12" sm="6">
-					<div class="border-bottom border-success" style="border-width: 2px !important;">
-						<h6 class="small text-center text-secondary">Active</h6>
-					</div>
-				</BCol>
-
-				<BCol cols="12" sm="6">
-					<div class="border-dashed border-success" style="border-width: 0 0 2px 0 !important;">
-						<h6 class="small text-center text-secondary">To be canceled by end of period</h6>
-					</div>
-				</BCol>
 			</BRow>
 		</BCardHeader>
 
 		<BCardBody v-if="!loading">
 			<BRow>
+				<BCol cols="12" sm="6" class="mb-3">
+					<div class="border border-success" style="border-width: 2px !important;">
+						<h6 class="m-1 small text-center text-secondary">Active</h6>
+					</div>
+				</BCol>
+
+				<BCol cols="12" sm="6" class="mb-3">
+					<div class="border-dashed border-success" style="border-width: 2px !important;">
+						<h6 class="m-1 small text-center text-secondary">Wil be canceled by end-of-period</h6>
+					</div>
+				</BCol>
+
 				<BCol cols="12" sm="6" md="4">
 					<BCard
 						bg-variant="dark"
