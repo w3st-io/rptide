@@ -30,10 +30,7 @@
 
 				<BCol cols="12">
 					<MyCard
-						:brand="this.currentCard.brand"
-						:last4="this.currentCard.last4"
-						:exp_month="this.currentCard.exp_month"
-						:exp_year="this.currentCard.exp_year"
+						:currentCard="this.currentCard"
 						@refreshData="getPageData()"
 						class="mb-5"
 					/>
@@ -84,12 +81,12 @@
 	import axios from 'axios'
 
 	// [IMPORT] Personal
-	import APIKeys from '../../components/apiSubscription/APIKeys.vue'
-	import TierSelector from '../../components/apiSubscription/TierSelector'
-	import MyCard from '../../components/stripe/MyCard'
-	import router from '../../router'
-	import Service from '../../services'
+	import APIKeys        from '../../components/apiSubscription/APIKeys.vue'
+	import TierSelector   from '../../components/apiSubscription/TierSelector'
+	import MyCard         from '../../components/stripe/MyCard'
 	import UpdatePassword from '../../components/user/UpdatePassword.vue'
+	import router         from '../../router'
+	import Service        from '../../services'
 
 	export default {
 		data() {

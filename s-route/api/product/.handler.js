@@ -43,7 +43,7 @@ module.exports = {
 			return {
 				...returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -84,7 +84,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -117,7 +117,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -150,7 +150,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -169,7 +169,7 @@ module.exports = {
 			return {
 				...returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	}

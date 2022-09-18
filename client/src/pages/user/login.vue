@@ -135,6 +135,8 @@
 						this.email,
 						this.password
 					)
+
+					console.log(this.resData);
 					
 					// Check Validation Status
 					if (

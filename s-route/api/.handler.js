@@ -3,10 +3,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const validator = require('validator');
+const stripe = require('stripe')
 
 
 // [REQUIRE] Personal
-const api_stripe = require('../../s-api/stripe');
 const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
 const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
 const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection');
@@ -16,6 +16,10 @@ const WebAppModel = require('../../s-models/WebAppModel');
 const UserModel = require('../../s-models/UserModel');
 const ApiSubscriptionModel = require('../../s-models/ApiSubscriptionModel');
 const mailerUtil = require('../../s-utils/mailerUtil');
+
+
+// [STRIPE]
+const Stripe = stripe(config.api.stripe.secretKey)
 
 
 // [INIT]
@@ -77,7 +81,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -115,9 +119,7 @@ module.exports = {
 			}
 
 			// [READ][User] Get user by email
-			const user = await UserModel.findOne({ email: req.body.email })
-				.select('-password -api.publicKey')
-			.exec();
+			const user = await UserModel.findOne({ email: req.body.email }).exec();
 
 			if (!user) {
 				return {
@@ -125,6 +127,8 @@ module.exports = {
 					message: 'Invalid email or password'
 				};
 			}
+
+			console.log(req.body.password, user.password);
 
 			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.password, user.password)) {
@@ -139,9 +143,6 @@ module.exports = {
 				{
 					_id: user._id,
 					email: user.email,
-					username: user.username,
-					first_name: user.first_name,
-					last_name: user.last_name,
 					verified: user.verified
 				},
 				config.app.secretKey,
@@ -149,14 +150,18 @@ module.exports = {
 			);
 
 			const webApps = await WebAppModel.find({ user: user._id });
-	
+
+			const cleanUser = await UserModel.findOne(
+				{ email: req.body.email }
+			).select('-password -api.publicKey');
+
 			// [200]
 			return {
 				..._returnObj,
 				status: true,
 				validation: true,
 				token: token,
-				user: user,
+				user: cleanUser,
 				webApps: webApps
 			};
 		}
@@ -164,7 +169,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -210,7 +215,7 @@ module.exports = {
 			// [VALIDATE] req.body.password
 			if (
 				!validator.isAscii(req.body.password) ||
-				password.req.body.password < 8 ||
+				req.body.password < 8 ||
 				req.body.password.length > 500
 			) {
 				return {
@@ -222,22 +227,22 @@ module.exports = {
 			// [MONGODB][SAVE][User]
 			const user = await new UserModel({
 				_id: mongoose.Types.ObjectId(),
-				email: email,
-				password: await bcrypt.hash(password, 10)
+				email: req.body.email,
+				password: await bcrypt.hash(req.body.password, 10)
 			}).save();
 
 			// [MONGODB][CREATE][VerificationCode]
 			const vCodeObj = await VerificationCodeCollection.c_create({
-				user_id: userObj.user._id
+				user_id: user._id
 			});
 
 			// [MONGODB][CREATE][ApiSubscription]
-			await ApiSubscriptionCollection.c_create({ user_id: userObj.user._id });
-			
+			await ApiSubscriptionCollection.c_create({ user_id: user._id });
+
 			// [MAIL] Verification Email
 			await mailerUtil.sendVerificationMail(
-				userObj.user.email,
-				userObj.user._id,
+				user.email,
+				user._id,
 				vCodeObj.verificationCode.verificationCode
 			);
 
@@ -250,10 +255,11 @@ module.exports = {
 			};
 		}
 		catch (err) {
+			console.log('err', err);
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -301,7 +307,7 @@ module.exports = {
 			if (!vCObj.status) { return vCObj; }
 
 			// [MONGODB][READ] User
-			const user = await UserModel.findOne({ _id: req.user_decoded._id })
+			const user = await UserModel.findOne({ _id: req.body.user_id })
 				.select('-password -api.publicKey')
 			.exec();
 
@@ -315,28 +321,21 @@ module.exports = {
 
 			// if no cusId 
 			if (!apiSubObj_findOne.apiSubscription.stripe.cusId) {
-				const stripeObj = await api_stripe.aa_createCustomer(
-					{
-						user_id: user._id,
-						email: user.email,
-						username: user.username,
-					}
-				);
-	
-				// [VALIDATE-STATUS] stripeObj
-				if (!stripeObj.status) { return stripeObj; }
+				// [API][stripe] Create customer
+				const createdStripeCustomer = await Stripe.customers.create({
+					email: user.email,
+					metadata: { user_id: `${user._id}` },
+				});
 	
 				// [UPDATE][ApiSubscription]
-				const apiSubObj_updated = await ApiSubscriptionCollection
-					.c_update__cusId__user_id(
-						{
-							user_id: user._id,
-							cusId: stripeObj.createdStripeCustomer.id,
+				await ApiSubscriptionModel.updateOne(
+					{ user: user._id },
+					{
+						$set: {
+							"stripe.cusId": createdStripeCustomer.id,
 						}
-					);
-	
-				// [VALIDATE] updatedApiSubscriptionObj
-				if (!apiSubObj_updated.status) { return apiSubObj_updated; }
+					},
+				);
 			}
 
 			// [UPDATE][User] Verify
@@ -356,7 +355,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -408,7 +407,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			}
 		}
 	},
@@ -471,7 +470,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -548,7 +547,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},

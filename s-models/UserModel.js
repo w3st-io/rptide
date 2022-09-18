@@ -24,24 +24,6 @@ module.exports = mongoose.model(
 			required: [true, 'This is required'],
 			maxlength: 50,
 		},
-
-		username: {
-			type: String,
-			default: '',
-			maxlength: 24,
-		},
-		
-		first_name: {
-			type: String,
-			default: '',
-			maxlength: 24,
-		},
-		
-		last_name: {
-			type: String,
-			default: '',
-			maxlength: 24,
-		},
 		
 		profile_img: {
 			type: String,

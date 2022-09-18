@@ -16,12 +16,15 @@
 
 			<BCol cols="12" md="8">
 				<!-- Card Brand -->
-				<h4 v-if="brand">{{ brand }} - **** {{ last4 }}</h4>
+				<h4 v-if="currentCard.brand">
+					{{ currentCard.brand }} -
+					**** {{ currentCard.last4 }}
+				</h4>
 				<h4 v-else>No Card Attached</h4>
 
 				<!-- Card Exp -->
-				<h5 v-if="exp_month" class="text-muted">
-					Exp: {{ exp_month }}/{{ exp_year }}
+				<h5 v-if="this.currentCard.exp_month" class="text-muted">
+					Exp: {{ this.currentCard.exp_month }}/{{ this.currentCard.exp_year }}
 				</h5>
 			</BCol>
 
@@ -76,7 +79,7 @@
 						<BRow class="text-light">
 							<BCol cols="12">
 								<VueCreditCard
-									v-model="resData_updatePaymentMethod.card"
+									v-model="toBeUpdatedPaymentMethod.card"
 									:preview-enabled="false"
 									class="my-5 font"
 								/>
@@ -97,7 +100,9 @@
 
 					<!-- [ERROR] -->
 					<BCol v-if="error" cols="12">
-						<h6 class="m-0 font-weight-bold text-danger">{{ error }}</h6>
+						<h6 class="m-0 font-weight-bold text-danger">
+							Error: {{ error }}
+						</h6>
 					</BCol>
 				</Brow>
 			</BCol>
@@ -112,24 +117,26 @@
 
 	export default {
 		props: {
-			brand: {
-				default: '',
-				type: String,
-			},
-
-			last4: {
-				default: '',
-				type: String,
-			},
-
-			exp_month: {
-				default: null,
-				type: String,
-			},
-
-			exp_year: {
-				default: null,
-				type: String,
+			currentCard: {
+				brand: {
+					default: '',
+					type: String,
+				},
+	
+				last4: {
+					default: '',
+					type: String,
+				},
+	
+				exp_month: {
+					default: null,
+					type: String,
+				},
+	
+				exp_year: {
+					default: null,
+					type: String,
+				},
 			},
 		},
 
@@ -139,7 +146,7 @@
 
 				resData: {},
 
-				resData_updatePaymentMethod: {
+				toBeUpdatedPaymentMethod: {
 					card: {
 						holder: '',
 						number: '',
@@ -163,11 +170,11 @@
 				this.loading = true
 
 				this.resData = await SubscriptionService.s_update_pm({
-					cardName: this.resData_updatePaymentMethod.card.holder,
-					cardNumber: this.resData_updatePaymentMethod.card.number,
-					cardMonth: this.resData_updatePaymentMethod.card.month,
-					cardYear: this.resData_updatePaymentMethod.card.year,
-					cardCvc: this.resData_updatePaymentMethod.card.cvv,
+					cardName: this.toBeUpdatedPaymentMethod.card.holder,
+					cardNumber: this.toBeUpdatedPaymentMethod.card.number,
+					cardMonth: this.toBeUpdatedPaymentMethod.card.month,
+					cardYear: this.toBeUpdatedPaymentMethod.card.year,
+					cardCvc: this.toBeUpdatedPaymentMethod.card.cvv,
 				})
 
 				if (this.resData.status) {

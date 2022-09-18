@@ -25,7 +25,6 @@
 			return {
 				user_id: this.$route.params.user_id,
 				verificationCode: this.$route.params.verification_code,
-				returned: {},
 				success: '',
 				error: '',
 			}
@@ -33,17 +32,17 @@
 
 		async created() {
 			try {
-				this.returned = await Service.s_completeRegistration(
+				const returned = await Service.s_completeRegistration(
 					this.user_id,
 					this.verificationCode
 				)
+
+				if (returned.status) {
+					this.success = 'Verified!'
+				}
+				else { this.error = returned.message }
 			}
 			catch (err) { this.error = err }
-
-			if (this.returned.status && this.returned.existance) {
-				this.success = 'Verified!'
-			}
-			else { this.error = this.returned.message }
 		},
 	}
 </script>

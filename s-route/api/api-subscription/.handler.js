@@ -137,7 +137,7 @@ module.exports = {
 
 			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
 			const apiSubscription = await ApiSubscriptionModel.findOne({
-				user: user_id
+				user: req.user_decoded._id
 			});
 
 			// [API][stripe] paymentMethod
@@ -157,8 +157,8 @@ module.exports = {
 			// [UPDATE][ApiSubscription] update pmId
 			await ApiSubscriptionModel.updateOne(
 				{
-					_id: apiSubscription_id,
-					user: user_id
+					_id: apiSubscription._id,
+					user: req.user_decoded._id
 				},
 				{
 					$set: {
@@ -176,10 +176,9 @@ module.exports = {
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				location: `/deletePaymentMethod`,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -195,7 +194,7 @@ module.exports = {
 		try {
 			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
 			const apiSubscription = await ApiSubscriptionModel.findOne({
-				user: user_id
+				user: req.user_decoded._id
 			});
 
 			// [API][stripe] Remove previous payment method
@@ -228,7 +227,7 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: `deletePaymentMethod`,
-				message: err
+				message: `${err}`
 			};
 		}
 	},
@@ -393,7 +392,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				executed: false,
-				message: err
+				message: `${err}`
 			};
 		}
 	},

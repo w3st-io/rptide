@@ -18,27 +18,6 @@ const location = '/s-api/stripe'
 
 
 module.exports = {
-	// Wrapper for creating a customer on stripe
-	aa_createCustomer: async function ({ user_id, email, username }) {
-		try {
-			// [API][stripe] Create a customer
-			return await a_stripe_customer.a_createCustomer({
-				user_id,
-				email: email,
-				name: username,
-			})
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
 	// wrapper for changing a paymentMethod for a customer on stripe
 	aa_updatePaymentMethod: async function ({
 		cusId,
