@@ -115,7 +115,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 
 
 module.exports = {
-	paymentMethod_update: async ({ req }) => {
+	update_paymentMethod: async ({ req }) => {
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/payment-method/update',
@@ -185,7 +185,7 @@ module.exports = {
 	},
 
 
-	paymentMethod_delete: async ({ req }) => {
+	delete_paymentMethod: async ({ req }) => {
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/payment-method/update',
@@ -234,7 +234,7 @@ module.exports = {
 	},
 
 
-	tier_update: async ({ req }) => {
+	update_tier: async ({ req }) => {
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/tier/update'

@@ -13,28 +13,28 @@ const router = express.Router().use(cors());
 
 
 router.post(
-	'/payment-method/update',
+	'/update/payment-method',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.paymentMethod_update({ req }));
+		res.send(await h.update_paymentMethod({ req }));
 	}
 );
 
 
 router.post(
-	'/payment-method/delete',
+	'/delete/payment-method',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.paymentMethod_delete({ req }));
+		res.send(await h.delete_paymentMethod({ req }));
 	}
 );
 
 
 router.post(
-	'/tier/update',
+	'/update/tier',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.tier_update({ req }));
+		res.send(await h.update_tier({ req }));
 	}
 );
 

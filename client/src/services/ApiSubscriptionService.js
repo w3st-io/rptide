@@ -19,7 +19,7 @@ export default {
 	s_update_pm: async function ({ cardName, cardNumber, cardMonth, cardYear, cardCvc }) {
 		try {
 			const response = await authAxios.post(
-				'/update-pm',
+				'/update/payment-method',
 				{
 					cardName,
 					cardNumber,
@@ -44,7 +44,7 @@ export default {
 
 	s_delete_pm: async function () {
 		try {
-			const res = await authAxios.post('/delete-pm')
+			const res = await authAxios.post('/delete/payment-method')
 
 			return res.data
 		}
@@ -61,7 +61,7 @@ export default {
 
 	s_update_tier: async function ({ tier }) {
 		try {
-			const res = await authAxios.post(`/update-tier-${tier}`)
+			const res = await authAxios.post('/update/tier', { tier });
 
 			return res.data
 		}
