@@ -55,7 +55,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 
 	// If last time checked was over 24 hours ago
 	if (hours > config.cycleHours || force == true) {
-		/** TIER 1 **/
+		// [TIER-1]
 		if (apiSubscription.stripe.subscription.tier1.subId) {
 			// [API][stripe]
 			const stripeSubTier1 = await Stripe.subscriptions.retrieve(
@@ -80,7 +80,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 			}
 		}
 
-		/** TIER 2 **/
+		// [TIER-2]
 		if (apiSubscription.stripe.subscription.tier2.subId) {
 			// [API][stripe]
 			const stripeSubTier2 = await Stripe.subscriptions.retrieve(
@@ -248,7 +248,7 @@ module.exports = {
 
 			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
 			const apiSubscription = await ApiSubscriptionModel.findOne({
-				user: user_id
+				user: req.user_decoded._id
 			});
 
 			// [ERROR]
@@ -268,53 +268,99 @@ module.exports = {
 			}
 
 			switch (req.body.tier) {
-				case '0':
-					// [TIER-1][API][stripe] cancel_at_period_end
-					await Stripe.subscriptions.update(
-						apiSubscription.stripe.susbscription.tier1.subId,
-						{ cancel_at_period_end: true }
-					);
+				case 0:
+					// [TIER-1] Deal with existing
+					if (apiSubscription.stripe.subscription.tier1.subId) {
+						// [API][stripe] cancel_at_period_end
+						await Stripe.subscriptions.update(
+							apiSubscription.stripe.subscription.tier1.subId,
+							{ cancel_at_period_end: true }
+						);
 
-					// [TIER-2][API][stripe] cancel_at_period_end
-					await Stripe.subscriptions.update(
-						apiSubscription.stripe.susbscription.tier2.subId,
-						{ cancel_at_period_end: true }
-					);
+						// [MONGODB][apiSubscription]
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
 
-					// [MONGODB][apiSubscription] tier
-					await ApiSubscriptionModel.updateOne(
-						{
-							_id: apiSubscription._id,
-							user: user_id
-						},
-						{
-							$set: {
-								"stripe.subscription.tier2.cancelAtPeriodEnd":
-									apiSubscription.stripe.susbscription.tier1.subId? true : false,
-								"stripe.subscription.tier2.cancelAtPeriodEnd":
-									apiSubscription.stripe.susbscription.tier2.subId? true : false
-							}
-						},
-					);
+					// [TIER-2] Deal with existing
+					if (apiSubscription.stripe.subscription.tier2.subId) {
+						// [API][stripe] cancel_at_period_end
+						await Stripe.subscriptions.update(
+							apiSubscription.stripe.subscription.tier2.subId,
+							{ cancel_at_period_end: true }
+						);
+
+						// [MONGODB][apiSubscription]
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
 				break;
 					
-				case '1':
-					// [TIER-2][API][stripe] cancel_at_period_end
-					await Stripe.subscriptions.update(
-						apiSubscription.stripe.susbscription.tier2.subId,
-						{ cancel_at_period_end: true }
-					);
-
-					if (apiSubscription.stripe.susbscription.tier1.subId) {
-						// [TIER-1][API][stripe] Reactivate
+				case 1:
+					// [TIER-2] Deal with existing
+					if (apiSubscription.stripe.subscription.tier2.subId) {
+						// [API][stripe] cancel_at_period_end 
 						await Stripe.subscriptions.update(
-							apiSubscription.stripe.susbscription.tier1.subId,
+							apiSubscription.stripe.subscription.tier2.subId,
+							{ cancel_at_period_end: true }
+						);
+
+						// [MONGODB][apiSubscription] tier
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
+					
+					// [TIER-1] Deal with existing ELSE create
+					if (apiSubscription.stripe.subscription.tier1.subId) {
+						// [API][stripe] Reactivate
+						await Stripe.subscriptions.update(
+							apiSubscription.stripe.subscription.tier1.subId,
 							{ cancel_at_period_end: false }
+						);
+
+						// [MONGODB][apiSubscription] tier
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.cancelAtPeriodEnd": false
+								}
+							},
 						);
 					}
 					else {
-						// [API][stripe][PURCHASE] tier 1 subscription
-						await Stripe.subscriptions.create({
+						// [API][stripe] PURCHASE SUB tier 1
+						const result = await Stripe.subscriptions.create({
 							customer: apiSubscription.stripe.cusId,
 							items: [
 								{ price: tier1PriceId },
@@ -322,61 +368,88 @@ module.exports = {
 							trial_from_plan: true
 						});
 						
+						// [MONGODB][apiSubscription] tier
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.subId": result.id
+								}
+							},
+						);
 					}
-
-					// [MONGODB][apiSubscription] tier
-					await ApiSubscriptionModel.updateOne(
-						{
-							_id: apiSubscription._id,
-							user: user_id
-						},
-						{
-							$set: {
-								"stripe.subscription.tier2.cancelAtPeriodEnd":
-									apiSubscription.stripe.susbscription.tier2.subId ? true : false
-							}
-						},
-					);
 				break;
 
-				case '2':
-					// [TIER-1][API][stripe] cancel_at_period_end
-					await Stripe.subscriptions.update(
-						apiSubscription.stripe.susbscription.tier1.subId,
-						{ cancel_at_period_end: true }
-					);
-
-					if (apiSubscription.stripe.susbscription.tier2.subId) {
-						// [TIER-1][API][stripe] Reactivate
+				case 2:
+					// [TIER-1] Deal with existing
+					if (apiSubscription.stripe.subscription.tier1.subId) {
+						// [API][stripe] cancel_at_period_end 
 						await Stripe.subscriptions.update(
-							apiSubscription.stripe.susbscription.tier2.subId,
+							apiSubscription.stripe.subscription.tier1.subId,
+							{ cancel_at_period_end: TRUE }
+						);
+
+						// [MONGODB][apiSubscription] tier
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
+					
+					// [TIER-2] Deal with existing ELSE create
+					if (apiSubscription.stripe.subscription.tier2.subId) {
+						// [API][stripe] Reactivate
+						await Stripe.subscriptions.update(
+							apiSubscription.stripe.subscription.tier2.subId,
 							{ cancel_at_period_end: false }
+						);
+
+						// [MONGODB][apiSubscription] tier
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.cancelAtPeriodEnd": false
+								}
+							},
 						);
 					}
 					else {
-						// [API][stripe][PURCHASE] tier 1 subscription
-						await Stripe.subscriptions.create({
+						// [API][stripe] PURCHASE SUB tier 2
+						const result = await Stripe.subscriptions.create({
 							customer: apiSubscription.stripe.cusId,
 							items: [
 								{ price: tier2PriceId },
 							],
 							trial_from_plan: true
 						});
+						
+						// [MONGODB][apiSubscription] tier
+						await ApiSubscriptionModel.updateOne(
+							{
+								_id: apiSubscription._id,
+								user: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.subId": result.id
+								}
+							},
+						);
 					}
-
-					// [MONGODB][apiSubscription] tier
-					await ApiSubscriptionModel.updateOne(
-						{
-							_id: apiSubscription._id,
-							user: user_id
-						},
-						{
-							$set: {
-								"stripe.subscription.tier1.cancelAtPeriodEnd":
-									apiSubscription.stripe.susbscription.tier1.subId ? true : false
-							}
-						},
-					);
 				break;
 
 				default:
