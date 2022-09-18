@@ -102,7 +102,6 @@
 					}
 				}),
 
-				resData: {},
 				loading: true,
 				error: '',
 
@@ -138,26 +137,24 @@
 			async getPageData() {
 				this.loading = true
 
-				this.resData = (
-					await this.authAxios.get(`/`)
-				).data
+				const resData = (await this.authAxios.get('/')).data
 				
-				if (this.resData.status) {
-					this.data = this.resData
+				if (resData.status) {
+					this.data = resData
 					
 					// user
-					this.user = this.resData.user
+					this.user = resData.user
 					this.isVerified = this.user.verified
 
 					// apiSubscriptionTier
-					this.apiSubscriptionTier = this.resData.apiSubscriptionTier
+					this.apiSubscriptionTier = resData.apiSubscriptionTier
 
 					// currentCard
-					if (this.resData.paymentMethod) {
-						this.currentCard.brand = this.resData.paymentMethod.card.brand
-						this.currentCard.last4 = this.resData.paymentMethod.card.last4
-						this.currentCard.exp_month = this.resData.paymentMethod.card.exp_month
-						this.currentCard.exp_year = this.resData.paymentMethod.card.exp_year
+					if (resData.paymentMethod) {
+						this.currentCard.brand = resData.paymentMethod.card.brand
+						this.currentCard.last4 = resData.paymentMethod.card.last4
+						this.currentCard.exp_month = resData.paymentMethod.card.exp_month
+						this.currentCard.exp_year = resData.paymentMethod.card.exp_year
 					}
 					else {
 						this.currentCard.brand = ''
@@ -167,11 +164,11 @@
 					}
 
 					// price
-					this.tier1Price = this.resData.tier1Price
-					this.tier2Price = this.resData.tier2Price
+					this.tier1Price = resData.tier1Price
+					this.tier2Price = resData.tier2Price
 				}
 				else {
-					this.error = this.resData.message
+					this.error = resData.message
 					this.currentCard = {}
 				}
 
@@ -180,12 +177,12 @@
 
 			async resendvCodeEmail() {
 				if (this.user) {
-					this.resData = await Service.s_resendVerificationEmail(
+					const resData = await Service.s_resendVerificationEmail(
 						this.user.email
 					)
 
-					if (this.resData.status) { this.vCodeSent = true }
-					else { this.error = this.resData.message }
+					if (resData.status) { this.vCodeSent = true }
+					else { this.error = resData.message }
 				}
 			},
 
