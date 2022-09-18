@@ -94,28 +94,4 @@ module.exports = {
 			}
 		}
 	},
-
-
-	a_cancel: async function ({ subId }) {
-		try {
-			// change to update where it ends at the end of the s;lslks
-			const subscription_canceled = await Stripe.subscriptions.del(
-				subId,
-			)
-
-			return {
-				executed: true,
-				status: true,
-				subscription_canceled: subscription_canceled,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
 }
