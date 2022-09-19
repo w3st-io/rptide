@@ -1,9 +1,9 @@
 // [REQUIRE] Personal
-const rateLimit = require('express-rate-limit')
+const rateLimit = require("express-rate-limit");
 
 
 // [INIT] Const
-const defaultMessage = 'Too many requests, please try again later'
+const defaultMessage = "Too many requests, please try again later";
 
 
 module.exports = {
@@ -101,4 +101,4 @@ module.exports = {
 			message: defaultMessage,
 		}
 	}),
-}
+};
