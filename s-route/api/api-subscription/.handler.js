@@ -1,11 +1,11 @@
 // [REQUIRE]
-const stripe = require('stripe');
-const validator = require('validator');
+const stripe = require("stripe");
+const validator = require("validator");
 
 
 // [REQUIRE] Personal
-const config = require('../../../s-config');
-const ApiSubscriptionModel = require('../../../s-models/ApiSubscriptionModel');
+const config = require("../../../s-config");
+const ApiSubscriptionModel = require("../../../s-models/ApiSubscriptionModel");
 
 
 // [STRIPE]
@@ -21,8 +21,8 @@ const tier2PriceId = config.api.stripe.priceTier2;
 let returnObj = {
 	executed: true,
 	status: false,
-	location: '/api-subscription',
-	message: ''
+	location: "/api-subscription",
+	message: ""
 };
 
 
@@ -35,7 +35,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 	// [INIT]
 	let _returnObj = {
 		...returnObj,
-		location: 'cycleCheckApiSubscription',
+		location: "cycleCheckApiSubscription",
 	};
 
 	// [READ][ApiSubscription]
@@ -47,7 +47,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 	if (!apiSubscription) {
 		return {
 			..._returnObj,
-			message: 'No ApiSubscription found'
+			message: "No ApiSubscription found"
 		};
 	}
 
@@ -120,8 +120,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/payment-method/update',
-			message: 'Payment Method retrieved',
+			location: returnObj.location + "/payment-method/update",
+			message: "Payment Method retrieved",
 			paymentMethod: {
 				card: {
 					brand: "",
@@ -141,7 +141,7 @@ module.exports = {
 			if (!apiSubscription) {
 				return {
 					..._returnObj,
-					message: 'No ApiSubscription found'
+					message: "No ApiSubscription found"
 				};
 			}
 
@@ -172,8 +172,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/payment-method/update',
-			message: 'Payment Method successfully changed'
+			location: returnObj.location + "/payment-method/update",
+			message: "Payment Method successfully changed"
 		};
 
 		try {
@@ -186,7 +186,7 @@ module.exports = {
 			) {
 				return {
 					..._returnObj,
-					message: 'Invalid parameters'
+					message: "Invalid parameters"
 				};
 			}
 
@@ -196,13 +196,13 @@ module.exports = {
 			});
 
 			// [API][stripe] Remove previous payment method
-			if (apiSubscription.stripe.pmId !== '') {
+			if (apiSubscription.stripe.pmId !== "") {
 				await Stripe.paymentMethods.detach(apiSubscription.stripe.pmId);
 			}
 
 			// [API][stripe] Create a paymentMethod
 			const stripeCreatedPaymentMethod = await Stripe.paymentMethods.create({
-				type: 'card',
+				type: "card",
 				card: {
 					number: req.body.cardNumber,
 					exp_month: req.body.cardMonth,
@@ -261,8 +261,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/payment-method/delete',
-			message: 'Payment Method successfully detached'
+			location: returnObj.location + "/payment-method/delete",
+			message: "Payment Method successfully detached"
 		};
 
 		try {
@@ -272,7 +272,7 @@ module.exports = {
 			});
 
 			// [API][stripe] Remove previous payment method
-			if (apiSubscription.stripe.pmId !== '') {
+			if (apiSubscription.stripe.pmId !== "") {
 				await Stripe.paymentMethods.detach(apiSubscription.stripe.pmId);
 			}
 
@@ -306,11 +306,11 @@ module.exports = {
 
 
 	update_tier: async ({ req }) => {
-		console.log('running');
+		console.log("running");
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/tier/update'
+			location: returnObj.location + "/tier/update"
 		};
 
 		try {
@@ -329,7 +329,7 @@ module.exports = {
 			if (!apiSubscription) {
 				return {
 					..._returnObj,
-					message: 'No API Subscription found'
+					message: "No API Subscription found"
 				};
 			}
 
@@ -337,7 +337,7 @@ module.exports = {
 			if (!apiSubscription.stripe.pmId) {
 				return {
 					..._returnObj,
-					message: 'No card on file'
+					message: "No card on file"
 				};
 			}
 
