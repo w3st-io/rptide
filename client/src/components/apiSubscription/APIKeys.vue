@@ -21,21 +21,31 @@
 				Private Key: {{ $store.state.user.api.privateKey }}
 			</h3>
 		</BCol>
+
+		<BCol cols="12">
+			<h6 class="text-danger">{{ error }}</h6>
+		</BCol>
 	</BRow>
 </template>
 
 <script>
-	import UserService from '@/services/UserService'
+	import UserService from "../../services/UserService";
 
 	export default {
+		data() {
+			return {
+				error: ""
+			}
+		},
 		methods: {
 			async generateApiKey() {
-				this.resData = await UserService.s_generateApiKey()
+				const resData = await UserService.s_generateApiKey()
 				
-				if (this.resData.status) {
-					this.$store.state.user.api.privateKey = this.resData.privateKey
+				console.log(resData);
+				if (resData.status) {
+					this.$store.state.user.api.privateKey = resData.privateKey;
 				}
-				else { this.error = this.resData.message }
+				else { this.error = resData.message; }
 			},
 		},
 	}

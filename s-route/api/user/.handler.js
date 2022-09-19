@@ -213,7 +213,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				status: true,
-				privateKey: updatedUser.privateKey
+				privateKey: updatedUser.api.privateKey
 			};
 		}
 		catch (err) {
