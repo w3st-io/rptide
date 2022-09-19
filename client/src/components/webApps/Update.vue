@@ -144,8 +144,6 @@
 					}
 				);
 
-				console.log(this.resData);
-
 				if (this.resData.data.status) {
 					this.$store.state.webApps = this.resData.data.webApps;
 

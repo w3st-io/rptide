@@ -26,7 +26,7 @@ module.exports = {
 				}
 			)
 
-			// [SUCCESS]
+			// [200] Success
 			return {
 				status: true,
 				executed: true,

@@ -138,7 +138,7 @@ module.exports = {
 				};
 			}
 
-			// [SUCCESS] Authentication
+			// [200] Success Authentication
 			const token = jwt.sign(
 				{
 					_id: user._id,
@@ -246,7 +246,7 @@ module.exports = {
 				vCodeObj.verificationCode.verificationCode
 			);
 
-			// [SUCCESS]
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,
@@ -344,7 +344,7 @@ module.exports = {
 				{ $set: { verified: true } }
 			);
 
-			// [SUCCESS]
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,

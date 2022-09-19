@@ -55,7 +55,7 @@ module.exports = {
 					})
 
 					if (cSDPMObj.status) {
-						// [SUCCESS]
+						// [200] Success
 						return {
 							executed: true,
 							status: true,

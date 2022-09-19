@@ -54,7 +54,7 @@ module.exports = {
 				user: req.user_decoded._id
 			});
 
-			// [SUCCESS]
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,
@@ -198,7 +198,7 @@ module.exports = {
 				}
 			);
 			
-			// [200]
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,

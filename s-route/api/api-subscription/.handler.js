@@ -167,7 +167,7 @@ module.exports = {
 				},
 			);
 
-			// [SUCCESS]
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,

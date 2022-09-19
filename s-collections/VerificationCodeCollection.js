@@ -34,7 +34,7 @@ module.exports = {
 				verificationCode: uuid.v4(),
 			}).save()
 	
-			// [SUCCESS]
+			// [200] Success
 			return {
 				executed: true,
 				status: true,
@@ -81,7 +81,7 @@ module.exports = {
 				}
 			}
 
-			// [SUCCESS]
+			// [200] Success
 			return {
 				executed: true,
 				status: true,
@@ -118,7 +118,7 @@ module.exports = {
 				}
 			}
 
-			// [SUCCESS]
+			// [200] Success
 			return {
 				executed: true,
 				status: true,
@@ -155,7 +155,7 @@ module.exports = {
 			// [DELETE]
 			const vCode = await VerificationCodeModel.deleteMany({ user: user_id })
 	
-			// [SUCCESS]
+			// [200] Success
 			return {
 				executed: true,
 				status: true,
