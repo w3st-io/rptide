@@ -94,7 +94,6 @@
 				
 				success: false,
 				loading: true,
-				resData: {},
 				error: '',
 				showConfirm: false,
 
@@ -104,18 +103,18 @@
 
 		methods: {
 			async updateWebApp() {
-				this.resData = await this.authAxios.post(
+				const resData = await this.authAxios.post(
 					'/find-one-and-update',
 					{
 						webApp: this.webApp
 					}
 				)
 
-				if (this.resData.data.status) {
+				if (resData.data.status) {
 					this.success = true
 
 					// [store] webApps
-					this.$store.state.webApps = this.resData.data.webApps
+					this.$store.state.webApps = resData.data.webApps
 
 					router.push({
 						name: 'dashboard',
@@ -128,14 +127,14 @@
 					})
 				}
 				else {
-					this.error = this.resData.data.message
+					this.error = resData.data.message
 				}
 			},
 
 			async deleteWebApp() {
 				this.showConfirm = false
 
-				this.resData = await this.authAxios.post(
+				const resData = await this.authAxios.post(
 					'/delete-one',
 					{
 						webApp: {
@@ -144,8 +143,8 @@
 					}
 				);
 
-				if (this.resData.data.status) {
-					this.$store.state.webApps = this.resData.data.webApps;
+				if (resData.data.status) {
+					this.$store.state.webApps = resData.data.webApps;
 
 					this.$store.state.user.workspace.webApp = null;
 
@@ -154,14 +153,14 @@
 					})
 				}
 				else {
-					this.error = this.resData.data.message
+					this.error = resData.data.message
 				}
 			},
 
 
 			async getPageData() {
 				try {
-					this.resData = await this.authAxios.post(
+					const resData = await this.authAxios.post(
 						'/find-one',
 						{
 							webApp: {
@@ -170,13 +169,13 @@
 						}
 					)
 
-					if (this.resData.data.status) {
-						this.webApp = this.resData.data.webApp
+					if (resData.data.status) {
+						this.webApp = resData.data.webApp
 
 						this.loading = false
 					}
 					else {
-						this.error = this.resData.data.message
+						this.error = resData.data.message
 					}
 				}
 				catch (err) {

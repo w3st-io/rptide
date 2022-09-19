@@ -15,7 +15,7 @@ let returnObj = {
 	executed: true,
 	status: false,
 	location: '/api/web-app',
-	message: '',
+	message: ''
 };
 
 
@@ -177,6 +177,7 @@ module.exports = {
 				})
 			};
 
+			// If Safe Mode is off
 			if (!config.app.safeMode) {
 				// [WebApp][DELETE] All associated Web Contents
 				_returnObj.deleted = {
