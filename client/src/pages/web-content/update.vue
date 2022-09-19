@@ -1,9 +1,11 @@
 <template>
 	<BContainer class="py-5">
 		<BCard
-			no-body bg-variant="dark"
+			no-body
+			bg-variant="dark"
 			text-variant="light"
 			border-variant="secondary"
+			class="shadow"
 		>
 			<BCardHeader class="border-secondary">
 				<BRow>
@@ -282,6 +284,6 @@
 	.form-control {
 		@extend .bg-dark;
 		@extend .text-light;
-		@extend .border-primary;
+		@extend .border-secondary;
 	}
 </style>

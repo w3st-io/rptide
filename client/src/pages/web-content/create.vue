@@ -1,6 +1,12 @@
 <template>
 	<BContainer class="py-5">
-		<BCard bg-variant="dark" text-variant="light" border-variant="secondary" no-body>
+		<BCard
+			no-body
+			bg-variant="dark"
+			text-variant="light"
+			border-variant="secondary"
+			class="shadow"
+		>
 			<BCardHeader class="border-secondary">
 				<h3 class="m-0 text-center text-primary">Create Web Content</h3>
 			</BCardHeader>
@@ -175,6 +181,6 @@ export default {
 		@extend .form-control;
 		@extend .bg-dark;
 		@extend .text-light;
-		@extend .border-primary;
+		@extend .border-secondary;
 	}
 </style>
