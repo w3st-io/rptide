@@ -24,28 +24,28 @@ export default {
 	// [UPDATE] Auth Required
 	s_update: async function (img_url, bio) {
 		try {
-			return (await authAxios.post('/update', { img_url, bio })).data
+			return (await authAxios.post('/update', { img_url, bio })).data;
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				message: `${location}: Error --> ${err}`
-			}
+			};
 		}
 	},
 
 	// [UPDATE] Auth Required
 	s_update_workspaceWebApp: async function (webApp) {
 		try {
-			return (await authAxios.post('/update/workspace-web-app', { webApp })).data
+			return (await authAxios.post('/update/workspace-web-app', { webApp })).data;
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				message: `${location}: Error --> ${err}`
-			}
+			};
 		}
 	},
 
@@ -75,30 +75,30 @@ export default {
 				await authAxios.post('/update/password', {
 					currentPassword, password
 				})
-			).data
+			).data;
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				message: `${location}: Error --> ${err}`
-			}
+			};
 		}
 	},
 
 
 	s_generateApiKey: async function () {
 		try {
-			const res = await authAxios.post('/generate-api-key')
+			const res = await authAxios.post('/generate-api-key');
 			
-			return res.data
+			return res.data;
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `${location}: Error --> ${err}`
-			}
+				message: `${err}`
+			};
 		}
 	},
 }

@@ -123,99 +123,99 @@
 </template>
 
 <script>
-// [IMPORT]
-import axios from 'axios';
-import VueCreditCard from '@fracto/vue-credit-card';
+	// [IMPORT]
+	import axios from 'axios';
+	import VueCreditCard from '@fracto/vue-credit-card';
 
-export default {
-	data() {
-		return {
-			// [AUTH-AXIOS]
-			authAxios: axios.create({
-				baseURL: '/api/api-subscription',
-				headers: {
-					user_authorization: `Bearer ${localStorage.usertoken}`
-				}
-			}),
-
-			loading: true,
-			error: '',
-			showCardUpdater: false,
-
-			toBeUpdatedPaymentMethod: {
-				card: {
-					holder: '',
-					number: '',
-					month: '',
-					year: '',
-					cvv: '',
-				},
-			},
-		}
-	},
-
-	components: {
-		VueCreditCard
-	},
-
-	methods: {
-		async updatePaymentMethod() {
-			this.loading = true;
-
-			const resData = (
-				await this.authAxios.post(
-					'/update/payment-method',
-					{
-						cardName: this.toBeUpdatedPaymentMethod.card.holder,
-						cardNumber: this.toBeUpdatedPaymentMethod.card.number,
-						cardMonth: this.toBeUpdatedPaymentMethod.card.month,
-						cardYear: this.toBeUpdatedPaymentMethod.card.year,
-						cardCvc: this.toBeUpdatedPaymentMethod.card.cvv
+	export default {
+		data() {
+			return {
+				// [AUTH-AXIOS]
+				authAxios: axios.create({
+					baseURL: '/api/api-subscription',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`
 					}
-				)
-			).data;
+				}),
 
-			if (resData.status) {
-				this.showCardUpdater = false;
-				
-				this.$store.state.currentCard = resData.card;
-			}
-			else {
-				this.error = resData.message;
-			}
+				loading: true,
+				error: '',
+				showCardUpdater: false,
 
-			this.loading = false;
+				toBeUpdatedPaymentMethod: {
+					card: {
+						holder: '',
+						number: '',
+						month: '',
+						year: '',
+						cvv: '',
+					},
+				},
+			}
 		},
 
-		async deletePaymentMethod() {
-			this.loading = true
-
-			const resData = (
-				await this.authAxios.post('/delete/payment-method')
-			).data;
-
-			if (resData.status) {
-				this.showCardUpdater = false;
-				
-				this.$store.state.currentCard = {
-					brand: "",
-					last4: "",
-					exp_month: null,
-					exp_year: null,
-				};
-			}
-			else { this.error = resData.message; }
-
-			this.loading = false;
+		components: {
+			VueCreditCard
 		},
-	},
 
-	async created() {
-		const resData = (await this.authAxios.post('/read/payment-method')).data
+		methods: {
+			async updatePaymentMethod() {
+				this.loading = true;
 
-		this.$store.state.currentCard = resData.paymentMethod.card;
-		
-		this.loading = false;
+				const resData = (
+					await this.authAxios.post(
+						'/update/payment-method',
+						{
+							cardName: this.toBeUpdatedPaymentMethod.card.holder,
+							cardNumber: this.toBeUpdatedPaymentMethod.card.number,
+							cardMonth: this.toBeUpdatedPaymentMethod.card.month,
+							cardYear: this.toBeUpdatedPaymentMethod.card.year,
+							cardCvc: this.toBeUpdatedPaymentMethod.card.cvv
+						}
+					)
+				).data;
+
+				if (resData.status) {
+					this.showCardUpdater = false;
+					
+					this.$store.state.currentCard = resData.card;
+				}
+				else {
+					this.error = resData.message;
+				}
+
+				this.loading = false;
+			},
+
+			async deletePaymentMethod() {
+				this.loading = true
+
+				const resData = (
+					await this.authAxios.post('/delete/payment-method')
+				).data;
+
+				if (resData.status) {
+					this.showCardUpdater = false;
+					
+					this.$store.state.currentCard = {
+						brand: "",
+						last4: "",
+						exp_month: null,
+						exp_year: null,
+					};
+				}
+				else { this.error = resData.message; }
+
+				this.loading = false;
+			},
+		},
+
+		async created() {
+			const resData = (await this.authAxios.post('/read/payment-method')).data
+
+			this.$store.state.currentCard = resData.paymentMethod.card;
+			
+			this.loading = false;
+		}
 	}
-}
 </script>

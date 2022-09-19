@@ -154,12 +154,21 @@
 </template>
 
 <script>
+	import axios from 'axios'
+	
 	import Confirm from '@/components/popups/Confirm'
-	import ApiSubscriptionService from '../../services/ApiSubscriptionService'
 
 	export default {
 		data() {
 			return {
+				// [AUTH-AXIOS]
+				authAxios: axios.create({
+					baseURL: '/api/api-subscription',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				loading: true,
 				disableButtons: false,
 				showConfirm: false,
@@ -187,9 +196,12 @@
 
 				this.disableButtons = true;
 
-				const resData = await ApiSubscriptionService.s_update_tier({
-					tier: this.changeToTier
-				});
+				const resData = (
+					await this.authAxios.post(
+						'/update/payment-method',
+						{ tier: this.changeToTier }
+					)
+				).data;
 
 				if (resData.status) {
 					this.changeCard = false;
