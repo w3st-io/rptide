@@ -47,26 +47,24 @@
 
 				const res = (await this.authAxios.get('/')).data;
 
-				console.log(res);
-
 				if (res.status) {
 					// [LOCAL-STORAGE]
 					localStorage.setItem('node_env', res.node_env);
 
 					this.$store.state.limit = res.limit;
 						
+					// [STORE] user
 					if (res.user) {
-						// [STORE] user
 						this.$store.state.user = res.user;
 					}
 
+					// [STORE] webApps
 					if (res.apiSubscription) {
-						// [STORE] webApps
 						this.$store.state.apiSubscription = res.apiSubscription;
 					}
 
+					// [STORE] webApps
 					if (res.webApps) {
-						// [STORE] webApps
 						this.$store.state.webApps = res.webApps;
 					}
 				}
