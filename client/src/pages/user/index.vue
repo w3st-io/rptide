@@ -30,7 +30,6 @@
 
 				<BCol cols="12">
 					<MyCard
-						:currentCard="this.currentCard"
 						@refreshData="getPageData()"
 						class="mb-5"
 					/>
@@ -100,19 +99,10 @@
 				loading: true,
 				error: '',
 
-				currentCard: {
-					brand: '',
-					last4: '',
-					exp_month: '',
-					exp_year: '',
-				},
-
 				user: {},
 
 				tier1Price: 0,
 				tier2Price: 0,
-
-				data: {},
 
 				isVerified: true,
 				vCodeSent: false,
@@ -141,16 +131,7 @@
 
 					// currentCard
 					if (resData.paymentMethod) {
-						this.currentCard.brand = resData.paymentMethod.card.brand
-						this.currentCard.last4 = resData.paymentMethod.card.last4
-						this.currentCard.exp_month = resData.paymentMethod.card.exp_month
-						this.currentCard.exp_year = resData.paymentMethod.card.exp_year
-					}
-					else {
-						this.currentCard.brand = ''
-						this.currentCard.last4 = ''
-						this.currentCard.exp_month = ''
-						this.currentCard.exp_year = ''
+						this.$store.state.currentCard = resData.paymentMethod.card
 					}
 
 					// price
@@ -159,7 +140,6 @@
 				}
 				else {
 					this.error = resData.message
-					this.currentCard = {}
 				}
 
 				this.loading = false

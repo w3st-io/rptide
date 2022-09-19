@@ -68,10 +68,11 @@ module.exports = {
 					..._returnObj,
 					user: user,
 					apiSubscription: apiSubscription,
-					webApps: webApps,
+					webApps: webApps
 				};
 			}
 			
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true

@@ -16,15 +16,18 @@
 
 			<BCol cols="12" md="8">
 				<!-- Card Brand -->
-				<h4 v-if="currentCard.brand">
-					{{ currentCard.brand }} -
-					**** {{ currentCard.last4 }}
+				<h4 v-if="this.$store.state.currentCard.brand">
+					{{ this.$store.state.currentCard.brand }} -
+					**** {{ this.$store.state.currentCard.last4 }}
 				</h4>
 				<h4 v-else>No Card Attached</h4>
 
 				<!-- Card Exp -->
-				<h5 v-if="this.currentCard.exp_month" class="text-muted">
-					Exp: {{ this.currentCard.exp_month }}/{{ this.currentCard.exp_year }}
+				<h5 v-if="this.$store.state.currentCard.exp_month" class="text-muted">
+					Exp:
+					{{ this.$store.state.currentCard.exp_month }}
+					/
+					{{ this.$store.state.currentCard.exp_year }}
 				</h5>
 			</BCol>
 
@@ -116,30 +119,6 @@
 	import SubscriptionService from '@/services/ApiSubscriptionService'
 
 	export default {
-		props: {
-			currentCard: {
-				brand: {
-					default: '',
-					type: String,
-				},
-	
-				last4: {
-					default: '',
-					type: String,
-				},
-	
-				exp_month: {
-					default: null,
-					type: String,
-				},
-	
-				exp_year: {
-					default: null,
-					type: String,
-				},
-			},
-		},
-
 		data() {
 			return {
 				showCardUpdater: false,
