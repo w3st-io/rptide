@@ -59,12 +59,15 @@ mongoose.connect(
 	config.app.mongoURI,
 	{
 		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		//useFindAndModify: false,
+		useUnifiedTopology: true
 	},
 	(err, connected) => {
-		if (connected) { console.log('Mongoose Connected to MongoDB'); }
-		else { console.log(`Mongoose Connection Error --> ${err}`); }
+		if (connected) {
+			console.log('Mongoose Connected to MongoDB');
+		}
+		else {
+			console.log(`Mongoose Connection Error --> ${err}`);
+		}
 	}
 );
 

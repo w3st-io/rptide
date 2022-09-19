@@ -128,8 +128,6 @@ module.exports = {
 				};
 			}
 
-			console.log(req.body.password, user.password);
-
 			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.password, user.password)) {
 				return {
@@ -138,7 +136,7 @@ module.exports = {
 				};
 			}
 
-			// [200] Success Authentication
+			// [JWT] Generate
 			const token = jwt.sign(
 				{
 					_id: user._id,
@@ -155,7 +153,7 @@ module.exports = {
 				{ email: req.body.email }
 			).select('-password -api.publicKey');
 
-			// [200]
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,
