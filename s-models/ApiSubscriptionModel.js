@@ -60,11 +60,11 @@ const subscription = mongoose.Schema({
 				},
 			},
 		},
-	},
 
-	lastChecked: {
-		type: Date,
-		default: Date.now,
+		lastChecked: {
+			type: Date,
+			default: Date.now,
+		},
 	},
 
 	createdAt: {
