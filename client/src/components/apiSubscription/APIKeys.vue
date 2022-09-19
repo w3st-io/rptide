@@ -11,9 +11,7 @@
 				class="w-100"
 				style="max-width: 200px;"
 				@click="generateApiKey()"
-			>
-				Generate API Key
-			</BButton>
+			>Generate API Key</BButton>
 		</BCol>
 
 		<BCol cols="12">
@@ -41,7 +39,6 @@
 			async generateApiKey() {
 				const resData = await UserService.s_generateApiKey()
 				
-				console.log(resData);
 				if (resData.status) {
 					this.$store.state.user.api.privateKey = resData.privateKey;
 				}
