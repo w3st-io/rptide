@@ -52,7 +52,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 	}
 
 	// [CALCULATE] Hours since last check
-	const hours = Math.abs(apiSubscription.lastCleared - new Date()) / 36e5;
+	const hours = Math.abs(apiSubscription.stripe.lastChecked - new Date()) / 36e5;
 
 	// If last time checked was over 24 hours ago
 	if (hours > config.cycleHours || force == true) {
@@ -74,7 +74,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 						$set: {
 							"stripe.subscription.tier1.subId": "",
 							"stripe.subscription.tier1.cancelAtPeriodEnd": false,
-							lastChecked: new Date()
+							"stripe.lastChecked": new Date()
 						}
 					},
 				);
@@ -99,7 +99,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 						$set: {
 							"stripe.subscription.tier2.subId": "",
 							"stripe.subscription.tier2.cancelAtPeriodEnd": false,
-							lastChecked: new Date()
+							"stripe.lastChecked": new Date()
 						}
 					},
 				);

@@ -38,7 +38,7 @@ export default {
 	// [UPDATE] Auth Required
 	s_update_workspaceWebApp: async function (webApp) {
 		try {
-			return (await authAxios.post('/update/workspace-web-app', { webApp })).data;
+			return (await authAxios.post('/update/workspace--web-app', { webApp })).data;
 		}
 		catch (err) {
 			return {
