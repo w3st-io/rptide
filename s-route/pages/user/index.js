@@ -4,7 +4,7 @@ const express = require('express');
 
 
 // [REQUIRE] Personal
-const { index } = require('./index.handler');
+const { index } = require('./.handler.js');
 const Auth = require('../../../s-middlewares/Auth');
 
 

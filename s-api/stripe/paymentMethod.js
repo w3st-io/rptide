@@ -74,29 +74,7 @@ module.exports = {
 				message: `${location}: Error --> ${err}`,
 			}
 		}
-	},
-
-
-	a_retrieve: async function ({ pmId }) {
-		try {
-			const paymentMethod = await Stripe.paymentMethods.retrieve(pmId)
-
-			return {
-				executed: true,
-				status: true,
-				paymentMethod: paymentMethod
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-	
+	},	
 	
 	a_detach: async function ({ pmId }) {
 		try {

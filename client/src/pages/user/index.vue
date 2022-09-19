@@ -131,7 +131,7 @@
 
 					// currentCard
 					if (resData.paymentMethod) {
-						this.$store.state.currentCard = resData.paymentMethod.card
+						this.$store.state.currentCard = resData.paymentMethod.card;
 					}
 
 					// price

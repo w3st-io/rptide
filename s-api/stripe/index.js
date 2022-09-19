@@ -103,34 +103,4 @@ module.exports = {
 			}
 		}
 	},
-
-
-	// Wrapper for retrieving payment method
-	aa_retrieve_ifExistant_paymentMethod: async function ({ pmId }) {
-		try {
-			if (pmId) {
-				// [API][stripe] Retrieve Payment Method Details
-				const pmObj = await a_stripe_paymentMethod.a_retrieve({
-					pmId: pmId
-				})
-				
-				return pmObj
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					paymentMethod: null
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
 }

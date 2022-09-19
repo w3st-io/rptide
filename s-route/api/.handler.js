@@ -9,7 +9,6 @@ const stripe = require('stripe')
 // [REQUIRE] Personal
 const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
 const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
-const ApiSubscriptionCollection = require('../../s-collections/ApiSubscriptionCollection');
 const config = require('../../s-config');
 const config_const = require('../../s-config/const');
 const WebAppModel = require('../../s-models/WebAppModel');
@@ -238,7 +237,10 @@ module.exports = {
 			});
 
 			// [MONGODB][CREATE][ApiSubscription]
-			await ApiSubscriptionCollection.c_create({ user_id: user._id });
+			await new ApiSubscriptionModel({
+				_id: mongoose.Types.ObjectId(),
+				user: user._id,
+			}).save();
 
 			// [MAIL] Verification Email
 			await mailerUtil.sendVerificationMail(
@@ -313,15 +315,20 @@ module.exports = {
 			.exec();
 
 			// [UPDATE][ApiSubscription]
-			const apiSubObj_findOne = await ApiSubscriptionCollection.c_read_byUser({
-				user_id: user._id
-			});
+			const apiSubscription = await ApiSubscriptionModel.findOne({
+				user: user._id
+			})
 
-			// [VALIDATE-STATUS] retrievedApiSubscriptionObj
-			if (!apiSubObj_findOne.status) { return apiSubObj_findOne; }
+			if (!apiSubscription) {
+				return {
+					executed: true,
+					status: false,
+					message: 'No ApiSubscription found'
+				};
+			}
 
 			// if no cusId 
-			if (!apiSubObj_findOne.apiSubscription.stripe.cusId) {
+			if (!apiSubscription.stripe.cusId) {
 				// [API][stripe] Create customer
 				const createdStripeCustomer = await Stripe.customers.create({
 					email: user.email,
