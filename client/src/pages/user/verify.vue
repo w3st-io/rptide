@@ -1,6 +1,11 @@
 <template>
 	<BContainer class="my-5">
-		<BCard bg-variant="dark" class="mx-auto" style="max-width: 500px;">
+		<BCard
+			bg-variant="dark"
+			border-variant="secondary"
+			class="mx-auto shadow"
+			style="max-width: 500px;"
+		>
 			<div v-if="success">
 				<h3 class="text-success text-center">{{ success }}</h3>
 				<h1 class="text-success text-center" style="font-size: 6em;">✓</h1>

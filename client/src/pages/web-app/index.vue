@@ -2,8 +2,8 @@
 	<BContainer class="py-5">
 		<h3 class="mb-5 text-center text-primary">Web Apps</h3>
 		
-		<BCard bg-variant="dark" no-body>
-			<BCardHeader>
+		<BCard bg-variant="dark" border-variant="secondary" no-body>
+			<BCardHeader class="border-secondary">
 				<h4 class="m-0 text-primary">Create Web App</h4>
 			</BCardHeader>
 
@@ -12,8 +12,8 @@
 			</BCardBody>
 		</BCard>
 
-		<BCard bg-variant="dark" no-body>
-			<BCardHeader>
+		<BCard bg-variant="dark" border-variant="secondary" no-body>
+			<BCardHeader class="border-secondary">
 				<h4 class="m-0 text-primary">Your Web Apps</h4>
 			</BCardHeader>
 

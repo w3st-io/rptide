@@ -6,7 +6,7 @@
 					bg-variant="dark"
 					border-variant="secondary"
 					text-variant="light"
-					class="m-auto"
+					class="m-auto shadow"
 					style="max-width: 500px;"
 				>
 					<h4 class="text-center">Enter Your Email to Reset Password</h4>

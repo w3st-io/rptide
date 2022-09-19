@@ -3,9 +3,10 @@
 		<BCard
 			no-body bg-variant="dark"
 			text-variant="light"
+			border-variant="secondary"
 			class="shadow"
 		>
-			<BCardHeader>
+			<BCardHeader class="border-secondary">
 				<BRow>
 					<BCol cols="9" sm="9" md="10" lg="10">
 						<h3 class="m-0 text-center text-primary">Update Web App</h3>
@@ -196,6 +197,6 @@
 	.form-control {
 		@extend .bg-dark;
 		@extend .text-light;
-		@extend .border-primary;
+		@extend .border-secondary;
 	}
 </style>

@@ -168,6 +168,7 @@ module.exports = {
 
 
 	update_paymentMethod: async ({ req }) => {
+		// [INIT]
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/payment-method/update',
@@ -175,6 +176,7 @@ module.exports = {
 		};
 
 		try {
+			// [VALIDATE]
 			if (
 				!validator.isAscii(req.body.cardNumber) ||
 				!validator.isAscii(req.body.cardMonth) ||
@@ -241,7 +243,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				status: true,
-				card: apiStripe_updatedPM.stripeCreatedPaymentMethod.card
+				card: stripeCreatedPaymentMethod.card
 			};
 		}
 		catch (err) {

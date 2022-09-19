@@ -2,7 +2,7 @@
 	<BContainer class="my-5">
 		<BCard
 			bg-variant="dark"
-			border-variant="muted"
+			border-variant="secondary"
 			class="mx-auto shadow"
 			style="max-width: 800px;"
 		>

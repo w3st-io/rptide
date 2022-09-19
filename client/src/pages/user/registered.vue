@@ -5,7 +5,8 @@
 				<BCard
 					bg-variant="dark"
 					text-variant="light"
-					class="mx-auto"
+					class="mx-auto shadow"
+					border-variant="secondary"
 					style="max-width: 500px;"
 				>
 					<h2 class="mb-4 text-success">Account Created!</h2>
