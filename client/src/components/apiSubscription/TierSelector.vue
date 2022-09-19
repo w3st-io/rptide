@@ -1,11 +1,11 @@
 <template>
 	<BCard
 		bg-variant="dark"
-		border-variant=""
+		border-variant="secondary"
 		no-body
 		class="shadow"
 	>
-		<BCardHeader>
+		<BCardHeader class="border-secondary">
 			<BRow>
 				<BCol cols="12">
 					<h4 class="text-primary">Your Current API Subscrition Tier</h4>

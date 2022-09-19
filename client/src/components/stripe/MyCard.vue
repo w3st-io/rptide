@@ -1,12 +1,12 @@
 <template>
 	<BCard
 		bg-variant="dark"
-		border-variant=""
+		border-variant="secondary"
 		text-variant="light"
 		no-body
 		class="shadow"
 	>
-		<BCardHeader>
+		<BCardHeader class="border-secondary">
 			<BRow>
 				<BCol cols="12">
 					<h4 class="text-primary">Your Card on File</h4>

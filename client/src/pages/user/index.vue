@@ -17,9 +17,7 @@
 			</BCol>
 
 			<BCol cols="12">
-				<BCard bg-variant="dark" class="shadow">
-					<APIKeys />
-				</BCard>
+				<APIKeys />
 			</BCol>
 
 			<BCol cols="12">

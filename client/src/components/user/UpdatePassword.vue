@@ -1,77 +1,82 @@
 <template>
 	<div class="my-5">
 		<BCard
+			no-body
 			bg-variant="dark"
+			border-variant="secondary"
 			text-variant="light"
 			class="m-auto w-100 shadow"
 		>
-			<h5 class="text-center">Create New Password</h5>
-			<p>Please enter your new password</p>
+			<BCardHeader class="border-secondary">
+				<h4 class="m-0 text-primary">Change Password</h4>
+			</BCardHeader>
 
-			<ValidationObserver v-slot="{ handleSubmit }">
-				<form @submit.prevent="handleSubmit(submit)">
-					<!-- Current Password -->
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required"
-						v-slot="{ errors }"
-					>
-						<input
-							v-model="formData.currentPassword"
-							type="password"
-							class="form-control bg-dark text-light border-secondary"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="Current Password"
+			<BCardBody>
+				<ValidationObserver v-slot="{ handleSubmit }">
+					<form @submit.prevent="handleSubmit(submit)">
+						<!-- Current Password -->
+						<ValidationProvider
+							tag="div"
+							class="form-group"
+							rules="required"
+							v-slot="{ errors }"
 						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
+							<input
+								v-model="formData.currentPassword"
+								type="password"
+								class="form-control bg-dark text-light border-secondary"
+								:class="{ 'is-invalid border-danger': errors != '' }"
+								placeholder="Current Password"
+							>
+							<span class="text-danger">{{ errors[0] }}</span>
+						</ValidationProvider>
 
-					<!-- Password -->
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required|password:8, 50|confirmed:@confirmation"
-						v-slot="{ errors }"
-					>
-						<input
-							v-model="formData.password"
-							type="password"
-							class="form-control bg-dark text-light border-secondary"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="Password"
+						<!-- Password -->
+						<ValidationProvider
+							tag="div"
+							class="form-group"
+							rules="required|password:8, 50|confirmed:@confirmation"
+							v-slot="{ errors }"
 						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
+							<input
+								v-model="formData.password"
+								type="password"
+								class="form-control bg-dark text-light border-secondary"
+								:class="{ 'is-invalid border-danger': errors != '' }"
+								placeholder="Password"
+							>
+							<span class="text-danger">{{ errors[0] }}</span>
+						</ValidationProvider>
 
-					<!-- Confirmed Password -->
-					<ValidationProvider
-						tag="div"
-						name="confirmation"
-						rules="required"
-						class="form-group" 
-						v-slot="{ errors }"
-					>
-						<input
-							v-model="confirm"
-							name="confirm"
-							type="password"
-							class="form-control bg-dark text-light border-secondary"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="Repeat Password"
+						<!-- Confirmed Password -->
+						<ValidationProvider
+							tag="div"
+							name="confirmation"
+							rules="required"
+							class="form-group" 
+							v-slot="{ errors }"
 						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
-			
-					<!-- Submit -->
-					<BButton
-						:disabled="submitted"
-						variant="primary"
-						class="w-100"
-						type="submit"
-					>Reset Password</BButton>
-				</form>
-			</ValidationObserver>
+							<input
+								v-model="confirm"
+								name="confirm"
+								type="password"
+								class="form-control bg-dark text-light border-secondary"
+								:class="{ 'is-invalid border-danger': errors != '' }"
+								placeholder="Repeat Password"
+							>
+							<span class="text-danger">{{ errors[0] }}</span>
+						</ValidationProvider>
+				
+						<!-- Submit -->
+						<BButton
+							:disabled="submitted"
+							variant="primary"
+							class="w-100"
+							type="submit"
+						>Reset Password</BButton>
+					</form>
+				</ValidationObserver>
+			</BCardBody>
 		</BCard>
 
 		<!-- Message -->
