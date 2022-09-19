@@ -30,17 +30,17 @@
 						bg-variant="dark"
 						text-variant="light"
 						border-variant="secondary"
-						class="h-100 mb-3 hover-card"
+						class="h-100 mb-3 hover-card shadow"
 					>
 						<BCardHeader class="border-secondary">
-							<h5 class="m-0 text-primary">{{ w.name }}</h5>
+							<h5 class="text-primary">{{ w.name }}</h5>
+							<h6 class="m-0 small text-muted">{{ w._id }}</h6>
 						</BCardHeader>
 
 						<BCardBody>
-							<h6 lass="m-0">
+							<h6 class="m-0">
 								{{ new Date(w.createdTimeStamp).toLocaleString() }}
 							</h6>
-							<h6 class="m-0 small text-muted">{{ w._id }}</h6>
 						</BCardBody>
 					</BCard>
 				</RouterLink>
