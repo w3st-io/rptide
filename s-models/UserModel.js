@@ -1,27 +1,27 @@
 // [REQUIRE]
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 
 // [INIT]
-const defaultImage = 'https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg';
+const defaultImage = "https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg";
 
 
 module.exports = mongoose.model(
-	'User',
+	"User",
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 
 		role: {
 			type: String,
-			enum: ['admin', ''],
-			default: '',
+			enum: ["admin", ""],
+			default: "",
 			maxlength: 10,
 		},
 
 		email: {	
 			unique: true,
 			type: String,
-			required: [true, 'This is required'],
+			required: [true, "This is required"],
 			maxlength: 50,
 		},
 		
@@ -33,12 +33,12 @@ module.exports = mongoose.model(
 		
 		password: {
 			type: String,
-			required: [true, 'This is required'],
+			required: [true, "This is required"],
 		},
 
 		bio: {
 			type: String,
-			default: '',
+			default: "",
 			maxlength: 600,
 		},
 
@@ -49,7 +49,7 @@ module.exports = mongoose.model(
 
 		location: {
 			type: String,
-			default: '',
+			default: "",
 		},
 
 		social: {
@@ -79,10 +79,57 @@ module.exports = mongoose.model(
 
 		},
 
+		stripe: {
+			cusId: {
+				type: String,
+				default: "",
+				maxlength: 100
+			},
+	
+			pmId: {
+				type: String,
+				default: "",
+				maxlength: 100
+			},
+	
+			subscription: {
+				tier1: {
+					subId: {
+						type: String,
+						default: "",
+						maxlength: 100
+					},
+	
+					cancelAtPeriodEnd: {
+						type: Boolean,
+						default: false,
+					},
+				},
+		
+				tier2: {
+					subId: {
+						type: String,
+						default: "",
+						maxlength: 100
+					},
+	
+					cancelAtPeriodEnd: {
+						type: Boolean,
+						default: false,
+					},
+				},
+			},
+	
+			lastChecked: {
+				type: Date,
+				default: Date.now,
+			}
+		},
+
 		workspace: {
 			webApp: {
 				type: String,
-				default: '',
+				default: "",
 				maxlength: 50,
 			},
 		},

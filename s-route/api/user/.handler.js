@@ -224,4 +224,133 @@ module.exports = {
 			};
 		}
 	},
+
+	"/stripe-payment-method": async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			location: returnObj.location + "/payment-method/update",
+			message: "Payment Method retrieved",
+			paymentMethod: {
+				card: {
+					brand: "",
+					last4: "",
+					exp_month: null,
+					exp_year: null
+				}
+			}
+		};
+
+		try {
+			// [READ][ApiSubscription]
+			const user = await UserModel.findOne({
+				user: req.user_decoded._id
+			});
+
+			// [API][stripe] Retrieve payment method details if it exists
+			if (user.stripe.pmId) {
+				_returnObj.paymentMethod = await Stripe.paymentMethods.retrieve(
+					user.stripe.pmId
+				);
+			}
+
+			// [200] Success
+			return {
+				..._returnObj,
+				status: true
+			};
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: `${err}`
+			};
+		}
+	},
+
+	"/update/stripe-payment-method": async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			location: returnObj.location + "/payment-method/update",
+			message: "Payment Method successfully changed"
+		};
+
+		try {
+			// [VALIDATE]
+			if (
+				!validator.isAscii(req.body.cardNumber) ||
+				!validator.isAscii(req.body.cardMonth) ||
+				!validator.isAscii(req.body.cardYear) ||
+				!validator.isAscii(req.body.cardCvc)
+			) {
+				return {
+					..._returnObj,
+					message: "Invalid parameters"
+				};
+			}
+
+			// [MONGODB][READ][User]
+			const user = await UserModel.findOne({
+				user: req.user_decoded._id
+			});
+
+			// [API][stripe] Remove previous payment method
+			if (user.stripe.pmId !== "") {
+				await Stripe.paymentMethods.detach(user.stripe.pmId);
+			}
+
+			// [API][stripe] Create a paymentMethod
+			const stripeCreatedPaymentMethod = await Stripe.paymentMethods.create({
+				type: "card",
+				card: {
+					number: req.body.cardNumber,
+					exp_month: req.body.cardMonth,
+					exp_year: req.body.cardYear,
+					cvc: req.body.cardCvc,
+				},
+			});
+
+			// [API][stripe] connect the customer to the paymentMethod
+			await Stripe.paymentMethods.attach(
+				stripeCreatedPaymentMethod.id,
+				{ customer: user.stripe.cusId }
+			);
+
+			// [API][stripe] Set default_payment_method
+			await Stripe.customers.update(
+				user.stripe.cusId,
+				{
+					invoice_settings: {
+						default_payment_method: stripeCreatedPaymentMethod.id,
+					}
+				}
+			);
+
+			// [MONGODB][UPDATE][User] update pmId
+			await UserModel.updateOne(
+				{ user: req.user_decoded._id },
+				{
+					$set: {
+						"stripe.pmId": stripeCreatedPaymentMethod.id
+					}
+				},
+			);
+
+			// [200] Success
+			return {
+				..._returnObj,
+				status: true,
+				card: stripeCreatedPaymentMethod.card
+			};
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: `${err}`
+			};
+		}
+	},
 }
