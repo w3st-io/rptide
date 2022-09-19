@@ -384,7 +384,6 @@ module.exports = {
 				break;
 
 				case 2:
-					console.log('rnn');
 					// [TIER-1] Deal with existing
 					if (apiSubscription.stripe.subscription.tier1.subId) {
 						// [API][stripe] cancel_at_period_end 
@@ -409,7 +408,6 @@ module.exports = {
 					
 					// [TIER-2] Deal with existing ELSE create
 					if (apiSubscription.stripe.subscription.tier2.subId) {
-						console.log('running');
 						// [API][stripe] Reactivate
 						await Stripe.subscriptions.update(
 							apiSubscription.stripe.subscription.tier2.subId,
@@ -430,9 +428,6 @@ module.exports = {
 						);
 					}
 					else {
-						console.log('sss');
-						console.log('wtf', tier2PriceId);
-
 						// [API][stripe] PURCHASE SUB tier 2
 						const result = await Stripe.subscriptions.create({
 							customer: apiSubscription.stripe.cusId,
@@ -466,8 +461,10 @@ module.exports = {
 				break;
 			}
 
+			// [200] Success
 			return {
 				..._returnObj,
+				status: true,
 				apiSubscription: await ApiSubscriptionModel.findOne({
 					user: req.user_decoded._id
 				})

@@ -196,12 +196,14 @@
 				this.showConfirm = false;
 				
 				this.loading = true;
+
 				this.disableButtons = true;
 
 				const resData = await ApiSubscriptionService.s_update_tier({
 					tier: this.changeToTier
 				});
 
+				console.log('updated', this.$store.state.apiSubscription, resData);
 				if (resData.status) {
 					this.changeCard = false;
 					
@@ -212,6 +214,7 @@
 				else { this.error = resData.message; }
 
 				this.loading = false;
+				
 				this.disableButtons = false;
 			},
 		},
