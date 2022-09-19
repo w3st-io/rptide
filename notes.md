@@ -7,4 +7,4 @@
 3. Make code more object oriented
 	a) Use default return object
 
-4. Make middleware to add user details 
+4. Make middleware to add user details.
