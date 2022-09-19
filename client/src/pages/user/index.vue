@@ -21,41 +21,38 @@
 			</BCol>
 		</BRow>
 		
-		<div v-if="!error && !loading">
-			<BRow>
-				<!-- Account Details -->
-				<BCol cols="12">
-					<h2 class="mb-5 text-primary">Your Account</h2>
-				</BCol>
+		<BRow v-if="!loading && !error">
+			<!-- Account Details -->
+			<BCol cols="12">
+				<h2 class="mb-5 text-primary">Your Account</h2>
+			</BCol>
 
-				<BCol cols="12">
-					<MyCard
-						@refreshData="getPageData()"
-						class="mb-5"
-					/>
-				</BCol>
+			<BCol cols="12">
+				<MyCard
+					@refreshData="getPageData()"
+					class="mb-5"
+				/>
+			</BCol>
 
-				<BCol cols="12">
-					<TierSelector
-						class="mb-5"
-						:tier1Price="tier1Price"
-						:tier2Price="tier2Price"
-					/>
-				</BCol>
+			<BCol cols="12">
+				<TierSelector
+					class="mb-5"
+					:tier1Price="tier1Price"
+					:tier2Price="tier2Price"
+				/>
+			</BCol>
 
-				<BCol cols="12">
-					<BCard
-						bg-variant="dark"
-						class="shadow"
-					>
-						<APIKeys />
-					</BCard>
-				</BCol>
-			</BRow>
-		</div>
+			<BCol cols="12">
+				<BCard bg-variant="dark" class="shadow">
+					<APIKeys />
+				</BCard>
+			</BCol>
 
-		<!-- Update Password -->
-		<UpdatePassword v-if="!loading" />
+			<BCol cols="12">
+				<!-- Update Password -->
+				<UpdatePassword />
+			</BCol>
+		</BRow>
 
 		<BRow v-if="loading">
 			<!-- [LOADING] -->
@@ -123,8 +120,6 @@
 				const resData = (await this.authAxios.get('/')).data
 				
 				if (resData.status) {
-					this.data = resData
-					
 					// user
 					this.user = resData.user
 					this.isVerified = this.user.verified
@@ -156,7 +151,7 @@
 				}
 			},
 
-			redirectPasswordChange() { router.push({ name: 'password_change', }) },
+			redirectPasswordChange() { router.push({ name: 'password_change' }) }
 		},
 
 		async created() {

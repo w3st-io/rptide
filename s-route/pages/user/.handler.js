@@ -3,18 +3,20 @@ const stripe = require("stripe");
 
 
 // [REQUIRE] Personal
-const config = require('../../../s-config');
-const UserModel = require('../../../s-models/UserModel');
+const config = require("../../../s-config");
+const ApiSubscriptionModel = require('../../../s-models/ApiSubscriptionModel');
+const UserModel = require("../../../s-models/UserModel");
 
 
 // [STRIPE]
 const Stripe = stripe(config.api.stripe.secretKey);
 
+
 module.exports = {
 	index: async ({ req }) => {
 		try {
 			const user = await UserModel.findOne({ _id: req.user_decoded._id })
-				.select('-password -api.publicKey -api.privateKey')
+				.select("-password -api.publicKey -api.privateKey")
 			
 			if (!user) {
 				return {
@@ -81,7 +83,7 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: '/pages/user',
-				message: `/pages/user: Error --> ${err}`,
+				message: `${err}`,
 				err: err
 			};
 		}

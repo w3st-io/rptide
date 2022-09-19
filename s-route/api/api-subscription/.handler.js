@@ -13,6 +13,11 @@ const ApiSubscriptionModel = require('../../../s-models/ApiSubscriptionModel');
 const Stripe = stripe(config.api.stripe.secretKey);
 
 
+// [INIT] Const
+const tier1PriceId = config.api.stripe.priceTier1;
+const tier2PriceId = config.api.stripe.priceTier2;
+
+
 // [INIT]
 let returnObj = {
 	executed: true,
@@ -20,10 +25,6 @@ let returnObj = {
 	location: '/api-subscription',
 	message: ''
 };
-
-
-const tier1PriceId = config.api.stripe.priceTier1;
-const tier2PriceId = config.api.stripe.priceTier2;
 
 
 /**
