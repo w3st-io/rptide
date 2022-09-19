@@ -9,6 +9,8 @@ module.exports = {
 	
 	// [APP]
 	app: {
+		safeMode: process.env.APP__SAFE_MODE || true,
+
 		acceptingUserRegistration: process.env.APP__ACCEPTING_NEW_REGISTRATIONS || 'false',
 
 		// [MONGODB]

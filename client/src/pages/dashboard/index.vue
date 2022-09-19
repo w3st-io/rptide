@@ -61,7 +61,10 @@
 			async switchTab(tab) {
 				this.error = ''
 
-				if (!validator.isMongoId(this.$store.state.user.workspace.webApp)) {
+				if (
+					!this.$store.state.user.workspace.webApp ||
+					!validator.isMongoId(this.$store.state.user.workspace.webApp)
+				) {
 					router.push({ name: 'web-app' });
 				}
 				

@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="py-5">
 		<Update
-			:webApp_id="this.$store.state.user.workspace.webApp"
+			:webApp_id="$route.params.webapp_id"
 			class="mx-auto"
 			style="max-width: 800px;"
 		/>

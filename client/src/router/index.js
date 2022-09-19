@@ -188,7 +188,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/web-app/update',
+			path: '/web-app/update/:webapp_id',
 			name: 'Web App Update',
 			component: webApp_update,
 			meta: {

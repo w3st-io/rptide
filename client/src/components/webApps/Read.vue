@@ -7,7 +7,7 @@
 				cols="12" sm="6" md="4" lg="3"
 			>
 				<RouterLink
-					to="/web-app/update"
+					:to="`/web-app/update/${w._id}`"
 					class="text-decoration-none"
 				>
 					<BCard

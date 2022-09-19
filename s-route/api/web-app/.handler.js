@@ -4,6 +4,8 @@ const validator = require('validator');
 
 
 // [REQUIRE] Personal
+const config = require('../../../s-config');
+const UserModel = require('../../../s-models/UserModel');
 const WebAppModel = require('../../../s-models/WebAppModel');
 const WebContentModel = require('../../../s-models/WebContentModel');
 
@@ -153,15 +155,13 @@ module.exports = {
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/delete-one',
-			message: 'Deleted WebApp'
+			message: 'Deleted WebApp',
+			deleted: {},
 		};
 
 		try {
-			const user_id = req.user_decoded._id;
-			const webApp_id = req.body.webApp._id;
-
 			// [VALIDATE] webApp_id
-			if (!validator.isAscii(webApp_id)) {
+			if (!validator.isAscii(req.body.webApp._id)) {
 				return {
 					..._returnObj,
 					message: 'Invalid params'
@@ -169,27 +169,40 @@ module.exports = {
 			}
 
 			// [WebApp][DELETE]
-			const result = await WebAppModel.deleteOne({
-				_id: webApp_id,
-				user: user_id
-			});
+			_returnObj.deleted = {
+				..._returnObj.deleted,
+				webApp: await WebAppModel.deleteOne({
+					_id: req.body.webApp._id,
+					user: req.user_decoded._id
+				})
+			};
 
-			// [WebApp][DELETE]
-			const resultWebContents = await WebContentModel.deleteMany({
-				webApp: webApp_id,
-				user: user_id
-			});
+			if (!config.app.safeMode) {
+				// [WebApp][DELETE] All associated Web Contents
+				_returnObj.deleted = {
+					..._returnObj.deleted,
+					webContents: await WebContentModel.deleteMany({
+						webApp: req.body.webApp._id,
+						user: req.user_decoded._id
+					})
+				};
+			}
 
-			const webApps = await WebAppModel.find({ user: user_id });
+			// [RESET] workspace.webApp
+			await UserModel.findOneAndUpdate(
+				{ user: req.user_decoded._id },
+				{
+					$set: {
+						"workspace.webApp": ""
+					}
+				}
+			);
 			
+			// [200]
 			return {
 				..._returnObj,
 				status: true,
-				deleted: {
-					webApp: result,
-					webContents: resultWebContents,
-				},
-				webApps: webApps
+				webApps: await WebAppModel.find({ user: req.user_decoded._id })
 			};
 		}
 		catch (err) {

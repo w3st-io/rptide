@@ -120,7 +120,6 @@
 					router.push({
 						name: 'dashboard',
 						params: {
-							webapp: this.$store.state.user.workspace.webApp,
 							tab: 'web-content',
 							sort: 0,
 							limit: 5,
@@ -143,17 +142,17 @@
 							_id: this.webApp_id
 						}
 					}
-				)
+				);
+
+				console.log(this.resData);
 
 				if (this.resData.data.status) {
+					this.$store.state.webApps = this.resData.data.webApps;
+
+					this.$store.state.user.workspace.webApp = null;
+
 					router.push({
-						name: 'dashboard',
-						params: {
-							tab: 'web-content',
-							sort: 0,
-							limit: 5,
-							page: 1,
-						},
+						name: 'web-app'
 					})
 				}
 				else {
