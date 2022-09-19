@@ -116,6 +116,57 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 
 
 module.exports = {
+	read_paymentMethod: async ({ req }) => {
+		let _returnObj = {
+			...returnObj,
+			location: returnObj.location + '/payment-method/update',
+			message: 'Payment Method retrieved',
+			paymentMethod: {
+				card: {
+					brand: "",
+					last4: "",
+					exp_month: null,
+					exp_year: null
+				}
+			}
+		};
+
+		try {
+			// [READ][ApiSubscription]
+			const apiSubscription = await ApiSubscriptionModel.findOne({
+				user: req.user_decoded._id
+			});
+
+			if (!apiSubscription) {
+				return {
+					..._returnObj,
+					message: 'No ApiSubscription found'
+				};
+			}
+
+			// [API][stripe] Retrieve payment method details if it exists
+			if (apiSubscription.stripe.pmId) {
+				_returnObj.paymentMethod = await Stripe.paymentMethods.retrieve(
+					apiSubscription.stripe.pmId
+				);
+			}
+
+			// [200] Success
+			return {
+				..._returnObj,
+				status: true,
+			};
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: `${err}`
+			};
+		}
+	},
+
+
 	update_paymentMethod: async ({ req }) => {
 		let _returnObj = {
 			...returnObj,
@@ -141,6 +192,8 @@ module.exports = {
 				user: req.user_decoded._id
 			});
 
+			console.log(apiSubscription);
+
 			// [API][stripe] paymentMethod
 			const apiStripe_updatedPM = await a_stripe.aa_updatePaymentMethod({
 				cusId: apiSubscription.stripe.cusId,
@@ -163,7 +216,7 @@ module.exports = {
 				},
 				{
 					$set: {
-						"stripe.pmId": apiStripe_updatedPM.stripeCreatedPaymentMethod.id,
+						"stripe.pmId": apiStripe_updatedPM.stripeCreatedPaymentMethod.id
 					}
 				},
 			);
@@ -172,7 +225,7 @@ module.exports = {
 			return {
 				..._returnObj,
 				status: true,
-				card: apiStripe_updatedPM.stripeCreatedPaymentMethod.card,
+				card: apiStripe_updatedPM.stripeCreatedPaymentMethod.card
 			};
 		}
 		catch (err) {
@@ -479,6 +532,7 @@ module.exports = {
 			};
 		}
 	},
+
 
 	cycleCheckApiSubscription: async ({ user_id }) => { 
 		await cycleCheckApiSubscription({ user_id })

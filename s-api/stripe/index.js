@@ -3,9 +3,6 @@ const stripe = require('stripe')
 
 
 // [REQUIRE] Personal
-const a_stripe_customer = require('../../s-api/stripe/customer')
-const a_stripe_paymentMethod = require('../../s-api/stripe/paymentMethod')
-const a_stripe_subscription = require('../../s-api/stripe/subscription')
 const config = require('../../s-config')
 
 
@@ -30,52 +27,51 @@ module.exports = {
 		try {
 			// [API][stripe] Remove previous payment method
 			if (previous_pmId !== '') {
-				await a_stripe_paymentMethod.a_detach({ pmId: previous_pmId })
+				await Stripe.paymentMethods.detach(previous_pmId);
 			}
-
-			// [API][stripe] Create a paymentMethod
-			const pMObj = await a_stripe_paymentMethod.a_create({
-				cardNumber: cardNumber,
-				cardMonth: cardMonth,
-				cardYear: cardYear,
-				cardCvc: cardCvc,
-			})
 			
-			if (pMObj.status) {
-				// [API][stripe] connect the customer to the paymentMethod
-				const PMAttachedToCusObj = await a_stripe_paymentMethod.a_attachToCustomer({
-					pmId: pMObj.stripeCreatedPaymentMethod.id,
-					cusId: cusId
-				})
-				
-				if (PMAttachedToCusObj.status) {
-					const cSDPMObj = await a_stripe_customer.aa_setDefaultPaymentMethod({
-						cusId: cusId,
-						pmId: pMObj.stripeCreatedPaymentMethod.id,
-					})
-
-					if (cSDPMObj.status) {
-						// [200] Success
-						return {
-							executed: true,
-							status: true,
-							stripeCreatedPaymentMethod: pMObj.stripeCreatedPaymentMethod,
-							attachedPaymentMethod: PMAttachedToCusObj.attachedPaymentMethod,
-						}
+			// [API][stripe] Create a paymentMethod
+			const stripeCreatedPaymentMethod = await Stripe.paymentMethods.create({
+				type: 'card',
+				card: {
+					number: cardNumber,
+					exp_month: cardMonth,
+					exp_year: cardYear,
+					cvc: cardCvc,
+				},
+			});
+			
+	
+			// [API][stripe] connect the customer to the paymentMethod
+			const attachedPaymentMethod = await Stripe.paymentMethods.attach(
+				stripeCreatedPaymentMethod.id,
+				{ customer: cusId }
+			);
+			
+			await Stripe.customers.update(
+				cusId,
+				{
+					invoice_settings: {
+						default_payment_method: stripeCreatedPaymentMethod.id,
 					}
-					else { return cSDPMObj }
 				}
-				else { return PMAttachedToCusObj }
-			}
-			else { return pMObj }
+			);
+
+			// [200] Success
+			return {
+				executed: true,
+				status: true,
+				stripeCreatedPaymentMethod: stripeCreatedPaymentMethod,
+				attachedPaymentMethod: attachedPaymentMethod,
+			};
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
+				message: `${err}`,
+			};
 		}
 	},
 
@@ -85,22 +81,22 @@ module.exports = {
 		try {
 			// [API][stripe] Remove previous payment method
 			if (pmId !== '') {
-				await a_stripe_paymentMethod.a_detach({ pmId: pmId })
+				await Stripe.paymentMethods.detach(pmId);
 			}
 			
 			return {
 				executed: true,
 				status: true,
-				message: 'Payment Method Deleted',
-			}
+				message: 'Payment Method Deleted'
+			};
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
+				message: `${err}`
+			};
 		}
 	},
 }

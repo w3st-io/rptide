@@ -77,7 +77,7 @@
 
 						<BCardBody>
 							<h3 class="m-0 text-center text-success">
-								${{ tier1Price }}<span class="small">/mo</span>
+								$4.99<span class="small">/mo</span>
 							</h3>
 						</BCardBody>
 
@@ -110,7 +110,7 @@
 
 						<BCardBody>
 							<h3 class="m-0 text-center text-success">
-								${{ tier2Price }}<span class="small">/mo</span>
+								$9.99<span class="small">/mo</span>
 							</h3>
 						</BCardBody>
 
@@ -158,18 +158,6 @@
 	import ApiSubscriptionService from '../../services/ApiSubscriptionService'
 
 	export default {
-		props: {
-			tier1Price: {
-				type: Number,
-				required: true,
-			},
-
-			tier2Price: {
-				type: Number,
-				required: true,
-			},
-		},
-
 		data() {
 			return {
 				loading: true,

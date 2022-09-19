@@ -13,6 +13,15 @@ const router = express.Router().use(cors());
 
 
 router.post(
+	'/read/payment-method',
+	Auth.userToken(),
+	async (req, res) => {
+		res.send(await h.read_paymentMethod({ req }));
+	}
+);
+
+
+router.post(
 	'/update/payment-method',
 	Auth.userToken(),
 	async (req, res) => {

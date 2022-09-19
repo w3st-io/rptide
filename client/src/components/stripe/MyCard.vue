@@ -123,76 +123,99 @@
 </template>
 
 <script>
-	import VueCreditCard from '@fracto/vue-credit-card'
+// [IMPORT]
+import axios from 'axios';
+import VueCreditCard from '@fracto/vue-credit-card';
 
-	import SubscriptionService from '@/services/ApiSubscriptionService'
+export default {
+	data() {
+		return {
+			// [AUTH-AXIOS]
+			authAxios: axios.create({
+				baseURL: '/api/api-subscription',
+				headers: {
+					user_authorization: `Bearer ${localStorage.usertoken}`
+				}
+			}),
 
-	export default {
-		data() {
-			return {
-				showCardUpdater: false,
+			loading: true,
+			error: '',
+			showCardUpdater: false,
 
-				resData: {},
-
-				toBeUpdatedPaymentMethod: {
-					card: {
-						holder: '',
-						number: '',
-						month: '',
-						year: '',
-						cvv: '',
-					},
+			toBeUpdatedPaymentMethod: {
+				card: {
+					holder: '',
+					number: '',
+					month: '',
+					year: '',
+					cvv: '',
 				},
+			},
+		}
+	},
 
-				loading: true,
-				error: '',
+	components: {
+		VueCreditCard
+	},
+
+	methods: {
+		async updatePaymentMethod() {
+			this.loading = true;
+
+			const resData = (
+				await this.authAxios.post(
+					'/update/payment-method',
+					{
+						cardName: this.toBeUpdatedPaymentMethod.card.holder,
+						cardNumber: this.toBeUpdatedPaymentMethod.card.number,
+						cardMonth: this.toBeUpdatedPaymentMethod.card.month,
+						cardYear: this.toBeUpdatedPaymentMethod.card.year,
+						cardCvc: this.toBeUpdatedPaymentMethod.card.cvv
+					}
+				)
+			).data;
+
+			if (resData.status) {
+				this.showCardUpdater = false;
+				
+				this.$store.state.currentCard = resData.card;
 			}
+			else {
+				this.error = resData.message;
+			}
+
+			this.loading = false;
 		},
 
-		components: {
-			VueCreditCard,
+		async deletePaymentMethod() {
+			this.loading = true
+
+			const resData = (
+				await this.authAxios.post('/delete/payment-method')
+			).data;
+
+			if (resData.status) {
+				this.showCardUpdater = false;
+				
+				this.$store.state.currentCard = {
+					brand: "",
+					last4: "",
+					exp_month: null,
+					exp_year: null,
+				};
+			}
+			else { this.error = resData.message; }
+
+			this.loading = false;
 		},
+	},
 
-		methods: {
-			async updatePaymentMethod() {
-				this.loading = true
+	async created() {
+		const resData = (await this.authAxios.post('/read/payment-method')).data
 
-				this.resData = await SubscriptionService.s_update_pm({
-					cardName: this.toBeUpdatedPaymentMethod.card.holder,
-					cardNumber: this.toBeUpdatedPaymentMethod.card.number,
-					cardMonth: this.toBeUpdatedPaymentMethod.card.month,
-					cardYear: this.toBeUpdatedPaymentMethod.card.year,
-					cardCvc: this.toBeUpdatedPaymentMethod.card.cvv,
-				})
-
-				if (this.resData.status) {
-					this.showCardUpdater = false
-					
-					this.$emit('refreshData')
-				}
-				else { this.error = this.resData.message }
-
-				this.loading = false
-			},
-
-			async deletePaymentMethod() {
-				this.loading = true
-
-				this.resData = await SubscriptionService.s_delete_pm()
-
-				if (this.resData.status) {
-					this.showCardUpdater = false
-					
-					this.$emit('refreshData')
-				}
-				else { this.error = this.resData.message }
-
-				this.loading = false
-			},
-		},
-
-		async created() {
-			this.loading = false
-		},
+		this.$store.state.currentCard = resData.paymentMethod.card;
+		
+		this.loading = false;
 	}
+}
 </script>

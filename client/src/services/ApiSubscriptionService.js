@@ -16,49 +16,6 @@ const authAxios = axios.create({
 
 
 export default {
-	s_update_pm: async function ({ cardName, cardNumber, cardMonth, cardYear, cardCvc }) {
-		try {
-			const response = await authAxios.post(
-				'/update/payment-method',
-				{
-					cardName,
-					cardNumber,
-					cardMonth,
-					cardYear,
-					cardCvc 
-				}
-			)
-
-			return response.data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
-	s_delete_pm: async function () {
-		try {
-			const res = await authAxios.post('/delete/payment-method')
-
-			return res.data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				location: location,
-				message: `${location}: Error --> ${err}`,
-			}
-		}
-	},
-
-
 	s_update_tier: async function ({ tier }) {
 		try {
 			const res = await authAxios.post('/update/tier', { tier });

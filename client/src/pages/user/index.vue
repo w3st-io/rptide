@@ -1,45 +1,19 @@
 <template>
 	<BContainer class="py-5">
-		<BRow>
-			<!-- User Not Verifed -->
-			<BCol v-if="!isVerified" cols="12">
-				<BCard bg-variant="danger" class="mb-3">
-					<h5 class="text-center text-light">Account Not Verified!</h5>
-					<BButton
-						variant="outline-light"
-						class="w-100"
-						@click="resendvCodeEmail()"
-					>Click to Resend Email</BButton>
-				</BCard>
-			</BCol>
-
-			<!-- Email Sent -->
-			<BCol v-if="vCodeSent" cols="12" class="mb-3">
-				<BCard bg-variant="success" class="m-auto">
-					<h5 class="text-center text-light">Email Sent!</h5>
-				</BCard>
-			</BCol>
-		</BRow>
+		<VerificationCodeEmailer />
 		
-		<BRow v-if="!loading && !error">
+		<BRow>
 			<!-- Account Details -->
 			<BCol cols="12">
 				<h2 class="mb-5 text-primary">Your Account</h2>
 			</BCol>
 
 			<BCol cols="12">
-				<MyCard
-					@refreshData="getPageData()"
-					class="mb-5"
-				/>
+				<MyCard class="mb-5" />
 			</BCol>
 
 			<BCol cols="12">
-				<TierSelector
-					class="mb-5"
-					:tier1Price="tier1Price"
-					:tier2Price="tier2Price"
-				/>
+				<TierSelector class="mb-5" />
 			</BCol>
 
 			<BCol cols="12">
@@ -53,115 +27,34 @@
 				<UpdatePassword />
 			</BCol>
 		</BRow>
-
-		<BRow v-if="loading">
-			<!-- [LOADING] -->
-			<BCol cols="12">
-				<h6 class="text-warning">Loading..</h6>
-			</BCol>
-		</BRow>
-
-		<BRow v-if="error">
-			<!-- [ERROR] -->
-			<BCol cols="12">
-				<h6 class="m-0 font-weight-bold text-danger">{{ error }}</h6>
-			</BCol>
-		</BRow>
 	</BContainer>
 </template>
 
 <script>
-	// [IMPORT]
-	import axios from 'axios'
-
 	// [IMPORT] Personal
-	import APIKeys        from '../../components/apiSubscription/APIKeys.vue'
-	import TierSelector   from '../../components/apiSubscription/TierSelector'
-	import MyCard         from '../../components/stripe/MyCard'
-	import UpdatePassword from '../../components/user/UpdatePassword.vue'
-	import router         from '../../router'
-	import Service        from '../../services'
+	import APIKeys                 from '../../components/apiSubscription/APIKeys.vue';
+	import TierSelector            from '../../components/apiSubscription/TierSelector.vue';
+	import MyCard                  from '../../components/stripe/MyCard.vue';
+	import UpdatePassword          from '../../components/user/UpdatePassword.vue';
+	import VerificationCodeEmailer from '../../components/user/VerificationCodeEmailer.vue';
+	import router                  from '../../router';
 
 	export default {
-		data() {
-			return {
-				// [AUTH-AXIOS]
-				authAxios: axios.create({
-					baseURL: '/pages/user/index',
-					headers: {
-						user_authorization: `Bearer ${localStorage.usertoken}`
-					}
-				}),
-
-				loading: true,
-				error: '',
-
-				user: {},
-
-				tier1Price: 0,
-				tier2Price: 0,
-
-				isVerified: true,
-				vCodeSent: false,
-			}
-		},
-
 		components: {
 			APIKeys,
 			MyCard,
 			TierSelector,
 			UpdatePassword,
+			VerificationCodeEmailer
 		},
 
 		methods: {
-			async getPageData() {
-				this.loading = true
-
-				const resData = (await this.authAxios.get('/')).data
-				
-				if (resData.status) {
-					// user
-					this.user = resData.user
-					this.isVerified = this.user.verified
-
-					// currentCard
-					if (resData.paymentMethod) {
-						this.$store.state.currentCard = resData.paymentMethod.card;
-					}
-
-					// price
-					this.tier1Price = resData.tier1Price
-					this.tier2Price = resData.tier2Price
-				}
-				else {
-					this.error = resData.message
-				}
-
-				this.loading = false
-			},
-
-			async resendvCodeEmail() {
-				if (this.user) {
-					const resData = await Service.s_resendVerificationEmail(
-						this.user.email
-					)
-
-					if (resData.status) { this.vCodeSent = true }
-					else { this.error = resData.message }
-				}
-			},
-
-			redirectPasswordChange() { router.push({ name: 'password_change' }) }
+			redirectPasswordChange() { router.push({ name: 'password_change' }); }
 		},
 
 		async created() {
-			try {
-				// [REDIRECT] Not Log Required
-				if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
-
-				await this.getPageData()
-			}
-			catch (err) { this.error = err }
+			// [REDIRECT] Not Log Required
+			if (!localStorage.usertoken) { router.push({ name: 'user_login' }); }
 		},
 	}
 </script>

@@ -22,8 +22,6 @@ const a_user = require('./s-route/api/user');
 const a_webApp = require('./s-route/api/web-app');
 const a_webContent = require('./s-route/api/web-content');
 
-const p_user = require('./s-route/pages/user');
-
 
 // [EXPRESS]
 const app = express();
@@ -92,10 +90,6 @@ app.use('/api/product', Functionality.user(), a_product);
 app.use('/api/product-option', Functionality.user(), a_productOption);
 app.use('/api/web-app', a_webApp);
 app.use('/api/web-content', a_webContent);
-
-
-// [USE][ROUTE][PAGES]
-app.use('/pages/user', p_user);
 
 
 // [HEROKU] Set Static Folder for Heroku
