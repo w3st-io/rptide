@@ -7,13 +7,12 @@ module.exports = {
 		io.on("connection", (socket) => {
 			// [JOIN] sockets
 			socketService.joinSockets(socket.id);
-		
 
 			// [ON] User Join
 			socket.on(
 				"user-login",
 				(user_id) => {
-					// [EXISTANCE] user_id not in room // 
+					// [EXISTANCE] user_id not in room
 					if (user_id) {
 						socketService.joinSocketUsers(socket.id, user_id);
 					}
