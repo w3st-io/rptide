@@ -22,7 +22,6 @@ let returnObj = {
 
 
 class Auth {
-	/******************* [USER] *******************/
 	// [Standard]
 	static userToken() {
 		return async (req, res, next) => {
