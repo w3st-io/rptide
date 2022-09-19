@@ -1,28 +1,27 @@
 // [REQUIRE]
-const e = require('express')
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 
 // [VALIDATE]
 function validate({ cleanJSON, tags = [] }) {
 	// [LENGTH-CHECK] cleanJSON.blocks
-	if (cleanJSON.blocks.length > 20) {
+	if (cleanJSON.blocks.length > 50) {
 		return {
 			status: false,
-			message: 'Too many blocks'
-		}
+			message: "Too many blocks"
+		};
 	}
 	
 	// [FOR-EACH] cleanJSON.blocks
 	for (let i = 0; i < cleanJSON.blocks.length; i++) {
-		const block = cleanJSON.blocks[i]
+		const block = cleanJSON.blocks[i];
 		
 		// [LENGTH-CHECK] List Items
 		if (block.data.items.length > 20) {
 			return {
 				status: false,
-				message: 'Too many list-items'
-			}
+				message: "Too many list-items"
+			};
 		}
 		
 		// content
@@ -31,19 +30,19 @@ function validate({ cleanJSON, tags = [] }) {
 			if (block.data.content.length > 20) {
 				return {
 					status: false,
-					message: 'Too many rows'
-				}
+					message: "Too many rows"
+				};
 			}
 
 			// [LENGTH-CHECK] Table COLUMN //		
 			for (let ii = 0; ii < block.data.content.length; ii++) {
-				const col = block.data.content[ii]
+				const col = block.data.content[ii];
 
 				if (col.length > 20) {
 					return {
 						status: false,
-						message: 'Too many columns'
-					}
+						message: "Too many columns"
+					};
 				}
 			}
 		}
@@ -54,8 +53,8 @@ function validate({ cleanJSON, tags = [] }) {
 			if (block.data.items.length > 20) {
 				return {
 					status: false,
-					message: 'Too many items'
-				}
+					message: "Too many items"
+				};
 			}
 		}
 	}
@@ -64,11 +63,11 @@ function validate({ cleanJSON, tags = [] }) {
 	if (tags.length > 20) {
 		return {
 			status: false,
-			message: 'Too many tags'
-		}
+			message: "Too many tags"
+		};
 	}
 
-	return { status: true }
+	return { status: true };
 }
 
 
@@ -77,19 +76,19 @@ const schema = mongoose.Schema({
 	
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+		ref: "User",
 		required: true,
 	},
 
 	webApp: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'WebApp',
+		ref: "WebApp",
 		required: true,
 	},
 
 	name: {
 		type: String,
-		default: '',
+		default: "",
 		maxlength: 3000,
 	},
 
@@ -100,7 +99,7 @@ const schema = mongoose.Schema({
 
 	WebContent_responseTo: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'WebContent',
+		ref: "WebContent",
 	},
 
 	tags: [
@@ -135,24 +134,24 @@ const schema = mongoose.Schema({
 			{
 				id: {
 					type: String,
-					default: '',
+					default: "",
 					maxlength: 3000,
 				},
 
 				type: {
 					type: String,
 					enum: [
-						'code',
-						'delimiter',
-						'embed',
-						'header',
-						'image',
-						'list',
-						'paragraph',
-						'quote',
-						'raw',
-						'simpleimage',
-						'table'
+						"code",
+						"delimiter",
+						"embed",
+						"header",
+						"image",
+						"list",
+						"paragraph",
+						"quote",
+						"raw",
+						"simpleimage",
+						"table"
 					],
 					maxlength: 3000,
 				},
@@ -160,7 +159,7 @@ const schema = mongoose.Schema({
 				data: {
 					alignment: {
 						type: String,
-						enum: ['center', 'left'],
+						enum: ["center", "left"],
 						maxlength: 3000,
 					},
 
@@ -191,7 +190,7 @@ const schema = mongoose.Schema({
 					file: {
 						url: {
 							type: String,
-							default: '',
+							default: "",
 							maxlength: 3000,
 						}
 					},
@@ -254,7 +253,7 @@ const schema = mongoose.Schema({
 
 					style: {
 						type: String,
-						enum: ['ordered', 'unordered'],
+						enum: ["ordered", "unordered"],
 						maxlength: 3000,
 					},
 					
@@ -311,42 +310,42 @@ const schema = mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
-})
+});
 
 
-schema.pre('save', function (next) {
+schema.pre("save", function (next) {
 	const status = validate({
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
-	})
+	});
 
-	if (status.status == false) { throw `Error: ${status.message}` }
+	if (status.status == false) { throw `Error: ${status.message}`; }
 	
-	next()
+	next();
 })
 
-schema.pre('validate', function (next) {
+schema.pre("validate", function (next) {
 	const status = validate({
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
-	})
+	});
 
-	if (status.status == false) { throw `Error: ${status.message}` }
+	if (status.status == false) { throw `Error: ${status.message}`; }
 	
-	next()
+	next();
 })
 
 
-schema.pre('updateOne', function (next) {
+schema.pre("updateOne", function (next) {
 	const status = validate({
 		cleanJSON: this._update.$set.cleanJSON,
 		tags: this._update.$set.tags,
-	})
+	});
 
-	if (status.status == false) { throw `Error: ${status.message}` }
+	if (status.status == false) { throw `Error: ${status.message}`; }
 	
-	next()
+	next();
 })
 
 
-module.exports = mongoose.model('WebContent', schema)
+module.exports = mongoose.model("WebContent", schema);

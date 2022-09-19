@@ -1,6 +1,10 @@
 <template>
 	<!-- [TAB-BUTTON] Content -->
 	<div>
+		<h6 class="mb-4 text-center text-light" style="font-size: .6em">
+			{{ $store.state.user.workspace.webApp }}
+		</h6>
+
 		<BButton
 			variant="none"
 			size="lg"

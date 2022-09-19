@@ -4,7 +4,6 @@ const validator = require('validator');
 
 
 // [REQUIRE] Personal
-const a_stripe = require('../../../s-api/stripe');
 const config = require('../../../s-config');
 const ApiSubscriptionModel = require('../../../s-models/ApiSubscriptionModel');
 
@@ -117,6 +116,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 
 module.exports = {
 	read_paymentMethod: async ({ req }) => {
+		// [INIT]
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/payment-method/update',
@@ -192,21 +192,39 @@ module.exports = {
 				user: req.user_decoded._id
 			});
 
-			// [API][stripe] paymentMethod
-			const apiStripe_updatedPM = await a_stripe.aa_updatePaymentMethod({
-				cusId: apiSubscription.stripe.cusId,
-				previous_pmId: apiSubscription.stripe.pmId,
-				cardNumber: req.body.cardNumber,
-				cardMonth: req.body.cardMonth,
-				cardYear: req.body.cardYear,
-				cardCvc: req.body.cardCvc
+			// [API][stripe] Remove previous payment method
+			if (apiSubscription.stripe.pmId !== '') {
+				await Stripe.paymentMethods.detach(apiSubscription.stripe.pmId);
+			}
+
+			// [API][stripe] Create a paymentMethod
+			const stripeCreatedPaymentMethod = await Stripe.paymentMethods.create({
+				type: 'card',
+				card: {
+					number: req.body.cardNumber,
+					exp_month: req.body.cardMonth,
+					exp_year: req.body.cardYear,
+					cvc: req.body.cardCvc,
+				},
 			});
 
-			if (!apiStripe_updatedPM.status) {
-				return apiStripe_updatedPM;
-			}
-			
-			// [UPDATE][ApiSubscription] update pmId
+			// [API][stripe] connect the customer to the paymentMethod
+			await Stripe.paymentMethods.attach(
+				stripeCreatedPaymentMethod.id,
+				{ customer: apiSubscription.stripe.cusId }
+			);
+
+			// [API][stripe] Set default_payment_method
+			await Stripe.customers.update(
+				apiSubscription.stripe.cusId,
+				{
+					invoice_settings: {
+						default_payment_method: stripeCreatedPaymentMethod.id,
+					}
+				}
+			);
+
+			// [MONGODB][UPDATE][ApiSubscription] update pmId
 			await ApiSubscriptionModel.updateOne(
 				{
 					_id: apiSubscription._id,
@@ -214,7 +232,7 @@ module.exports = {
 				},
 				{
 					$set: {
-						"stripe.pmId": apiStripe_updatedPM.stripeCreatedPaymentMethod.id
+						"stripe.pmId": stripeCreatedPaymentMethod.id
 					}
 				},
 			);
@@ -237,10 +255,11 @@ module.exports = {
 
 
 	delete_paymentMethod: async ({ req }) => {
+		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/payment-method/update',
-			message: 'Payment Method successfully deleted'
+			location: returnObj.location + '/payment-method/delete',
+			message: 'Payment Method successfully detached'
 		};
 
 		try {
@@ -250,11 +269,9 @@ module.exports = {
 			});
 
 			// [API][stripe] Remove previous payment method
-			const deleteStripePMObj = await a_stripe.aa_deletePaymentMethod({
-				pmId: apiSubscription.stripe.pmId
-			});
-
-			if (!deleteStripePMObj.status) { return deleteStripePMObj; }
+			if (apiSubscription.stripe.pmId !== '') {
+				await Stripe.paymentMethods.detach(apiSubscription.stripe.pmId);
+			}
 
 			// [MONGODB][UPDATE][ApiSubscription] pmId
 			await ApiSubscriptionModel.updateOne(
@@ -269,6 +286,7 @@ module.exports = {
 				},
 			)
 
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true
@@ -276,9 +294,8 @@ module.exports = {
 		}
 		catch (err) {
 			return {
+				..._returnObj,
 				executed: false,
-				status: false,
-				location: `deletePaymentMethod`,
 				message: `${err}`
 			};
 		}
