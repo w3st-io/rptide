@@ -192,8 +192,6 @@ module.exports = {
 				user: req.user_decoded._id
 			});
 
-			console.log(apiSubscription);
-
 			// [API][stripe] paymentMethod
 			const apiStripe_updatedPM = await a_stripe.aa_updatePaymentMethod({
 				cusId: apiSubscription.stripe.cusId,
