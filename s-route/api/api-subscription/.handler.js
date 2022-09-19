@@ -465,9 +465,15 @@ module.exports = {
 					};
 				break;
 			}
+
+			return {
+				..._returnObj,
+				apiSubscription: await ApiSubscriptionModel.findOne({
+					user: req.user_decoded._id
+				})
+			};
 		}
 		catch (err) {
-			console.log(err);
 			return {
 				..._returnObj,
 				executed: false,

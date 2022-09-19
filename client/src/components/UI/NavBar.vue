@@ -9,7 +9,6 @@
 							class="m-0 font-weight-bold text-primary"
 						>RpTide</h4>
 					</RouterLink>
-					{{ this.$store.state.user.workspace.webApp }}
 				</BCol>
 
 				<BCol md="6" class="text-right">

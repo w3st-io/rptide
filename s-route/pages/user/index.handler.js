@@ -49,7 +49,7 @@ module.exports = {
 				status: true,
 				user: user,
 				paymentMethod: pMObj.paymentMethod,
-				apiSubscriptionTier: apiSubscriptionObj.apiSubscription.tier,
+				apiSubscription: apiSubscriptionObj.apiSubscription,
 				tier1Price: (tier1PriceObj.stripePrice.unit_amount / 100),
 				tier2Price: (tier2PriceObj.stripePrice.unit_amount / 100)
 			};

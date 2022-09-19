@@ -51,11 +51,10 @@
 						<BCardFooter>
 							<BButton
 								variant="success"
-								:disabled="apiSubscriptionTier == 0 || disableButtons"
 								class="w-100 my-3"
 								@click="promptChangeTier(0)"
 							>
-								{{ apiSubscriptionTier == 0 ? 'Current' : 'Select' }}
+								Select
 							</BButton>
 						</BCardFooter>
 					</BCard>
@@ -85,11 +84,10 @@
 						<BCardFooter>
 							<BButton
 								variant="success"
-								:disabled="apiSubscriptionTier == 1 || disableButtons"
 								class="w-100 my-3"
 								@click="promptChangeTier(1)"
 							>
-								{{ apiSubscriptionTier == 1 ? 'Current' : 'Select' }}
+								Select
 							</BButton>
 						</BCardFooter>
 					</BCard>
@@ -119,11 +117,10 @@
 						<BCardFooter>
 							<BButton
 								variant="success"
-								:disabled="apiSubscriptionTier == 2 || disableButtons"
 								class="w-100 my-3"
 								@click="promptChangeTier(2)"
 							>
-								{{ apiSubscriptionTier == 2 ? 'Current' : 'Select' }}
+								Select
 							</BButton>
 						</BCardFooter>
 					</BCard>
@@ -158,15 +155,10 @@
 
 <script>
 	import Confirm from '@/components/popups/Confirm'
-	import SubscriptionService from '@/services/ApiSubscriptionService'
+	import ApiSubscriptionService from '../../services/ApiSubscriptionService'
 
 	export default {
 		props: {
-			apiSubscriptionTier: {
-				type: Number,
-				required: true,
-			},
-
 			tier1Price: {
 				type: Number,
 				required: true,
@@ -201,24 +193,26 @@
 			},
 
 			async updateTier() {
-				this.showConfirm = false
+				this.showConfirm = false;
 				
-				this.loading = true
-				this.disableButtons = true
+				this.loading = true;
+				this.disableButtons = true;
 
-				const resData = await SubscriptionService.s_update_tier({
+				const resData = await ApiSubscriptionService.s_update_tier({
 					tier: this.changeToTier
-				})
+				});
 
 				if (resData.status) {
-					this.changeCard = false
+					this.changeCard = false;
 					
-					this.$emit('refreshData')
-				}
-				else { this.error = resData.message }
+					this.$store.state.apiSubscription = resData.apiSubscription;
 
-				this.loading = false
-				this.disableButtons = false
+					this.$emit('refreshData');
+				}
+				else { this.error = resData.message; }
+
+				this.loading = false;
+				this.disableButtons = false;
 			},
 		},
 
@@ -228,7 +222,6 @@
 
 		created() {
 			this.loading = false
-			this.resData_updateTier.tier = this.apiSubscriptionTier
 		},
 	}
 </script>

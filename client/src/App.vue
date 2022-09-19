@@ -1,10 +1,7 @@
 <template>
-	<div :key="$store.state.key" id="app">
+	<div :key="this.$store.state.key" id="app">
 		<!-- Top Navbar & Side Menu -->
-		<NavBar v-if="$store.state.show.NavBar" />
-
-		<!-- Admin Bottom Bar -->
-		<AdminNavBar v-if="false" />
+		<NavBar v-if="!this.$store.state.loading && this.$store.state.show.NavBar" />
 
 		<!-- Router -->
 		<RouterView
@@ -13,7 +10,7 @@
 		/>
 
 		<!-- Bottom Footer -->
-		<Footer v-if="$store.state.show.Footer" />
+		<Footer v-if="!this.$store.state.loading && this.$store.state.show.Footer" />
 	</div>
 </template>
 
@@ -22,15 +19,13 @@
 	import axios from 'axios';
 
 	// [IMPORT] Personal
-	import AdminNavBar from './components/UI/AdminNavBar';
-	import Footer      from './components/UI/Footer';
-	import NavBar      from './components/UI/NavBar';
+	import Footer from './components/UI/Footer';
+	import NavBar from './components/UI/NavBar';
 
 	export default {
 		name: 'App',
 
 		components: {
-			AdminNavBar,
 			Footer,
 			NavBar
 		},
@@ -51,6 +46,8 @@
 				this.$store.state.loading = true;
 
 				const res = (await this.authAxios.get('/')).data;
+
+				console.log(res);
 
 				if (res.status) {
 					// [LOCAL-STORAGE]

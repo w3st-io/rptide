@@ -39,7 +39,6 @@
 				<BCol cols="12">
 					<TierSelector
 						@refreshData="getPageData()"
-						:apiSubscriptionTier="apiSubscriptionTier"
 						class="mb-5"
 						:tier1Price="tier1Price"
 						:tier2Price="tier2Price"
@@ -111,8 +110,6 @@
 
 				user: {},
 
-				apiSubscriptionTier: 0,
-
 				tier1Price: 0,
 				tier2Price: 0,
 
@@ -142,9 +139,6 @@
 					// user
 					this.user = resData.user
 					this.isVerified = this.user.verified
-
-					// apiSubscriptionTier
-					this.apiSubscriptionTier = resData.apiSubscriptionTier
 
 					// currentCard
 					if (resData.paymentMethod) {

@@ -25,6 +25,9 @@ export default new Vuex.Store({
 		limit: null,
 		
 		user: null,
+
+		apiSubscription: {},
+	
 		webApps: [],
 	},
 

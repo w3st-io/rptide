@@ -13,7 +13,7 @@
 		<option disabled value="">Choose a Web App</option>
 
 		<option
-			v-for="w in this.$store.state.webApps"
+			v-for="w in $store.state.webApps"
 			:key="w._id"
 			:value="w._id"
 		>{{ w.name }}</option>
@@ -44,7 +44,7 @@
 				router.push({
 					name: 'dashboard',
 					params: {
-						tab: this.$route.params.tab || 'web-content',
+						tab: 'web-content',
 						sort: parseInt(this.$route.params.sort) || 0,
 						limit: parseInt(this.$route.params.limit) || 5,
 						page: parseInt(this.$route.params.page) || 1,
