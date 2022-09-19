@@ -32,6 +32,7 @@ let returnObj = {
  * =========
  */
 async function cycleCheckApiSubscription({ user_id, force = false }) {
+	// [INIT]
 	let _returnObj = {
 		...returnObj,
 		location: 'cycleCheckApiSubscription',
@@ -46,7 +47,7 @@ async function cycleCheckApiSubscription({ user_id, force = false }) {
 	if (!apiSubscription) {
 		return {
 			..._returnObj,
-			message: 'No API Subscription found'
+			message: 'No ApiSubscription found'
 		};
 	}
 
@@ -154,7 +155,7 @@ module.exports = {
 			// [200] Success
 			return {
 				..._returnObj,
-				status: true,
+				status: true
 			};
 		}
 		catch (err) {

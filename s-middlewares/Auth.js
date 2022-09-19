@@ -8,8 +8,17 @@ const config = require('../s-config');
 const UserModel = require('../s-models/UserModel');
 
 
-// [INIT]
+// [INIT] Const
 const secretKey = config.app.secretKey;
+
+
+// [INIT]
+let returnObj = {
+	executed: true,
+	status: false,
+	message: "",
+	location: '/s-middlewares/Auth'
+};
 
 
 class Auth {
@@ -17,7 +26,13 @@ class Auth {
 	// [Standard]
 	static userToken() {
 		return async (req, res, next) => {
-			// If a token exists => Validate JWT //
+			// [INIT]
+			let _returnObj = {
+				...returnObj,
+				auth: false,
+			};
+
+			// If a token exists --> Validate JWT //
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer " //
 				const tokenBody = req.headers.user_authorization.slice(7);
@@ -42,40 +57,30 @@ class Auth {
 							}
 							else {
 								res.send({
-									executed: true,
-									status: false,
+									..._returnObj,
 									message: 'User NOT verified',
 								});
 							}
 						}
 						else {
 							res.send({
-								executed: true,
-								status: false,
-								location: '/s-middlewares/Auth',
+								..._returnObj,
 								message: `Access denied: JWT Error --> ${err}`,
-								auth: false,
 							});
 						}
 					});
 				}
 				else {
 					res.send({
-						executed: true,
-						status: false,
-						location: '/s-middlewares/Auth',
+						..._returnObj,
 						message: 'Access denied: Not valid JWT',
-						auth: false,
 					});
 				}
 			}
 			else {
 				res.send({
-					executed: true,
-					status: false,
-					location: '/s-middlewares/Auth',
+					..._returnObj,
 					message: 'Access denied: No token passed',
-					auth: false,
 				});
 			}
 		}
@@ -89,7 +94,7 @@ class Auth {
 				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7);
 
-				// If a token exists => Validate JWT
+				// If a token exists --> Validate JWT
 				if (tokenBody !== 'undefined') {
 					const decoded = await jwt.verify(tokenBody, secretKey);
 					
@@ -98,7 +103,7 @@ class Auth {
 				}
 			}
 			
-			// Since token is not required move on anyways
+			// Since token is not required, go next
 			next();
 		}
 	}
@@ -107,7 +112,13 @@ class Auth {
 	// [LIMITED] Verification NOT required
 	static userTokenByPassVerification() {
 		return (req, res, next) => {
-			// If a token exists => Validate JWT
+			// [INIT]
+			let _returnObj = {
+				...returnObj,
+				auth: false,
+			};
+
+			// If a token exists --> Validate JWT
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7);
@@ -123,32 +134,23 @@ class Auth {
 						}
 						else {
 							res.send({
-								executed: true,
-								status: false,
-								location: '/s-middlewares/Auth',
+								..._returnObj,
 								message: `Access denied: JWT Error --> ${err}`,
-								auth: false,
 							});
 						}
 					})
 				}
 				else {
 					res.send({
-						executed: true,
-						status: false,
-						location: '/s-middlewares/Auth',
+						..._returnObj,
 						message: 'Access denied: Not valid JWT',
-						auth: false,
 					});
 				}
 			}
 			else {
 				res.send({
-					executed: true,
-					status: false,
-					location: '/s-middlewares/Auth',
+					..._returnObj,
 					message: 'Access denied: No token passed',
-					auth: false,
 				});
 			}
 		}
@@ -157,8 +159,14 @@ class Auth {
 
 	// [API-PRIVATE-KEY]
 	static userTokenOrAPIPrivateKey() {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			auth: false,
+		};
+
 		return async (req, res, next) => {
-			// If a token exists => Validate JWT
+			// If a token exists --> Validate JWT
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7)
@@ -181,30 +189,23 @@ class Auth {
 							}
 							else {
 								res.send({
-									executed: true,
-									status: false,
+									..._returnObj,
 									message: 'User NOT verified',
 								});
 							}
 						}
 						else {
 							res.send({
-								executed: true,
-								status: false,
-								location: '/s-middlewares/Auth',
+								..._returnObj,
 								message: `Access denied: JWT Error --> ${err}`,
-								auth: false,
 							});
 						}
 					});
 				}
 				else {
 					res.send({
-						executed: true,
-						status: false,
-						location: '/s-middlewares/Auth',
+						..._returnObj,
 						message: 'Access denied: Not valid JWT',
-						auth: false,
 					});
 				}
 			}
@@ -228,19 +229,15 @@ class Auth {
 				}
 				else {
 					res.send({
-						executed: true,
-						status: false,
+						..._returnObj,
 						message: "Invalid API privateKey"
 					});
 				}
 			}
 			else {
 				res.send({
-					executed: true,
-					status: false,
-					location: '/s-middlewares/Auth',
+					..._returnObj,
 					message: 'Access denied: No token passed',
-					auth: false
 				})
 			}
 		}
