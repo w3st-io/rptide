@@ -117,8 +117,3 @@ server.listen(
 		console.log(`Server Running on Port: ${config.port}`);
 	}
 );
-
-/**
- * 1. Send back the current card that the user has on file,
- * 2. Send back the tier1 and tier2 price
-*/
