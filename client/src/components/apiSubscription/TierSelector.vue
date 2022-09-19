@@ -203,13 +203,10 @@
 					tier: this.changeToTier
 				});
 
-				console.log('updated', this.$store.state.apiSubscription, resData);
 				if (resData.status) {
 					this.changeCard = false;
 					
 					this.$store.state.apiSubscription = resData.apiSubscription;
-
-					this.$emit('refreshData');
 				}
 				else { this.error = resData.message; }
 

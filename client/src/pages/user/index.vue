@@ -38,7 +38,6 @@
 
 				<BCol cols="12">
 					<TierSelector
-						@refreshData="getPageData()"
 						class="mb-5"
 						:tier1Price="tier1Price"
 						:tier2Price="tier2Price"
