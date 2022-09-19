@@ -198,7 +198,7 @@
 
 				const resData = (
 					await this.authAxios.post(
-						'/update/payment-method',
+						'/update/tier',
 						{ tier: this.changeToTier }
 					)
 				).data;
@@ -207,6 +207,8 @@
 					this.changeCard = false;
 					
 					this.$store.state.apiSubscription = resData.apiSubscription;
+
+					this.error = "";
 				}
 				else { this.error = resData.message; }
 

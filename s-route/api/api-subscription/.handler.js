@@ -306,6 +306,8 @@ module.exports = {
 
 
 	update_tier: async ({ req }) => {
+		console.log('running');
+		// [INIT]
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/tier/update'
