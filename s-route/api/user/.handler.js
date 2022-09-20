@@ -108,7 +108,7 @@ module.exports = {
 	 * @param {string} req.body.bio
 	 * @returns {object} Updated user
 	*/
-	update: async ({ req }) => {
+	"/update": async ({ req }) => {
 		let _returnObj = {
 			...returnObj,
 			location: returnObj.location + '/update',
@@ -164,7 +164,7 @@ module.exports = {
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
-	update_workspaceWebApp: async ({ req }) => {
+	"/update/workspace--web-app": async ({ req }) => {
 		let _returnObj = {
 			...returnObj,
 			message: 'Updated workspace',
@@ -211,7 +211,7 @@ module.exports = {
 	 * @param {string} req.body.currentPassword Old password
 	 * @param {string} req.body.password New password
 	*/
-	update_password: async ({ req }) => {
+	"/update/password": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
@@ -271,7 +271,7 @@ module.exports = {
 	 * @notice Find user and generate a new API key
 	 * @returns {Object} containing the new API Key
 	*/
-	generateApiKey: async ({ req }) => {
+	"/generate-api-key": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,

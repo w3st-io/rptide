@@ -19,7 +19,7 @@ router.post(
 	"/update",
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.update({ req }));
+		res.send(await h["/update"]({ req }));
 	}
 );
 
@@ -27,8 +27,7 @@ router.post(
 	"/update/workspace--web-app",
 	Auth.userToken(),
 	async (req, res) => {
-		console.log("running");
-		res.send(await h.update_workspaceWebApp({ req }));
+		res.send(await h["/update/workspace--web-app"]({ req }));
 	}
 );
 
@@ -36,7 +35,7 @@ router.post(
 	"/update/password",
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.update_password({ req }));
+		res.send(await h["/update/password"]({ req }));
 	}
 );
 
@@ -44,7 +43,7 @@ router.post(
 	"/generate-api-key",
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.generateApiKey({ req }));
+		res.send(await h["/generate-api-key"]({ req }));
 	}
 );
 
