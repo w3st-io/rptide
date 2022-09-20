@@ -25,21 +25,23 @@ module.exports = mongoose.model(
 			maxlength: 50,
 		},
 		
-		profile_img: {
-			type: String,
-			default: defaultImage,
-			maxlength: 600,
+		profile: {
+			img: {
+				type: String,
+				default: defaultImage,
+				maxlength: 600,
+			},
+
+			bio: {
+				type: String,
+				default: "",
+				maxlength: 600,
+			},
 		},
 		
 		password: {
 			type: String,
 			required: [true, "This is required"],
-		},
-
-		bio: {
-			type: String,
-			default: "",
-			maxlength: 600,
 		},
 
 		verified: {
