@@ -31,14 +31,14 @@ let returnObj = {
  * = Stripe =
  * ==========
 */
- async function cycleCheckApiSubscription({ user_id, force = false }) {
+async function cycleCheckStripe({ user_id, force = false }) {
 	// [INIT]
 	let _returnObj = {
 		...returnObj,
-		location: "cycleCheckApiSubscription",
+		location: "cycleCheckStripe",
 	};
 
-	// [READ][ApiSubscription]
+	// [MONGODB][READ][User]
 	const user = await UserModel.findOne({
 		_id: user_id
 	});
@@ -143,7 +143,7 @@ module.exports = {
 						bio: req.body.bio,
 					}
 				}
-			).select('-password -api.publicKey -verified').exec();
+			).select('-password -api.publicKey').exec();
 	
 			return {
 				..._returnObj,
@@ -491,7 +491,7 @@ module.exports = {
 
 		try {
 			// [INTERNAL] Force update 
-			await cycleCheckApiSubscription({
+			await cycleCheckStripe({
 				user_id: req.user_decoded._id,
 				force: true
 			})
@@ -682,9 +682,7 @@ module.exports = {
 						
 						// [MONGODB][user] tier
 						await UserModel.updateOne(
-							{
-								_id: req.user_decoded._id
-							},
+							{ _id: req.user_decoded._id },
 							{
 								$set: {
 									"stripe.subscription.tier2.subId": result.id
@@ -721,7 +719,5 @@ module.exports = {
 		}
 	},
 
-	cycleCheckApiSubscription: async ({ user_id }) => { 
-		await cycleCheckApiSubscription({ user_id })
-	},
+	cycleCheckStripe: async ({ user_id }) => await cycleCheckStripe({ user_id }),
 }

@@ -30,9 +30,9 @@
 
 <script>
 	// [IMPORT] Personal
-	import APIKeys                 from '../../components/apiSubscription/APIKeys.vue';
-	import TierSelector            from '../../components/apiSubscription/TierSelector.vue';
 	import MyCard                  from '../../components/stripe/MyCard.vue';
+	import APIKeys                 from '../../components/user/APIKeys.vue';
+	import TierSelector            from '../../components/user/TierSelector.vue';
 	import UpdatePassword          from '../../components/user/UpdatePassword.vue';
 	import VerificationCodeEmailer from '../../components/user/VerificationCodeEmailer.vue';
 	import router                  from '../../router';

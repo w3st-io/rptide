@@ -6,7 +6,7 @@ const express = require('express')
 // [REQUIRE] Personal
 const { create, deleteOne, find, findOne, update } = require('./.handler.js')
 const Auth = require('../../../s-middlewares/Auth')
-const ApiSubscription = require('../../../s-middlewares/ApiSubscription')
+const TierChecker = require('../../../s-middlewares/TierChecker')
 
 
 // [EXPRESS + USE]
@@ -16,7 +16,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userToken(),
-	ApiSubscription.productLimitCheck(),
+	TierChecker.productLimitCheck(),
 	async (req, res) => {
 		res.send(await create({ req }));
 	}

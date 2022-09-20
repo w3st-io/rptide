@@ -6,7 +6,7 @@ const express = require('express');
 // [REQUIRE] Personal
 const rateLimiter = require('../../../s-rate-limiters');
 const rh = require('./.handler.js');
-const ApiSubscription = require('../../../s-middlewares/ApiSubscription');
+const TierChecker = require('../../../s-middlewares/TierChecker');
 const Auth = require('../../../s-middlewares/Auth');
 
 
@@ -20,7 +20,7 @@ router.post(
 	'/create',
 	rateLimiter.post,
 	Auth.userToken(),
-	ApiSubscription.webAppLimitCheck(),
+	TierChecker.webAppLimitCheck(),
 	async (req, res) => {
 		res.send(await rh.create({ req }));
 	}

@@ -14,16 +14,15 @@ const location = '/s-middleware/Subscription';
 module.exports = {
 	webAppLimitCheck: function () {
 		return async (req, res, next) => {
-			// Check apiSubscription status
-			await h_user.cycleCheckApiSubscription({
+			await h_user.cycleCheckStripe({
 				user_id: req.user_decoded._id
 			});
 
 			// [INIT]
 			let flag = false;
 
-			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
-			const apiSubscription = await UserModel.findOne({
+			// [MONGODB][User]
+			const user = await UserModel.findOne({
 				_id: req.user_decoded._id
 			});
 
@@ -33,14 +32,14 @@ module.exports = {
 
 			// [LIMIT-CHECK] Tier 1 //
 			if (count >= config_const.limit.webApp[0]) {
-				if (!apiSubscription.stripe.subscription.tier1.subId) {
+				if (!user.stripe.subscription.tier1.subId) {
 					flag = true;
 				}
 			}
 
 			// [LIMIT-CHECK] Tier 2 //
 			if (count >= config_const.limit.webApp[1]) {
-				if (!apiSubscription.stripe.subscription.tier2.subId) {
+				if (!user.stripe.subscription.tier2.subId) {
 					flag = true;
 				}
 			}
@@ -55,7 +54,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'WebApp limit reached for your subscription, Please upgrade or delete'
+					message: 'WebApp limit reached for your tier, Please upgrade or delete'
 				});
 			}
 			else { next(); }
@@ -65,16 +64,15 @@ module.exports = {
 
 	productLimitCheck: function () {
 		return async (req, res, next) => {
-			// Check apiSubscription status
-			await h_user.cycleCheckApiSubscription({
+			await h_user.cycleCheckStripe({
 				user_id: req.user_decoded._id
 			});
 			
 			// [INIT]
 			let flag = false
 
-			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
-			const apiSubscription = await UserModel.findOne({
+			// [MONGODB][User]
+			const user = await UserModel.findOne({
 				_id: req.user_decoded._id
 			});
 			
@@ -84,14 +82,14 @@ module.exports = {
 
 			// [LIMIT-CHECK] Tier 1 //
 			if (count >= config_const.limit.webApp[0]) {
-				if (!apiSubscription.stripe.subscription.tier1.subId) {
+				if (!user.stripe.subscription.tier1.subId) {
 					flag = true;
 				}
 			}
 
 			// [LIMIT-CHECK] Tier 2 //
 			if (count >= config_const.limit.webApp[1]) {
-				if (!apiSubscription.stripe.subscription.tier2.subId) {
+				if (!user.stripe.subscription.tier2.subId) {
 					flag = true;
 				}
 			}
@@ -106,7 +104,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'Product limit reached for your subscription, Please upgrade or delete'
+					message: 'Product limit reached for your tier, Please upgrade or delete'
 				});
 			}
 			else { next(); }
@@ -116,16 +114,15 @@ module.exports = {
 
 	productOptionLimitCheck: function () {
 		return async (req, res, next) => {
-			// Check apiSubscription status
-			await h_user.cycleCheckApiSubscription({
+			await h_user.cycleCheckStripe({
 				user_id: req.user_decoded._id
 			});
 			
 			// [INIT]
 			let flag = false
 
-			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
-			const apiSubscription = await UserModel.findOne({
+			// [MONGODB][User]
+			const user = await UserModel.findOne({
 				_id: req.user_decoded._id
 			});
 			
@@ -135,14 +132,14 @@ module.exports = {
 
 			// [LIMIT-CHECK] Tier 1 //
 			if (count >= config_const.limit.webApp[0]) {
-				if (!apiSubscription.stripe.subscription.tier1.subId) {
+				if (!user.stripe.subscription.tier1.subId) {
 					flag = true;
 				}
 			}
 
 			// [LIMIT-CHECK] Tier 2 //
 			if (count >= config_const.limit.webApp[1]) {
-				if (!apiSubscription.stripe.subscription.tier2.subId) {
+				if (!user.stripe.subscription.tier2.subId) {
 					flag = true;
 				}
 			}
@@ -157,7 +154,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'ProductOptions limit reached for your subscription, Please upgrade or delete'
+					message: 'ProductOptions limit reached for your tier, Please upgrade or delete'
 				});
 			}
 			else { next(); }
