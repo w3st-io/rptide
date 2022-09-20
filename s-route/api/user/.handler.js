@@ -709,7 +709,7 @@ module.exports = {
 				status: true,
 				user: await UserModel.findOne({
 					_id: req.user_decoded._id
-				}).select('-password -api.publicKey -verified')
+				}).select('-password -api.publicKey')
 			};
 		}
 		catch (err) {
