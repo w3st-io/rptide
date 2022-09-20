@@ -46,23 +46,6 @@ module.exports = mongoose.model(
 			type: Boolean,
 			default: false,
 		},
-
-		location: {
-			type: String,
-			default: "",
-		},
-
-		social: {
-			friends: {
-				type: Boolean,
-				default: null,
-			},
-	
-			blocked: {
-				type: Boolean,
-				default: null,
-			},
-		},
 		
 		api: {
 			publicKey: {
