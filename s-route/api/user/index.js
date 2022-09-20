@@ -12,17 +12,6 @@ const Auth = require("../../../s-middlewares/Auth");
 const router = express.Router().use(cors());
 
 
-/**
- * [CRUD]
-*/
-router.post(
-	"/update",
-	Auth.userToken(),
-	async (req, res) => {
-		res.send(await h["/update"]({ req }));
-	}
-);
-
 router.post(
 	"/update/workspace--web-app",
 	Auth.userToken(),

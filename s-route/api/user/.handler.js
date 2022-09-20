@@ -1,8 +1,8 @@
 // [REQUIRE]
 const bcrypt = require('bcryptjs');
-const validator = require('validator');
 const stripe = require('stripe');
 const uuid = require('uuid');
+const validator = require('validator');
 
 // [REQUIRE] Personal
 const config = require('../../../s-config');
@@ -102,64 +102,6 @@ async function cycleCheckStripe({ user_id, force = false }) {
 
 
 module.exports = {
-	/**
-	 * @notice Update User profile image and bio
-	 * @param {string} req.body.img_url
-	 * @param {string} req.body.bio
-	 * @returns {object} Updated user
-	*/
-	"/update": async ({ req }) => {
-		let _returnObj = {
-			...returnObj,
-			location: returnObj.location + '/update',
-			message: 'Updated profile'
-		};
-
-		try {
-			// [VALIDATE]
-			if (!validator.isAscii(req.body.img_url)) {
-				return {
-					..._returnObj,
-					message: 'Invalid params',
-				};
-			}
-
-			// [VALIDATE] bio
-			if (
-				req.body.bio.includes('<script') ||
-				req.body.bio.includes('</script>')
-			) {
-				return {
-					..._returnObj,
-					message: 'XSS not allowed'
-				};
-			}
-			
-			const updatedUser = await UserModel.findOneAndUpdate(
-				{ _id: req.user_decoded._id },
-				{
-					$set: {
-						profile_img: req.body.img_url,
-						bio: req.body.bio,
-					}
-				}
-			).select('-password -api.publicKey').exec();
-	
-			return {
-				..._returnObj,
-				status: true,
-				updatedUser: updatedUser
-			};
-		}
-		catch (err) {
-			return {
-				..._returnObj,
-				executed: false,
-				message: `${err}`,
-			};
-		}
-	},
-
 	/**
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
