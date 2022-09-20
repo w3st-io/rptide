@@ -1,12 +1,21 @@
 // [REQUIRE]
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
-const uuid = require('uuid')
-
+const stripe = require('stripe');
+const uuid = require('uuid');
 
 // [REQUIRE] Personal
+const config = require('../../../s-config');
 const UserModel = require('../../../s-models/UserModel');
 
+
+// [STRIPE]
+const Stripe = stripe(config.api.stripe.secretKey);
+
+
+// [INIT] Const
+const tier1PriceId = config.api.stripe.priceTier1;
+const tier2PriceId = config.api.stripe.priceTier2;
 
 // [INIT]
 let returnObj = {
@@ -487,7 +496,6 @@ module.exports = {
 				force: true
 			})
 
-			user
 			// [MONGODB][READ][User]
 			const user = await UserModel.findOne({
 				_id: req.user_decoded._id
