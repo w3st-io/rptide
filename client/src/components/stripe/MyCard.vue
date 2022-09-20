@@ -132,7 +132,7 @@
 			return {
 				// [AUTH-AXIOS]
 				authAxios: axios.create({
-					baseURL: '/api/api-subscription',
+					baseURL: '/api/user',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`
 					}
@@ -164,7 +164,7 @@
 
 				const resData = (
 					await this.authAxios.post(
-						'/update/payment-method',
+						'/update/stripe-payment-method',
 						{
 							cardName: this.toBeUpdatedPaymentMethod.card.holder,
 							cardNumber: this.toBeUpdatedPaymentMethod.card.number,
@@ -191,7 +191,7 @@
 				this.loading = true
 
 				const resData = (
-					await this.authAxios.post('/delete/payment-method')
+					await this.authAxios.post('/delete/stripe-payment-method')
 				).data;
 
 				if (resData.status) {
@@ -211,7 +211,7 @@
 		},
 
 		async created() {
-			const resData = (await this.authAxios.post('/read/payment-method')).data
+			const resData = (await this.authAxios.post('/stripe-payment-method')).data
 
 			this.$store.state.currentCard = resData.paymentMethod.card;
 			

@@ -14,7 +14,6 @@ const rateLimiter = require('./s-rate-limiters');
 const s_socket = require('./s-socket');
 
 const a_ = require('./s-route/api');
-const a_apiSubscription = require('./s-route/api/api-subscription');
 const a_productOption = require('./s-route/api/product-option');
 const a_product = require('./s-route/api/product');
 const a_socket = require('./s-route/api/socket');
@@ -88,7 +87,6 @@ app.use(rateLimiter.global);
 app.use('/api', a_);
 app.use('/api/socket', a_socket);
 app.use('/api/user', Functionality.user(), a_user);
-app.use('/api/api-subscription', a_apiSubscription);
 app.use('/api/product', Functionality.user(), a_product);
 app.use('/api/product-option', Functionality.user(), a_productOption);
 app.use('/api/web-app', a_webApp);

@@ -17,6 +17,81 @@ let returnObj = {
 };
 
 
+/**
+ * ==========
+ * = Stripe =
+ * ==========
+*/
+ async function cycleCheckApiSubscription({ user_id, force = false }) {
+	// [INIT]
+	let _returnObj = {
+		...returnObj,
+		location: "cycleCheckApiSubscription",
+	};
+
+	// [READ][ApiSubscription]
+	const user = await UserModel.findOne({
+		_id: user_id
+	});
+
+	// [CALCULATE] Hours since last check
+	const hours = Math.abs(user.stripe.lastChecked - new Date()) / 36e5;
+
+	// If last time checked was over 24 hours ago
+	if (hours > config.cycleHours || force == true) {
+		// [TIER-1]
+		if (user.stripe.subscription.tier1.subId) {
+			// [API][stripe]
+			const stripeSubTier1 = await Stripe.subscriptions.retrieve(
+				user.stripe.subscription.tier1.subId
+			);
+
+			if (stripeSubTier1.status !== "active") {
+				// [MONGODB][User]
+				await UserModel.updateOne(
+					{ _id: user_id },
+					{
+						$set: {
+							"stripe.subscription.tier1.subId": "",
+							"stripe.subscription.tier1.cancelAtPeriodEnd": false,
+							"stripe.lastChecked": new Date()
+						}
+					},
+				);
+			}
+		}
+
+		// [TIER-2]
+		if (user.stripe.subscription.tier2.subId) {
+			// [API][stripe]
+			const stripeSubTier2 = await Stripe.subscriptions.retrieve(
+				user.stripe.subscription.tier1.subId
+			);
+
+			if (stripeSubTier2.status !== "active") {
+				// [MONGODB][User]
+				await UserModel.updateOne(
+					{ _id: user_id },
+					{
+						$set: {
+							"stripe.subscription.tier2.subId": "",
+							"stripe.subscription.tier2.cancelAtPeriodEnd": false,
+							"stripe.lastChecked": new Date()
+						}
+					},
+				);
+			}
+		}
+	}
+
+	return {
+		..._returnObj,
+		status: true,
+		valid: true,
+	};
+}
+
+
 module.exports = {
 	/**
 	 * @notice Update User profile image and bio
@@ -229,7 +304,7 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + "/payment-method/update",
+			location: returnObj.location + "/stripe-payment-method",
 			message: "Payment Method retrieved",
 			paymentMethod: {
 				card: {
@@ -242,9 +317,9 @@ module.exports = {
 		};
 
 		try {
-			// [READ][ApiSubscription]
+			// [READ][User]
 			const user = await UserModel.findOne({
-				user: req.user_decoded._id
+				_id: req.user_decoded._id
 			});
 
 			// [API][stripe] Retrieve payment method details if it exists
@@ -273,7 +348,7 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + "/payment-method/update",
+			location: returnObj.location + "/update/stripe-payment-method",
 			message: "Payment Method successfully changed"
 		};
 
@@ -293,7 +368,7 @@ module.exports = {
 
 			// [MONGODB][READ][User]
 			const user = await UserModel.findOne({
-				user: req.user_decoded._id
+				_id: req.user_decoded._id
 			});
 
 			// [API][stripe] Remove previous payment method
@@ -330,7 +405,7 @@ module.exports = {
 
 			// [MONGODB][UPDATE][User] update pmId
 			await UserModel.updateOne(
-				{ user: req.user_decoded._id },
+				{ _id: req.user_decoded._id },
 				{
 					$set: {
 						"stripe.pmId": stripeCreatedPaymentMethod.id
@@ -352,5 +427,293 @@ module.exports = {
 				message: `${err}`
 			};
 		}
+	},
+
+	"/delete/stripe-payment-method": async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			location: returnObj.location + "/delete/stripe-payment-method",
+			message: "Payment Method successfully detached"
+		};
+
+		try {
+			// [MONGODB][READ][User]
+			const User = await UserModel.findOne({
+				_id: req.user_decoded._id
+			});
+
+			// [API][stripe] Remove previous payment method
+			if (User.stripe.pmId !== "") {
+				await Stripe.paymentMethods.detach(User.stripe.pmId);
+			}
+
+			// [MONGODB][UPDATE][User] pmId
+			await UserModel.updateOne(
+				{ _id: req.user_decoded._id },
+				{
+					$set: {
+						"stripe.pmId": "",
+					}
+				},
+			)
+
+			// [200] Success
+			return {
+				..._returnObj,
+				status: true
+			};
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: `${err}`
+			};
+		}
+	},
+
+	"/update/tier": async ({ req }) => {
+		// [INIT]
+		let _returnObj = {
+			...returnObj,
+			location: returnObj.location + "/tier/update"
+		};
+
+		try {
+			// [INTERNAL] Force update 
+			await cycleCheckApiSubscription({
+				user_id: req.user_decoded._id,
+				force: true
+			})
+
+			user
+			// [MONGODB][READ][User]
+			const user = await UserModel.findOne({
+				_id: req.user_decoded._id
+			});
+
+			// [ERROR]
+			if (!user) {
+				return {
+					..._returnObj,
+					message: "No API Subscription found"
+				};
+			}
+
+			// [ERROR] Check if payment method exists
+			if (!user.stripe.pmId) {
+				return {
+					..._returnObj,
+					message: "No card on file"
+				};
+			}
+
+			switch (req.body.tier) {
+				case 0:
+					// [TIER-1] Deal with existing
+					if (user.stripe.subscription.tier1.subId) {
+						// [API][stripe] cancel_at_period_end
+						await Stripe.subscriptions.update(
+							user.stripe.subscription.tier1.subId,
+							{ cancel_at_period_end: true }
+						);
+
+						// [MONGODB][User]
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
+
+					// [TIER-2] Deal with existing
+					if (user.stripe.subscription.tier2.subId) {
+						// [API][stripe] cancel_at_period_end
+						await Stripe.subscriptions.update(
+							user.stripe.subscription.tier2.subId,
+							{ cancel_at_period_end: true }
+						);
+
+						// [MONGODB][user]
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
+				break;
+					
+				case 1:
+					// [TIER-2] Deal with existing
+					if (user.stripe.subscription.tier2.subId) {
+						// [API][stripe] cancel_at_period_end 
+						await Stripe.subscriptions.update(
+							user.stripe.subscription.tier2.subId,
+							{ cancel_at_period_end: true }
+						);
+
+						// [MONGODB][user] tier
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
+					
+					// [TIER-1] Deal with existing ELSE create
+					if (user.stripe.subscription.tier1.subId) {
+						// [API][stripe] Reactivate
+						await Stripe.subscriptions.update(
+							user.stripe.subscription.tier1.subId,
+							{ cancel_at_period_end: false }
+						);
+
+						// [MONGODB][user] tier
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.cancelAtPeriodEnd": false
+								}
+							},
+						);
+					}
+					else {
+						// [API][stripe] PURCHASE SUB tier 1
+						const result = await Stripe.subscriptions.create({
+							customer: user.stripe.cusId,
+							items: [
+								{ price: tier1PriceId }
+							],
+							trial_from_plan: true
+						});
+						
+						// [MONGODB][user] tier
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.subId": result.id
+								}
+							},
+						);
+					}
+				break;
+
+				case 2:
+					// [TIER-1] Deal with existing
+					if (user.stripe.subscription.tier1.subId) {
+						// [API][stripe] cancel_at_period_end 
+						await Stripe.subscriptions.update(
+							user.stripe.subscription.tier1.subId,
+							{ cancel_at_period_end: true }
+						);
+
+						// [MONGODB][user] tier
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier1.cancelAtPeriodEnd": true
+								}
+							},
+						);
+					}
+					
+					// [TIER-2] Deal with existing ELSE create
+					if (user.stripe.subscription.tier2.subId) {
+						// [API][stripe] Reactivate
+						await Stripe.subscriptions.update(
+							user.stripe.subscription.tier2.subId,
+							{ cancel_at_period_end: false }
+						);
+
+						// [MONGODB][user] tier
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.cancelAtPeriodEnd": false
+								}
+							},
+						);
+					}
+					else {
+						// [API][stripe] PURCHASE SUB tier 2
+						const result = await Stripe.subscriptions.create({
+							customer: user.stripe.cusId,
+							items: [
+								{ price: tier2PriceId }
+							],
+							trial_from_plan: true
+						});
+						
+						// [MONGODB][user] tier
+						await UserModel.updateOne(
+							{
+								_id: req.user_decoded._id
+							},
+							{
+								$set: {
+									"stripe.subscription.tier2.subId": result.id
+								}
+							},
+						);
+					}
+				break;
+
+				default:
+					// [ERROR]
+					return {
+						..._returnObj,
+						message: "Invalid tier"
+					};
+				break;
+			}
+
+			// [200] Success
+			return {
+				..._returnObj,
+				status: true,
+				user: await UserModel.findOne({
+					_id: req.user_decoded._id
+				}).select('-password -api.publicKey -verified')
+			};
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: `${err}`
+			};
+		}
+	},
+
+	cycleCheckApiSubscription: async ({ user_id }) => { 
+		await cycleCheckApiSubscription({ user_id })
 	},
 }

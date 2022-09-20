@@ -1,10 +1,10 @@
 // [REQUIRE]
 const config_const = require('../s-config/const');
-const ApiSubscriptionModel = require('../s-models/ApiSubscriptionModel');
 const ProductModel = require('../s-models/ProductModel');
 const ProductOptionModel = require('../s-models/ProductOptionModel');
+const UserModel = require('../s-models/UserModel');
 const WebAppModel = require('../s-models/WebAppModel');
-const h_apiSubscription = require('../s-route/api/api-subscription/.handler.js');
+const h_user = require('../s-route/api/user/.handler.js');
 
 
 // [INIT]
@@ -15,7 +15,7 @@ module.exports = {
 	webAppLimitCheck: function () {
 		return async (req, res, next) => {
 			// Check apiSubscription status
-			await h_apiSubscription.cycleCheckApiSubscription({
+			await h_user.cycleCheckApiSubscription({
 				user_id: req.user_decoded._id
 			});
 
@@ -23,8 +23,8 @@ module.exports = {
 			let flag = false;
 
 			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
-			const apiSubscription = await ApiSubscriptionModel.findOne({
-				user: req.user_decoded._id
+			const apiSubscription = await UserModel.findOne({
+				_id: req.user_decoded._id
 			});
 
 			const count = await WebAppModel.countDocuments({
@@ -66,7 +66,7 @@ module.exports = {
 	productLimitCheck: function () {
 		return async (req, res, next) => {
 			// Check apiSubscription status
-			await h_apiSubscription.cycleCheckApiSubscription({
+			await h_user.cycleCheckApiSubscription({
 				user_id: req.user_decoded._id
 			});
 			
@@ -74,8 +74,8 @@ module.exports = {
 			let flag = false
 
 			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
-			const apiSubscription = await ApiSubscriptionModel.findOne({
-				user: req.user_decoded._id
+			const apiSubscription = await UserModel.findOne({
+				_id: req.user_decoded._id
 			});
 			
 			const count = await ProductModel.countDocuments({
@@ -117,7 +117,7 @@ module.exports = {
 	productOptionLimitCheck: function () {
 		return async (req, res, next) => {
 			// Check apiSubscription status
-			await h_apiSubscription.cycleCheckApiSubscription({
+			await h_user.cycleCheckApiSubscription({
 				user_id: req.user_decoded._id
 			});
 			
@@ -125,8 +125,8 @@ module.exports = {
 			let flag = false
 
 			// [MONGODB][READ][ApiSubscription] Retrieve associated apiSubscription obj
-			const apiSubscription = await ApiSubscriptionModel.findOne({
-				user: req.user_decoded._id
+			const apiSubscription = await UserModel.findOne({
+				_id: req.user_decoded._id
 			});
 			
 			const count = await ProductOptionModel.countDocuments({

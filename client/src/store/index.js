@@ -26,8 +26,6 @@ export default new Vuex.Store({
 		
 		user: null,
 
-		apiSubscription: {},
-
 		currentCard: {
 			brand: "",
 			last4: "",

@@ -59,11 +59,6 @@
 					}
 
 					// [STORE] webApps
-					if (res.apiSubscription) {
-						this.$store.state.apiSubscription = res.apiSubscription;
-					}
-
-					// [STORE] webApps
 					if (res.webApps) {
 						this.$store.state.webApps = res.webApps;
 					}

@@ -64,9 +64,9 @@
 					<BCard
 						bg-variant="dark"
 						no-body
-						:border-variant="this.$store.state.apiSubscription.stripe.subscription.tier1.subId !== '' ? 'success' : ''"
+						:border-variant="this.$store.state.user.stripe.subscription.tier1.subId !== '' ? 'success' : ''"
 						class="rounded-lg my-4"
-						:class="this.$store.state.apiSubscription.stripe.subscription.tier1.cancelAtPeriodEnd ? 'border-dashed' : ''"
+						:class="this.$store.state.user.stripe.subscription.tier1.cancelAtPeriodEnd ? 'border-dashed' : ''"
 						style="border-width: 2px;"
 					>
 						<BCardHeader>
@@ -97,9 +97,9 @@
 					<BCard
 						bg-variant="dark"
 						no-body
-						:border-variant="this.$store.state.apiSubscription.stripe.subscription.tier2.subId !== '' ? 'success' : ''"
+						:border-variant="this.$store.state.user.stripe.subscription.tier2.subId !== '' ? 'success' : ''"
 						class="rounded-lg my-4"
-						:class="this.$store.state.apiSubscription.stripe.subscription.tier2.cancelAtPeriodEnd ? 'border-dashed' : ''"
+						:class="this.$store.state.user.stripe.subscription.tier2.cancelAtPeriodEnd ? 'border-dashed' : ''"
 						style="border-width: 2px;"
 					>
 						<BCardHeader>
@@ -163,7 +163,7 @@
 			return {
 				// [AUTH-AXIOS]
 				authAxios: axios.create({
-					baseURL: '/api/api-subscription',
+					baseURL: '/api/user',
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`,
 					}
@@ -206,7 +206,7 @@
 				if (resData.status) {
 					this.changeCard = false;
 					
-					this.$store.state.apiSubscription = resData.apiSubscription;
+					this.$store.state.user = resData.user;
 
 					this.error = "";
 				}

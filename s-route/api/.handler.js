@@ -13,7 +13,6 @@ const config = require('../../s-config');
 const config_const = require('../../s-config/const');
 const WebAppModel = require('../../s-models/WebAppModel');
 const UserModel = require('../../s-models/UserModel');
-const ApiSubscriptionModel = require('../../s-models/ApiSubscriptionModel');
 const mailerUtil = require('../../s-utils/mailerUtil');
 
 
@@ -52,11 +51,6 @@ module.exports = {
 					_id: req.user_decoded._id
 				}).select('-password -api.publicKey').exec();
 
-				// [MONGODB][apiSubscription]
-				const apiSubscription = await ApiSubscriptionModel.findOne({
-					user: req.user_decoded._id
-				});
-
 				// [MONGODB][WebApp]
 				const webApps = await WebAppModel.find({
 					user: req.user_decoded._id
@@ -66,7 +60,6 @@ module.exports = {
 				_returnObj = {
 					..._returnObj,
 					user: user,
-					apiSubscription: apiSubscription,
 					webApps: webApps
 				};
 			}
@@ -233,13 +226,7 @@ module.exports = {
 			const vCodeObj = await VerificationCodeCollection.c_create({
 				user_id: user._id
 			});
-
-			// [MONGODB][CREATE][ApiSubscription]
-			await new ApiSubscriptionModel({
-				_id: mongoose.Types.ObjectId(),
-				user: user._id,
-			}).save();
-
+			
 			// [MAIL] Verification Email
 			await mailerUtil.sendVerificationMail(
 				user.email,
@@ -312,43 +299,25 @@ module.exports = {
 				.select('-password -api.publicKey')
 			.exec();
 
-			// [UPDATE][ApiSubscription]
-			const apiSubscription = await ApiSubscriptionModel.findOne({
-				user: user._id
-			})
-
-			if (!apiSubscription) {
-				return {
-					executed: true,
-					status: false,
-					message: 'No ApiSubscription found'
-				};
-			}
-
 			// if no cusId 
-			if (!apiSubscription.stripe.cusId) {
+			if (!user.stripe.cusId) {
 				// [API][stripe] Create customer
 				const createdStripeCustomer = await Stripe.customers.create({
 					email: user.email,
 					metadata: { user_id: `${user._id}` },
 				});
-	
-				// [UPDATE][ApiSubscription]
-				await ApiSubscriptionModel.updateOne(
-					{ user: user._id },
+
+				// [UPDATE][User]
+				await UserModel.findOneAndUpdate(
+					{ _id: req.body.user_id },
 					{
 						$set: {
+							verified: true,
 							"stripe.cusId": createdStripeCustomer.id,
 						}
-					},
+					}
 				);
 			}
-
-			// [UPDATE][User] Verify
-			await UserModel.findOneAndUpdate(
-				{ _id: req.body.user_id },
-				{ $set: { verified: true } }
-			);
 
 			// [200] Success
 			return {
