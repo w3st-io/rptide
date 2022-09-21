@@ -1,59 +1,57 @@
 // [REQUIRE]
-const cors = require('cors');
-const express = require('express');
+const cors = require("cors");
+const express = require("express");
 
 
 // [REQUIRE] Personal
-const rateLimiter = require('../../../s-rate-limiters');
-const rh = require('./.handler.js');
-const TierChecker = require('../../../s-middlewares/TierChecker');
-const Auth = require('../../../s-middlewares/Auth');
+const rateLimiter = require("../../../s-rate-limiters");
+const h = require("./.handler.js");
+const TierChecker = require("../../../s-middlewares/TierChecker");
+const Auth = require("../../../s-middlewares/Auth");
 
 
 // [EXPRESS + USE]
 const router = express.Router().use(cors());
 
 
-/******************* [CRUD] *******************/
-// [CREATE] Auth Required
 router.post(
-	'/create',
+	"/create",
 	rateLimiter.post,
 	Auth.userToken(),
 	TierChecker.webAppLimitCheck(),
 	async (req, res) => {
-		res.send(await rh.create({ req }));
+		res.send(await h.create({ req }));
 	}
 );
 
 
 router.post(
-	'/find-one',
+	"/find-one",
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.findOne({ req }));
+		res.send(await h.findOne({ req }));
 	}
 );
 
 
 // [UPDATE] Auth Required
 router.post(
-	'/find-one-and-update',
+	"/find-one-and-update",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
-		res.send(await rh.findOneAndUpdate({ req }));
+		res.send(await h.findOneAndUpdate({ req }));
 	}
 );
 		
 		
 // [DELETE] Auth Required
 router.post(
-	'/delete-one',
+	"/delete-one",
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.deleteOne({ req }));
+		res.send(await h.deleteOne({ req }));
 	}
 );
 

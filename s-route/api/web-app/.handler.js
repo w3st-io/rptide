@@ -22,7 +22,7 @@ let returnObj = {
 module.exports = {
 	/**
 	 * @notice Create a Web App
-	 * @param {String} req.body.webApp.name Name of the web app
+	 * @param {String} req.body.webApp.name Name of the WebApp
 	 * @returns {Object}
 	*/
 	create: async ({ req }) => {
@@ -36,7 +36,6 @@ module.exports = {
 		try {
 			// [VALIDATE]
 			if (!req.body.webApp.name) {
-				console.log('RUNNING');
 				return {
 					..._returnObj,
 					message: 'Invalid params'
@@ -50,7 +49,7 @@ module.exports = {
 				name: req.body.webApp.name,
 			}).save();
 
-			const resultWebApp = await WebAppModel.find({
+			const results = await WebAppModel.find({
 				user: req.user_decoded._id
 			});
 
@@ -59,7 +58,7 @@ module.exports = {
 				..._returnObj,
 				status: true,
 				createdWebApp: result,
-				webApps: resultWebApp,
+				webApps: results,
 			};
 		}
 		catch (err) {
@@ -70,7 +69,6 @@ module.exports = {
 			};
 		}
 	},
-
 
 	/**
 	 * @notice Find One Web App
