@@ -7,20 +7,38 @@ const mongoose = require('mongoose');
 const path = require('path');
 const socketIO = require('socket.io');
 
-// [REQUIRE][OTHER][API][PAGES][PUBLIC-API] Personal
+// [REQUIRE][OTHER] Personal
 const config = require('./s-config');
 const Functionality = require('./s-middlewares/Functionality');
 const rateLimiter = require('./s-rate-limiters');
-const s_socket = require('./s-socket');
+const socket = require('./s-socket');
 
-const a_ = require('./s-route/api');
-const a_productOption = require('./s-route/api/product-option');
-const a_product = require('./s-route/api/product');
-const a_socket = require('./s-route/api/socket');
-const a_user = require('./s-route/api/user');
-const a_webApp = require('./s-route/api/web-app');
-const a_webContent = require('./s-route/api/web-content');
+// [REQUIRE][API] Personal
+const route_api_ = require('./s-route/api');
+const route_api_productOption = require('./s-route/api/product-option');
+const route_api_product = require('./s-route/api/product');
+const route_api_user = require('./s-route/api/user');
+const route_api_webApp = require('./s-route/api/web-app');
+const route_api_webContent = require('./s-route/api/web-content');
 
+
+// [MONGOOSE-CONNECT]
+mongoose.connect(
+	config.app.mongoURI,
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	},
+	(err, connected) => {
+		if (connected) {
+			console.log('Mongoose Connected to MongoDB');
+		}
+
+		if (err) {
+			console.log(`Mongoose Error: ${err}`);
+		}
+	}
+);
 
 // [EXPRESS]
 const app = express();
@@ -46,29 +64,11 @@ const io = socketIO(
 
 
 // [SOCKET.IO]
-s_socket.start(io);
+socket.start(io);
 
 
 // [SET]
 app.set('socketio', io);
-
-
-// [MONGOOSE-CONNECTION]
-mongoose.connect(
-	config.app.mongoURI,
-	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	},
-	(err, connected) => {
-		if (connected) {
-			console.log('Mongoose Connected to MongoDB');
-		}
-		else {
-			console.log(`Mongoose Connection Error --> ${err}`);
-		}
-	}
-);
 
 
 /**
@@ -84,13 +84,12 @@ app.use(rateLimiter.global);
 
 
 // [USE][ROUTE][API]
-app.use('/api', a_);
-app.use('/api/socket', a_socket);
-app.use('/api/user', Functionality.user(), a_user);
-app.use('/api/product', Functionality.user(), a_product);
-app.use('/api/product-option', Functionality.user(), a_productOption);
-app.use('/api/web-app', a_webApp);
-app.use('/api/web-content', a_webContent);
+app.use('/api', route_api_);
+app.use('/api/user', Functionality.user(), route_api_user);
+app.use('/api/product', Functionality.user(), route_api_product);
+app.use('/api/product-option', Functionality.user(), route_api_productOption);
+app.use('/api/web-app', route_api_webApp);
+app.use('/api/web-content', route_api_webContent);
 
 
 // [HEROKU] Set Static Folder for Heroku

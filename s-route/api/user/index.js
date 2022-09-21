@@ -37,6 +37,14 @@ router.post(
 );
 
 router.post(
+	"/update/tier",
+	Auth.userToken(),
+	async (req, res) => {
+		res.send(await h["/update/tier"]({ req }));
+	}
+);
+
+router.post(
 	"/stripe-payment-method",
 	Auth.userToken(),
 	async (req, res) => {
@@ -46,26 +54,18 @@ router.post(
 
 
 router.post(
-	"/update/stripe-payment-method",
+	"/stripe-payment-method-update",
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h["/update/stripe-payment-method"]({ req }));
+		res.send(await h["/stripe-payment-method-update"]({ req }));
 	}
 );
 
 router.post(
-	"/delete/stripe-payment-method",
+	"/stripe-payment-method-delete",
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h["/delete/stripe-payment-method"]({ req }));
-	}
-);
-
-router.post(
-	"/update/tier",
-	Auth.userToken(),
-	async (req, res) => {
-		res.send(await h["/update/tier"]({ req }));
+		res.send(await h["/stripe-payment-method-delete"]({ req }));
 	}
 );
 

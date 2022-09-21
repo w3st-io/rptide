@@ -164,7 +164,7 @@
 
 				const resData = (
 					await this.authAxios.post(
-						'/update/stripe-payment-method',
+						'/stripe-payment-method-update',
 						{
 							cardName: this.toBeUpdatedPaymentMethod.card.holder,
 							cardNumber: this.toBeUpdatedPaymentMethod.card.number,
@@ -191,7 +191,7 @@
 				this.loading = true
 
 				const resData = (
-					await this.authAxios.post('/delete/stripe-payment-method')
+					await this.authAxios.post('/stripe-payment-method-delete')
 				).data;
 
 				if (resData.status) {
