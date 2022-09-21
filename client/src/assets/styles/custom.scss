@@ -100,4 +100,8 @@ code {
 
 .bg-code {
 	background-color: rgba(127.5, 127.5, 127.5, 0.2) !important;
+
+	:hover {
+		background-color: rgba(127.5, 127.5, 127.5, 0.2) !important;
+	}
 }

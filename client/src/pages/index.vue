@@ -8,7 +8,7 @@
 							<!-- Logo -->
 							<RouterLink to="/" class="navbar-brand">
 								<mark class="h2 px-5 bg-primary text-dark rounded">
-									Rptide
+									RpTide
 								</mark>
 							</RouterLink>
 						</header>
@@ -38,14 +38,11 @@
 
 					<!-- 2 -->
 					<BCol cols="12" lg="4">
-						<div
+						<BCard
+							bg-variant="dark"
 							class="
-								h-100
-								p-5 p-lg-3 p-xl-5
-								bg-dark
+								mb-3
 								text-light
-								rounded-3
-								rounded-lg
 								shadow
 							"
 						>
@@ -70,7 +67,22 @@
 									class="w-100 mb-4 p-3"
 								><h5 class="m-0">Login</h5></BButton>
 							</RouterLink>
-						</div>
+						</BCard>
+
+						<BCard
+							bg-variant="dark"
+							class="
+								mb-3
+								text-light
+								shadow
+							"
+						>
+							<router-link to="/documentation">
+								<BButton variant="outline-light" class="w-100">
+									Documentation
+								</BButton>
+							</router-link>
+						</BCard>
 					</BCol>
 				</BRow>
 			</BContainer>

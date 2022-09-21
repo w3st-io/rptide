@@ -65,6 +65,11 @@ module.exports = {
 	},
 
 
+	/**
+	 * 
+	 * @param {String} req.body.webApp Filter WebContents by this
+	 * @returns {Object}
+	*/
 	"/find": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {

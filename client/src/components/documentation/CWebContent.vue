@@ -2,7 +2,7 @@
 	<BCard
 		bg-variant="dark"
 		text-variant="light"
-		border-variant=""
+		border-variant="secondary"
 		id="product"
 		class="mb-5 shadow"
 	>
@@ -37,6 +37,15 @@
 					<code class="p-1 bg-code">
 						POST /api/web-content/find
 					</code>
+				</p>
+				<p>
+					Required in POST request body:
+					<VueJsonPretty
+						:data="{
+							webApp: '< webApp _id >'
+						}"
+						class="bg-code p-2 text-light"
+					/>
 				</p>
 			</BCol>
 		</BRow>
@@ -105,10 +114,10 @@
 
 			<!-- JSON Example -->
 			<BCol cols="12" md="6">
-				<div class="bg-code text-light">
+				<div>
 					<VueJsonPretty
 						:data="webContentExample"
-						class="p-2 text-light"
+						class="p-2 text-light bg-code"
 					/>
 				</div>
 			</BCol>

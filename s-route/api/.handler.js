@@ -17,7 +17,7 @@ const mailerUtil = require('../../s-utils/mailerUtil');
 
 
 // [STRIPE]
-const Stripe = stripe(config.api.stripe.secretKey)
+const Stripe = stripe(config.api.stripe.secretKey);
 
 
 // [INIT]
@@ -49,7 +49,7 @@ module.exports = {
 				// [MONGODB][User]
 				const user = await UserModel.findOne({
 					_id: req.user_decoded._id
-				}).select('-password -api.publicKey').exec();
+				}).select('-password -api.publicKey');
 
 				// [MONGODB][WebApp]
 				const webApps = await WebAppModel.find({
@@ -243,7 +243,6 @@ module.exports = {
 			};
 		}
 		catch (err) {
-			console.log('err', err);
 			return {
 				..._returnObj,
 				executed: false,

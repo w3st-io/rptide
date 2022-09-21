@@ -3,7 +3,7 @@
 	<BCard
 		bg-variant="dark"
 		text-variant="light"
-		border-variant=""
+		border-variant="secondary"
 		id="product"
 		class="mb-5 shadow"
 	>

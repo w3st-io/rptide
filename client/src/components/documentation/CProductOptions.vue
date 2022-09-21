@@ -4,7 +4,7 @@
 		id="product-option"
 		bg-variant="dark"
 		text-variant="light"
-		border-variant=""
+		border-variant="secondary"
 		class="mb-5 shadow"
 	>
 		<!-- [HEADER] -->

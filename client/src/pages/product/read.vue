@@ -50,7 +50,7 @@
 					<BCol cols="12" lg="3" xl="3">
 						<BCard
 							bg-variant="dark"
-							border-variant=""
+							border-variant="secondary"
 							no-body
 							class="mb-3"
 							:class="{
@@ -188,7 +188,7 @@
 						<BCard
 							v-if="false"
 							bg-variant="dark"
-							border-variant=""
+							border-variant="secondary"
 							no-body
 							class="mb-3"
 							:class="{
@@ -227,7 +227,7 @@
 								<!-- [PRODUCT][NAME] -->
 								<BCard
 									bg-variant="dark"
-									border-variant=""
+									border-variant="secondary"
 									no-body
 									class="mb-3"
 									:class="{
@@ -292,7 +292,7 @@
 								<!-- [PRODUCT][NAME] -->
 								<BCard
 									bg-variant="dark"
-									border-variant=""
+									border-variant="secondary"
 									no-body
 									class="mb-3"
 									:class="{
@@ -382,7 +382,7 @@
 								<!-- [PRODUCT][REQUIRED-PRODUCT-ADDITIONS] -->
 								<BCard
 									bg-variant="dark"
-									border-variant=""
+									border-variant="secondary"
 									no-body
 									class="mb-3"
 									:class="{
@@ -519,7 +519,7 @@
 								<!-- [PRODUCT][OPTIONAL-PRODUCT-ADDITIONS] -->
 								<BCard
 									bg-variant="dark"
-									border-variant=""
+									border-variant="secondary"
 									no-body
 									class="mb-3"
 									:class="{
@@ -654,7 +654,7 @@
 								<!-- [PRODUCT][DESCRIPTION] -->
 								<BCard
 									bg-variant="dark"
-									border-variant=""
+									border-variant="secondary"
 									no-body
 									class="mb-3"
 									:class="{
@@ -727,7 +727,7 @@
 					<BCol cols="12" xl="3">
 						<BCard
 							bg-variant="dark"
-							border-variant=""
+							border-variant="secondary"
 							no-body
 							class="mb-3"
 							:class="{
