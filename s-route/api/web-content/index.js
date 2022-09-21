@@ -1,76 +1,75 @@
 // [REQUIRE]
-const cors = require('cors')
-const express = require('express')
+const cors = require("cors");
+const express = require("express");
 
 
 // [REQUIRE] Personal
-const rh = require('./.handler.js')
-const Auth = require('../../../s-middlewares/Auth')
+const h = require("./.handler.js");
+const Auth = require("../../../s-middlewares/Auth");
 
 
 // [EXPRESS + USE]
-const router = express.Router().use(cors())
+const router = express.Router().use(cors());
 
 
-/******************* [CRUD] *******************/
 // [CREATE] Auth Required
 router.post(
-	'/create',
+	"/create",
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await rh.create({ req }))
+		res.send(await h.create({ req }));
 	}
-)
+);
 
 
 // [FIND-ALL] Auth Required
 router.post(
-	'/find',
+	"/find",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
-		res.send(await rh.find({ req }))
+		res.send(await h["/find"]({ req }));
 	}
-)
+);
 
 
 // [FIND-ALL] Auth Required
 router.post(
-	'/find-paginated/:limit/:page',
+	"/find-paginated/:limit/:page",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
-		res.send(await rh.findPaginated({ req }))
+		res.send(await h["/find-paginated/:limit/:page"]({ req }));
 	}
-)
+);
 
 
 // [FIND] Auth Required
 router.post(
-	'/find-one',
+	"/find-one",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
-		res.send(await rh.findOne({ req }))
+		res.send(await h["/find-one"]({ req }));
 	}
-)
+);
 
 
 // [UPDATE] Auth Required
 router.post(
-	'/find-one-and-update',
+	"/find-one-and-update",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
-		res.send(await rh.findOneAndUpdate({ req }))
+		res.send(await h["/find-one-and-update"]({ req }));
 	}
-)
+);
 
 
 // [UPDATE] Auth Required
 router.post(
-	'/delete-one',
+	"/delete-one",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req, res) => {
-		res.send(await rh.deleteOne({ req }))
+		res.send(await h["/delete-one"]({ req }));
 	}
-)
+);
 
 
-module.exports = router
+module.exports = router;

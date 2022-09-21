@@ -17,7 +17,7 @@ let returnObj = {
 
 
 module.exports = {
-	create: async ({ req }) => {
+	"/create": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
@@ -65,7 +65,7 @@ module.exports = {
 	},
 
 
-	find: async ({ req }) => {
+	"/find": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
@@ -95,7 +95,7 @@ module.exports = {
 	},
 
 
-	findPaginated: async ({ req }) => {
+	"/find-paginated/:limit/:page": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
@@ -182,7 +182,7 @@ module.exports = {
 	},
 
 
-	findOne: async ({ req }) => {
+	"/find-one": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
@@ -211,7 +211,7 @@ module.exports = {
 		}
 	},
 
-	findOneAndUpdate: async ({ req }) => {
+	"/find-one-and-update": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
@@ -255,7 +255,7 @@ module.exports = {
 		}
 	},
 
-	deleteOne: async ({ req }) => {
+	"/delete-one": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
@@ -264,6 +264,7 @@ module.exports = {
 		};
 
 		try {
+			// [MONGODB][WebContent]
 			const result = await WebContentModel.deleteOne(
 				{
 					user: req.user_decoded._id,
