@@ -1,7 +1,7 @@
 <template>
 	<BRow class="w-100">
 		<BCol cols="3" lg="3" xl="2">
-			<div class="w-100 h-100 px-3 py-5 bg-dark border-right border-primary">
+			<div class="w-100 h-100 px-3 py-5 bg-dark border-right border-secondary">
 				<h6 class="mb-3 text-center text-light">
 					Documentation
 				</h6>
