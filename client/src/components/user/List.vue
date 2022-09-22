@@ -26,7 +26,6 @@
 							cols="10"
 							@click="redirectProfile(user._id)"
 						>
-							<h5 class="m-0 mt-2 align-middle">{{ user.username }}</h5>
 							<p>{{ user.bio.replace(/(.{60})..+/, '$1…') }}</p>
 						</BCol>
 					</BRow>

@@ -35,13 +35,24 @@
 			variant="none"
 			size="lg"
 			pill
-			class="w-100"
+			class="w-100 mb-3"
 			:class="{
 				'btn-primary': $route.params.tab == 'product-options',
 				'btn-outline-primary': $route.params.tab != 'product-options',
 			}"
 			@click="switchTab('product-options')"
 		>Product Options</BButton>
+
+		<hr>
+
+		<router-link to="/documentation">
+			<BButton
+				variant="outline-secondary"
+				size="sm"
+				pill
+				class="w-100"
+			>Documentation</BButton>
+		</router-link>
 	</div>
 </template>
 

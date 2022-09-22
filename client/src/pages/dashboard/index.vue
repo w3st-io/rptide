@@ -37,11 +37,11 @@
 	import validator      from 'validator';
 
 	// [IMPORT] Personal
-	import Left           from '../../components/dashboard/Left';
-	import Product        from '../../components/dashboard/Product';
-	import ProductOptions from '../../components/dashboard/ProductOptions';
-	import WebContent     from '../../components/dashboard/WebContent';
-	import router         from '../../router';
+	import Left           from '../../components/dashboard/Left.vue';
+	import Product        from '../../components/dashboard/Product.vue';
+	import ProductOptions from '../../components/dashboard/ProductOptions.vue';
+	import WebContent     from '../../components/dashboard/WebContent.vue';
+	import router         from '../../router/index.js';
 
 	export default {
 		data() {
