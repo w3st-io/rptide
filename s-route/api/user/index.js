@@ -6,6 +6,7 @@ const express = require("express");
 // [REQUIRE] Personal
 const h = require("./.handler.js");
 const Auth = require("../../../s-middlewares/Auth");
+const Functionality = require("../../../s-middlewares/Functionality");
 
 
 // [EXPRESS + USE]
@@ -56,6 +57,7 @@ router.post(
 router.post(
 	"/stripe-payment-method-update",
 	Auth.userToken(),
+	Functionality.commerce(),
 	async (req, res) => {
 		res.send(await h["/stripe-payment-method-update"]({ req }));
 	}

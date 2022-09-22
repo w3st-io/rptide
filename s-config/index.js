@@ -11,8 +11,6 @@ module.exports = {
 	app: {
 		safeMode: process.env.APP__SAFE_MODE || true,
 
-		acceptingUserRegistration: process.env.APP__ACCEPTING_NEW_REGISTRATIONS || 'false',
-
 		// [MONGODB]
 		mongoURI: process.env.APP__MONGO_URI || '',
 		
@@ -32,7 +30,7 @@ module.exports = {
 	// [FUNCTIONALITY]
 	functionality: {
 		user: process.env.FUNCTIONALITY__USER || 'false',
-		payment: process.env.FUNCTIONALITY__PAYMENT || 'false',
+		commerce: process.env.FUNCTIONALITY__COMMERCE || 'false',
 	},
 	
 	// [EMAIL]

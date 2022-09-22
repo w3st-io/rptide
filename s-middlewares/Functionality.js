@@ -3,8 +3,11 @@ const config = require("../s-config");
 
 
 // [INIT]
-const location = "/s-middleware/Functionality";
-
+let returnObj = {
+	executed: true,
+	status: false,
+	location: "/s-middleware/Functionality",
+};
 
 module.exports = {
 	user: function () {
@@ -14,12 +17,24 @@ module.exports = {
 			}
 			else {
 				res.send({
-					executed: true,
-					status: false,
-					location: location,
-					message: "User related functionlaity is disabled",
+					...returnObj,
+					message: "All user related functionalities are temporarily disabled",
 				});
 			}
 		}
-	}
+	},
+
+	commerce: function () {
+		return (req, res, next) => {
+			if (config.functionality.commerce === "true") {
+				next();
+			}
+			else {
+				res.send({
+					...returnObj,
+					message: "All commerce related functionalities are temporarily disabled",
+				});
+			}
+		}
+	},
 }

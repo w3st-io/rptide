@@ -180,13 +180,6 @@ module.exports = {
 		};
 
 		try {
-			if (config.app.acceptingUserRegistration == 'false') {
-				return {
-					..._returnObj,
-					message: 'We are currently not accepting new registrations'
-				};
-			}
-
 			// [VALIDATE] req.body.email
 			if (!validator.isEmail(req.body.email)) {
 				return {
