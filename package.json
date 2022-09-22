@@ -7,8 +7,12 @@
   "description": "This is the server for rptide",
   "main": "server.js",
   "scripts": {
+    "predev": "",
     "dev": "nodemon server.js",
+
+    "prestart": "",
     "start": "node server.js",
+    
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --only=dev --prefix client && npm run build --prefix client"
   },
   "author": "aleem ahmed",

@@ -2,7 +2,7 @@
 	<div>
 		<!-- Footer -->
 		<footer
-			class="pt-4 px-3 page-footer font-small border-top border-primary bg-dark"
+			class="pt-4 px-3 page-footer font-small border-top border-secondary bg-dark"
 		>
 			<BRow>
 				<BCol cols="12" class="bg-dark">
@@ -13,7 +13,6 @@
 						<br>
 						<h6><i class="text-dark">"Dare I say it..?"</i></h6>
 					</div>
-					<hr class="bg-secondary">
 				</BCol>
 
 				<BCol cols="12" md="4" class="text-center">

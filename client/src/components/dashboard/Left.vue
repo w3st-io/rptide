@@ -1,13 +1,12 @@
 <template>
 	<!-- [TAB-BUTTON] Content -->
 	<div>
-		<h6 class="mb-4 text-center text-light" style="font-size: .6em">
+		<h6 class="mb-4 text-center text-light" style="font-size: .64em">
 			{{ $store.state.user.workspace.webApp }}
 		</h6>
 
 		<BButton
 			variant="none"
-			size="lg"
 			pill
 			class="w-100 mb-3"
 			:class="{
@@ -20,7 +19,6 @@
 		<BButton
 			v-if="node_env == 'development'"
 			variant="none"
-			size="lg"
 			pill
 			class="w-100 mb-3"
 			:class="{
@@ -33,7 +31,6 @@
 		<BButton
 			v-if="node_env == 'development'"
 			variant="none"
-			size="lg"
 			pill
 			class="w-100 mb-3"
 			:class="{

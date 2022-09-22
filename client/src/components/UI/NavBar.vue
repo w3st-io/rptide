@@ -1,7 +1,7 @@
 <template>
-	<div id="nav-bar" class="pb-3 border-bottom border-primary bg-dark">
+	<div id="nav-bar" class="py-4 border-bottom border-secondary bg-dark">
 		<BContainer>
-			<BRow class="py-3">
+			<BRow class="pb-3">
 				<BCol md="6">
 					<!-- Logo -->
 					<RouterLink to="/" class="navbar-brand">
@@ -34,15 +34,20 @@
 			<BRow>
 				<BCol md="6" lg="4" class="text-center">
 					<BRow v-if="$store.state.user != null">
-						<BCol cols="5" class="">
-							<BButton
-								variant="outline-primary"
-								class="w-100"
-								@click="routerRedirect({ name: 'web-app' })"
-							>Web Apps</BButton>
-						</BCol>
 						<BCol cols="7" class="">
 							<Current class="mb-3 mb-md-0" />
+						</BCol>
+
+						<BCol cols="5" class="">
+							<div v-if="$store.state.user != null">
+								<BButton
+									variant="primary"
+									pill
+									class="w-100"
+									@click="routerRedirect(dashboard)"
+								>Dashboard</BButton>
+							</div>
+							
 						</BCol>
 					</BRow>
 				</BCol>
@@ -52,8 +57,8 @@
 						<BButton
 							variant="outline-primary"
 							pill
-							@click="routerRedirect(dashboard)"
-						>Dashboard</BButton>
+							@click="routerRedirect({ name: 'web-app' })"
+						>Web Apps</BButton>
 					</div>
 
 					<!-- ! Logged In -->
