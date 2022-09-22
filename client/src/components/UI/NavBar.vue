@@ -1,5 +1,5 @@
 <template>
-	<div id="nav-bar" class="py-4 border-bottom border-secondary bg-dark">
+	<div id="nav-bar" class="py-3 border-bottom border-secondary bg-dark">
 		<BContainer>
 			<BRow class="pb-3">
 				<BCol md="6">
@@ -35,7 +35,11 @@
 				<BCol md="6" lg="4" class="text-center">
 					<BRow v-if="$store.state.user != null">
 						<BCol cols="7" class="">
-							<Current class="mb-3 mb-md-0" />
+							<Current class="mb-3" />
+
+							<h6 class="smallm text-secondary">
+								{{ $store.state.user.workspace.webApp }}
+							</h6>
 						</BCol>
 
 						<BCol cols="5" class="">
