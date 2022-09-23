@@ -17,7 +17,7 @@ router.post(
 	"/create",
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await h.create({ req }));
+		res.send(await h["/create"]({ req }));
 	}
 );
 
