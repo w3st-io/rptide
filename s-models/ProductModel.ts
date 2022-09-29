@@ -1,4 +1,4 @@
-// [REQUIRE]
+// [IMPORT]
 import mongoose from 'mongoose';
 
 
@@ -8,28 +8,28 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 		return {
 			status: false,
 			message: 'Error: too many product options'
-		}
+		};
 	}
 
 	if (optionalProductOptions.length > 100) {
 		return {
 			status: false,
 			message: 'Error: too many product options'
-		}
+		};
 	}
 
 	if (subCategories.length > 100) {
 		return {
 			status: false,
 			message: 'Error: too many subCategories'
-		}
+		};
 	}
 
 	if (images.length > 5) {
 		return {
 			status: false,
 			message: 'Error: Too many images'
-		}
+		};
 	}
 
 	for (let i = 0; i < requiredProductOptions.length; i++) {
@@ -39,7 +39,7 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 			return {
 				status: false,
 				message: `Invalid product.productOption[${i}]`
-			}
+			};
 		}
 	}
 
@@ -50,15 +50,43 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 			return {
 				status: false,
 				message: `Invalid product.productOption[${i}]`
-			}
+			};
 		}
 	}
 
-	return { status: true }
+	return {
+		status: true
+	};
 }
 
 
-const product = new mongoose.Schema({
+export interface IProduct extends mongoose.Document {
+	_id: mongoose.Schema.Types.ObjectId,
+	user: mongoose.Schema.Types.ObjectId,
+	webApp: mongoose.Schema.Types.ObjectId,
+	name: String,
+	description: String,
+	isSubscription: Boolean,
+	price: {
+		number: Number,
+		inPennies: Number,
+		string: String,
+		dollars: String,
+		cents: String,
+	},
+	category: String,
+	subCategories: [String],
+	images: [String],
+	totalInStock: {
+		type: Number,
+		default: 1,
+	},
+	requiredProductOptions: [mongoose.Schema.Types.ObjectId],
+	optionalProductOptions: [mongoose.Schema.Types.ObjectId],
+	createdAt: Date,
+};
+
+export const ProductSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -164,49 +192,55 @@ const product = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
-})
+});
 
 
-product.pre('validate', function (this: any, next: any) {
+ProductSchema.pre('validate', function (this: any, next: any) {
 	const status = validate({
 		requiredProductOptions: this.requiredProductOptions,
 		optionalProductOptions: this.optionalProductOptions,
 		subCategories: this.subCategories,
 		images: this.images
-	})
+	});
 
-	if (status.status == false) { throw status.message }
+	if (status.status == false) {
+		throw `${status.message}`;
+	}
 
-	next()
+	next();
 })
 
 
-product.pre('updateOne', function (this: any, next: any) {
+ProductSchema.pre('updateOne', function (this: any, next: any) {
 	const status = validate({
 		requiredProductOptions: this._update.$set.requiredProductOptions,
 		optionalProductOptions: this._update.$set.optionalProductOptions,
 		subCategories: this._update.$set.subCategories,
 		images: this._update.$set.images
-	})
+	});
 
-	if (status.status == false) { throw status.message }
-	
-	next()
-})
+	if (status.status == false) {
+		throw `${status.message}`;
+	}
+
+	next();
+});
 
 
-product.pre('findOneAndUpdate', function (this: any, next: any) {
+ProductSchema.pre('findOneAndUpdate', function (this: any, next: any) {
 	const status = validate({
 		requiredProductOptions: this._update.$set.requiredProductOptions,
 		optionalProductOptions: this._update.$set.optionalProductOptions,
 		subCategories: this._update.$set.subCategories,
 		images: this._update.$set.images
-	})
+	});
 
-	if (status.status == false) { throw status.message }
+	if (status.status == false) {
+		throw `${status.message}`;
+	}
 	
-	next()
-})
+	next();
+});
 
 
-export default mongoose.model('Product', product)
+export default mongoose.model<IProduct>('Product', ProductSchema);
