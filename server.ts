@@ -1,14 +1,19 @@
+// [IMPORT]
+import bodyParser from 'body-parser'
+import history from 'connect-history-api-fallback'
+import cors from 'cors'
+import express from 'express'
+import http from 'http'
+import path from 'path'
+
+// [IMPORT] Personal
+import config from './s-config'
+
 // [REQUIRE]
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const express = require('express');
-const http = require('http');
 const mongoose = require('mongoose');
-const path = require('path');
 const socketIO = require('socket.io');
 
 // [REQUIRE][OTHER] Personal
-const config = require('./s-config');
 const Functionality = require('./s-middlewares/Functionality');
 const rateLimiter = require('./s-rate-limiters');
 const socket = require('./s-socket');
@@ -51,8 +56,11 @@ socket.start(io);
 
 /**
  * @notice [SET][USE]
- * Set static folder
- * Rate Limiter
+ * socketio
+ * body-parser
+ * cors
+ * Express - static folder
+ * Rate Limiter - Global
 */
 app
 	.set('socketio', io)
@@ -61,6 +69,16 @@ app
 	.use(cors())
 	.use(express.static(__dirname + '/s-static'))
 	.use(rateLimiter.global)
+	.use(history({
+		rewrites: [
+			{
+				from: /^\/api*\/*$/,
+				to: function(context) {
+					return context.parsedUrl.path
+				}
+			}
+		]
+	}))  
 ;
 
 
