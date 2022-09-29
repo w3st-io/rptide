@@ -1,13 +1,9 @@
-// [REQUIRE]
+// [IMPORT]
 import cors from 'cors';
 import express from 'express';
 
-// [REQUIRE] Personal //
-import config from '../../s-config';
-
-
-// [REQUIRE] Personal
-const h = require('./.handler.js');
+// [IMPORT] Personal
+import h from './.handler.js';
 
 
 // [EXPRESS + USE]
@@ -71,4 +67,4 @@ router.post(
 );
 
 
-module.exports = router;
+export default router;

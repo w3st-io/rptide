@@ -1,4 +1,4 @@
-// [REQUIRE]
+// [IMPORT]
 import mongoose from "mongoose";
 
 
@@ -7,6 +7,7 @@ const defaultImage = "https://icon-library.com/images/placeholder-icon/placehold
 
 
 export interface IUser extends mongoose.Document {
+	_id: mongoose.Schema.Types.ObjectId,
 	role:  String,
 	email: String,
 	profile: {

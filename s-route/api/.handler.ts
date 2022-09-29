@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 // [IMPORT] Personal
 import UserModel from '../../s-models/User.model';
 
+
 // [REQUIRE]
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -33,7 +34,7 @@ let returnObj: any = {
 };
 
 
-module.exports = {
+export default {
 	/**
 	 * @notice Default route to initialize app
 	 * @returns {Object}
