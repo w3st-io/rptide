@@ -1,21 +1,22 @@
 // [IMPORT]
-import bodyParser from 'body-parser'
-import history from 'connect-history-api-fallback'
-import cors from 'cors'
-import express from 'express'
-import http from 'http'
-import path from 'path'
+import bodyParser from 'body-parser';
+import history from 'connect-history-api-fallback';
+import cors from 'cors';
+import express from 'express';
+import http from 'http';
+import mongoose, { ConnectOptions } from "mongoose";
+import path from 'path';
 
 // [IMPORT] Personal
-import config from './s-config'
+import config from './s-config';
+import Functionality from './s-middlewares/Functionality';
+import rateLimiter from "./s-rate-limiters";
+
 
 // [REQUIRE]
-const mongoose = require('mongoose');
 const socketIO = require('socket.io');
 
 // [REQUIRE][OTHER] Personal
-const Functionality = require('./s-middlewares/Functionality');
-const rateLimiter = require('./s-rate-limiters');
 const socket = require('./s-socket');
 
 // [REQUIRE][API] Personal
@@ -114,17 +115,15 @@ mongoose.connect(
 	{
 		useNewUrlParser: true,
 		useUnifiedTopology: true
-	},
-	(err, connected) => {
-		if (connected) {
-			console.log('Mongoose Connected to MongoDB');
-		}
-
-		if (err) {
-			console.log(`Mongoose Error: ${err}`);
-		}
-	}
-);
+	} as ConnectOptions
+)
+	.then((res) => {
+		console.log('Mongoose Connected to MongoDB');
+	})
+	.catch((err) => {
+		console.log(`Failed to connect to MongoDB: ${err}`);
+	})
+;
 
 
 // [LISTEN]

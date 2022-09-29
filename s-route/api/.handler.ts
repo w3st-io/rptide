@@ -3,6 +3,9 @@ import validator from 'validator';
 import mongoose from 'mongoose';
 
 // [IMPORT] Personal
+// [IMPORT] Personal
+import config from '../../s-config';
+import config_const from '../../s-config/const';
 import UserModel from '../../s-models/User.model';
 
 
@@ -15,9 +18,7 @@ const stripe = require('stripe');
 // [REQUIRE] Personal
 const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
 const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
-const config = require('../../s-config');
-const config_const = require('../../s-config/const');
-const WebAppModel = require('../../s-models/WebAppModel');
+const WebAppModel = require('../../s-models/WebApp.model');
 const mailerUtil = require('../../s-utils/mailerUtil');
 
 
@@ -142,7 +143,7 @@ export default {
 					verified: user.verified
 				},
 				config.app.secretKey,
-				{ expiresIn: config.app.nodeENV == 'production' ? 7200 : 10000000 }
+				{ expiresIn: config.nodeENV == 'production' ? 7200 : 10000000 }
 			);
 
 			const webApps = await WebAppModel.find({ user: user._id });

@@ -1,6 +1,5 @@
-// [REQUIRE]
-const config = require("../s-config");
-
+// [IMPORT] Personal
+import config from '../s-config';
 
 // [INIT]
 let returnObj = {
@@ -9,7 +8,7 @@ let returnObj = {
 	location: "/s-middleware/Functionality",
 };
 
-module.exports = {
+export default {
 	user: function () {
 		return (req, res, next) => {
 			if (config.functionality.user === "true") {

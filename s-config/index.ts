@@ -1,8 +1,8 @@
 // [REQUIRE]
-require('dotenv').config()
+require('dotenv').config();
 
 
-module.exports = {
+export default {
 	// [HEROKU]
 	nodeENV: process.env.NODE_ENV || 'development',
 	port: process.env.PORT || 5000,
@@ -51,4 +51,4 @@ module.exports = {
 	},
 
 	cycleHours: process.env.CYCLE_HOURS || .5
-}
+};

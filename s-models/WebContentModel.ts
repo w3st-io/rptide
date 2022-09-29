@@ -1,5 +1,5 @@
 // [REQUIRE]
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 
 // [VALIDATE]
@@ -71,7 +71,7 @@ function validate({ cleanJSON, tags = [] }) {
 }
 
 
-const schema = mongoose.Schema({
+const schema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -313,7 +313,7 @@ const schema = mongoose.Schema({
 });
 
 
-schema.pre("save", function (next) {
+schema.pre("save", function (this: any, next: any) {
 	const status = validate({
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
@@ -324,7 +324,7 @@ schema.pre("save", function (next) {
 	next();
 })
 
-schema.pre("validate", function (next) {
+schema.pre("validate", function (this: any, next: any) {
 	const status = validate({
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
@@ -335,8 +335,7 @@ schema.pre("validate", function (next) {
 	next();
 })
 
-
-schema.pre("updateOne", function (next) {
+schema.pre("updateOne", function (this: any, next: any) {
 	const status = validate({
 		cleanJSON: this._update.$set.cleanJSON,
 		tags: this._update.$set.tags,

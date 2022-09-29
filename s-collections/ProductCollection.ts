@@ -1,6 +1,6 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
-const validator = require('validator')
+import mongoose from "mongoose"
+import validator from "validator"
 
 
 // [REQUIRE] Personal
@@ -171,7 +171,7 @@ module.exports = {
 
 			// [PRODUCT][SAVE]
 			const createdProduct = await new ProductModel({
-				_id: mongoose.Types.ObjectId(),
+				_id: new mongoose.Types.ObjectId(),
 				user: user_id,
 				webApp: webApp_id,
 				name: name,
@@ -306,7 +306,6 @@ module.exports = {
 						name: product.name,
 						description: product.description,
 						category: product.category,
-						name: product.name,
 						price: {
 							number: price_number,
 							inPennies: Math.floor(price_inPennies),

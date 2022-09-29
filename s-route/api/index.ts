@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 
 // [IMPORT] Personal
-import h from './.handler.js';
+import h from './.handler';
 
 
 // [EXPRESS + USE]

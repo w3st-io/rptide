@@ -1,6 +1,6 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
-const validator = require('validator')
+import mongoose from "mongoose"
+import validator from "validator"
 
 
 // [REQUIRE] Personal
@@ -98,7 +98,7 @@ module.exports = {
 			}
 
 			const createdProductOption = await new ProductOptionModel({
-				_id: mongoose.Types.ObjectId(),
+				_id: new mongoose.Types.ObjectId(),
 				user: user_id,
 				name: productOption.name,
 				variants: variants,

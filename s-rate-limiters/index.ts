@@ -6,7 +6,7 @@ const rateLimit = require("express-rate-limit");
 const defaultMessage = "Too many requests, please try again later";
 
 
-module.exports = {
+export default {
 	// [GLOBAL]
 	global: rateLimit({
 		windowMs: 15 * 60 * 1000, // 15 minutes

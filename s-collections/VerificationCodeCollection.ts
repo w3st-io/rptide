@@ -1,6 +1,6 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
-const validator = require('validator')
+import mongoose from "mongoose"
+import validator from "validator"
 const uuid = require('uuid')
 
 
@@ -29,7 +29,7 @@ module.exports = {
 		
 			// [SAVE]
 			const verificationCode = await new VerificationCodeModel({
-				_id: mongoose.Types.ObjectId(),
+				_id: new mongoose.Types.ObjectId(),
 				user: user_id,
 				verificationCode: uuid.v4(),
 			}).save()

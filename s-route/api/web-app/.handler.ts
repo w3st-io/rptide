@@ -7,7 +7,7 @@ import WebAppModel from '../../../s-models/WebApp.model';
 
 
 // [REQUIRE]
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 
 // [REQUIRE] Personal
@@ -49,7 +49,7 @@ export default {
 
 			// [COLLECTION][webApp]
 			const result = await new WebAppModel({
-				_id: mongoose.Types.ObjectId(),
+				_id: new mongoose.Types.ObjectId(),
 				user: req.user_decoded._id,
 				name: req.body.webApp.name,
 			}).save();

@@ -1,8 +1,7 @@
 // [REQUIRE]
-require('dotenv').config()
+require('dotenv').config();
 
-
-module.exports = {
+export default {
 	// [LIMITS]
 	limit: {
 		webApp: [3, 6, 10],

@@ -1,24 +1,27 @@
+// [IMPORT]
+import validator from "validator";
+import mongoose from "mongoose";
+
+
+// [IMPORT] Personal
+import config from '../s-config';
+
+
 // [REQUIRE]
-const mongoose = require('mongoose')
-const validator = require('validator')
-const SibApiV3Sdk = require('sib-api-v3-sdk')
-
-
-// [REQUIRE] Personal
-const config = require('../s-config')
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 
 
 // [SibApiV3Sdk] Configure API key authorization: api-key
-let apiKey = SibApiV3Sdk.ApiClient.instance.authentications['api-key']
+let apiKey = SibApiV3Sdk.ApiClient.instance.authentications['api-key'];
 
 
 // [SET]
-apiKey.apiKey = config.api.sendinBlue.key
+apiKey.apiKey = config.api.sendinBlue.key;
 
 
 function mail({ to, subject, textContent }) {
-	let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi()
-	let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail()
+	let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+	let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
 	sendSmtpEmail = {
 		sender: {
@@ -31,13 +34,14 @@ function mail({ to, subject, textContent }) {
 
 		subject: subject,
 		textContent: textContent,
-	}
+	};
 
 	apiInstance.sendTransacEmail(sendSmtpEmail)
 		.then(
 			function (data) { console.log('[SUCCESS]:', data) },
 			function (err) { console.log('Mailer Util --> [ERROR]:', err) }
 		)
+	;
 }
 
 
@@ -55,7 +59,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					message: 'mailerUtil: Invalid params'
-				}
+				};
 			}
 
 			mail({
@@ -72,20 +76,20 @@ module.exports = {
 						<button>Click to Verify</button>
 					</a>
 				`
-			})
+			});
 	
 			return {
 				executed: true,
 				status: true,
 				message: 'Email Sent',
-			}
+			};
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				message: `mailerUtil: Error --> ${err}`,
-			}
+			};
 		}
 	},
 
@@ -103,7 +107,7 @@ module.exports = {
 					executed: true,
 					status: false,
 					message: 'mailerUtil: Invalid params'
-				}
+				};
 			}
 
 			mail({
@@ -118,20 +122,20 @@ module.exports = {
 						<button>Click to Reset Password</button>
 					</a>
 				`
-			})
+			});
 	
 			return {
 				executed: true,
 				status: true,
 				message: 'Email Sent'
-			}
+			};
 		}
 		catch (err) {
 			return {
 				executed: false,
 				status: false,
 				message: `mailerUtil: Error --> ${err}`,
-			}
+			};
 		}
 	},
 }

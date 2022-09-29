@@ -1,5 +1,5 @@
-// [REQUIRE]
-const mongoose = require('mongoose')
+// [IMPORT]
+import mongoose from "mongoose";
 
 
 // [VALIDATE]
@@ -28,7 +28,29 @@ function validate({ product }) {
 }
 
 
-const productOption = mongoose.Schema({
+export interface IProductOption extends mongoose.Document {
+	_id: mongoose.Schema.Types.ObjectId,
+	user: mongoose.Schema.Types.ObjectId,
+	name: String,
+	variants: [
+		{
+			name: String,
+			images: [String],
+			price: {
+				number: Number,
+				inPennies: Number,
+				string: String,
+				dollars: String,
+				cents: String,
+			},
+			totalInStock: Number,
+		}
+	],
+	createdAt: Date,
+};
+
+
+export const schema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -96,25 +118,25 @@ const productOption = mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
-})
+});
 
 
-productOption.pre('validate', function (next) {
+schema.pre('validate', function (this: any, next: any) {
 	const status = validate({ product: this })
 
-	if (status.status == false) { throw status.message }
+	if (status.status == false) { throw `Error: ${status.message}` }
 	
 	next()
 })
 
 
-productOption.pre('updateOne', function (next) {
+schema.pre('updateOne', function (this: any, next: any) {
 	const status = validate({ product: this._update.$set })
 
-	if (status.status == false) { throw status.message }
+	if (status.status == false) { throw `Error: ${status.message}` }
 	
 	next()
 })
 
 
-module.exports = mongoose.model('ProductOption', productOption)
+export default mongoose.model<IProductOption>('ProductOption', schema);

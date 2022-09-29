@@ -1,5 +1,5 @@
 // [REQUIRE]
-const validator = require('validator');
+import validator from "validator";
 
 
 // [REQUIRE] Personal
@@ -8,7 +8,7 @@ const ProductModel = require('../../../s-models/ProductModel');
 
 
 // [INIT]
-let returnObj = {
+let returnObj: any = {
 	executed: true,
 	status: false,
 	location: '/api/product',
@@ -16,7 +16,7 @@ let returnObj = {
 };
 
 
-module.exports = {
+export default {
 	create: async ({ req }) => {
 		try {
 			// [COLLECTION][Product][CREATE]

@@ -1,5 +1,5 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 
 // [VALIDATE]
@@ -35,7 +35,7 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 	for (let i = 0; i < requiredProductOptions.length; i++) {
 		const pa = requiredProductOptions[i]
 		
-		if (!mongoose.isValidObjectId(pa) || pa == null || pa == {} || pa == '') {
+		if (!mongoose.isValidObjectId(pa)) {
 			return {
 				status: false,
 				message: `Invalid product.productOption[${i}]`
@@ -46,7 +46,7 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 	for (let i = 0; i < optionalProductOptions.length; i++) {
 		const pa = optionalProductOptions[i]
 		
-		if (!mongoose.isValidObjectId(pa) || pa == null || pa == {} || pa == '') {
+		if (!mongoose.isValidObjectId(pa)) {
 			return {
 				status: false,
 				message: `Invalid product.productOption[${i}]`
@@ -58,7 +58,7 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 }
 
 
-const product = mongoose.Schema({
+const product = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -167,7 +167,7 @@ const product = mongoose.Schema({
 })
 
 
-product.pre('validate', function (next) {
+product.pre('validate', function (this: any, next: any) {
 	const status = validate({
 		requiredProductOptions: this.requiredProductOptions,
 		optionalProductOptions: this.optionalProductOptions,
@@ -181,7 +181,7 @@ product.pre('validate', function (next) {
 })
 
 
-product.pre('updateOne', function (next) {
+product.pre('updateOne', function (this: any, next: any) {
 	const status = validate({
 		requiredProductOptions: this._update.$set.requiredProductOptions,
 		optionalProductOptions: this._update.$set.optionalProductOptions,
@@ -195,7 +195,7 @@ product.pre('updateOne', function (next) {
 })
 
 
-product.pre('findOneAndUpdate', function (next) {
+product.pre('findOneAndUpdate', function (this: any, next: any) {
 	const status = validate({
 		requiredProductOptions: this._update.$set.requiredProductOptions,
 		optionalProductOptions: this._update.$set.optionalProductOptions,
@@ -209,4 +209,4 @@ product.pre('findOneAndUpdate', function (next) {
 })
 
 
-module.exports = mongoose.model('Product', product)
+export default mongoose.model('Product', product)

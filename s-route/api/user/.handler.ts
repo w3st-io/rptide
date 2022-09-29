@@ -1,4 +1,8 @@
+// [IMPORT]
 import validator from 'validator';
+
+// [IMPORT] Personal
+import config from '../../../s-config';
 
 
 // [REQUIRE]
@@ -7,8 +11,7 @@ const stripe = require('stripe');
 const uuid = require('uuid');
 
 // [REQUIRE] Personal
-const config = require('../../../s-config');
-const UserModel = require('../../../s-models/UserModel');
+const UserModel = require('../../../s-models/User.model');
 
 
 // [STRIPE]
@@ -103,7 +106,7 @@ async function cycleCheckStripe({ user_id, force = false }) {
 }
 
 
-module.exports = {
+export default {
 	/**
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too

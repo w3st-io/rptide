@@ -1,14 +1,14 @@
-import h from "./.handler.js";
+// [IMPORT]
+import h from "./.handler";
 
-
-// [REQUIRE]
-const cors = require("cors");
-const express = require("express");
+// [IMPORT] Personal
+import cors from "cors";
+import express from "express";
+import TierChecker from '../../../s-middlewares/TierChecker';
+import rateLimiter from "../../../s-rate-limiters";
 
 
 // [REQUIRE] Personal
-const rateLimiter = require("../../../s-rate-limiters");
-const TierChecker = require("../../../s-middlewares/TierChecker");
 const Auth = require("../../../s-middlewares/Auth");
 
 

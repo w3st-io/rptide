@@ -1,28 +1,28 @@
 // [REQUIRE]
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 
 // [REQUIRE] Personal
-const WebAppModel = require('../../../s-models/WebAppModel');
-const WebContentModel = require('../../../s-models/WebContentModel');
+const WebAppModel = require("../../../s-models/WebApp.model");
+const WebContentModel = require("../../../s-models/WebContentModel");
 
 
 // [INIT]
-let returnObj = {
+let returnObj: any = {
 	executed: true,
 	status: false,
-	location: '/api/web-content',
-	message: ''
+	location: "/api/web-content",
+	message: ""
 };
 
 
-module.exports = {
+export default {
 	"/create": async ({ req }) => {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Created WebContent',
-			location: returnObj.location + '/create'
+			message: "Created WebContent",
+			location: returnObj.location + "/create"
 		};
 
 		try {
@@ -36,7 +36,7 @@ module.exports = {
 			if (!webApp) {
 				return {
 					..._returnObj,
-					message: 'You do not own this webApp',
+					message: "You do not own this webApp",
 				};
 			}
 
@@ -45,7 +45,7 @@ module.exports = {
 
 			// [WEB-CONTENT][SAVE]
 			const result = await new WebContentModel({
-				_id: mongoose.Types.ObjectId(),
+				_id: new mongoose.Types.ObjectId(),
 				...req.body.webContent,
 			}).save();
 
@@ -74,8 +74,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Found WebContent',
-			location: returnObj.location + '/find'
+			message: "Found WebContent",
+			location: returnObj.location + "/find"
 		};
 
 		try {
@@ -104,8 +104,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'WebContent(s) found',
-			location: returnObj.location + '/find-paginated'
+			message: "WebContent(s) found",
+			location: returnObj.location + "/find-paginated"
 		};
 
 		try {
@@ -114,7 +114,7 @@ module.exports = {
 			const skip = (parseInt(req.params.page) - 1) * limit;
 
 			// [query]
-			let query = { user: req.user_decoded._id };
+			let query: any = { user: req.user_decoded._id };
 
 			if (req.body.webApp) {
 				query = {
@@ -148,7 +148,7 @@ module.exports = {
 			let sort;
 
 			switch (req.query.sort) {
-				case 'newest':
+				case "newest":
 					sort = { createdTimeStamp: -1 };
 				break;
 			
@@ -161,7 +161,7 @@ module.exports = {
 			if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 				return {
 					..._returnObj,
-					message: 'Invalid limit'
+					message: "Invalid limit"
 				};
 			}
 
@@ -191,8 +191,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'WebContent found',
-			location: returnObj.location + '/find-one'
+			message: "WebContent found",
+			location: returnObj.location + "/find-one"
 		};
 
 		try {
@@ -220,8 +220,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Successfully updated WebContent',
-			location: returnObj.location + '/find-one-and-update'
+			message: "Successfully updated WebContent",
+			location: returnObj.location + "/find-one-and-update"
 		};
 
 		try {
@@ -264,8 +264,8 @@ module.exports = {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Successfully deleted WebContent',
-			location: returnObj.location + '/find-one-and-update'
+			message: "Successfully deleted WebContent",
+			location: returnObj.location + "/find-one-and-update"
 		};
 
 		try {

@@ -1,12 +1,14 @@
-// [REQUIRE]
-const cors = require('cors')
-const express = require('express')
+// [IMPORT]
+import cors from "cors"
+import express from "express";
+
+// [IMPORT] Personal
+import h from './.handler';
+import TierChecker from '../../../s-middlewares/TierChecker';
 
 
 // [REQUIRE] Personal
-const { create, deleteOne, find, findOne, update } = require('./.handler.js')
 const Auth = require('../../../s-middlewares/Auth')
-const TierChecker = require('../../../s-middlewares/TierChecker')
 
 
 // [EXPRESS + USE]
@@ -18,7 +20,7 @@ router.post(
 	Auth.userToken(),
 	TierChecker.productLimitCheck(),
 	async (req, res) => {
-		res.send(await create({ req }));
+		res.send(await h.create({ req }));
 	}
 );
 
@@ -27,7 +29,7 @@ router.post(
 	'/find',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await find({ req }));
+		res.send(await h.find({ req }));
 	}
 );
 
@@ -36,7 +38,7 @@ router.post(
 	'/find-one',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await findOne({ req }));
+		res.send(await h.findOne({ req }));
 	}
 );
 
@@ -45,7 +47,7 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await update({ req }));
+		res.send(await h.update({ req }));
 	}
 );
 
@@ -54,7 +56,7 @@ router.post(
 	'/delete-one',
 	Auth.userToken(),
 	async (req, res) => {
-		res.send(await deleteOne({ req }));
+		res.send(await h.deleteOne({ req }));
 	}
 );
 

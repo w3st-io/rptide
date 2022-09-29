@@ -1,11 +1,14 @@
+// [IMPORT]
+import validator from "validator";
+
+
+// [IMPORT] Personal
+import config from '../s-config';
+import UserModel from '../s-models/User.model';
+
+
 // [REQUIRE]
 const jwt = require('jsonwebtoken');
-const validator = require('validator');
-
-
-// [REQUIRE] Personal
-const config = require('../s-config');
-const UserModel = require('../s-models/UserModel');
 
 
 // [INIT] Const
@@ -13,7 +16,7 @@ const secretKey = config.app.secretKey;
 
 
 // [INIT]
-let returnObj = {
+let returnObj: any = {
 	executed: true,
 	status: false,
 	message: "",

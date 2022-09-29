@@ -1,10 +1,12 @@
-// [REQUIRE]
-const cors = require("cors");
-const express = require("express");
+// [IMPORT]
+import cors from "cors";
+import express from "express";
+
+// [IMPORT] Personal
+import h from "./.handler";
 
 
 // [REQUIRE] Personal
-const h = require("./.handler.js");
 const Auth = require("../../../s-middlewares/Auth");
 
 

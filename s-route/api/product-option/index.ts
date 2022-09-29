@@ -1,28 +1,28 @@
-// [REQUIRE]
-const cors = require('cors')
-const express = require('express')
-const validator = require('validator')
+// [IMPORT]
+import cors from "cors";
+import express from "express";
+import validator from "validator";
 
 
 // [REQUIRE] Personal
-const ProductOptionCollection = require('../../../s-collections/ProductOptionCollection')
-const Auth = require('../../../s-middlewares/Auth')
+const ProductOptionCollection = require("../../../s-collections/ProductOptionCollection");
+const Auth = require("../../../s-middlewares/Auth");
 
 
 // [EXPRESS + USE]
-const router = express.Router().use(cors())
+const router = express.Router().use(cors());
 
 
 // [INIT]
-const location = '/api/user/product-options'
+const location = "/api/user/product-options";
 
 
 /******************* [CRUD] *******************/
 // [CREATE]
 router.post(
-	'/create',
+	"/create",
 	Auth.userToken(),
-	async (req, res) => {
+	async (req: any, res: express.Response) => {
 		try {
 			if (validator.isAscii(req.body.name)) {
 				// [COLLECTION][ProductOption][CREATE]

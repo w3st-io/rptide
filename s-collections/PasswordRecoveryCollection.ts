@@ -1,5 +1,5 @@
 // [REQUIRE]
-const mongoose = require('mongoose')
+import mongoose from "mongoose"
 const uuid = require('uuid')
 
 
@@ -22,7 +22,7 @@ const c_create = async (user_id) => {
 
 		// [SAVE]
 		const passwordRecovery = await new PasswordRecoveryModel({
-			_id: mongoose.Types.ObjectId(),
+			_id: new mongoose.Types.ObjectId(),
 			user: user_id,
 			verificationCode: uuid.v4()
 		}).save()
@@ -78,7 +78,7 @@ const c_delete_byUser = async (user_id) => {
 const c_delete_custom = async (filter) => {
 	try {
 		// [VALIDATE] filter
-		if (!filter || filter == {}) {
+		if (!filter) {
 			return {
 				executed: true,
 				status: false,

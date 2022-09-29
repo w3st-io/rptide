@@ -1,12 +1,14 @@
-// [REQUIRE]
-const cors = require("cors");
-const express = require("express");
+// [IMPORT]
+import cors from "cors";
+import express from "express";
+
+// [IMPORT] Personal
+import Functionality from "../../../s-middlewares/Functionality";
 
 
 // [REQUIRE] Personal
-const h = require("./.handler.js");
+const h = require("./.handler");
 const Auth = require("../../../s-middlewares/Auth");
-const Functionality = require("../../../s-middlewares/Functionality");
 
 
 // [EXPRESS + USE]

@@ -8,12 +8,10 @@
   "main": "server.js",
   "scripts": {
     "build": "rimraf dist && npx tsc && cp -r s-static/ dist/",
-    "predev": "",
-    "dev": "nodemon server.js",
-    "prets": "npm run build",
-    "ts": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/server.js\"",
-    "prestart": "",
-    "start": "node server.js",
+    "predev": "npm run build",
+    "dev": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/server.js\"",
+    "prestart": "npm run build",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --only=dev --prefix client && npm run build --prefix client"
   },
   "author": "aleem ahmed",
@@ -54,5 +52,8 @@
     "uint8arrays": "^3.0.0",
     "uuid": "^8.3.0",
     "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97"
   }
 }

@@ -1,17 +1,20 @@
+// [IMPORT] Personal
+import ProductModel from '../s-models/ProductModel';
+import ProductOptionModel from '../s-models/ProductOptionModel';
+import h_user from '../s-route/api/user/.handler';
+
+
 // [REQUIRE]
 const config_const = require('../s-config/const');
-const ProductModel = require('../s-models/ProductModel');
-const ProductOptionModel = require('../s-models/ProductOptionModel');
-const UserModel = require('../s-models/UserModel');
-const WebAppModel = require('../s-models/WebAppModel');
-const h_user = require('../s-route/api/user/.handler.js');
+const UserModel = require('../s-models/User.model');
+const WebAppModel = require('../s-models/WebApp.model');
 
 
 // [INIT]
 const location = '/s-middleware/Subscription';
 
 
-module.exports = {
+export default {
 	webAppLimitCheck: function () {
 		return async (req, res, next) => {
 			await h_user.cycleCheckStripe({
