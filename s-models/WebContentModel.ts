@@ -71,7 +71,65 @@ function validate({ cleanJSON, tags = [] }) {
 }
 
 
-const schema = new mongoose.Schema({
+export interface IWebContent extends mongoose.Document {
+	_id: mongoose.Schema.Types.ObjectId,
+	user: mongoose.Schema.Types.ObjectId,
+	webApp: mongoose.Schema.Types.ObjectId,
+	name: String,
+	connectedWalletRequired: Boolean,
+	WebContent_responseTo: mongoose.Schema.Types.ObjectId,
+	tags: [String],
+	likeCount: Number,
+	liked: Boolean,
+	visible: Boolean,
+	cleanJSON: {
+		time: Number,
+		blocks: [
+			{
+				id: String,
+				type: String,
+				data: {
+					alignment: String,
+					caption: String,
+					code: String,
+					content: [[String]],
+					embed: String,
+					file: {
+						url: String
+					},
+					height: Number,
+					html: String,
+					items: [String],
+					level: Number,
+					link: String,
+					meta: {
+						title: String
+						site_name: String,
+						description: String,
+						image: {
+							url: String,
+						}
+					},
+					service: String,
+					style: String,
+					stretched: Boolean,
+					success: Number,
+					text: String,
+					url: String,
+					width: Number,
+					withBackground: Boolean,
+					withBorder: Boolean,
+					withHeadings: Boolean,
+				},
+			}
+		],
+		version: String
+	},
+	createdTimeStamp: Date
+};
+
+
+export const WebContentSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -313,7 +371,7 @@ const schema = new mongoose.Schema({
 });
 
 
-schema.pre("save", function (this: any, next: any) {
+WebContentSchema.pre("save", function (this: any, next: any) {
 	const status = validate({
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
@@ -324,7 +382,7 @@ schema.pre("save", function (this: any, next: any) {
 	next();
 })
 
-schema.pre("validate", function (this: any, next: any) {
+WebContentSchema.pre("validate", function (this: any, next: any) {
 	const status = validate({
 		cleanJSON: this.cleanJSON,
 		tags: this.tags,
@@ -335,7 +393,7 @@ schema.pre("validate", function (this: any, next: any) {
 	next();
 })
 
-schema.pre("updateOne", function (this: any, next: any) {
+WebContentSchema.pre("updateOne", function (this: any, next: any) {
 	const status = validate({
 		cleanJSON: this._update.$set.cleanJSON,
 		tags: this._update.$set.tags,
@@ -347,4 +405,4 @@ schema.pre("updateOne", function (this: any, next: any) {
 })
 
 
-export default mongoose.model("WebContent", schema);
+export default mongoose.model<IWebContent>("WebContent", WebContentSchema);
