@@ -3,7 +3,7 @@ import validator from 'validator';
 import mongoose from 'mongoose';
 
 // [IMPORT] Personal
-import UserModel from '../../s-models/UserModel';
+import UserModel from '../../s-models/User.model';
 
 // [REQUIRE]
 const bcrypt = require('bcryptjs');
