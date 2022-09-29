@@ -3,7 +3,7 @@ let sockets = []
 let socketUsers = []
 
 
-module.exports = {
+export default {
 	// [JOIN]
 	joinSockets(socket_id) {
 		console.log('Socket Joined:', socket_id);

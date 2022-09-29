@@ -1,5 +1,5 @@
 // [REQUIRE] Personal
-const rateLimit = require("express-rate-limit");
+import rateLimit from "express-rate-limit";
 
 
 // [INIT] Const

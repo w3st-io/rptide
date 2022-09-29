@@ -1,8 +1,8 @@
-// [REQUIRE] Personal
-const socketService = require("./socketService");
+// [IMPORT] Personal
+import socketService from "./socketService";
 
 
-module.exports = {
+export default {
 	start: (io) => {
 		io.on("connection", (socket) => {
 			// [JOIN] sockets
