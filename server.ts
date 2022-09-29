@@ -12,9 +12,7 @@ import config from "./s-config";
 import Functionality from "./s-middlewares/Functionality";
 import rateLimiter from "./s-rate-limiters";
 import socket from "./s-socket";
-
-// [IMPORT][API] Personal
-import route_api_ from './s-route/api';
+import route_api from './s-route/api';
 import route_api_productOption from "./s-route/api/product-option";
 import route_api_product from "./s-route/api/product";
 import route_api_user from "./s-route/api/user";
@@ -86,7 +84,7 @@ app
  * [ROUTE][API]
 */
 app
-	.use("/api", route_api_)
+	.use("/api", route_api)
 	.use("/api/user", Functionality.user(), route_api_user)
 	.use("/api/product", Functionality.user(), route_api_product)
 	.use("/api/product-option", Functionality.user(), route_api_productOption)
