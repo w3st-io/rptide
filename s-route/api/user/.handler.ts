@@ -1,17 +1,15 @@
 // [IMPORT]
-import validator from 'validator';
+import bcrypt from "bcryptjs";
+import uuid from "uuid";
+import validator from "validator";
 
 // [IMPORT] Personal
-import config from '../../../s-config';
+import config from "../../../s-config";
+import UserModel from "../../../s-models/User.model";
 
 
 // [REQUIRE]
-const bcrypt = require('bcryptjs');
-const stripe = require('stripe');
-const uuid = require('uuid');
-
-// [REQUIRE] Personal
-const UserModel = require('../../../s-models/User.model');
+const stripe = require("stripe");
 
 
 // [STRIPE]
@@ -26,8 +24,8 @@ const tier2PriceId = config.api.stripe.priceTier2;
 let returnObj: any = {
 	executed: true,
 	status: false,
-	location: '/api/user',
-	message: ''
+	location: "/api/user",
+	message: ""
 };
 
 
@@ -44,7 +42,7 @@ async function cycleCheckStripe({ user_id, force = false }) {
 	};
 
 	// [MONGODB][READ][User]
-	const user = await UserModel.findOne({
+	const user: any = await UserModel.findOne({
 		_id: user_id
 	});
 
@@ -114,8 +112,8 @@ export default {
 	"/update/workspace--web-app": async ({ req }) => {
 		let _returnObj = {
 			...returnObj,
-			message: 'Updated workspace',
-			location: returnObj.location + '/update/workspace-web-app',
+			message: "Updated workspace",
+			location: returnObj.location + "/update/workspace-web-app",
 		};
 
 		try {
@@ -133,7 +131,7 @@ export default {
 			if (!user) {
 				return {
 					..._returnObj,
-					message: 'No user found'
+					message: "No user found"
 				};
 			}
 
@@ -162,8 +160,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Updated password',
-			location: returnObj.location + '/update/password',
+			message: "Updated password",
+			location: returnObj.location + "/update/password",
 		};
 
 		try {
@@ -173,7 +171,7 @@ export default {
 			) {
 				return {
 					..._returnObj,
-					message: 'Invalid params',
+					message: "Invalid params",
 				};
 			}
 
@@ -184,7 +182,7 @@ export default {
 			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
 				return {
 					..._returnObj,
-					message: 'Invalid password',
+					message: "Invalid password",
 				};
 			}
 
@@ -222,8 +220,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Generated new API key',
-			location: returnObj.location + '/generate-api-key'
+			message: "Generated new API key",
+			location: returnObj.location + "/generate-api-key"
 		};
 		
 		try {
@@ -481,7 +479,7 @@ export default {
 				status: true,
 				user: await UserModel.findOne({
 					_id: req.user_decoded._id
-				}).select('-password -api.publicKey')
+				}).select("-password -api.publicKey")
 			};
 		}
 		catch (err) {

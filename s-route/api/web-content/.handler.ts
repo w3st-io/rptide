@@ -1,10 +1,10 @@
-// [REQUIRE]
+// [IMPORT]
 import mongoose from "mongoose";
 
 
-// [REQUIRE] Personal
-const WebAppModel = require("../../../s-models/WebApp.model");
-const WebContentModel = require("../../../s-models/WebContentModel");
+// [IMPORT] Personal
+import WebAppModel from "../../../s-models/WebApp.model";
+import WebContentModel from "../../../s-models/WebContentModel";
 
 
 // [INIT]
@@ -243,7 +243,7 @@ export default {
 					}
 				},
 				{ new: true },
-			).select().exec()
+			);
 
 			return {
 				..._returnObj,

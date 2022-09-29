@@ -1,18 +1,20 @@
-// [REQUIRE]
+// [IMPORT]
 import validator from "validator";
+
+// [IMPORT] Personal
+import ProductModel from "../../../s-models/Product.model";
 
 
 // [REQUIRE] Personal
-const ProductCollection = require('../../../s-collections/ProductCollection')
-const ProductModel = require('../../../s-models/Product.model');
+const ProductCollection = require("../../../s-collections/ProductCollection")
 
 
 // [INIT]
 let returnObj: any = {
 	executed: true,
 	status: false,
-	location: '/api/product',
-	message: ''
+	location: "/api/product",
+	message: ""
 };
 
 
@@ -52,14 +54,14 @@ export default {
 		let _returnObj = {
 			...returnObj,
 			deleted: false,
-			message: 'Product Deleted'
+			message: "Product Deleted"
 		};
 
 		try {
 			if (!validator.isAscii(req.body.product_id)) {
 				return {
 					..._returnObj,
-					message: 'Invalid Parameters'
+					message: "Invalid Parameters"
 				};
 			}
 
@@ -93,8 +95,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Found product(s)',
-			location: returnObj.location + '/create'
+			message: "Found product(s)",
+			location: returnObj.location + "/create"
 		};
 
 		try {
@@ -103,8 +105,8 @@ export default {
 				webApp: req.body.webApp,
 				user: req.user_decoded._id
 			})
-				.populate('requiredProductOptions')
-				.populate('optionalProductOptions')
+				.populate("requiredProductOptions")
+				.populate("optionalProductOptions")
 			.exec()
 
 			return {
@@ -126,8 +128,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			message: 'Found product',
-			location: returnObj.location + '/create'
+			message: "Found product",
+			location: returnObj.location + "/create"
 		};
 
 		try {
@@ -136,8 +138,8 @@ export default {
 				_id: req.body.product_id,
 				user: req.user_decoded._id
 			})
-				.populate('requiredProductOptions')
-				.populate('optionalProductOptions')
+				.populate("requiredProductOptions")
+				.populate("optionalProductOptions")
 			.exec()
 
 			return {

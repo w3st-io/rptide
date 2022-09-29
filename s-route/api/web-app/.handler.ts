@@ -1,26 +1,23 @@
 // [IMPORT]
-import validator from 'validator';
+import mongoose from "mongoose";
+import validator from "validator";
 
 // [IMPORT] Personal
-import UserModel from '../../../s-models/User.model';
-import WebAppModel from '../../../s-models/WebApp.model';
-
-
-// [REQUIRE]
-import mongoose from "mongoose";
+import UserModel from "../../../s-models/User.model";
+import WebAppModel from "../../../s-models/WebApp.model";
+import WebContentModel from "../../../s-models/WebContentModel";
 
 
 // [REQUIRE] Personal
-const config = require('../../../s-config');
-const WebContentModel = require('../../../s-models/WebContentModel');
+const config = require("../../../s-config");
 
 
 // [INIT]
 let returnObj: any = {
 	executed: true,
 	status: false,
-	location: '/api/web-app',
-	message: ''
+	location: "/api/web-app",
+	message: ""
 };
 
 
@@ -34,8 +31,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/create',
-			message: 'Created WebApp'
+			location: returnObj.location + "/create",
+			message: "Created WebApp"
 		};
 
 		try {
@@ -43,7 +40,7 @@ export default {
 			if (!req.body.webApp.name) {
 				return {
 					..._returnObj,
-					message: 'Invalid params'
+					message: "Invalid params"
 				};
 			}
 
@@ -84,7 +81,7 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/find-one',
+			location: returnObj.location + "/find-one",
 		};
 
 		const result = await WebAppModel.findOne({
@@ -110,8 +107,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/find-one-and-update',
-			message: 'Successfully updated WebContent'
+			location: returnObj.location + "/find-one-and-update",
+			message: "Successfully updated WebContent"
 		};
 
 		try {
@@ -157,8 +154,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/delete-one',
-			message: 'Deleted WebApp',
+			location: returnObj.location + "/delete-one",
+			message: "Deleted WebApp",
 			deleted: {},
 		};
 
@@ -167,7 +164,7 @@ export default {
 			if (!validator.isAscii(req.body.webApp._id)) {
 				return {
 					..._returnObj,
-					message: 'Invalid params'
+					message: "Invalid params"
 				};
 			}
 

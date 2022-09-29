@@ -347,4 +347,4 @@ schema.pre("updateOne", function (this: any, next: any) {
 })
 
 
-module.exports = mongoose.model("WebContent", schema);
+export default mongoose.model("WebContent", schema);
