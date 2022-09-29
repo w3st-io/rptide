@@ -1,25 +1,24 @@
 // [IMPORT]
-import validator from 'validator';
-import mongoose from 'mongoose';
+import validator from "validator";
+import mongoose from "mongoose";
 
 // [IMPORT] Personal
-// [IMPORT] Personal
-import config from '../../s-config';
-import config_const from '../../s-config/const';
-import UserModel from '../../s-models/User.model';
+import config from "../../s-config";
+import config_const from "../../s-config/const";
+import UserModel from "../../s-models/User.model";
+import WebAppModel from "../../s-models/WebApp.model";
 
 
 // [REQUIRE]
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const stripe = require('stripe');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const stripe = require("stripe");
 
 
 // [REQUIRE] Personal
-const PasswordRecoveryCollection = require('../../s-collections/PasswordRecoveryCollection');
-const VerificationCodeCollection = require('../../s-collections/VerificationCodeCollection');
-const WebAppModel = require('../../s-models/WebApp.model');
-const mailerUtil = require('../../s-utils/mailerUtil');
+const PasswordRecoveryCollection = require("../../s-collections/PasswordRecoveryCollection");
+const VerificationCodeCollection = require("../../s-collections/VerificationCodeCollection");
+const mailerUtil = require("../../s-utils/mailerUtil");
 
 
 // [STRIPE]
@@ -30,8 +29,8 @@ const Stripe = stripe(config.api.stripe.secretKey);
 let returnObj: any = {
 	executed: true,
 	status: false,
-	location: '/api',
-	message: ''
+	location: "/api",
+	message: ""
 };
 
 
@@ -46,7 +45,7 @@ export default {
 			...returnObj,
 			node_env: config.nodeENV,
 			limit: config_const.limit,
-			location: returnObj.location + ''
+			location: returnObj.location + ""
 		};
 
 		try {
@@ -55,7 +54,7 @@ export default {
 				// [MONGODB][User]
 				const user = await UserModel.findOne({
 					_id: req.user_decoded._id
-				}).select('-password -api.publicKey');
+				}).select("-password -api.publicKey");
 
 				// [MONGODB][WebApp]
 				const webApps = await WebAppModel.find({
@@ -95,8 +94,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/login',
-			message: 'Success',
+			location: returnObj.location + "/login",
+			message: "Success",
 			validation: false
 		};
 
@@ -105,7 +104,7 @@ export default {
 			if (!validator.isEmail(req.body.email)) {
 				return {
 					..._returnObj,
-					message: 'Invalid email',
+					message: "Invalid email",
 				};
 			}
 				
@@ -113,7 +112,7 @@ export default {
 			if (!validator.isAscii(req.body.password)) {
 				return {
 					..._returnObj,
-					message: 'Invalid password',
+					message: "Invalid password",
 				};
 			}
 
@@ -123,7 +122,7 @@ export default {
 			if (!user) {
 				return {
 					..._returnObj,
-					message: 'Invalid email or password'
+					message: "Invalid email or password"
 				};
 			}
 
@@ -131,7 +130,7 @@ export default {
 			if (!bcrypt.compareSync(req.body.password, user.password)) {
 				return {
 					..._returnObj,
-					message: 'Invalid email or password'
+					message: "Invalid email or password"
 				};
 			}
 
@@ -143,14 +142,14 @@ export default {
 					verified: user.verified
 				},
 				config.app.secretKey,
-				{ expiresIn: config.nodeENV == 'production' ? 7200 : 10000000 }
+				{ expiresIn: config.nodeENV == "production" ? 7200 : 10000000 }
 			);
 
 			const webApps = await WebAppModel.find({ user: user._id });
 
 			const cleanUser = await UserModel.findOne(
 				{ email: req.body.email }
-			).select('-password -api.publicKey');
+			).select("-password -api.publicKey");
 
 			// [200] Success
 			return {
@@ -180,8 +179,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/register',
-			message: 'Successfully created account',
+			location: returnObj.location + "/register",
+			message: "Successfully created account",
 			created: false
 		};
 
@@ -190,7 +189,7 @@ export default {
 			if (!validator.isEmail(req.body.email)) {
 				return {
 					..._returnObj,
-					message: 'Invalid email'
+					message: "Invalid email"
 				};
 			}
 
@@ -198,7 +197,7 @@ export default {
 			if (await UserModel.findOne({ email: req.body.email })) {
 				return {
 					..._returnObj,
-					message: 'That email is already registered'
+					message: "That email is already registered"
 				};
 			}
 	
@@ -210,7 +209,7 @@ export default {
 			) {
 				return {
 					..._returnObj,
-					message: 'Password Must be ASCII & longer than 8 characters'
+					message: "Password Must be ASCII & longer than 8 characters"
 				};
 			}
 
@@ -260,8 +259,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/complete-registration',
-			message: 'Completed registration'
+			location: returnObj.location + "/complete-registration",
+			message: "Completed registration"
 		};
 
 		try {
@@ -269,7 +268,7 @@ export default {
 			if (!mongoose.isValidObjectId(req.body.user_id)) {
 				return {
 					..._returnObj,
-					message: 'Invalid user_id'
+					message: "Invalid user_id"
 				};
 			}
 
@@ -277,7 +276,7 @@ export default {
 			if (!validator.isAscii(req.body.verificationCode)) {
 				return {
 					..._returnObj,
-					message: 'Invalid verfication code'
+					message: "Invalid verfication code"
 				};
 			}
 
@@ -294,7 +293,7 @@ export default {
 
 			// [MONGODB][READ] User
 			const user = await UserModel.findOne({ _id: req.body.user_id })
-				.select('-password -api.publicKey')
+				.select("-password -api.publicKey")
 			.exec();
 
 			if (!user) {
@@ -349,8 +348,8 @@ export default {
 		let _returnObj = {
 			executed: true,
 			status: false,
-			location: returnObj.location + '/resent-verification-email',
-			message: 'Verification email sent'
+			location: returnObj.location + "/resent-verification-email",
+			message: "Verification email sent"
 		};
 
 		try {
@@ -358,7 +357,7 @@ export default {
 			if (!validator.isEmail(req.body.email)) {
 				return {
 					..._returnObj,
-					message: 'Invalid params',
+					message: "Invalid params",
 				}
 			}
 
@@ -407,8 +406,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/request-reset-password',
-			message: 'Email sent'
+			location: returnObj.location + "/request-reset-password",
+			message: "Email sent"
 		};
 
 		try {
@@ -426,7 +425,7 @@ export default {
 			if (!user) {
 				return {
 					..._returnObj,
-					message: 'No user found'
+					message: "No user found"
 				};
 			}
 
@@ -472,8 +471,8 @@ export default {
 		// [INIT]
 		let _returnObj = {
 			...returnObj,
-			location: returnObj.location + '/reset-password',
-			message: 'Password reset'
+			location: returnObj.location + "/reset-password",
+			message: "Password reset"
 		};
 
 		try {
@@ -484,7 +483,7 @@ export default {
 			) {
 				return {
 					..._returnObj,
-					message: 'Invalid params',
+					message: "Invalid params",
 				};
 			}
 
@@ -496,7 +495,7 @@ export default {
 			if (!existance.existance) {
 				return {
 					..._returnObj,
-					message: 'You have not made a request to reset your password',
+					message: "You have not made a request to reset your password",
 				};
 			}
 

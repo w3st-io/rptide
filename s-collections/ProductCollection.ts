@@ -1,14 +1,16 @@
-// [REQUIRE]
+// [IMPORT]
 import mongoose from "mongoose"
 import validator from "validator"
 
+// [IMPORT] Personal
+import ProductModel from "../s-models/Product.model";
+
 
 // [REQUIRE] Personal
-const ProductModel = require('../s-models/ProductModel')
-const formatterUtil = require('../s-utils/formatterUtil')
+const formatterUtil = require("../s-utils/formatterUtil")
 
 // [INIT]
-const location = 'ProductCollection'
+const location = "ProductCollection"
 
 
 module.exports = {
@@ -211,8 +213,8 @@ module.exports = {
 				_id: product_id,
 				user: user_id,
 			})
-				.populate({ path: 'requiredProductOptions' })
-				.populate({ path: 'optionalProductOptions' })
+				.populate({ path: "requiredProductOptions" })
+				.populate({ path: "optionalProductOptions" })
 				.exec()
 
 			return {
@@ -237,8 +239,8 @@ module.exports = {
 			const products = await ProductModel.find({
 				user: user_id
 			})
-				.populate('requiredProductOptions')
-				.populate('optionalProductOptions')
+				.populate("requiredProductOptions")
+				.populate("optionalProductOptions")
 				.exec()
 
 			return {
@@ -264,7 +266,7 @@ module.exports = {
 			for (let i = 0; i < product.requiredProductOptions.length; i++) {
 				const pa = product.requiredProductOptions[i]
 				
-				if (!mongoose.isValidObjectId(pa) || pa == null || pa == '') {
+				if (!mongoose.isValidObjectId(pa) || pa == null || pa == "") {
 					return {
 						executed: true,
 						status: false,
@@ -278,7 +280,7 @@ module.exports = {
 			for (let i = 0; i < product.optionalProductOptions.length; i++) {
 				const pa = product.optionalProductOptions[i]
 				
-				if (!mongoose.isValidObjectId(pa) || pa == null || pa == '') {
+				if (!mongoose.isValidObjectId(pa) || pa == null || pa == "") {
 					return {
 						executed: true,
 						status: false,
@@ -321,8 +323,8 @@ module.exports = {
 				},
 				{ new: true, }
 			)
-				.populate({ path: 'requiredProductOptions' })
-				.populate({ path: 'optionalProductOptions' })
+				.populate({ path: "requiredProductOptions" })
+				.populate({ path: "optionalProductOptions" })
 				.exec()
 			
 			return {

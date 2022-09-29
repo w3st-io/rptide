@@ -1,17 +1,14 @@
 // [IMPORT] Personal
-import ProductModel from '../s-models/ProductModel';
-import ProductOptionModel from '../s-models/ProductOptionModel';
-import h_user from '../s-route/api/user/.handler';
-
-
-// [REQUIRE]
-const config_const = require('../s-config/const');
-const UserModel = require('../s-models/User.model');
-const WebAppModel = require('../s-models/WebApp.model');
+import config_const from "../s-config/const";
+import ProductModel from "../s-models/Product.model";
+import ProductOptionModel from "../s-models/ProductOptionModel";
+import UserModel from "../s-models/User.model";
+import WebAppModel from "../s-models/WebApp.model";
+import h_user from "../s-route/api/user/.handler";
 
 
 // [INIT]
-const location = '/s-middleware/Subscription';
+const location = "/s-middleware/Subscription";
 
 
 export default {
@@ -57,7 +54,7 @@ export default {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'WebApp limit reached for your tier, Please upgrade or delete'
+					message: "WebApp limit reached for your tier, Please upgrade or delete"
 				});
 			}
 			else { next(); }
@@ -107,7 +104,7 @@ export default {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'Product limit reached for your tier, Please upgrade or delete'
+					message: "Product limit reached for your tier, Please upgrade or delete"
 				});
 			}
 			else { next(); }
@@ -157,7 +154,7 @@ export default {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'ProductOptions limit reached for your tier, Please upgrade or delete'
+					message: "ProductOptions limit reached for your tier, Please upgrade or delete"
 				});
 			}
 			else { next(); }

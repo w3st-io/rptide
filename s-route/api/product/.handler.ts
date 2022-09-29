@@ -4,7 +4,7 @@ import validator from "validator";
 
 // [REQUIRE] Personal
 const ProductCollection = require('../../../s-collections/ProductCollection')
-const ProductModel = require('../../../s-models/ProductModel');
+const ProductModel = require('../../../s-models/Product.model');
 
 
 // [INIT]

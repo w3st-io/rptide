@@ -1,10 +1,12 @@
-// [REQUIRE]
+// [IMPORT]
 import mongoose from "mongoose"
+
+// [IMPORT] Personal
+import PasswordRecoveryModel from "../s-models/PasswordRecoveryModel";
+
+
+// [REQUIRE]
 const uuid = require('uuid')
-
-
-// [REQUIRE] Personal
-const PasswordRecoveryModel = require('../s-models/PasswordRecoveryModel')
 
 
 /******************* [CRUD] *******************/

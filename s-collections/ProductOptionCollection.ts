@@ -1,15 +1,15 @@
-// [REQUIRE]
-import mongoose from "mongoose"
-import validator from "validator"
+// [IMPORT]
+import mongoose from "mongoose";
+import validator from "validator";
 
 
-// [REQUIRE] Personal
-const ProductOptionModel = require('../s-models/ProductOptionModel')
-const formatterUtil = require('../s-utils/formatterUtil')
+// [IMPORT] Personal
+import ProductOptionModel from "../s-models/ProductOptionModel";
+import formatterUtil from "../s-utils/formatterUtil";
 
 
 // [INIT]
-const location = 'ProductOptionCollection'
+const location = "ProductOptionCollection";
 
 
 module.exports = {
@@ -22,8 +22,8 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'Invalid user_id'
-				}
+					message: "Invalid user_id"
+				};
 			}
 
 			// [VALIDATE] name
@@ -32,21 +32,21 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'Invalid P.A. Name'
-				}
+					message: "Invalid P.A. Name"
+				};
 			}
 
 			// [VALIDATE] cents & dollars
 			for (let i = 0; i < productOption.variants.length; i++) {
-				const v = productOption.variants[i]
+				const v = productOption.variants[i];
 
 				if (!validator.isAscii(v.name)) {
 					return {
 						executed: true,
 						status: false,
 						location: location,
-						message: 'Invalid Name'
-					}
+						message: "Invalid Name"
+					};
 				}
 				
 				if (
@@ -58,8 +58,8 @@ module.exports = {
 						executed: true,
 						status: false,
 						location: location,
-						message: 'Invalid Cents Amount'
-					}
+						message: "Invalid Cents Amount"
+					};
 				}
 
 				if (!validator.isAscii(v.dollars) || isNaN(v.dollars)) {
@@ -67,18 +67,18 @@ module.exports = {
 						executed: true,
 						status: false,
 						location: location,
-						message: 'Invalid Dollars Amount'
-					}
+						message: "Invalid Dollars Amount"
+					};
 				}
 			}
 
 			// [INIT]
-			let variants = []
+			let variants = [];
 
 			for (let i = 0; i < productOption.variants.length; i++) {
-				const v = productOption.variants[i]
+				const v = productOption.variants[i];
 
-				v.cents = formatterUtil.centFormatter(v.cents)
+				v.cents = formatterUtil.centFormatter(v.cents);
 
 				variants.push(
 					{
@@ -94,7 +94,7 @@ module.exports = {
 							cents: v.cents,
 						}
 					}
-				)
+				);
 			}
 
 			const createdProductOption = await new ProductOptionModel({
@@ -102,14 +102,14 @@ module.exports = {
 				user: user_id,
 				name: productOption.name,
 				variants: variants,
-			}).save()
+			}).save();
 
 			return {
 				executed: true,
 				status: true,
 				location: location,
 				productOption: createdProductOption
-			}
+			};
 		}
 		catch (err) {
 			return {
@@ -117,7 +117,7 @@ module.exports = {
 				status: false,
 				location: location,
 				message: `${location}: Error --> ${err}`
-			}
+			};
 		}
 	},
 };

@@ -1,15 +1,13 @@
-// [REQUIRE]
-import mongoose from "mongoose"
-import validator from "validator"
-const uuid = require('uuid')
+// [IMPORT]
+import mongoose from "mongoose";
+import uuid from "uuid";
 
-
-// [REQUIRE] Personal
-const VerificationCodeModel = require('../s-models/VerificationCodeModel')
+// [IMPORT] Personal
+import VerificationCodeModel from "../s-models/VerificationCodeModel";
 
 
 // [INIT]
-const location = 'VerificationCodeCollection'
+const location = "VerificationCodeCollection";
 
 
 module.exports = {
@@ -23,8 +21,8 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'Invalid user_id',
-				}
+					message: "Invalid user_id",
+				};
 			}
 		
 			// [SAVE]
@@ -32,7 +30,7 @@ module.exports = {
 				_id: new mongoose.Types.ObjectId(),
 				user: user_id,
 				verificationCode: uuid.v4(),
-			}).save()
+			}).save();
 	
 			// [200] Success
 			return {
@@ -40,7 +38,7 @@ module.exports = {
 				status: true,
 				location: location,
 				verificationCode: verificationCode,
-			}
+			};
 		}
 		catch (err) {
 			return {
@@ -48,7 +46,7 @@ module.exports = {
 				status: false,
 				location: location,
 				message: `Error --> ${err}`,
-			}
+			};
 		}
 	},
 
@@ -62,14 +60,14 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'Invalid user_id',
-				}
+					message: "Invalid user_id",
+				};
 			}
 	
 			// [QUERY]
 			const queryResult = await VerificationCodeModel.findOne({
 				user: user_id
-			})
+			});
 	
 			// [NOTHING-FOUND]
 			if (!queryResult) {
@@ -77,19 +75,19 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'No VerificationCode object found',
-				}
+					message: "No VerificationCode object found",
+				};
 			}
 
 			// [200] Success
 			return {
 				executed: true,
 				status: true,
-				message: '',
+				message: "",
 				location: location,
 				existance: true,
 				verificationCode: queryResult,
-			}
+			};
 		}
 		catch (err) {
 			return {
@@ -97,7 +95,7 @@ module.exports = {
 				status: false,
 				location: location,
 				message: `Error --> ${err}`,
-			}
+			};
 		}
 	},
 
@@ -106,7 +104,7 @@ module.exports = {
 	c__read__query: async ({ query }) => {
 		try {
 			// [QUERY]
-			const queryResult = await VerificationCodeModel.findOne(query)
+			const queryResult = await VerificationCodeModel.findOne(query);
 	
 			// [NOTHING-FOUND]
 			if (!queryResult) {
@@ -114,18 +112,18 @@ module.exports = {
 					executed: true,
 					status: false,
 					location: location,
-					message: 'No VerificationCode object found',
-				}
+					message: "No VerificationCode object found",
+				};
 			}
 
 			// [200] Success
 			return {
 				executed: true,
 				status: true,
-				message: 'VerificationCode Object found',
+				message: "VerificationCode Object found",
 				location: location,
 				queryResult: queryResult,
-			}
+			};
 		}
 		catch (err) {
 			return {
@@ -133,7 +131,7 @@ module.exports = {
 				status: false,
 				location: location,
 				message: `Error --> ${err}`,
-			}
+			};
 		}
 	},
 
@@ -149,11 +147,11 @@ module.exports = {
 					status: false,
 					location: location,
 					message: `${location}: Invalid user_id`,
-				}
+				};
 			}
 		
 			// [DELETE]
-			const vCode = await VerificationCodeModel.deleteMany({ user: user_id })
+			const vCode = await VerificationCodeModel.deleteMany({ user: user_id });
 	
 			// [200] Success
 			return {
@@ -161,7 +159,7 @@ module.exports = {
 				status: true,
 				location: location,
 				verificationCode: vCode,
-			}
+			};
 		}
 		catch (err) {
 			return {
@@ -169,7 +167,7 @@ module.exports = {
 				status: false,
 				location: location,
 				message: `Error --> ${err}`,
-			}
+			};
 		}
 	},
 }

@@ -50,7 +50,7 @@ export interface IProductOption extends mongoose.Document {
 };
 
 
-export const schema = new mongoose.Schema({
+export const ProductOptionSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -121,7 +121,7 @@ export const schema = new mongoose.Schema({
 });
 
 
-schema.pre('validate', function (this: any, next: any) {
+ProductOptionSchema.pre('validate', function (this: any, next: any) {
 	const status = validate({ product: this })
 
 	if (status.status == false) { throw `Error: ${status.message}` }
@@ -130,7 +130,7 @@ schema.pre('validate', function (this: any, next: any) {
 })
 
 
-schema.pre('updateOne', function (this: any, next: any) {
+ProductOptionSchema.pre('updateOne', function (this: any, next: any) {
 	const status = validate({ product: this._update.$set })
 
 	if (status.status == false) { throw `Error: ${status.message}` }
@@ -139,4 +139,4 @@ schema.pre('updateOne', function (this: any, next: any) {
 })
 
 
-export default mongoose.model<IProductOption>('ProductOption', schema);
+export default mongoose.model<IProductOption>('ProductOption', ProductOptionSchema);

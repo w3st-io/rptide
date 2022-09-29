@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	centFormatter: function (cents) {
 		// [FORMAT]
 		cents = cents.substring(0, 2)
