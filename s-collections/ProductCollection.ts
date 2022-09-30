@@ -1,19 +1,17 @@
 // [IMPORT]
-import mongoose from "mongoose"
-import validator from "validator"
+import mongoose from "mongoose";
+import validator from "validator";
 
 // [IMPORT] Personal
 import ProductModel from "../s-models/Product.model";
+import formatterUtil from "../s-utils/formatterUtil";
 
-
-// [REQUIRE] Personal
-const formatterUtil = require("../s-utils/formatterUtil")
 
 // [INIT]
-const location = "ProductCollection"
+const location = "ProductCollection";
 
 
-module.exports = {
+export default {
 	/******************* [CRUD] *******************/
 	c_create: async ({
 		user_id,

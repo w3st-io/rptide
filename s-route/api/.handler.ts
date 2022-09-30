@@ -1,10 +1,12 @@
 // [IMPORT]
-import validator from "validator";
 import mongoose from "mongoose";
+import uuid from "uuid";
+import validator from "validator";
 
 // [IMPORT] Personal
 import config from "../../s-config";
 import config_const from "../../s-config/const";
+import PasswordRecoveryModel from "../../s-models/PasswordRecovery.model";
 import UserModel from "../../s-models/User.model";
 import WebAppModel from "../../s-models/WebApp.model";
 
@@ -429,20 +431,18 @@ export default {
 				};
 			}
 
-			// [CREATE][PasswordRecovery]
-			const passwordRecovery = await PasswordRecoveryCollection.c_create(
-				user._id
-			);
-			
-			if (!passwordRecovery.status || passwordRecovery.existance) {
-				return passwordRecovery;
-			}
+			// [SAVE]
+			const passwordRecovery = await new PasswordRecoveryModel({
+				_id: new mongoose.Types.ObjectId(),
+				user: user._id,
+				verificationCode: uuid.v4()
+			}).save()
 
 			// [SEND-MAIL]
 			const sent = await mailerUtil.sendPasswordResetEmail(
 				req.body.email,
 				user._id,
-				passwordRecovery.passwordRecovery.verificationCode
+				passwordRecovery.verificationCode
 			);
 
 			if (sent.status) {
@@ -518,11 +518,7 @@ export default {
 			);
 
 			// [DELETE][PasswordRecovery]
-			const deletedPR = await PasswordRecoveryCollection.c_delete_byUser(
-				req.body.user_id
-			);
-
-			if (!deletedPR.status) { return deletedPR; }
+			await PasswordRecoveryModel.deleteMany({ user: req.body.user_id });
 
 			return {
 				..._returnObj,

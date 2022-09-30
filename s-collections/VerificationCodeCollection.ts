@@ -10,7 +10,7 @@ import VerificationCodeModel from "../s-models/VerificationCodeModel";
 const location = "VerificationCodeCollection";
 
 
-module.exports = {
+export default {
 	/******************* [CRUD] *******************/
 	// [CREATE]
 	c_create: async ({ user_id }) => {

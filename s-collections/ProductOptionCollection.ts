@@ -12,7 +12,7 @@ import formatterUtil from "../s-utils/formatterUtil";
 const location = "ProductOptionCollection";
 
 
-module.exports = {
+export default {
 	/******************* [CRUD] *******************/
 	c_create: async ({ user_id, productOption }) => {
 		try {
