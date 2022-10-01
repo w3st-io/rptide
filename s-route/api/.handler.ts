@@ -1,4 +1,5 @@
 // [IMPORT]
+import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import uuid from "uuid";
 import validator from "validator";
@@ -13,7 +14,6 @@ import WebAppModel           from "../../s-models/WebApp.model";
 
 
 // [REQUIRE]
-const bcrypt = require("bcryptjs");
 const jsonWebToken = require("jsonwebtoken");
 const stripe = require("stripe");
 
