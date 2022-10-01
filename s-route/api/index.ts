@@ -19,7 +19,7 @@ router.get(
 	"/",
 	Auth.userTokenNotRequired(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.index({ req }));
+		res.send(await h["/"]({ req }));
 	}
 );
 
@@ -27,7 +27,7 @@ router.get(
 router.post(
 	"/login",
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.login({ req }));
+		res.send(await h["/login"]({ req }));
 	}
 );
 
@@ -35,7 +35,7 @@ router.post(
 router.post(
 	"/register",
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.register({ req }));
+		res.send(await h["/register"]({ req }));
 	}
 );
 
@@ -43,7 +43,7 @@ router.post(
 router.post(
 	"/complete-registration",
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.completeRegistration({ req }));
+		res.send(await h["/complete-registration"]({ req }));
 	}
 );
 
@@ -51,7 +51,7 @@ router.post(
 router.post(
 	"/resend-verification-email",
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.resendVerificationEmail({ req }));
+		res.send(await h["/resend-verification-email"]({ req }));
 	}
 );
 
@@ -59,7 +59,7 @@ router.post(
 router.post(
 	"/request-reset-password",
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.requestResetPassword({ req }));
+		res.send(await h["/request-reset-password"]({ req }));
 	}
 );
 
@@ -67,7 +67,7 @@ router.post(
 router.post(
 	"/reset-password",
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.resetPassword({ req }));
+		res.send(await h["/reset-password"]({ req }));
 	}
 );
 
