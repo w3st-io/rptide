@@ -45,7 +45,7 @@ function mail({ to, subject, textContent }) {
 }
 
 
-module.exports = {
+export default {
 	// [VERIFICATION]
 	sendVerificationMail: async function (to, user_id, VCode) {
 		try {

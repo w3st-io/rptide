@@ -11,14 +11,12 @@ import PasswordRecoveryModel from "../../s-models/PasswordRecovery.model";
 import VerificationCodeModel from "../../s-models/VerificationCode.model";
 import UserModel             from "../../s-models/User.model";
 import WebAppModel           from "../../s-models/WebApp.model";
+import mailerUtil            from "../../s-utils/mailerUtil";
 
 
 // [REQUIRE]
 const jsonWebToken = require("jsonwebtoken");
 const stripe = require("stripe");
-
-// [REQUIRE] Personal
-const mailerUtil = require("../../s-utils/mailerUtil");
 
 
 // [STRIPE]
@@ -223,7 +221,7 @@ export default {
 			// [MONGODB][SAVE][VerificationCode]
 			const verificationCode = await new VerificationCodeModel({
 				_id: new mongoose.Types.ObjectId(),
-				user_id: user._id,
+				user: user._id,
 				verificationCode: uuidv4(),
 			}).save();
 			
@@ -283,7 +281,7 @@ export default {
 			
 			// [EXISTANCE][VerificationCode]
 			const queryResult = await VerificationCodeModel.findOne({
-				user_id: req.body.user_id,
+				user: req.body.user_id,
 				verificationCode: req.body.verificationCode
 			});
 
