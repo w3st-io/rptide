@@ -1,6 +1,5 @@
 // [IMPORT]
 import mongoose, { FilterQuery } from "mongoose";
-import express from "express";
 
 // [IMPORT] Personal
 import ProductModel, { IProduct } from "../../../s-models/Product.model";
