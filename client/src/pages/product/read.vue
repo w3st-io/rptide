@@ -896,9 +896,9 @@ export default {
 			// [HIDE]
 			this.edit.images = false
 			this.edit.name = false
-			this.edit.category = false
 			this.edit.description = false
 			this.edit.price = false
+			this.edit.categories = false
 			this.edit.requiredProductOptions = false
 			this.edit.optionalProductOptions = false
 			

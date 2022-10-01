@@ -18,12 +18,14 @@ let returnObj: any = {
 export default {
 	create: async ({ req }: any) => {
 		try {
+			// [INIT]
+			let product = req.body.product;
+			
 			// [FORMAT]
-			req.body.price.dollars = parseInt(req.body.price.dollars);
-			req.body.price.cents = formatterUtil.centFormatter(req.body.price.cents);
+			product.price.cents = formatterUtil.centFormatter(product.price.cents);
 			
 			// Price
-			const price_number = `${req.body.price.dollars}.${req.body.price.cents}`
+			const price_number = `${product.price.dollars}.${product.price.cents}`
 			const price_inPennies = parseFloat(price_number) * 100;
 
 			// [MONGODB][Product][SAVE]
@@ -31,17 +33,17 @@ export default {
 				_id: new mongoose.Types.ObjectId(),
 				user: req.user_decoded._id,
 				webApp: req.user_decoded.workspace.webApp,
-				name: req.body.name,
-				description: req.body.description,
+				name: product.name,
+				description: product.description,
 				price: {
 					number: price_number,
 					inPennies: Math.floor(price_inPennies),
 					string: price_number,
-					dollars: req.body.price.dollars,
-					cents: req.body.price.cents,
+					dollars: product.price.dollars,
+					cents: product.price.cents,
 				},
-				categories: req.body.categories || [],
-				images: req.body.images || [],
+				categories: product.categories || [],
+				images: product.images || [],
 			}).save();
 
 			// [200] Success
