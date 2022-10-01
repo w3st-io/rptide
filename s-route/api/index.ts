@@ -6,6 +6,10 @@ import express from 'express';
 import h from './.handler';
 
 
+// [REQUIRE] Personal
+const Auth = require('../../s-middlewares/Auth');
+
+
 // [EXPRESS + USE]
 const router = express.Router().use(cors());
 
@@ -13,6 +17,7 @@ const router = express.Router().use(cors());
 // [MAIN-ROUTE]
 router.get(
 	'/',
+	Auth.userTokenNotRequired(),
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.index({ req }));
 	}

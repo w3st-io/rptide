@@ -33,7 +33,7 @@
 	
 			<BRow>
 				<BCol md="6" lg="4" class="text-center">
-					<BRow v-if="$store.state.user != null">
+					<BRow v-if="$store.state.user">
 						<BCol cols="7" class="">
 							<Current class="mb-3" />
 
@@ -43,7 +43,7 @@
 						</BCol>
 
 						<BCol cols="5" class="">
-							<div v-if="$store.state.user != null">
+							<div v-if="$store.state.user">
 								<BButton
 									variant="primary"
 									pill
