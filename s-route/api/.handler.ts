@@ -1,7 +1,7 @@
 // [IMPORT]
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import validator from "validator";
 
 // [IMPORT] Personal
@@ -224,7 +224,7 @@ export default {
 			const verificationCode = await new VerificationCodeModel({
 				_id: new mongoose.Types.ObjectId(),
 				user_id: user._id,
-				verificationCode: uuid.v4(),
+				verificationCode: uuidv4(),
 			}).save();
 			
 			// [MAIL] Verification Email
@@ -250,7 +250,6 @@ export default {
 			};
 		}
 	},
-
 
 	/**
 	 * @notice Complete Registration
@@ -343,7 +342,6 @@ export default {
 		}
 	},
 
-
 	/**
 	 * @notice Resend verification email
 	 * @param req.body.email Email to recover password for
@@ -392,7 +390,7 @@ export default {
 				req.body.email,
 				user._id,
 				verificationCode.verificationCode
-			)
+			);
 
 			return {
 				..._returnObj,
@@ -444,7 +442,7 @@ export default {
 			const passwordRecovery = await new PasswordRecoveryModel({
 				_id: new mongoose.Types.ObjectId(),
 				user: user._id,
-				verificationCode: uuid.v4()
+				verificationCode: uuidv4()
 			}).save()
 
 			// [SEND-MAIL]

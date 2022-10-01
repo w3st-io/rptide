@@ -3,11 +3,11 @@ import cors from "cors";
 import express from "express";
 
 // [IMPORT] Personal
+import h from "./.handler";
 import Functionality from "../../../s-middlewares/Functionality";
 
 
 // [REQUIRE] Personal
-const h = require("./.handler");
 const Auth = require("../../../s-middlewares/Auth");
 
 

@@ -1,6 +1,6 @@
 // [IMPORT]
 import bcrypt from "bcryptjs";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import validator from "validator";
 
 // [IMPORT] Personal
@@ -231,8 +231,8 @@ export default {
 				{
 					$set: {
 						api: {
-							publicKey: uuid.v4(),
-							privateKey: uuid.v4(),
+							publicKey: uuidv4(),
+							privateKey: uuidv4(),
 						}
 					}
 				},

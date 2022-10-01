@@ -8,7 +8,7 @@ import TierChecker from '../../../s-middlewares/TierChecker';
 
 
 // [REQUIRE] Personal
-const Auth = require('../../../s-middlewares/Auth')
+const Auth = require("../../../s-middlewares/Auth");
 
 
 // [EXPRESS + USE]
