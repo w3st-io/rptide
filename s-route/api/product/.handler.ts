@@ -163,33 +163,36 @@ export default {
 
 	update: async ({ req }: any) => {
 		try {
-			// [INIT][FORMAT]
-			req.body.product.price.cents = formatterUtil.centFormatter(req.body.product.price.cents)
+			// [INIT]
+			let product = req.body.product;
 
-			const price_number = `${req.body.product.price.dollars}.${req.body.product.price.cents}`
+			// [INIT][FORMAT]
+			product.price.cents = formatterUtil.centFormatter(product.price.cents);
+
+			const price_number = `${product.price.dollars}.${product.price.cents}`;
 			const price_inPennies = parseFloat(price_number) * 100;
 
 			// [UPDATE]
 			const updatedProduct = await ProductModel.findOneAndUpdate(
 				{
 					user: req.user_decoded._id,
-					_id: req.body.product._id,
+					_id: product._id,
 				},
 				{
 					$set: {
-						name: req.body.product.name,
-						description: req.body.product.description,
+						name: product.name,
+						description: product.description,
 						price: {
 							number: price_number,
 							inPennies: Math.floor(price_inPennies),
 							string: price_number,
-							dollars: req.body.product.price.dollars,
-							cents: req.body.product.price.cents,
+							dollars: product.price.dollars,
+							cents: product.price.cents,
 						},
-						categories: req.body.product.categories || [],
-						images: req.body.product.images || [],
-						requiredProductOptions: req.body.product.requiredProductOptions || [],
-						optionalProductOptions: req.body.product.optionalProductOptions || [],
+						categories: product.categories || [],
+						images: product.images || [],
+						requiredProductOptions: product.requiredProductOptions || [],
+						optionalProductOptions: product.optionalProductOptions || [],
 					}
 				},
 				{ new: true }
