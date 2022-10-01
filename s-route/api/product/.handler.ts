@@ -19,14 +19,6 @@ let returnObj: any = {
 export default {
 	create: async ({ req }: any) => {
 		try {
-			// [VALIDATE] req.body.name
-			if (!validator.isAscii(req.body.name)) {
-				return {
-					...returnObj,
-					message: "Invalid name"
-				}
-			}
-
 			// [VALIDATE] req.body.price.dollars
 			if (
 				isNaN(req.body.price.dollars) ||
@@ -48,60 +40,6 @@ export default {
 				return {
 					...returnObj,
 					message: "Invalid cents"
-				}
-			}
-
-			// [VALIDATE] req.body.category
-			if (req.body.category) {
-				if (!validator.isAscii(req.body.category)) {
-					return {
-						...returnObj,
-						message: "Invalid category"
-					}
-				}
-			}
-
-			// [VALIDATE] req.body.description
-			if (req.body.description) {
-				if (!validator.isAscii(req.body.description)) {
-					return {
-						...returnObj,
-						message: "Invalid description"
-					}
-				}
-			}
-
-			// [VALIDATE] images
-			req.body.images.forEach((img, i) => {
-				if (!validator.isURL(img)) {
-					return {
-						...returnObj,
-						message: `Invalid images[${i}]`
-					}
-				}
-			})
-
-			// [VALIDATE] optionalProductOptions
-			for (let i = 0; i < req.body.optionalProductOptions.length; i++) {
-				const pa = req.body.optionalProductOptions[i]
-				
-				if (!mongoose.isValidObjectId(pa)) {
-					return {
-						...returnObj,
-						message: `Invalid optionalProductOptions[${i}]`
-					}
-				}
-			}
-
-			// [VALIDATE] requiredProductOptions
-			for (let i = 0; i < req.body.requiredProductOptions.length; i++) {
-				const pa = req.body.requiredProductOptions[i]
-				
-				if (!mongoose.isValidObjectId(pa)) {
-					return {
-						...returnObj,
-						message: `Invalid requiredProductOptions[${i}]`
-					}
 				}
 			}
 
@@ -252,34 +190,6 @@ export default {
 
 	update: async ({ req }: any) => {
 		try {
-			// [VALIDATE] req.body.product.requiredProductOptions
-			for (let i = 0; i < req.body.product.requiredProductOptions.length; i++) {
-				const pa = req.body.product.requiredProductOptions[i]
-				
-				if (!mongoose.isValidObjectId(pa) || pa == null || pa == "") {
-					return {
-						executed: true,
-						status: false,
-						location: location,
-						message: `Invalid req.body.product.productOption[${i}]`
-					}
-				}
-			}
-
-			// [VALIDATE] req.body.product.optionalProductOptions
-			for (let i = 0; i < req.body.product.optionalProductOptions.length; i++) {
-				const pa = req.body.product.optionalProductOptions[i]
-				
-				if (!mongoose.isValidObjectId(pa) || pa == null || pa == "") {
-					return {
-						executed: true,
-						status: false,
-						location: location,
-						message: `Invalid req.body.product.productOption[${i}]`
-					}
-				}
-			}
-
 			// [INIT][FORMAT]
 			req.body.product.price.dollars = parseInt(req.body.product.price.dollars)
 			req.body.product.price.cents = formatterUtil.centFormatter(req.body.product.price.cents)

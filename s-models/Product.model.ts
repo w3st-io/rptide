@@ -1,14 +1,41 @@
 // [IMPORT]
 import mongoose from 'mongoose';
+import validator from "validator";
 
 
 // [VALIDATE]
-function validate({ requiredProductOptions, optionalProductOptions, subCategories, images }) {
+function validate({
+	name,
+	requiredProductOptions,
+	optionalProductOptions,
+	categories,
+	description,
+	images
+}) {
+	// [VALIDATE] req.body.name
+	if (!validator.isAscii(name)) {
+		return {
+			status: false,
+			message: "Invalid name"
+		}
+	}
+
 	if (requiredProductOptions.length > 100) {
 		return {
 			status: false,
 			message: 'Error: too many product options'
 		};
+	}
+
+	for (let i = 0; i < requiredProductOptions.length; i++) {
+		const pa = requiredProductOptions[i];
+		
+		if (!mongoose.isValidObjectId(pa)) {
+			return {
+				status: false,
+				message: `Invalid product.productOption[${i}]`
+			};
+		}
 	}
 
 	if (optionalProductOptions.length > 100) {
@@ -18,10 +45,21 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 		};
 	}
 
-	if (subCategories.length > 100) {
+	for (let i = 0; i < optionalProductOptions.length; i++) {
+		const pa = optionalProductOptions[i];
+		
+		if (!mongoose.isValidObjectId(pa)) {
+			return {
+				status: false,
+				message: `Invalid product.productOption[${i}]`
+			};
+		}
+	}
+
+	if (categories.length > 100) {
 		return {
 			status: false,
-			message: 'Error: too many subCategories'
+			message: 'Error: too many categories'
 		};
 	}
 
@@ -32,25 +70,14 @@ function validate({ requiredProductOptions, optionalProductOptions, subCategorie
 		};
 	}
 
-	for (let i = 0; i < requiredProductOptions.length; i++) {
-		const pa = requiredProductOptions[i]
+	for (let i = 0; i < images.length; i++) {
+		const img = images[i];
 		
-		if (!mongoose.isValidObjectId(pa)) {
+		if (!validator.isURL(img)) {
 			return {
 				status: false,
-				message: `Invalid product.productOption[${i}]`
-			};
-		}
-	}
-
-	for (let i = 0; i < optionalProductOptions.length; i++) {
-		const pa = optionalProductOptions[i]
-		
-		if (!mongoose.isValidObjectId(pa)) {
-			return {
-				status: false,
-				message: `Invalid product.productOption[${i}]`
-			};
+				message: `Invalid images[${i}]`
+			}
 		}
 	}
 
@@ -76,11 +103,9 @@ export interface IProduct extends mongoose.Document {
 	},
 	category: String,
 	subCategories: [String],
+	categories: [String],
 	images: [String],
-	totalInStock: {
-		type: Number,
-		default: 1,
-	},
+	totalInStock: Number,
 	requiredProductOptions: [mongoose.Schema.Types.ObjectId],
 	optionalProductOptions: [mongoose.Schema.Types.ObjectId],
 	createdAt: Date,
@@ -145,13 +170,7 @@ export const ProductSchema = new mongoose.Schema({
 		},
 	},
 	
-	category: {
-		type: String,
-		default: '',
-		maxlength: 50,
-	},
-	
-	subCategories: [
+	categories: [
 		{
 			type: String,
 			required: true,
@@ -197,9 +216,11 @@ export const ProductSchema = new mongoose.Schema({
 
 ProductSchema.pre('validate', function (this: any, next: any) {
 	const status = validate({
+		name: this.name,
 		requiredProductOptions: this.requiredProductOptions,
 		optionalProductOptions: this.optionalProductOptions,
-		subCategories: this.subCategories,
+		categories: this.categories,
+		description: this.description,
 		images: this.images
 	});
 
@@ -213,9 +234,11 @@ ProductSchema.pre('validate', function (this: any, next: any) {
 
 ProductSchema.pre('updateOne', function (this: any, next: any) {
 	const status = validate({
+		name: this._update.$set.name,
 		requiredProductOptions: this._update.$set.requiredProductOptions,
 		optionalProductOptions: this._update.$set.optionalProductOptions,
-		subCategories: this._update.$set.subCategories,
+		categories: this._update.$set.categories,
+		description: this._update.$set.description,
 		images: this._update.$set.images
 	});
 
@@ -229,9 +252,11 @@ ProductSchema.pre('updateOne', function (this: any, next: any) {
 
 ProductSchema.pre('findOneAndUpdate', function (this: any, next: any) {
 	const status = validate({
+		name: this._update.$set.name,
 		requiredProductOptions: this._update.$set.requiredProductOptions,
 		optionalProductOptions: this._update.$set.optionalProductOptions,
-		subCategories: this._update.$set.subCategories,
+		categories: this._update.$set.categories,
+		description: this._update.$set.description,
 		images: this._update.$set.images
 	});
 
