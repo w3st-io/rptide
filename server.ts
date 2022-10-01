@@ -97,11 +97,14 @@ app
 if (config.nodeENV == "production") {
 	app.use(express.static("client/dist"));
 
-	app.get("*", (req, res) => {
-		res.sendFile(
-			path.resolve(__dirname, "client", "dist", "index.html")
-		);
-	});
+	app.get(
+		"*",
+		(req: express.Request, res: express.Response) => {
+			res.sendFile(
+				path.resolve(__dirname, "client", "dist", "index.html")
+			);
+		}
+	);
 }
 
 
