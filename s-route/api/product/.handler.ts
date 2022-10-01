@@ -19,30 +19,6 @@ let returnObj: any = {
 export default {
 	create: async ({ req }: any) => {
 		try {
-			// [VALIDATE] req.body.price.dollars
-			if (
-				isNaN(req.body.price.dollars) ||
-				!validator.isAscii(req.body.price.dollars) ||
-				req.body.price.dollars.length < 0
-			) {
-				return {
-					...returnObj,
-					message: "Invalid price.dollars"
-				}
-			}
-
-			// [VALIDATE] req.body.price.cents
-			if (
-				isNaN(req.body.price.cents) ||
-				!validator.isAscii(req.body.price.cents) ||
-				req.body.price.cents.length <= 0
-			) {
-				return {
-					...returnObj,
-					message: "Invalid cents"
-				}
-			}
-
 			// [FORMAT]
 			req.body.price.dollars = parseInt(req.body.price.dollars);
 			req.body.price.cents = formatterUtil.centFormatter(req.body.price.cents);

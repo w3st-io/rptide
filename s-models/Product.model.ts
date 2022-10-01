@@ -4,80 +4,98 @@ import validator from "validator";
 
 
 // [VALIDATE]
-function validate({
-	name,
-	requiredProductOptions,
-	optionalProductOptions,
-	categories,
-	description,
-	images
-}) {
-	// [VALIDATE] req.body.name
-	if (!validator.isAscii(name)) {
+function validate({ product }) {
+	// [VALIDATE] product.name
+	if (!validator.isAscii(product.name)) {
 		return {
 			status: false,
-			message: "Invalid name"
+			message: "Invalid product name"
 		}
 	}
 
-	if (requiredProductOptions.length > 100) {
+	if (!validator.isAscii(product.description)) {
 		return {
 			status: false,
-			message: 'Error: too many product options'
+			message: 'Invalid product description'
 		};
 	}
 
-	for (let i = 0; i < requiredProductOptions.length; i++) {
-		const pa = requiredProductOptions[i];
-		
-		if (!mongoose.isValidObjectId(pa)) {
-			return {
-				status: false,
-				message: `Invalid product.productOption[${i}]`
-			};
-		}
-	}
-
-	if (optionalProductOptions.length > 100) {
+	// [VALIDATE] product.price.dollars
+	if (
+		isNaN(product.price.dollars) ||
+		!validator.isAscii(product.price.dollars) ||
+		product.price.dollars.length < 0
+	) {
 		return {
 			status: false,
-			message: 'Error: too many product options'
-		};
-	}
-
-	for (let i = 0; i < optionalProductOptions.length; i++) {
-		const pa = optionalProductOptions[i];
-		
-		if (!mongoose.isValidObjectId(pa)) {
-			return {
-				status: false,
-				message: `Invalid product.productOption[${i}]`
-			};
+			message: "Invalid price.dollars"
 		}
 	}
 
-	if (categories.length > 100) {
+	// [VALIDATE] product.price.cents
+	if (
+		isNaN(product.price.cents) ||
+		!validator.isAscii(product.price.cents) ||
+		product.price.cents.length <= 0
+	) {
+		return {
+			status: false,
+			message: "Invalid cents"
+		}
+	}
+
+	if (product.categories.length > 100) {
 		return {
 			status: false,
 			message: 'Error: too many categories'
 		};
 	}
 
-	if (images.length > 5) {
+	if (product.images.length > 5) {
 		return {
 			status: false,
 			message: 'Error: Too many images'
 		};
 	}
 
-	for (let i = 0; i < images.length; i++) {
-		const img = images[i];
-		
-		if (!validator.isURL(img)) {
+	for (let i = 0; i < product.images.length; i++) {
+		if (!validator.isURL(product.images[i])) {
 			return {
 				status: false,
 				message: `Invalid images[${i}]`
 			}
+		}
+	}
+
+	if (product.requiredProductOptions.length > 100) {
+		return {
+			status: false,
+			message: 'Error: too many product options'
+		};
+	}
+
+	for (let i = 0; i < product.requiredProductOptions.length; i++) {
+		if (!mongoose.isValidObjectId(product.requiredProductOptions[i])) {
+			return {
+				status: false,
+				message: `Invalid product.productOption[${i}]`
+			};
+		}
+	}
+
+	if (product.optionalProductOptions.length > 100) {
+		return {
+			status: false,
+			message: 'Error: too many product options'
+		};
+	}
+
+	for (let i = 0; i < product.optionalProductOptions.length; i++) {
+		if (!mongoose.isValidObjectId(product.optionalProductOptions[i])) {
+			return {
+				status: false,
+				message: `Invalid product.productOption[${i}]`
+			};
 		}
 	}
 
@@ -101,8 +119,6 @@ export interface IProduct extends mongoose.Document {
 		dollars: String,
 		cents: String,
 	},
-	category: String,
-	subCategories: [String],
 	categories: [String],
 	images: [String],
 	totalInStock: Number,
@@ -215,14 +231,7 @@ export const ProductSchema = new mongoose.Schema({
 
 
 ProductSchema.pre('validate', function (this: any, next: any) {
-	const status = validate({
-		name: this.name,
-		requiredProductOptions: this.requiredProductOptions,
-		optionalProductOptions: this.optionalProductOptions,
-		categories: this.categories,
-		description: this.description,
-		images: this.images
-	});
+	const status = validate({ product: this });
 
 	if (status.status == false) {
 		throw `${status.message}`;
@@ -233,14 +242,7 @@ ProductSchema.pre('validate', function (this: any, next: any) {
 
 
 ProductSchema.pre('updateOne', function (this: any, next: any) {
-	const status = validate({
-		name: this._update.$set.name,
-		requiredProductOptions: this._update.$set.requiredProductOptions,
-		optionalProductOptions: this._update.$set.optionalProductOptions,
-		categories: this._update.$set.categories,
-		description: this._update.$set.description,
-		images: this._update.$set.images
-	});
+	const status = validate({ product: this._update.$set });
 
 	if (status.status == false) {
 		throw `${status.message}`;
@@ -251,14 +253,7 @@ ProductSchema.pre('updateOne', function (this: any, next: any) {
 
 
 ProductSchema.pre('findOneAndUpdate', function (this: any, next: any) {
-	const status = validate({
-		name: this._update.$set.name,
-		requiredProductOptions: this._update.$set.requiredProductOptions,
-		optionalProductOptions: this._update.$set.optionalProductOptions,
-		categories: this._update.$set.categories,
-		description: this._update.$set.description,
-		images: this._update.$set.images
-	});
+	const status = validate({ product: this._update.$set });
 
 	if (status.status == false) {
 		throw `${status.message}`;
