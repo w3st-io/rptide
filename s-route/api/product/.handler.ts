@@ -1,9 +1,10 @@
 // [IMPORT]
+import mongoose from "mongoose";
 import validator from "validator";
 
 // [IMPORT] Personal
-import ProductCollection from "../../../s-collections/ProductCollection";
 import ProductModel from "../../../s-models/Product.model";
+import formatterUtil from "../../../s-utils/formatterUtil";
 
 
 // [INIT]
@@ -18,25 +19,124 @@ let returnObj: any = {
 export default {
 	create: async ({ req }: any) => {
 		try {
-			// [COLLECTION][Product][CREATE]
-			const productObj = await ProductCollection.c_create({
-				user_id: req.user_decoded._id,
-				webApp_id: req.user_decoded.workspace.webApp,
-				name: req.body.name,
-				description: req.body.description,
-				price: req.body.price,
-				category: req.body.category,
-				images: req.body.images,
-			});
-
-			if (productObj.status) {
+			// [VALIDATE] req.body.name
+			if (!validator.isAscii(req.body.name)) {
 				return {
 					...returnObj,
-					status: true,
-					productObj: productObj,
-				};
+					message: "Invalid name"
+				}
 			}
-			else { return productObj; }
+
+			// [VALIDATE] req.body.price.dollars
+			if (
+				isNaN(req.body.price.dollars) ||
+				!validator.isAscii(req.body.price.dollars) ||
+				req.body.price.dollars.length < 0
+			) {
+				return {
+					...returnObj,
+					message: "Invalid price.dollars"
+				}
+			}
+
+			// [VALIDATE] req.body.price.cents
+			if (
+				isNaN(req.body.price.cents) ||
+				!validator.isAscii(req.body.price.cents) ||
+				req.body.price.cents.length <= 0
+			) {
+				return {
+					...returnObj,
+					message: "Invalid cents"
+				}
+			}
+
+			// [VALIDATE] req.body.category
+			if (req.body.category) {
+				if (!validator.isAscii(req.body.category)) {
+					return {
+						...returnObj,
+						message: "Invalid category"
+					}
+				}
+			}
+
+			// [VALIDATE] req.body.description
+			if (req.body.description) {
+				if (!validator.isAscii(req.body.description)) {
+					return {
+						...returnObj,
+						message: "Invalid description"
+					}
+				}
+			}
+
+			// [VALIDATE] images
+			req.body.images.forEach((img, i) => {
+				if (!validator.isURL(img)) {
+					return {
+						...returnObj,
+						message: `Invalid images[${i}]`
+					}
+				}
+			})
+
+			// [VALIDATE] optionalProductOptions
+			for (let i = 0; i < req.body.optionalProductOptions.length; i++) {
+				const pa = req.body.optionalProductOptions[i]
+				
+				if (!mongoose.isValidObjectId(pa)) {
+					return {
+						...returnObj,
+						message: `Invalid optionalProductOptions[${i}]`
+					}
+				}
+			}
+
+			// [VALIDATE] requiredProductOptions
+			for (let i = 0; i < req.body.requiredProductOptions.length; i++) {
+				const pa = req.body.requiredProductOptions[i]
+				
+				if (!mongoose.isValidObjectId(pa)) {
+					return {
+						...returnObj,
+						message: `Invalid requiredProductOptions[${i}]`
+					}
+				}
+			}
+
+			// [FORMAT]
+			req.body.price.dollars = parseInt(req.body.price.dollars);
+			req.body.price.cents = formatterUtil.centFormatter(req.body.price.cents);
+			
+			// Price
+			const price_number = `${req.body.price.dollars}.${req.body.price.cents}`
+			const price_inPennies = parseFloat(price_number) * 100;
+
+			// [PRODUCT][SAVE]
+			const createdProduct = await new ProductModel({
+				_id: new mongoose.Types.ObjectId(),
+				user: req.user_decoded._id,
+				webApp: req.user_decoded.workspace.webApp,
+				name: req.body.name,
+				price: {
+					number: price_number,
+					inPennies: Math.floor(price_inPennies),
+					string: price_number,
+					dollars: req.body.price.dollars,
+					cents: req.body.price.cents,
+				},
+				category: req.body.category,
+				description: req.body.description,
+				images: req.body.images,
+			}).save();
+
+			// [200] SUCCESS
+			return {
+				...returnObj,
+				status: true,
+				product: createdProduct
+			};
 		}
 		catch (err) {
 			return {
@@ -55,28 +155,24 @@ export default {
 		};
 
 		try {
-			if (!validator.isAscii(req.body.product_id)) {
+			if (!mongoose.isValidObjectId(req.body.product_id)) {
 				return {
 					..._returnObj,
-					message: "Invalid Parameters"
+					message: "Invalid product _id"
 				};
 			}
 
-			// [COLLECTION][Product][DELETE]
-			const deleteProductObj = await ProductCollection.c_delete_byUserAndId({
-				user_id: req.user_decoded._id,
-				product_id: req.body.product_id,
-			})
-
-			if (!deleteProductObj.status) {
-				return deleteProductObj;
-			}
+			// [MONGODB][Product][DELETE]
+			const product = await ProductModel.deleteOne({
+				user: req.user_decoded._id,
+				_id: req.body.product_id,
+			});
 
 			return {
 				..._returnObj,
 				status: true,
 				deleted: true,
-				deleteProductObj: deleteProductObj,
+				deleteProduct: product,
 			};
 		}
 		catch (err) {
@@ -156,13 +252,78 @@ export default {
 
 	update: async ({ req }: any) => {
 		try {
-			// [COLLECTION][Product][UPDATE]
-			const productObj = await ProductCollection.c_update({
-				user_id: req.user_decoded._id,
-				product: req.body,
-			});
+			// [VALIDATE] req.body.product.requiredProductOptions
+			for (let i = 0; i < req.body.product.requiredProductOptions.length; i++) {
+				const pa = req.body.product.requiredProductOptions[i]
+				
+				if (!mongoose.isValidObjectId(pa) || pa == null || pa == "") {
+					return {
+						executed: true,
+						status: false,
+						location: location,
+						message: `Invalid req.body.product.productOption[${i}]`
+					}
+				}
+			}
 
-			return productObj;
+			// [VALIDATE] req.body.product.optionalProductOptions
+			for (let i = 0; i < req.body.product.optionalProductOptions.length; i++) {
+				const pa = req.body.product.optionalProductOptions[i]
+				
+				if (!mongoose.isValidObjectId(pa) || pa == null || pa == "") {
+					return {
+						executed: true,
+						status: false,
+						location: location,
+						message: `Invalid req.body.product.productOption[${i}]`
+					}
+				}
+			}
+
+			// [INIT][FORMAT]
+			req.body.product.price.dollars = parseInt(req.body.product.price.dollars)
+			req.body.product.price.cents = formatterUtil.centFormatter(req.body.product.price.cents)
+
+			const price_number = `${req.body.product.price.dollars}.${req.body.product.price.cents}`
+			const price_inPennies = parseFloat(price_number) * 100;
+
+			// [UPDATE]
+			const updatedProduct = await ProductModel.findOneAndUpdate(
+				{
+					user: req.user_decoded._id,
+					_id: req.body.product._id,
+				},
+				{
+					$set: {
+						name: req.body.product.name,
+						description: req.body.product.description,
+						category: req.body.product.category,
+						price: {
+							number: price_number,
+							inPennies: Math.floor(price_inPennies),
+							string: price_number,
+							dollars: req.body.product.price.dollars,
+							cents: req.body.product.price.cents,
+						},
+						requiredProductOptions: req.body.product.requiredProductOptions,
+						optionalProductOptions: req.body.product.optionalProductOptions,
+						subCategories: req.body.product.subCategories,
+						images: req.body.product.images,
+					}
+				},
+				{ new: true, }
+			)
+				.populate({ path: "requiredProductOptions" })
+				.populate({ path: "optionalProductOptions" })
+				.exec()
+			;
+			
+			return {
+				executed: true,
+				status: true,
+				location: location,
+				updatedProduct: updatedProduct,
+			};
 		}
 		catch (err) {
 			return {
