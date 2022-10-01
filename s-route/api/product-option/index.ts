@@ -3,9 +3,11 @@ import cors from "cors";
 import express from "express";
 import validator from "validator";
 
+// [IMPORT] Personal
+import ProductOptionCollection from "../../../s-collections/ProductOptionCollection";
+
 
 // [REQUIRE] Personal
-const ProductOptionCollection = require("../../../s-collections/ProductOptionCollection");
 const Auth = require("../../../s-middlewares/Auth");
 
 

@@ -2,11 +2,8 @@
 import validator from "validator";
 
 // [IMPORT] Personal
+import ProductCollection from "../../../s-collections/ProductCollection";
 import ProductModel from "../../../s-models/Product.model";
-
-
-// [REQUIRE] Personal
-const ProductCollection = require("../../../s-collections/ProductCollection")
 
 
 // [INIT]
