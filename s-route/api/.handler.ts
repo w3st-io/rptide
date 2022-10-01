@@ -4,21 +4,19 @@ import uuid from "uuid";
 import validator from "validator";
 
 // [IMPORT] Personal
-import config from "../../s-config";
-import config_const from "../../s-config/const";
+import config                from "../../s-config";
+import config_const          from "../../s-config/const";
 import PasswordRecoveryModel from "../../s-models/PasswordRecovery.model";
-import UserModel from "../../s-models/User.model";
-import WebAppModel from "../../s-models/WebApp.model";
+import UserModel             from "../../s-models/User.model";
+import WebAppModel           from "../../s-models/WebApp.model";
 
 
 // [REQUIRE]
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const jsonWebToken = require("jsonwebtoken");
 const stripe = require("stripe");
 
-
 // [REQUIRE] Personal
-const PasswordRecoveryCollection = require("../../s-collections/PasswordRecoveryCollection");
 const VerificationCodeCollection = require("../../s-collections/VerificationCodeCollection");
 const mailerUtil = require("../../s-utils/mailerUtil");
 
@@ -137,7 +135,7 @@ export default {
 			}
 
 			// [JWT] Generate
-			const token = jwt.sign(
+			const token = jsonWebToken.sign(
 				{
 					_id: user._id,
 					email: user.email,
@@ -487,25 +485,18 @@ export default {
 				};
 			}
 
-			// [EXISTANCE][PasswordRecovery]
-			const existance = await PasswordRecoveryCollection.c_existance(
-				req.body.user_id
-			);
+			// [MONGODB][findOne][PasswordRecovery]
+			const validPasswordRecovery = await PasswordRecoveryModel.findOne({
+				user: req.body.user_id,
+				verificationCode: req.body.verificationCode
+			})
 
-			if (!existance.existance) {
+			if (!validPasswordRecovery) {
 				return {
 					..._returnObj,
-					message: "You have not made a request to reset your password",
+					message: "Invalid Password Recovery verificationCode"
 				};
 			}
-
-			// [VALIDATE][PasswordRecovery]
-			const pwdRecovery = await PasswordRecoveryCollection.c_validateToken(
-				req.body.user_id,
-				req.body.verificationCode
-			);
-
-			if (!pwdRecovery.status || !pwdRecovery.valid) { return pwdRecovery; }
 
 			// [MONGODB][UPDATE] user.password
 			await UserModel.findOneAndUpdate(
