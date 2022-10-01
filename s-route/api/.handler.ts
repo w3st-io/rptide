@@ -7,6 +7,7 @@ import validator from "validator";
 import config                from "../../s-config";
 import config_const          from "../../s-config/const";
 import PasswordRecoveryModel from "../../s-models/PasswordRecovery.model";
+import VerificationCodeModel from "../../s-models/VerificationCode.model";
 import UserModel             from "../../s-models/User.model";
 import WebAppModel           from "../../s-models/WebApp.model";
 
@@ -17,7 +18,6 @@ const jsonWebToken = require("jsonwebtoken");
 const stripe = require("stripe");
 
 // [REQUIRE] Personal
-const VerificationCodeCollection = require("../../s-collections/VerificationCodeCollection");
 const mailerUtil = require("../../s-utils/mailerUtil");
 
 
@@ -220,16 +220,18 @@ export default {
 				password: await bcrypt.hash(req.body.password, 10)
 			}).save();
 
-			// [MONGODB][CREATE][VerificationCode]
-			const vCodeObj = await VerificationCodeCollection.c_create({
-				user_id: user._id
-			});
+			// [MONGODB][SAVE][VerificationCode]
+			const verificationCode = await new VerificationCodeModel({
+				_id: new mongoose.Types.ObjectId(),
+				user_id: user._id,
+				verificationCode: uuid.v4(),
+			}).save();
 			
 			// [MAIL] Verification Email
 			await mailerUtil.sendVerificationMail(
 				user.email,
 				user._id,
-				vCodeObj.verificationCode.verificationCode
+				verificationCode.verificationCode
 			);
 
 			// [200] Success
@@ -279,17 +281,20 @@ export default {
 					message: "Invalid verfication code"
 				};
 			}
-
-			// [EXISTANCE][VerificationCode]
-			const vCObj = await VerificationCodeCollection.c__read__query({
-				query: {
-					user_id: req.body.user_id,
-					verificationCode: req.body.verificationCode
-				}
-			});
 			
-			// [VALIDATE-STATUS] vCObj
-			if (!vCObj.status) { return vCObj; }
+			// [EXISTANCE][VerificationCode]
+			const queryResult = await VerificationCodeModel.findOne({
+				user_id: req.body.user_id,
+				verificationCode: req.body.verificationCode
+			});
+
+			// [NOTHING-FOUND]
+			if (!queryResult) {
+				return {
+					..._returnObj,
+					message: "No VerificationCode object found",
+				};
+			}
 
 			// [MONGODB][READ] User
 			const user = await UserModel.findOne({ _id: req.body.user_id })
@@ -327,7 +332,6 @@ export default {
 			return {
 				..._returnObj,
 				status: true,
-				existance: vCObj.existance
 			};
 		}
 		catch (err) {
@@ -372,15 +376,22 @@ export default {
 			};
 
 			// [READ][VerificationCode] by user_id
-			const vCode = await VerificationCodeCollection.c_read_byUser_id({
-				user_id: user._id
-			})
+			const verificationCode = await VerificationCodeModel.findOne({
+				user: user._id
+			});
+
+			if (!verificationCode) {
+				return {
+					..._returnObj,
+					message: "You have not requested password reset"
+				};
+			}
 			
 			// [SEND-MAIL]
 			mailerUtil.sendVerificationMail(
 				req.body.email,
 				user._id,
-				vCode.verificationCode.verificationCode
+				verificationCode.verificationCode
 			)
 
 			return {
