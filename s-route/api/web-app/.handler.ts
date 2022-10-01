@@ -5,7 +5,7 @@ import validator from "validator";
 // [IMPORT] Personal
 import UserModel from "../../../s-models/User.model";
 import WebAppModel from "../../../s-models/WebApp.model";
-import WebContentModel from "../../../s-models/WebContentModel";
+import WebContentModel from "../../../s-models/WebContent.model";
 
 
 // [REQUIRE] Personal

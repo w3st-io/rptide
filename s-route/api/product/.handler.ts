@@ -16,7 +16,7 @@ let returnObj: any = {
 
 
 export default {
-	create: async ({ req }): Promise<object> => {
+	create: async ({ req }: any): Promise<object> => {
 		try {
 			// [INIT]
 			let product = req.body.product;

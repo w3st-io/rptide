@@ -1,7 +1,7 @@
 // [IMPORT] Personal
 import config_const from "../s-config/const";
 import ProductModel from "../s-models/Product.model";
-import ProductOptionModel from "../s-models/ProductOptionModel";
+import ProductOptionModel from "../s-models/ProductOption.model";
 import UserModel from "../s-models/User.model";
 import WebAppModel from "../s-models/WebApp.model";
 import h_user from "../s-route/api/user/.handler";

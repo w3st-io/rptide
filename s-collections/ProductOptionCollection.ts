@@ -4,7 +4,7 @@ import validator from "validator";
 
 
 // [IMPORT] Personal
-import ProductOptionModel from "../s-models/ProductOptionModel";
+import ProductOptionModel from "../s-models/ProductOption.model";
 import formatterUtil from "../s-utils/formatterUtil";
 
 
