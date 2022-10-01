@@ -17,9 +17,9 @@ let returnObj: any = {
 
 
 export default {
-	"/create": async ({ req }) => {
+	"/create": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Created WebContent",
 			location: returnObj.location + "/create"
@@ -70,9 +70,9 @@ export default {
 	 * @param {String} req.body.webApp Filter WebContents by this
 	 * @returns {Object}
 	*/
-	"/find": async ({ req }) => {
+	"/find": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Found WebContent",
 			location: returnObj.location + "/find"
@@ -100,9 +100,9 @@ export default {
 	},
 
 
-	"/find-paginated/:limit/:page": async ({ req }) => {
+	"/find-paginated/:limit/:page": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "WebContent(s) found",
 			location: returnObj.location + "/find-paginated"
@@ -187,9 +187,9 @@ export default {
 	},
 
 
-	"/find-one": async ({ req }) => {
+	"/find-one": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "WebContent found",
 			location: returnObj.location + "/find-one"
@@ -216,9 +216,9 @@ export default {
 		}
 	},
 
-	"/find-one-and-update": async ({ req }) => {
+	"/find-one-and-update": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Successfully updated WebContent",
 			location: returnObj.location + "/find-one-and-update"
@@ -260,9 +260,9 @@ export default {
 		}
 	},
 
-	"/delete-one": async ({ req }) => {
+	"/delete-one": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Successfully deleted WebContent",
 			location: returnObj.location + "/find-one-and-update"

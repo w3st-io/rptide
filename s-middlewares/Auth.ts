@@ -29,7 +29,7 @@ class Auth {
 	static userToken() {
 		return async (req, res, next) => {
 			// [INIT]
-			let _returnObj = {
+			let _returnObj: any = {
 				...returnObj,
 				auth: false,
 			};
@@ -115,7 +115,7 @@ class Auth {
 	static userTokenByPassVerification() {
 		return (req, res, next) => {
 			// [INIT]
-			let _returnObj = {
+			let _returnObj: any = {
 				...returnObj,
 				auth: false,
 			};
@@ -162,7 +162,7 @@ class Auth {
 	// [API-PRIVATE-KEY]
 	static userTokenOrAPIPrivateKey() {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			auth: false,
 		};

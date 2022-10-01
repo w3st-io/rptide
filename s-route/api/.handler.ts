@@ -41,9 +41,9 @@ export default {
 	 * @notice Default route to initialize app
 	 * @returns {Object}
 	*/
-	index: async ({ req }) => {
+	index: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			node_env: config.nodeENV,
 			limit: config_const.limit,
@@ -94,7 +94,7 @@ export default {
 	*/
 	login: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/login",
 			message: "Success",
@@ -177,9 +177,9 @@ export default {
 	 * @param {string} req.body.email
 	 * @param {string} req.body.password Password for account
 	*/
-	register: async ({ req }) => {
+	register: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/register",
 			message: "Successfully created account",
@@ -257,9 +257,9 @@ export default {
 	 * @param {string} req.body.user_id
 	 * @param {string} req.body.req.body.verificationCode
 	*/
-	completeRegistration: async ({ req }) => {
+	completeRegistration: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/complete-registration",
 			message: "Completed registration"
@@ -346,8 +346,8 @@ export default {
 	 * @notice Resend verification email
 	 * @param req.body.email Email to recover password for
 	*/
-	resendVerificationEmail: async ({ req }) => {
-		let _returnObj = {
+	resendVerificationEmail: async ({ req }: any) => {
+		let _returnObj: any = {
 			executed: true,
 			status: false,
 			location: returnObj.location + "/resent-verification-email",
@@ -404,9 +404,9 @@ export default {
 	 * @notice Send the email for the password reset
 	 * @param req.body.email Email to recover password for
 	*/
-	requestResetPassword: async ({ req }) => {
+	requestResetPassword: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/request-reset-password",
 			message: "Email sent"
@@ -467,9 +467,9 @@ export default {
 	 * @param req.body.verificationCode Code sent to email
 	 * @param req.body.password New password to be set
 	*/
-	resetPassword: async ({ req }) => {
+	resetPassword: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/reset-password",
 			message: "Password reset"

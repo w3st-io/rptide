@@ -36,7 +36,7 @@ let returnObj: any = {
 */
 async function cycleCheckStripe({ user_id, force = false }) {
 	// [INIT]
-	let _returnObj = {
+	let _returnObj: any = {
 		...returnObj,
 		location: "cycleCheckStripe",
 	};
@@ -109,8 +109,8 @@ export default {
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
-	"/update/workspace--web-app": async ({ req }) => {
-		let _returnObj = {
+	"/update/workspace--web-app": async ({ req }: any) => {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Updated workspace",
 			location: returnObj.location + "/update/workspace-web-app",
@@ -156,9 +156,9 @@ export default {
 	 * @param {string} req.body.currentPassword Old password
 	 * @param {string} req.body.password New password
 	*/
-	"/update/password": async ({ req }) => {
+	"/update/password": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Updated password",
 			location: returnObj.location + "/update/password",
@@ -216,9 +216,9 @@ export default {
 	 * @notice Find user and generate a new API key
 	 * @returns {Object} containing the new API Key
 	*/
-	"/generate-api-key": async ({ req }) => {
+	"/generate-api-key": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Generated new API key",
 			location: returnObj.location + "/generate-api-key"
@@ -254,9 +254,9 @@ export default {
 		}
 	},
 
-	"/update/tier": async ({ req }) => {
+	"/update/tier": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/tier/update"
 		};
@@ -491,9 +491,9 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method": async ({ req }) => {
+	"/stripe-payment-method": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/stripe-payment-method",
 			message: "Payment Method retrieved",
@@ -535,9 +535,9 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method-update": async ({ req }) => {
+	"/stripe-payment-method-update": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/stripe-payment-method-update",
 			message: "Payment Method successfully changed"
@@ -620,9 +620,9 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method-delete": async ({ req }) => {
+	"/stripe-payment-method-delete": async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/stripe-payment-method-delete",
 			message: "Payment Method successfully detached"

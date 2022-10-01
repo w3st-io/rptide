@@ -27,9 +27,9 @@ export default {
 	 * @param {String} req.body.webApp.name Name of the WebApp
 	 * @returns {Object}
 	*/
-	create: async ({ req }) => {
+	create: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/create",
 			message: "Created WebApp"
@@ -77,9 +77,9 @@ export default {
 	 * @param {String} req.body.webApp._id
 	 * @returns {Object}
 	*/
-	findOne: async ({ req }) => {
+	findOne: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/find-one",
 		};
@@ -103,9 +103,9 @@ export default {
 	 * @param {String} req.body.webApp.name
 	 * @returns {Object}
 	*/
-	findOneAndUpdate: async ({ req }) => {
+	findOneAndUpdate: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/find-one-and-update",
 			message: "Successfully updated WebContent"
@@ -150,9 +150,9 @@ export default {
 	 * @notice Find One Web App by _id and user_id
 	 * @param {String} req.body.webApp._id
 	*/
-	deleteOne: async ({ req }) => {
+	deleteOne: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			location: returnObj.location + "/delete-one",
 			message: "Deleted WebApp",

@@ -19,7 +19,7 @@ let returnObj: any = {
 
 
 export default {
-	create: async ({ req }) => {
+	create: async ({ req }: any) => {
 		try {
 			// [COLLECTION][Product][CREATE]
 			const productObj = await ProductCollection.c_create({
@@ -50,8 +50,8 @@ export default {
 		}
 	},
 
-	deleteOne: async ({ req }) => {
-		let _returnObj = {
+	deleteOne: async ({ req }: any) => {
+		let _returnObj: any = {
 			...returnObj,
 			deleted: false,
 			message: "Product Deleted"
@@ -91,9 +91,9 @@ export default {
 		}
 	},
 
-	find: async ({ req }) => {
+	find: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Found product(s)",
 			location: returnObj.location + "/create"
@@ -124,9 +124,9 @@ export default {
 		}
 	},
 
-	findOne: async ({ req }) => {
+	findOne: async ({ req }: any) => {
 		// [INIT]
-		let _returnObj = {
+		let _returnObj: any = {
 			...returnObj,
 			message: "Found product",
 			location: returnObj.location + "/create"
@@ -157,7 +157,7 @@ export default {
 		}
 	},
 
-	update: async ({ req }) => {
+	update: async ({ req }: any) => {
 		try {
 			// [COLLECTION][Product][UPDATE]
 			const productObj = await ProductCollection.c_update({
