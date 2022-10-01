@@ -20,6 +20,8 @@ router.post(
 	Auth.userToken(),
 	TierChecker.productLimitCheck(),
 	async (req, res) => {
+		console.log(req.body);
+
 		res.send(await h.create({ req }));
 	}
 );

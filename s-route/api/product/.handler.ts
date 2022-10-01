@@ -1,6 +1,5 @@
 // [IMPORT]
 import mongoose from "mongoose";
-import validator from "validator";
 
 // [IMPORT] Personal
 import ProductModel from "../../../s-models/Product.model";
@@ -27,12 +26,13 @@ export default {
 			const price_number = `${req.body.price.dollars}.${req.body.price.cents}`
 			const price_inPennies = parseFloat(price_number) * 100;
 
-			// [PRODUCT][SAVE]
+			// [MONGODB][Product][SAVE]
 			const createdProduct = await new ProductModel({
 				_id: new mongoose.Types.ObjectId(),
 				user: req.user_decoded._id,
 				webApp: req.user_decoded.workspace.webApp,
 				name: req.body.name,
+				description: req.body.description,
 				price: {
 					number: price_number,
 					inPennies: Math.floor(price_inPennies),
@@ -40,9 +40,8 @@ export default {
 					dollars: req.body.price.dollars,
 					cents: req.body.price.cents,
 				},
-				category: req.body.category,
-				description: req.body.description,
-				images: req.body.images,
+				categories: req.body.categories || [],
+				images: req.body.images || [],
 			}).save();
 
 			// [200] Success
@@ -69,13 +68,6 @@ export default {
 		};
 
 		try {
-			if (!mongoose.isValidObjectId(req.body.product_id)) {
-				return {
-					..._returnObj,
-					message: "Invalid product _id"
-				};
-			}
-
 			// [MONGODB][Product][DELETE]
 			const product = await ProductModel.deleteOne({
 				user: req.user_decoded._id,
@@ -114,7 +106,8 @@ export default {
 			})
 				.populate("requiredProductOptions")
 				.populate("optionalProductOptions")
-			.exec()
+				.exec()
+			;
 
 			return {
 				..._returnObj,
@@ -169,7 +162,6 @@ export default {
 	update: async ({ req }: any) => {
 		try {
 			// [INIT][FORMAT]
-			req.body.product.price.dollars = parseInt(req.body.product.price.dollars)
 			req.body.product.price.cents = formatterUtil.centFormatter(req.body.product.price.cents)
 
 			const price_number = `${req.body.product.price.dollars}.${req.body.product.price.cents}`
@@ -185,7 +177,6 @@ export default {
 					$set: {
 						name: req.body.product.name,
 						description: req.body.product.description,
-						category: req.body.product.category,
 						price: {
 							number: price_number,
 							inPennies: Math.floor(price_inPennies),
@@ -193,23 +184,23 @@ export default {
 							dollars: req.body.product.price.dollars,
 							cents: req.body.product.price.cents,
 						},
-						requiredProductOptions: req.body.product.requiredProductOptions,
-						optionalProductOptions: req.body.product.optionalProductOptions,
-						subCategories: req.body.product.subCategories,
-						images: req.body.product.images,
+						categories: req.body.product.categories || [],
+						images: req.body.product.images || [],
+						requiredProductOptions: req.body.product.requiredProductOptions || [],
+						optionalProductOptions: req.body.product.optionalProductOptions || [],
 					}
 				},
-				{ new: true, }
+				{ new: true }
 			)
 				.populate({ path: "requiredProductOptions" })
 				.populate({ path: "optionalProductOptions" })
 				.exec()
 			;
 			
+			// [200] Success
 			return {
-				executed: true,
+				...returnObj,
 				status: true,
-				location: location,
 				updatedProduct: updatedProduct,
 			};
 		}

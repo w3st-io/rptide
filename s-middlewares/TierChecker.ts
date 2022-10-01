@@ -81,21 +81,21 @@ export default {
 			});
 
 			// [LIMIT-CHECK] Tier 1 //
-			if (count >= config_const.limit.webApp[0]) {
+			if (count >= config_const.limit.product[0]) {
 				if (!user.stripe.subscription.tier1.subId) {
 					flag = true;
 				}
 			}
 
 			// [LIMIT-CHECK] Tier 2 //
-			if (count >= config_const.limit.webApp[1]) {
+			if (count >= config_const.limit.product[1]) {
 				if (!user.stripe.subscription.tier2.subId) {
 					flag = true;
 				}
 			}
 
 			// [LIMIT-CHECK]
-			if (count >= config_const.limit.webApp[2]) {
+			if (count >= config_const.limit.product[2]) {
 				flag = true;
 			}
 			

@@ -97,7 +97,7 @@
 					<!-- Category -->
 					<label for="" class="text-primary">Category</label>
 					<input
-						v-model="product.category"
+						v-model="product.categories[0]"
 						type="text"
 						placeholder="Food"
 						class="input-style"
@@ -121,9 +121,9 @@
 </template>
 
 <script>
-	import Alert from '@/components/inform/Alert'
-	import ProductService from '@/services/ProductService'
-	import router from '@/router'
+	import Alert          from '../../components/inform/Alert';
+	import ProductService from '../../services/ProductService';
+	import router         from '../../router';
 
 	export default {
 		components: {
@@ -143,8 +143,8 @@
 						dollars: '0',
 						cents: '0',
 					},
-					category: '',
 					description: '',
+					categories: [],
 					images: [],
 				},
 			}

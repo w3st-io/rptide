@@ -731,7 +731,7 @@
 							no-body
 							class="mb-3"
 							:class="{
-								'border-warning border-dashed': edit.category
+								'border-warning border-dashed': edit.categories
 							}"
 						>
 							<!-- [PRODUCT][CATEGORY] -->
@@ -750,7 +750,7 @@
 											size="sm"
 											class="w-100 p-0"
 											style="max-width: 80px;"
-											@click="edit.category = true"
+											@click="edit.categories = true"
 										>Edit</BButton>
 									</BCol>
 								</BRow>
@@ -759,22 +759,22 @@
 							<!-- [CONTENT] -->
 							<BCardBody>
 								<!-- [CURRENT] -->
-								<h6 v-if="!edit.category" class="m-0">
-									{{ product.category }}
+								<h6 v-if="!edit.categories" class="m-0">
+									{{ product.categories[0] }}
 								</h6>
 
 								<h6
-									v-if="!edit.category && !product.category"
+									v-if="!edit.categories && !product.categories[0]"
 									class="m-0 text-secondary"
 								>No Category</h6>
 
 								<!-- [EDIT] -->
 								<div
-									v-if="edit.category"
+									v-if="edit.categories"
 									class="input-group input-group-sm"
 								>
 									<input
-										v-model="product.category"
+										v-model="product.categories[0]"
 										type="text"
 										class="
 											form-control
@@ -852,11 +852,11 @@ export default {
 			selectedOptionalProductOption: null,
 
 			edit: {
-				images: false,
 				name: false,
-				category: false,
-				description: false,
 				price: false,
+				description: false,
+				images: false,
+				categories: false,
 				requiredProductOptions: false,
 				optionalProductOptions: false,
 			},

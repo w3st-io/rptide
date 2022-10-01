@@ -18,7 +18,7 @@ const authAxios = axios.create({
 export default {
 	s_create: async function ({ product }) {
 		try {
-			const res = await authAxios.post('/create', product)
+			const res = await authAxios.post('/create', { product: product })
 
 			return res.data
 		}
@@ -35,7 +35,7 @@ export default {
 
 	s_update: async function ({ product }) {
 		try {
-			const res = await authAxios.post('/update', product)
+			const res = await authAxios.post('/update', { product: product })
 
 			return res.data
 		}
