@@ -37,7 +37,7 @@ export default {
 	 * @notice Default route to initialize app
 	 * @returns {Object}
 	*/
-	index: async ({ req }: any) => {
+	index: async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -88,7 +88,7 @@ export default {
 	 * @param {string} req.body.password Password for account
 	 * @returns {string} Object containing token (JWT token)
 	*/
-	login: async ({ req }: any) => {
+	login: async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -173,7 +173,7 @@ export default {
 	 * @param {string} req.body.email
 	 * @param {string} req.body.password Password for account
 	*/
-	register: async ({ req }: any) => {
+	register: async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -254,7 +254,7 @@ export default {
 	 * @param {string} req.body.user_id
 	 * @param {string} req.body.req.body.verificationCode
 	*/
-	completeRegistration: async ({ req }: any) => {
+	completeRegistration: async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -344,7 +344,7 @@ export default {
 	 * @notice Resend verification email
 	 * @param req.body.email Email to recover password for
 	*/
-	resendVerificationEmail: async ({ req }: any) => {
+	resendVerificationEmail: async ({ req }: any): Promise<object> => {
 		let _returnObj: any = {
 			executed: true,
 			status: false,
@@ -409,7 +409,7 @@ export default {
 	 * @notice Send the email for the password reset
 	 * @param req.body.email Email to recover password for
 	*/
-	requestResetPassword: async ({ req }: any) => {
+	requestResetPassword: async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -472,7 +472,7 @@ export default {
 	 * @param req.body.verificationCode Code sent to email
 	 * @param req.body.password New password to be set
 	*/
-	resetPassword: async ({ req }: any) => {
+	resetPassword: async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,

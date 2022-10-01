@@ -109,7 +109,7 @@ export default {
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
-	"/update/workspace--web-app": async ({ req }: any) => {
+	"/update/workspace--web-app": async ({ req }: any): Promise<object> => {
 		let _returnObj: any = {
 			...returnObj,
 			message: "Updated workspace",
@@ -156,7 +156,7 @@ export default {
 	 * @param {string} req.body.currentPassword Old password
 	 * @param {string} req.body.password New password
 	*/
-	"/update/password": async ({ req }: any) => {
+	"/update/password": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -216,7 +216,7 @@ export default {
 	 * @notice Find user and generate a new API key
 	 * @returns {Object} containing the new API Key
 	*/
-	"/generate-api-key": async ({ req }: any) => {
+	"/generate-api-key": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -254,7 +254,7 @@ export default {
 		}
 	},
 
-	"/update/tier": async ({ req }: any) => {
+	"/update/tier": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -491,7 +491,7 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method": async ({ req }: any) => {
+	"/stripe-payment-method": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -535,7 +535,7 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method-update": async ({ req }: any) => {
+	"/stripe-payment-method-update": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -620,7 +620,7 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method-delete": async ({ req }: any) => {
+	"/stripe-payment-method-delete": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,

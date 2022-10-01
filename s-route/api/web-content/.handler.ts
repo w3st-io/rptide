@@ -17,7 +17,7 @@ let returnObj: any = {
 
 
 export default {
-	"/create": async ({ req }: any) => {
+	"/create": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -70,7 +70,7 @@ export default {
 	 * @param {String} req.body.webApp Filter WebContents by this
 	 * @returns {Object}
 	*/
-	"/find": async ({ req }: any) => {
+	"/find": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -100,7 +100,7 @@ export default {
 	},
 
 
-	"/find-paginated/:limit/:page": async ({ req }: any) => {
+	"/find-paginated/:limit/:page": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -187,7 +187,7 @@ export default {
 	},
 
 
-	"/find-one": async ({ req }: any) => {
+	"/find-one": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -216,7 +216,7 @@ export default {
 		}
 	},
 
-	"/find-one-and-update": async ({ req }: any) => {
+	"/find-one-and-update": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -260,7 +260,7 @@ export default {
 		}
 	},
 
-	"/delete-one": async ({ req }: any) => {
+	"/delete-one": async ({ req }: any): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,

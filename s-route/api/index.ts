@@ -1,13 +1,13 @@
 // [IMPORT]
-import cors from 'cors';
-import express from 'express';
+import cors from "cors";
+import express from "express";
 
 // [IMPORT] Personal
-import h from './.handler';
+import h from "./.handler";
 
 
 // [REQUIRE] Personal
-const Auth = require('../../s-middlewares/Auth');
+const Auth = require("../../s-middlewares/Auth");
 
 
 // [EXPRESS + USE]
@@ -16,7 +16,7 @@ const router = express.Router().use(cors());
 
 // [MAIN-ROUTE]
 router.get(
-	'/',
+	"/",
 	Auth.userTokenNotRequired(),
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.index({ req }));
@@ -25,7 +25,7 @@ router.get(
 
 
 router.post(
-	'/login',
+	"/login",
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.login({ req }));
 	}
@@ -33,7 +33,7 @@ router.post(
 
 
 router.post(
-	'/register',
+	"/register",
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.register({ req }));
 	}
@@ -41,7 +41,7 @@ router.post(
 
 
 router.post(
-	'/complete-registration',
+	"/complete-registration",
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.completeRegistration({ req }));
 	}
@@ -49,7 +49,7 @@ router.post(
 
 
 router.post(
-	'/resend-verification-email',
+	"/resend-verification-email",
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.resendVerificationEmail({ req }));
 	}
@@ -57,7 +57,7 @@ router.post(
 
 
 router.post(
-	'/request-reset-password',
+	"/request-reset-password",
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.requestResetPassword({ req }));
 	}
@@ -65,7 +65,7 @@ router.post(
 
 
 router.post(
-	'/reset-password',
+	"/reset-password",
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h.resetPassword({ req }));
 	}
