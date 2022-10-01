@@ -1,8 +1,8 @@
 // [IMPORT]
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 
 // [IMPORT] Personal
-import ProductModel from "../../../s-models/Product.model";
+import ProductModel, { IProduct } from "../../../s-models/Product.model";
 import formatterUtil from "../../../s-utils/formatterUtil";
 
 
@@ -102,10 +102,12 @@ export default {
 
 		try {
 			// [PRODUCT]
-			const result = await ProductModel.find({
-				webApp: req.body.webApp,
-				user: req.user_decoded._id
-			})
+			const result = await ProductModel.find(
+				{
+					webApp: req.body.webApp,
+					user: req.user_decoded._id
+				} as FilterQuery<IProduct>
+			)
 				.populate("requiredProductOptions")
 				.populate("optionalProductOptions")
 				.exec()
@@ -136,10 +138,12 @@ export default {
 
 		try {
 			// [PRODUCT][findOne]
-			const result = await ProductModel.findOne({
-				_id: req.body.product_id,
-				user: req.user_decoded._id
-			})
+			const result = await ProductModel.findOne(
+				{
+					_id: req.body.product_id,
+					user: req.user_decoded._id
+				} as FilterQuery<IProduct>
+			)
 				.populate("requiredProductOptions")
 				.populate("optionalProductOptions")
 				.exec()
@@ -177,7 +181,7 @@ export default {
 				{
 					user: req.user_decoded._id,
 					_id: product._id,
-				},
+				} as FilterQuery<IProduct>,
 				{
 					$set: {
 						name: product.name,
