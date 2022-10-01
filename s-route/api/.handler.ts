@@ -117,7 +117,7 @@ export default {
 			}
 
 			// [READ][User] Get user by email
-			const user = await UserModel.findOne({ email: req.body.email }).exec();
+			const user = await UserModel.findOne({ email: req.body.email });
 
 			if (!user) {
 				return {

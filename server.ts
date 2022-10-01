@@ -8,16 +8,16 @@ import mongoose, { ConnectOptions } from "mongoose";
 import path from "path";
 
 // [IMPORT] Personal
-import config from "./s-config";
-import Functionality from "./s-middlewares/Functionality";
-import rateLimiter from "./s-rate-limiters";
-import socket from "./s-socket";
-import route_api from './s-route/api';
+import config                  from "./s-config";
+import Functionality           from "./s-middlewares/Functionality";
+import rateLimiter             from "./s-rate-limiters";
+import route_api               from './s-route/api';
+import route_api_product       from "./s-route/api/product";
 import route_api_productOption from "./s-route/api/product-option";
-import route_api_product from "./s-route/api/product";
-import route_api_user from "./s-route/api/user";
-import route_api_webApp from "./s-route/api/web-app";
-import route_api_webContent from "./s-route/api/web-content";
+import route_api_user          from "./s-route/api/user";
+import route_api_webApp        from "./s-route/api/web-app";
+import route_api_webContent    from "./s-route/api/web-content";
+import socket                  from "./s-socket";
 
 
 // [REQUIRE]
