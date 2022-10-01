@@ -45,7 +45,7 @@ export default {
 				images: req.body.images,
 			}).save();
 
-			// [200] SUCCESS
+			// [200] Success
 			return {
 				...returnObj,
 				status: true,
@@ -147,8 +147,10 @@ export default {
 			})
 				.populate("requiredProductOptions")
 				.populate("optionalProductOptions")
-			.exec()
+				.exec()
+			;
 
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,

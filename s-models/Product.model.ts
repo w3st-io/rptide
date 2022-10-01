@@ -1,5 +1,5 @@
 // [IMPORT]
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import validator from "validator";
 
 
@@ -13,10 +13,11 @@ function validate({ product }) {
 		}
 	}
 
+	// [VALIDATE] product.description
 	if (!validator.isAscii(product.description)) {
 		return {
 			status: false,
-			message: 'Invalid product description'
+			message: "Invalid product description"
 		};
 	}
 
@@ -44,17 +45,28 @@ function validate({ product }) {
 		}
 	}
 
+	// [VALIDATE] product.categories
 	if (product.categories.length > 100) {
 		return {
 			status: false,
-			message: 'Error: too many categories'
+			message: "Too many categories  (Over 100)"
 		};
 	}
 
-	if (product.images.length > 5) {
+	for (let i = 0; i < product.categories.length; i++) {
+		if (!validator.isAscii(product.categories[i])) {
+			return {
+				status: false,
+				message: `Invalid categories[${i}]`
+			}
+		}
+	}
+
+	// [VALIDATE] product.images
+	if (product.images.length > 50) {
 		return {
 			status: false,
-			message: 'Error: Too many images'
+			message: "Error: Too many images  (Over 50)"
 		};
 	}
 
@@ -67,10 +79,11 @@ function validate({ product }) {
 		}
 	}
 
+	// [VALIDATE] product.requiredProductOptions
 	if (product.requiredProductOptions.length > 100) {
 		return {
 			status: false,
-			message: 'Error: too many product options'
+			message: "Too many product.requiredProductOptions (Over 100)"
 		};
 	}
 
@@ -78,15 +91,16 @@ function validate({ product }) {
 		if (!mongoose.isValidObjectId(product.requiredProductOptions[i])) {
 			return {
 				status: false,
-				message: `Invalid product.productOption[${i}]`
+				message: `Invalid product.requiredProductOptions[${i}]`
 			};
 		}
 	}
 
+	// [VALIDATE] product.optionalProductOptions
 	if (product.optionalProductOptions.length > 100) {
 		return {
 			status: false,
-			message: 'Error: too many product options'
+			message: "Too many product.optionalProductOptions (Over 100)"
 		};
 	}
 
@@ -94,11 +108,12 @@ function validate({ product }) {
 		if (!mongoose.isValidObjectId(product.optionalProductOptions[i])) {
 			return {
 				status: false,
-				message: `Invalid product.productOption[${i}]`
+				message: `Invalid product.optionalProductOptions[${i}]`
 			};
 		}
 	}
 
+	// [200] Success
 	return {
 		status: true
 	};
@@ -132,13 +147,13 @@ export const ProductSchema = new mongoose.Schema({
 
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+		ref: "User",
 		required: true,
 	},
 
 	webApp: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'WebApp',
+		ref: "WebApp",
 		required: true,
 	},
 
@@ -151,7 +166,7 @@ export const ProductSchema = new mongoose.Schema({
 	description: {
 		type: String,
 		maxlength: 500,
-		description: '',
+		description: "",
 	},
 
 	isSubscription: {
@@ -198,7 +213,7 @@ export const ProductSchema = new mongoose.Schema({
 		{
 			type: String,
 			maxlength: 500,
-			default: '',
+			default: "",
 		},
 	],
 
@@ -210,7 +225,7 @@ export const ProductSchema = new mongoose.Schema({
 	requiredProductOptions: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'ProductOption',
+			ref: "ProductOption",
 			required: true,
 		}
 	],
@@ -218,7 +233,7 @@ export const ProductSchema = new mongoose.Schema({
 	optionalProductOptions: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'ProductOption',
+			ref: "ProductOption",
 			required: true,
 		}
 	],
@@ -230,7 +245,7 @@ export const ProductSchema = new mongoose.Schema({
 });
 
 
-ProductSchema.pre('validate', function (this: any, next: any) {
+ProductSchema.pre("validate", function (this: any, next: any) {
 	const status = validate({ product: this });
 
 	if (status.status == false) {
@@ -241,7 +256,7 @@ ProductSchema.pre('validate', function (this: any, next: any) {
 })
 
 
-ProductSchema.pre('updateOne', function (this: any, next: any) {
+ProductSchema.pre("updateOne", function (this: any, next: any) {
 	const status = validate({ product: this._update.$set });
 
 	if (status.status == false) {
@@ -252,7 +267,7 @@ ProductSchema.pre('updateOne', function (this: any, next: any) {
 });
 
 
-ProductSchema.pre('findOneAndUpdate', function (this: any, next: any) {
+ProductSchema.pre("findOneAndUpdate", function (this: any, next: any) {
 	const status = validate({ product: this._update.$set });
 
 	if (status.status == false) {
@@ -263,4 +278,4 @@ ProductSchema.pre('findOneAndUpdate', function (this: any, next: any) {
 });
 
 
-export default mongoose.model<IProduct>('Product', ProductSchema);
+export default mongoose.model<IProduct>("Product", ProductSchema);
