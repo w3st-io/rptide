@@ -5,8 +5,6 @@ import validator from "validator";
 
 // [VALIDATE]
 function validate({ product }) {
-	console.log('function validate', product);
-	
 	// [VALIDATE] product.name
 	if (!validator.isAscii(product.name)) {
 		return {
