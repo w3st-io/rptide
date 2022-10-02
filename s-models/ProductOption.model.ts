@@ -3,20 +3,18 @@ import mongoose from "mongoose";
 
 
 // [VALIDATE]
-function validate({ product }) {
+function validate({ productOption }) {
 	// [LENGTH-CHECK] variants
-	if (product.variants.length > 20) {
+	if (productOption.variants.length > 20) {
 		return {
 			status: false,
-			message: 'Error: too many variants'
+			message: 'Error: Too many variants'
 		}
 	}
 
-	for (let i = 0; i < product.variants.length; i++) {
-		const p = product.variants[i]
-
+	for (let i = 0; i < productOption.variants.length; i++) {
 		// [LENGTH-CHECK] variants
-		if (p.images.length > 5) {
+		if (productOption.variants[i].images.length > 5) {
 			return {
 				status: false,
 				message: `Error: Too many images for variants[${i}].images`
@@ -31,19 +29,19 @@ function validate({ product }) {
 export interface IProductOption extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
-	name: String,
+	name: string,
 	variants: [
 		{
-			name: String,
-			images: [String],
+			name: string,
+			images: [string],
 			price: {
-				number: Number,
-				inPennies: Number,
-				string: String,
-				dollars: String,
-				cents: String,
+				number: number,
+				inPennies: number,
+				string: string,
+				dollars: string,
+				cents: string,
 			},
-			totalInStock: Number,
+			totalInStock: number,
 		}
 	],
 	createdAt: Date,
@@ -122,7 +120,7 @@ export const ProductOptionSchema = new mongoose.Schema({
 
 
 ProductOptionSchema.pre('validate', function (this: any, next: any) {
-	const status = validate({ product: this })
+	const status = validate({ productOption: this })
 
 	if (status.status == false) { throw `Error: ${status.message}` }
 	
@@ -131,7 +129,7 @@ ProductOptionSchema.pre('validate', function (this: any, next: any) {
 
 
 ProductOptionSchema.pre('updateOne', function (this: any, next: any) {
-	const status = validate({ product: this._update.$set })
+	const status = validate({ productOption: this._update.$set })
 
 	if (status.status == false) { throw `Error: ${status.message}` }
 	

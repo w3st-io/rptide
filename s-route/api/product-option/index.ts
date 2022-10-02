@@ -1,10 +1,11 @@
 // [IMPORT]
 import cors from "cors";
 import express from "express";
-import validator from "validator";
+import mongoose from "mongoose";
 
 // [IMPORT] Personal
-import ProductOptionCollection from "../../../s-collections/ProductOptionCollection";
+import ProductOptionModel, { IProductOption } from "../../../s-models/ProductOption.model";
+import formatterUtil from "../../../s-utils/formatterUtil";
 
 
 // [REQUIRE] Personal
@@ -16,7 +17,12 @@ const router = express.Router().use(cors());
 
 
 // [INIT]
-const location = "/api/user/product-options";
+let returnObj: any = {
+	executed: true,
+	status: false,
+	location: "/api/user/product-options",
+	message: "",
+};
 
 
 /******************* [CRUD] *******************/
@@ -26,37 +32,53 @@ router.post(
 	Auth.userToken(),
 	async (req: any, res: express.Response) => {
 		try {
-			if (validator.isAscii(req.body.name)) {
-				// [COLLECTION][ProductOption][CREATE]
-				const productObj = await ProductOptionCollection.c_create({
-					user_id: req.user_decoded._id,
-					productOption: req.body
-				})
+			const productOption: IProductOption = req.body;
 
-				if (productObj.status) {
-					res.send({
-						executed: true,
-						status: true,
-						productObj: productObj,
-					})
-				}
-				else { res.send(productObj) }
+			// [INIT]
+			let variants = [];
+
+			for (let i = 0; i < productOption.variants.length; i++) {
+				const v = productOption.variants[i];
+
+				v.price.cents = formatterUtil.centFormatter(v.price.cents);
+
+				variants.push(
+					{
+						name: v.name,
+						images: [],
+						price: {
+							number: parseFloat(`${v.price.dollars}.${v.price.cents}`),
+							inPennies: Math.floor(
+								parseFloat(`${v.price.dollars}.${v.price.cents}`) * 100
+							),
+							string: `${v.price.dollars}.${v.price.cents}`,
+							dollars: v.price.dollars,
+							cents: v.price.cents,
+						}
+					}
+				);
 			}
-			else {
-				res.send({
-					executed: true,
-					status: false,
-					location: location,
-					message: `${location}: Invalid Parameters`
-				})
-			}
+
+			// [COLLECTION][ProductOption][CREATE]
+			const createdProductOption = await new ProductOptionModel({
+				_id: new mongoose.Types.ObjectId(),
+				user: req.user_decoded._id,
+				name: productOption.name,
+				variants: variants,
+			}).save();
+
+			// [200]
+			res.send({
+				...returnObj,
+				status: true,
+				productOption: createdProductOption
+			});
 		}
 		catch (err) {
 			res.send({
+				...returnObj,
 				executed: false,
-				status: false,
-				location: `${location}/read-all/:limit/:page`,
-				message: `${location}: Error --> ${err}`
+				message: `Error --> ${err}`
 			})
 		}
 	}

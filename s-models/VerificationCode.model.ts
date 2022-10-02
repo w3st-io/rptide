@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export interface IVerificationCode extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
-	verificationCode: String,
+	verificationCode: string,
 	createdAt: Date,
 };
 

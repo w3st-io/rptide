@@ -8,35 +8,35 @@ const defaultImage = "https://icon-library.com/images/placeholder-icon/placehold
 
 export interface IUser extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
-	role:  String,
-	email: String,
+	role: string,
+	email: string,
 	profile: {
-		img: String,
-		bio: String,
+		img: string,
+		bio: string,
 	},
-	password: String,
-	verified: Boolean,
+	password: string,
+	verified: boolean,
 	api: {
-		publicKey: String,
-		privateKey: String,
+		publicKey: string,
+		privateKey: string,
 	},
 	stripe: {
-		cusId: String,
-		pmId: String,
+		cusId: string,
+		pmId: string,
 		subscription: {
 			tier1: {
-				subId: String,
-				cancelAtPeriodEnd: Boolean,
+				subId: string,
+				cancelAtPeriodEnd: boolean,
 			},
 			tier2: {
-				subId: String,
-				cancelAtPeriodEnd: Boolean,
+				subId: string,
+				cancelAtPeriodEnd: boolean,
 			},
 		},
 		lastChecked: Date
 	},
 	workspace: {
-		webApp: String,
+		webApp: string,
 	},
 	createdAt: Date,
 };

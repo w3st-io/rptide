@@ -75,55 +75,55 @@ export interface IWebContent extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
 	webApp: mongoose.Schema.Types.ObjectId,
-	name: String,
-	connectedWalletRequired: Boolean,
+	name: string,
+	connectedWalletRequired: boolean,
 	WebContent_responseTo: mongoose.Schema.Types.ObjectId,
-	tags: [String],
-	likeCount: Number,
-	liked: Boolean,
-	visible: Boolean,
+	tags: [string],
+	likeCount: number,
+	liked: boolean,
+	visible: boolean,
 	cleanJSON: {
-		time: Number,
+		time: number,
 		blocks: [
 			{
-				id: String,
-				type: String,
+				id: string,
+				type: string,
 				data: {
-					alignment: String,
-					caption: String,
-					code: String,
-					content: [[String]],
-					embed: String,
+					alignment: string,
+					caption: string,
+					code: string,
+					content: [[string]],
+					embed: string,
 					file: {
-						url: String
+						url: string
 					},
-					height: Number,
-					html: String,
-					items: [String],
-					level: Number,
-					link: String,
+					height: number,
+					html: string,
+					items: [string],
+					level: number,
+					link: string,
 					meta: {
-						title: String
-						site_name: String,
-						description: String,
+						title: string
+						site_name: string,
+						description: string,
 						image: {
-							url: String,
+							url: string,
 						}
 					},
-					service: String,
-					style: String,
-					stretched: Boolean,
-					success: Number,
-					text: String,
-					url: String,
-					width: Number,
-					withBackground: Boolean,
-					withBorder: Boolean,
-					withHeadings: Boolean,
+					service: string,
+					style: string,
+					stretched: boolean,
+					success: number,
+					text: string,
+					url: string,
+					width: number,
+					withBackground: boolean,
+					withBorder: boolean,
+					withHeadings: boolean,
 				},
 			}
 		],
-		version: String
+		version: string
 	},
 	createdTimeStamp: Date
 };

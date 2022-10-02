@@ -19,14 +19,14 @@ export default {
 	create: async ({ req }: any): Promise<object> => {
 		try {
 			// [INIT]
-			let product = req.body.product;
+			let product: IProduct = req.body.product;
 			
 			// [FORMAT]
 			product.price.cents = formatterUtil.centFormatter(product.price.cents);
 			
 			// Price
-			const price_number = `${product.price.dollars}.${product.price.cents}`
-			const price_inPennies = parseFloat(price_number) * 100;
+			const price_number: any = `${product.price.dollars}.${product.price.cents}`
+			const price_inPennies: number = parseFloat(price_number) * 100;
 
 			// [MONGODB][Product][SAVE]
 			const createdProduct = await new ProductModel({
@@ -102,7 +102,7 @@ export default {
 
 		try {
 			// [PRODUCT]
-			const result = await ProductModel.find(
+			const result: IProduct[] = await ProductModel.find(
 				{
 					webApp: req.body.webApp,
 					user: req.user_decoded._id
@@ -138,7 +138,7 @@ export default {
 
 		try {
 			// [PRODUCT][findOne]
-			const result = await ProductModel.findOne(
+			const result: IProduct = await ProductModel.findOne(
 				{
 					_id: req.body.product_id,
 					user: req.user_decoded._id
@@ -168,16 +168,16 @@ export default {
 	update: async ({ req }: any): Promise<object> => {
 		try {
 			// [INIT]
-			let product = req.body.product;
+			let product: IProduct = req.body.product;
 
 			// [INIT][FORMAT]
 			product.price.cents = formatterUtil.centFormatter(product.price.cents);
 
-			const price_number = `${product.price.dollars}.${product.price.cents}`;
-			const price_inPennies = parseFloat(price_number) * 100;
+			const price_number: any = `${product.price.dollars}.${product.price.cents}`;
+			const price_inPennies: number = parseFloat(price_number) * 100;
 
 			// [UPDATE]
-			const updatedProduct = await ProductModel.findOneAndUpdate(
+			const updatedProduct: IProduct = await ProductModel.findOneAndUpdate(
 				{
 					user: req.user_decoded._id,
 					_id: product._id,

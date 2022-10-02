@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export interface IWebApp extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
-	name: String,
+	name: string,
 	createdAt: Date,
 };
 
