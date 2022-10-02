@@ -16,7 +16,7 @@ router.post(
 	"/create",
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h["/create"]({ req }));
+		res.send(await h["/create"](req));
 	}
 );
 
@@ -26,7 +26,7 @@ router.post(
 	"/find",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h["/find"]({ req }));
+		res.send(await h["/find"](req));
 	}
 );
 
@@ -36,7 +36,7 @@ router.post(
 	"/find-paginated/:limit/:page",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h["/find-paginated/:limit/:page"]({ req }));
+		res.send(await h["/find-paginated/:limit/:page"](req));
 	}
 );
 
@@ -46,7 +46,7 @@ router.post(
 	"/find-one",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h["/find-one"]({ req }));
+		res.send(await h["/find-one"](req));
 	}
 );
 
@@ -56,7 +56,7 @@ router.post(
 	"/find-one-and-update",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h["/find-one-and-update"]({ req }));
+		res.send(await h["/find-one-and-update"](req));
 	}
 );
 
@@ -66,7 +66,7 @@ router.post(
 	"/delete-one",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h["/delete-one"]({ req }));
+		res.send(await h["/delete-one"](req));
 	}
 );
 

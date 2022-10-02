@@ -19,7 +19,7 @@ router.post(
 	Auth.userToken(),
 	TierChecker.webAppLimitCheck(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.create({ req }));
+		res.send(await h.create(req));
 	}
 );
 
@@ -29,7 +29,7 @@ router.post(
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.findOne({ req }));
+		res.send(await h.findOne(req));
 	}
 );
 
@@ -39,7 +39,7 @@ router.post(
 	"/find-one-and-update",
 	Auth.userTokenOrAPIPrivateKey(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.findOneAndUpdate({ req }));
+		res.send(await h.findOneAndUpdate(req));
 	}
 );
 		
@@ -50,7 +50,7 @@ router.post(
 	rateLimiter.post,
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.deleteOne({ req }));
+		res.send(await h.deleteOne(req));
 	}
 );
 

@@ -1,5 +1,6 @@
 // [IMPORT]
 import bcrypt from "bcryptjs";
+import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import validator from "validator";
 
@@ -73,6 +74,7 @@ async function cycleCheckStripe({ user_id, force = false }) {
 							"stripe.lastChecked": new Date()
 						}
 					},
+					{ new: true }
 				);
 			}
 		}
@@ -95,9 +97,21 @@ async function cycleCheckStripe({ user_id, force = false }) {
 							"stripe.lastChecked": new Date()
 						}
 					},
+					{ new: true }
 				);
 			}
 		}
+
+		// [MONGODB][User] Update stripe.lastChecked
+		await UserModel.updateOne(
+			{ _id: user_id },
+			{
+				$set: {
+					"stripe.lastChecked": new Date()
+				}
+			},
+			{ new: true }
+		);
 	}
 
 	return {
@@ -113,7 +127,7 @@ export default {
 	 * @notice Update user.workspace.webApp
 	 * @param {string} req.body.webApp webApp to be updated too
 	*/
-	"/update/workspace--web-app": async ({ req }: any): Promise<object> => {
+	"/update/workspace--web-app": async (req: express.Request): Promise<object> => {
 		let _returnObj: any = {
 			...returnObj,
 			message: "Updated workspace",
@@ -159,7 +173,7 @@ export default {
 	 * @param {string} req.body.currentPassword Old password
 	 * @param {string} req.body.password New password
 	*/
-	"/update/password": async ({ req }: any): Promise<object> => {
+	"/update/password": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -218,7 +232,7 @@ export default {
 	 * @notice Find user and generate a new API key
 	 * @returns {Object} containing the new API Key
 	*/
-	"/generate-api-key": async ({ req }: any): Promise<object> => {
+	"/generate-api-key": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -256,7 +270,7 @@ export default {
 		}
 	},
 
-	"/update/tier": async ({ req }: any): Promise<object> => {
+	"/update/tier": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -493,7 +507,10 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method": async ({ req }: any): Promise<object> => {
+	/**
+	 * STRIPE
+	 */
+	"/stripe-payment-method": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -537,7 +554,7 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method-update": async ({ req }: any): Promise<object> => {
+	"/stripe-payment-method-update": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -622,7 +639,7 @@ export default {
 		}
 	},
 
-	"/stripe-payment-method-delete": async ({ req }: any): Promise<object> => {
+	"/stripe-payment-method-delete": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -670,7 +687,7 @@ export default {
 	 * @notice Resend verification email
 	 * @param req.body.email Email to recover password for
 	*/
-	"/resend-verification-email": async ({ req }: any): Promise<object> => {
+	"/resend-verification-email": async (req: express.Request): Promise<object> => {
 		let _returnObj: any = {
 			executed: true,
 			status: false,

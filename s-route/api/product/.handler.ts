@@ -1,4 +1,5 @@
 // [IMPORT]
+import express from "express";
 import mongoose, { FilterQuery } from "mongoose";
 
 // [IMPORT] Personal
@@ -16,7 +17,7 @@ let returnObj: any = {
 
 
 export default {
-	create: async ({ req }: any): Promise<object> => {
+	create: async (req: express.Request): Promise<object> => {
 		try {
 			// [INIT]
 			let product: IProduct = req.body.product;
@@ -62,7 +63,7 @@ export default {
 		}
 	},
 
-	deleteOne: async ({ req }: any): Promise<object> => {
+	deleteOne: async (req: express.Request): Promise<object> => {
 		let _returnObj: any = {
 			...returnObj,
 			deleted: false,
@@ -92,7 +93,7 @@ export default {
 		}
 	},
 
-	find: async ({ req }: any): Promise<object> => {
+	find: async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -128,7 +129,7 @@ export default {
 		}
 	},
 
-	findOne: async ({ req }: any): Promise<object> => {
+	findOne: async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -165,7 +166,7 @@ export default {
 		}
 	},
 
-	update: async ({ req }: any): Promise<object> => {
+	update: async (req: express.Request): Promise<object> => {
 		try {
 			// [INIT]
 			let product: IProduct = req.body.product;

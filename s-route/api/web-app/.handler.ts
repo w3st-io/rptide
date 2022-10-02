@@ -1,4 +1,5 @@
 // [IMPORT]
+import express from "express";
 import mongoose from "mongoose";
 
 // [IMPORT] Personal
@@ -26,7 +27,7 @@ export default {
 	 * @param {String} req.body.webApp.name Name of the WebApp
 	 * @returns {Object}
 	*/
-	create: async ({ req }: any): Promise<object> => {
+	create: async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -76,7 +77,7 @@ export default {
 	 * @param {String} req.body.webApp._id
 	 * @returns {Object}
 	*/
-	findOne: async ({ req }: any): Promise<object> => {
+	findOne: async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -102,7 +103,7 @@ export default {
 	 * @param {String} req.body.webApp.name
 	 * @returns {Object}
 	*/
-	findOneAndUpdate: async ({ req }: any): Promise<object> => {
+	findOneAndUpdate: async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -149,7 +150,7 @@ export default {
 	 * @notice Find One Web App by _id and user_id
 	 * @param {String} req.body.webApp._id
 	*/
-	deleteOne: async ({ req }: any): Promise<object> => {
+	deleteOne: async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,

@@ -1,4 +1,5 @@
 // [IMPORT]
+import express from "express";
 import mongoose from "mongoose";
 
 
@@ -17,7 +18,7 @@ let returnObj: any = {
 
 
 export default {
-	"/create": async ({ req }: any): Promise<object> => {
+	"/create": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -70,7 +71,7 @@ export default {
 	 * @param {String} req.body.webApp Filter WebContents by this
 	 * @returns {Object}
 	*/
-	"/find": async ({ req }: any): Promise<object> => {
+	"/find": async (req: express.Request): Promise<object> => {
 		console.log(req.body);
 		
 		// [INIT]
@@ -102,7 +103,7 @@ export default {
 	},
 
 
-	"/find-paginated/:limit/:page": async ({ req }: any): Promise<object> => {
+	"/find-paginated/:limit/:page": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -190,7 +191,7 @@ export default {
 	},
 
 
-	"/find-one": async ({ req }: any): Promise<object> => {
+	"/find-one": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -219,7 +220,7 @@ export default {
 		}
 	},
 
-	"/find-one-and-update": async ({ req }: any): Promise<object> => {
+	"/find-one-and-update": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -263,7 +264,7 @@ export default {
 		}
 	},
 
-	"/delete-one": async ({ req }: any): Promise<object> => {
+	"/delete-one": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,

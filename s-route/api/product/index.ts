@@ -17,7 +17,7 @@ router.post(
 	Auth.userToken(),
 	TierChecker.productLimitCheck(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.create({ req }));
+		res.send(await h.create(req));
 	}
 );
 
@@ -26,7 +26,7 @@ router.post(
 	'/find',
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.find({ req }));
+		res.send(await h.find(req));
 	}
 );
 
@@ -35,7 +35,7 @@ router.post(
 	'/find-one',
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.findOne({ req }));
+		res.send(await h.findOne(req));
 	}
 );
 
@@ -44,7 +44,7 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.update({ req }));
+		res.send(await h.update(req));
 	}
 );
 
@@ -53,7 +53,7 @@ router.post(
 	'/delete-one',
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
-		res.send(await h.deleteOne({ req }));
+		res.send(await h.deleteOne(req));
 	}
 );
 

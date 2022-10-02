@@ -27,7 +27,7 @@ let returnObj: any = {
 router.post(
 	"/create",
 	Auth.userToken(),
-	async (req: any, res: express.Response) => {
+	async (req: express.Request, res: express.Response) => {
 		try {
 			const productOption: IProductOption = req.body;
 
