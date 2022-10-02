@@ -1,5 +1,9 @@
+// [IMPORT]
+import express from 'express';
+
 // [IMPORT] Personal
 import config from '../s-config';
+
 
 // [INIT]
 let returnObj = {
@@ -8,9 +12,10 @@ let returnObj = {
 	location: "/s-middleware/Functionality",
 };
 
+
 export default {
 	user: function () {
-		return (req, res, next) => {
+		return (req: express.Request, res: express.Response, next: Function) => {
 			if (config.functionality.user === "true") {
 				next();
 			}
@@ -24,7 +29,7 @@ export default {
 	},
 
 	commerce: function () {
-		return (req, res, next) => {
+		return (req: express.Request, res: express.Response, next: Function) => {
 			if (config.functionality.commerce === "true") {
 				next();
 			}

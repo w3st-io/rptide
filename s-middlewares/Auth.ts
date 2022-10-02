@@ -119,8 +119,6 @@ class Auth {
 
 	// [logged~] Verification NOT required
 	static userTokenByPassVerification() {
-		console.log('by');
-		
 		return async (req: express.Request, res: express.Response, next: Function) => {
 			// If a token exists --> Validate JWT //
 			if (req.headers.user_authorization) {

@@ -1,8 +1,11 @@
+// [IMPORT]
+import express from 'express';
+
 // [IMPORT] Personal
 import config_const from "../s-config/const";
 import ProductModel from "../s-models/Product.model";
 import ProductOptionModel from "../s-models/ProductOption.model";
-import UserModel from "../s-models/User.model";
+import UserModel, { IUser } from "../s-models/User.model";
 import WebAppModel from "../s-models/WebApp.model";
 import h_user from "../s-route/api/user/.handler";
 
@@ -13,7 +16,7 @@ const location = "/s-middleware/Subscription";
 
 export default {
 	webAppLimitCheck: function () {
-		return async (req, res, next) => {
+		return async (req: express.Request, res: express.Response, next: Function) => {
 			await h_user.cycleCheckStripe({
 				user_id: req.body.user_decoded._id
 			});
@@ -22,11 +25,11 @@ export default {
 			let flag = false;
 
 			// [MONGODB][User]
-			const user = await UserModel.findOne({
+			const user: IUser = await UserModel.findOne({
 				_id: req.body.user_decoded._id
 			});
 
-			const count = await WebAppModel.countDocuments({
+			const count: number = await WebAppModel.countDocuments({
 				user: req.body.user_decoded._id
 			});
 
@@ -63,7 +66,7 @@ export default {
 
 
 	productLimitCheck: function () {
-		return async (req, res, next) => {
+		return async (req: express.Request, res: express.Response, next: Function) => {
 			await h_user.cycleCheckStripe({
 				user_id: req.body.user_decoded._id
 			});
@@ -72,11 +75,11 @@ export default {
 			let flag = false
 
 			// [MONGODB][User]
-			const user = await UserModel.findOne({
+			const user: IUser = await UserModel.findOne({
 				_id: req.body.user_decoded._id
 			});
 			
-			const count = await ProductModel.countDocuments({
+			const count: number = await ProductModel.countDocuments({
 				user: req.body.user_decoded._id
 			});
 
@@ -113,7 +116,7 @@ export default {
 
 
 	productOptionLimitCheck: function () {
-		return async (req, res, next) => {
+		return async (req: express.Request, res: express.Response, next: Function) => {
 			await h_user.cycleCheckStripe({
 				user_id: req.body.user_decoded._id
 			});
@@ -122,11 +125,11 @@ export default {
 			let flag = false
 
 			// [MONGODB][User]
-			const user = await UserModel.findOne({
+			const user: IUser = await UserModel.findOne({
 				_id: req.body.user_decoded._id
 			});
 			
-			const count = await ProductOptionModel.countDocuments({
+			const count: number = await ProductOptionModel.countDocuments({
 				user: req.body.user_decoded._id
 			});
 
