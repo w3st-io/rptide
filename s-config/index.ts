@@ -37,6 +37,7 @@ export default {
 		address: process.env.EMAIL__ADDRESS || '',
 	},
 
+	// [API]
 	api: {
 		stripe: {
 			secretKey: process.env.API__STRIPE__SECRET_KEY || '',
@@ -49,5 +50,6 @@ export default {
 		},
 	},
 
+	// Time between each stripe check
 	cycleHours: process.env.CYCLE_HOURS || .5
 };
