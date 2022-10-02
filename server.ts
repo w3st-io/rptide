@@ -116,7 +116,7 @@ mongoose.connect(
 		useUnifiedTopology: true
 	} as ConnectOptions
 )
-	.then((res) => {
+	.then(() => {
 		console.log("Mongoose Connected to MongoDB");
 	})
 	.catch((err) => {
