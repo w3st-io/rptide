@@ -4,10 +4,7 @@ import express from "express";
 
 // [IMPORT] Personal
 import h from "./.handler";
-
-
-// [REQUIRE] Personal
-const Auth = require("../../s-middlewares/Auth");
+import Auth from "../../s-middlewares/Auth";
 
 
 // [EXPRESS + USE]

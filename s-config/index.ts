@@ -1,7 +1,6 @@
 // [REQUIRE]
 require('dotenv').config();
 
-
 export default {
 	// [HEROKU]
 	nodeENV: process.env.NODE_ENV || 'development',

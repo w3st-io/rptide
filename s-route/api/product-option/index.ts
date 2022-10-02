@@ -4,12 +4,9 @@ import express from "express";
 import mongoose from "mongoose";
 
 // [IMPORT] Personal
+import Auth from "../../../s-middlewares/Auth";
 import ProductOptionModel, { IProductOption } from "../../../s-models/ProductOption.model";
 import formatterUtil from "../../../s-utils/formatterUtil";
-
-
-// [REQUIRE] Personal
-const Auth = require("../../../s-middlewares/Auth");
 
 
 // [EXPRESS + USE]

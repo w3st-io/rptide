@@ -4,12 +4,9 @@ import h from "./.handler";
 // [IMPORT] Personal
 import cors from "cors";
 import express from "express";
+import Auth from "../../../s-middlewares/Auth";
 import TierChecker from '../../../s-middlewares/TierChecker';
 import rateLimiter from "../../../s-rate-limiters";
-
-
-// [REQUIRE] Personal
-const Auth = require("../../../s-middlewares/Auth");
 
 
 // [EXPRESS + USE]
