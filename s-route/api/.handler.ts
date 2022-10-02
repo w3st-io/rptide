@@ -1,5 +1,6 @@
 // [IMPORT]
 import bcrypt from "bcryptjs";
+import express from "express";
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import validator from "validator";
@@ -37,7 +38,7 @@ export default {
 	 * @notice Default route to initialize app
 	 * @returns {Object}
 	*/
-	"/": async ({ req }: any): Promise<object> => {
+	"/": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -88,7 +89,7 @@ export default {
 	 * @param {string} req.body.password Password for account
 	 * @returns {string} Object containing token (JWT token)
 	*/
-	"/login": async ({ req }: any): Promise<object> => {
+	"/login": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -173,7 +174,7 @@ export default {
 	 * @param {string} req.body.email
 	 * @param {string} req.body.password Password for account
 	*/
-	"/register": async ({ req }: any): Promise<object> => {
+	"/register": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -254,7 +255,7 @@ export default {
 	 * @param {string} req.body.user_id
 	 * @param {string} req.body.req.body.verificationCode
 	*/
-	"/complete-registration": async ({ req }: any): Promise<object> => {
+	"/complete-registration": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -344,7 +345,7 @@ export default {
 	 * @notice Send the email for the password reset
 	 * @param req.body.email Email to recover password for
 	*/
-	"/request-reset-password": async ({ req }: any): Promise<object> => {
+	"/request-reset-password": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -410,7 +411,7 @@ export default {
 	 * @param req.body.verificationCode Code sent to email
 	 * @param req.body.password New password to be set
 	*/
-	"/reset-password": async ({ req }: any): Promise<object> => {
+	"/reset-password": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
