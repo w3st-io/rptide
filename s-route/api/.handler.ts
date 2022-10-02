@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import validator from "validator";
 
 // [IMPORT] Personal
-import config                from "../../s-config";
-import config_const          from "../../s-config/const";
-import PasswordRecoveryModel from "../../s-models/PasswordRecovery.model";
-import VerificationCodeModel from "../../s-models/VerificationCode.model";
-import UserModel             from "../../s-models/User.model";
-import WebAppModel           from "../../s-models/WebApp.model";
-import mailerUtil            from "../../s-utils/mailerUtil";
+import config from "../../s-config";
+import config_const from "../../s-config/const";
+import PasswordRecoveryModel, { IPasswordRecovery } from "../../s-models/PasswordRecovery.model";
+import VerificationCodeModel, { IVerificationCode } from "../../s-models/VerificationCode.model";
+import UserModel, { IUser } from "../../s-models/User.model";
+import WebAppModel, { IWebApp } from "../../s-models/WebApp.model";
+import mailerUtil from "../../s-utils/mailerUtil";
 
 
 // [REQUIRE]
@@ -50,12 +50,12 @@ export default {
 			// [USER-LOGGED]
 			if (req.user_decoded) {
 				// [MONGODB][User]
-				const user = await UserModel.findOne({
+				const user: IUser = await UserModel.findOne({
 					_id: req.user_decoded._id
 				}).select("-password -api.publicKey");
 
 				// [MONGODB][WebApp]
-				const webApps = await WebAppModel.find({
+				const webApps: IWebApp[] = await WebAppModel.find({
 					user: req.user_decoded._id
 				});
 				
@@ -115,7 +115,7 @@ export default {
 			}
 
 			// [READ][User] Get user by email
-			const user = await UserModel.findOne({ email: req.body.email });
+			const user: IUser = await UserModel.findOne({ email: req.body.email });
 
 			if (!user) {
 				return {
@@ -143,9 +143,9 @@ export default {
 				{ expiresIn: config.nodeENV == "production" ? 7200 : 10000000 }
 			);
 
-			const webApps = await WebAppModel.find({ user: user._id });
+			const webApps: IWebApp[] = await WebAppModel.find({ user: user._id });
 
-			const cleanUser = await UserModel.findOne(
+			const cleanUser: IUser = await UserModel.findOne(
 				{ email: req.body.email }
 			).select("-password -api.publicKey");
 
@@ -280,7 +280,7 @@ export default {
 			}
 			
 			// [EXISTANCE][VerificationCode]
-			const queryResult = await VerificationCodeModel.findOne({
+			const queryResult: IVerificationCode = await VerificationCodeModel.findOne({
 				user: req.body.user_id,
 				verificationCode: req.body.verificationCode
 			});
@@ -294,7 +294,7 @@ export default {
 			}
 
 			// [MONGODB][READ] User
-			const user = await UserModel.findOne({ _id: req.body.user_id })
+			const user: IUser = await UserModel.findOne({ _id: req.body.user_id })
 				.select("-password -api.publicKey")
 			.exec();
 
@@ -362,7 +362,7 @@ export default {
 			}
 
 			// [READ][User] Get User by Email
-			const user = await UserModel.findOne({ email: req.body.email })
+			const user: IUser = await UserModel.findOne({ email: req.body.email });
 
 			if (!user) {
 				return {
@@ -372,7 +372,7 @@ export default {
 			};
 
 			// [READ][VerificationCode] by user_id
-			const verificationCode = await VerificationCodeModel.findOne({
+			const verificationCode: IVerificationCode = await VerificationCodeModel.findOne({
 				user: user._id
 			});
 
@@ -427,7 +427,7 @@ export default {
 			}
 
 			// [MONGODB][FIND-ONE][User]
-			const user = await UserModel.findOne({ email: req.body.email });
+			const user: IUser = await UserModel.findOne({ email: req.body.email });
 			
 			if (!user) {
 				return {
@@ -493,7 +493,7 @@ export default {
 			}
 
 			// [MONGODB][findOne][PasswordRecovery]
-			const validPasswordRecovery = await PasswordRecoveryModel.findOne({
+			const validPasswordRecovery: IPasswordRecovery = await PasswordRecoveryModel.findOne({
 				user: req.body.user_id,
 				verificationCode: req.body.verificationCode
 			})
