@@ -1,10 +1,9 @@
 // [IMPORT]
 import mongoose from "mongoose";
-import validator from "validator";
 
 // [IMPORT] Personal
 import UserModel from "../../../s-models/User.model";
-import WebAppModel from "../../../s-models/WebApp.model";
+import WebAppModel, { IWebApp } from "../../../s-models/WebApp.model";
 import WebContentModel from "../../../s-models/WebContent.model";
 
 
@@ -84,7 +83,7 @@ export default {
 			location: returnObj.location + "/find-one",
 		};
 
-		const result = await WebAppModel.findOne({
+		const result: IWebApp = await WebAppModel.findOne({
 			user: req.user_decoded._id,
 			_id: req.body.webApp._id,
 		});
@@ -112,7 +111,7 @@ export default {
 		};
 
 		try {
-			const result = await WebAppModel.findOneAndUpdate(
+			const result: IWebApp = await WebAppModel.findOneAndUpdate(
 				{
 					user: req.user_decoded._id,
 					_id: req.body.webApp._id,
@@ -161,7 +160,7 @@ export default {
 
 		try {
 			// [VALIDATE] webApp_id
-			if (!validator.isAscii(req.body.webApp._id)) {
+			if (!mongoose.isValidObjectId(req.body.webApp._id)) {
 				return {
 					..._returnObj,
 					message: "Invalid params"

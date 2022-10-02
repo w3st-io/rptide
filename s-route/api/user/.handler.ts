@@ -5,7 +5,7 @@ import validator from "validator";
 
 // [IMPORT] Personal
 import config from "../../../s-config";
-import UserModel from "../../../s-models/User.model";
+import UserModel, { IUser } from "../../../s-models/User.model";
 
 
 // [REQUIRE]
@@ -17,8 +17,8 @@ const Stripe = stripe(config.api.stripe.secretKey);
 
 
 // [INIT] Const
-const tier1PriceId = config.api.stripe.priceTier1;
-const tier2PriceId = config.api.stripe.priceTier2;
+const tier1PriceId: string = config.api.stripe.priceTier1;
+const tier2PriceId: string = config.api.stripe.priceTier2;
 
 // [INIT]
 let returnObj: any = {
@@ -42,12 +42,14 @@ async function cycleCheckStripe({ user_id, force = false }) {
 	};
 
 	// [MONGODB][READ][User]
-	const user: any = await UserModel.findOne({
+	const user: IUser = await UserModel.findOne({
 		_id: user_id
 	});
 
 	// [CALCULATE] Hours since last check
-	const hours = Math.abs(user.stripe.lastChecked - new Date().getTime()) / 36e5;
+	const hours: number = Math.abs(
+		user.stripe.lastChecked.getTime() - new Date().getTime()
+	) / 36e5;
 
 	// If last time checked was over 24 hours ago
 	if (hours > config.cycleHours || force == true) {
@@ -118,7 +120,7 @@ export default {
 
 		try {
 			// [UPDATE] Password for User
-			const user = await UserModel.findOneAndUpdate(
+			const user: IUser = await UserModel.findOneAndUpdate(
 				{ _id: req.user_decoded._id },
 				{
 					$set: {
@@ -176,7 +178,7 @@ export default {
 			}
 
 			// [MONGODB][FIND] user
-			const query = await UserModel.findOne({ _id: req.user_decoded._id });
+			const query: IUser = await UserModel.findOne({ _id: req.user_decoded._id });
 
 			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
@@ -226,7 +228,7 @@ export default {
 		
 		try {
 			// [UPDATE] Generate new API Key
-			const updatedUser = await UserModel.findOneAndUpdate(
+			const updatedUser: IUser = await UserModel.findOneAndUpdate(
 				{ _id: req.user_decoded._id },
 				{
 					$set: {
@@ -269,7 +271,7 @@ export default {
 			})
 
 			// [MONGODB][READ][User]
-			const user = await UserModel.findOne({
+			const user: IUser = await UserModel.findOne({
 				_id: req.user_decoded._id
 			});
 
@@ -509,7 +511,7 @@ export default {
 
 		try {
 			// [READ][User]
-			const user = await UserModel.findOne({
+			const user: IUser = await UserModel.findOne({
 				_id: req.user_decoded._id
 			});
 
@@ -558,7 +560,7 @@ export default {
 			}
 
 			// [MONGODB][READ][User]
-			const user = await UserModel.findOne({
+			const user: IUser = await UserModel.findOne({
 				_id: req.user_decoded._id
 			});
 
@@ -630,13 +632,13 @@ export default {
 
 		try {
 			// [MONGODB][READ][User]
-			const User = await UserModel.findOne({
+			const user: IUser = await UserModel.findOne({
 				_id: req.user_decoded._id
 			});
 
 			// [API][stripe] Remove previous payment method
-			if (User.stripe.pmId !== "") {
-				await Stripe.paymentMethods.detach(User.stripe.pmId);
+			if (user.stripe.pmId !== "") {
+				await Stripe.paymentMethods.detach(user.stripe.pmId);
 			}
 
 			// [MONGODB][UPDATE][User] pmId

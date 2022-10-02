@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 // [IMPORT] Personal
 import WebAppModel from "../../../s-models/WebApp.model";
-import WebContentModel from "../../../s-models/WebContent.model";
+import WebContentModel, { IWebContent } from "../../../s-models/WebContent.model";
 
 
 // [INIT]
@@ -80,7 +80,7 @@ export default {
 
 		try {
 			// [WEB-CONTENT][SAVE]
-			const result = await WebContentModel.find({
+			const result: IWebContent[] = await WebContentModel.find({
 				webApp: req.body.webApp,
 			});
 
@@ -110,11 +110,11 @@ export default {
 
 		try {
 			// [INIT] Const
-			const limit = parseInt(req.params.limit);
-			const skip = (parseInt(req.params.page) - 1) * limit;
+			const limit: number = parseInt(req.params.limit);
+			const skip: number = (parseInt(req.params.page) - 1) * limit;
 
 			// [query]
-			let query: any = { user: req.user_decoded._id };
+			let query: object = { user: req.user_decoded._id };
 
 			if (req.body.webApp) {
 				query = {
@@ -166,11 +166,12 @@ export default {
 			}
 
 			// [WEB-CONTENT][FIND]
-			const result = await WebContentModel.find(query)
+			const result: IWebContent[] = await WebContentModel.find(query)
 				.sort(sort)
 				.limit(limit)
 				.skip(skip)
-			.exec();
+				.exec()
+			;
 
 			return {
 				..._returnObj,
@@ -197,7 +198,7 @@ export default {
 
 		try {
 			// [WEB-CONTENT][SAVE]
-			const result = await WebContentModel.findOne({
+			const result: IWebContent = await WebContentModel.findOne({
 				_id: req.body.webContent
 			});
 
@@ -225,7 +226,7 @@ export default {
 		};
 
 		try {
-			const result = await WebContentModel.findOneAndUpdate(
+			const result: IWebContent = await WebContentModel.findOneAndUpdate(
 				{
 					user: req.user_decoded._id,
 					_id: req.body.webContent._id,
@@ -249,14 +250,14 @@ export default {
 				..._returnObj,
 				status: true,
 				webContent: result
-			}
+			};
 		}
 		catch (err) {
 			return {
 				..._returnObj,
 				executed: false,
 				message: `${err}`
-			}
+			};
 		}
 	},
 
@@ -276,20 +277,20 @@ export default {
 					_id: req.body.webContent._id,
 				},
 				
-			).exec()
+			);
 
 			return {
 				..._returnObj,
 				status: true,
 				webContent: result,
-			}
+			};
 		}
 		catch (err) {
 			return {
 				..._returnObj,
 				executed: false,
 				message: `${err}`
-			}
+			};
 		}
 	},
 }
