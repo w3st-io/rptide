@@ -59,7 +59,7 @@ router.post(
 			// [COLLECTION][ProductOption][CREATE]
 			const createdProductOption = await new ProductOptionModel({
 				_id: new mongoose.Types.ObjectId(),
-				user: req.user_decoded._id,
+				user: req.body.user_decoded._id,
 				name: productOption.name,
 				variants: variants,
 			}).save();

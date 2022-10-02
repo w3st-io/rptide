@@ -84,23 +84,6 @@ export default {
 			}
 		}
 	},
-	
-	
-	/******************* [VERIFY] *******************/
-	s_resendVerificationEmail: async function (email) {
-		try {
-			return (
-				await authAxios.post('/resend-verification-email', { email })
-			).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
 
 
 	s_requestResetPassword: async function (email) {

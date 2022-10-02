@@ -29,7 +29,7 @@ export default {
 			// Check if owned
 			const webApp = await WebAppModel.findOne({
 				_id: req.body.webContent.webApp,
-				user: req.user_decoded._id,
+				user: req.body.user_decoded._id,
 			});
 			
 			// does not own this webApp
@@ -41,7 +41,7 @@ export default {
 			}
 
 			// [OVERRIDE] the user passed by the token
-			req.body.webContent.user = req.user_decoded._id;
+			req.body.webContent.user = req.body.user_decoded._id;
 
 			// [WEB-CONTENT][SAVE]
 			const result = await new WebContentModel({
@@ -71,6 +71,8 @@ export default {
 	 * @returns {Object}
 	*/
 	"/find": async ({ req }: any): Promise<object> => {
+		console.log(req.body);
+		
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -114,7 +116,7 @@ export default {
 			const skip: number = (parseInt(req.params.page) - 1) * limit;
 
 			// [query]
-			let query: object = { user: req.user_decoded._id };
+			let query: object = { user: req.body.user_decoded._id };
 
 			if (req.body.webApp) {
 				query = {
@@ -228,7 +230,7 @@ export default {
 		try {
 			const result: IWebContent = await WebContentModel.findOneAndUpdate(
 				{
-					user: req.user_decoded._id,
+					user: req.body.user_decoded._id,
 					_id: req.body.webContent._id,
 				},
 				{
@@ -273,7 +275,7 @@ export default {
 			// [MONGODB][WebContent]
 			const result = await WebContentModel.deleteOne(
 				{
-					user: req.user_decoded._id,
+					user: req.body.user_decoded._id,
 					_id: req.body.webContent._id,
 				},
 				

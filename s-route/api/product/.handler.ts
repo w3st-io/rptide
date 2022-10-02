@@ -31,8 +31,8 @@ export default {
 			// [MONGODB][Product][SAVE]
 			const createdProduct = await new ProductModel({
 				_id: new mongoose.Types.ObjectId(),
-				user: req.user_decoded._id,
-				webApp: req.user_decoded.workspace.webApp,
+				user: req.body.user_decoded._id,
+				webApp: req.body.user_decoded.workspace.webApp,
 				name: product.name,
 				description: product.description,
 				price: {
@@ -72,7 +72,7 @@ export default {
 		try {
 			// [MONGODB][Product][DELETE]
 			const product = await ProductModel.deleteOne({
-				user: req.user_decoded._id,
+				user: req.body.user_decoded._id,
 				_id: req.body.product_id,
 			});
 
@@ -105,7 +105,7 @@ export default {
 			const result: IProduct[] = await ProductModel.find(
 				{
 					webApp: req.body.webApp,
-					user: req.user_decoded._id
+					user: req.body.user_decoded._id
 				} as FilterQuery<IProduct>
 			)
 				.populate("requiredProductOptions")
@@ -141,7 +141,7 @@ export default {
 			const result: IProduct = await ProductModel.findOne(
 				{
 					_id: req.body.product_id,
-					user: req.user_decoded._id
+					user: req.body.user_decoded._id
 				} as FilterQuery<IProduct>
 			)
 				.populate("requiredProductOptions")
@@ -179,7 +179,7 @@ export default {
 			// [UPDATE]
 			const updatedProduct: IProduct = await ProductModel.findOneAndUpdate(
 				{
-					user: req.user_decoded._id,
+					user: req.body.user_decoded._id,
 					_id: product._id,
 				} as FilterQuery<IProduct>,
 				{

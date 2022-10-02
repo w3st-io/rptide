@@ -46,12 +46,12 @@ export default {
 			// [COLLECTION][webApp]
 			const result = await new WebAppModel({
 				_id: new mongoose.Types.ObjectId(),
-				user: req.user_decoded._id,
+				user: req.body.user_decoded._id,
 				name: req.body.webApp.name,
 			}).save();
 
 			const results = await WebAppModel.find({
-				user: req.user_decoded._id
+				user: req.body.user_decoded._id
 			});
 
 			// [200] Success
@@ -84,7 +84,7 @@ export default {
 		};
 
 		const result: IWebApp = await WebAppModel.findOne({
-			user: req.user_decoded._id,
+			user: req.body.user_decoded._id,
 			_id: req.body.webApp._id,
 		});
 
@@ -113,7 +113,7 @@ export default {
 		try {
 			const result: IWebApp = await WebAppModel.findOneAndUpdate(
 				{
-					user: req.user_decoded._id,
+					user: req.body.user_decoded._id,
 					_id: req.body.webApp._id,
 				},
 				{
@@ -125,7 +125,7 @@ export default {
 			);
 
 			const resultWebApp = await WebAppModel.find({
-				user: req.user_decoded._id
+				user: req.body.user_decoded._id
 			});
 
 			return {
@@ -172,7 +172,7 @@ export default {
 				..._returnObj.deleted,
 				webApp: await WebAppModel.deleteOne({
 					_id: req.body.webApp._id,
-					user: req.user_decoded._id
+					user: req.body.user_decoded._id
 				})
 			};
 
@@ -183,14 +183,14 @@ export default {
 					..._returnObj.deleted,
 					webContents: await WebContentModel.deleteMany({
 						webApp: req.body.webApp._id,
-						user: req.user_decoded._id
+						user: req.body.user_decoded._id
 					})
 				};
 			}
 
 			// [RESET] workspace.webApp
 			await UserModel.findOneAndUpdate(
-				{ user: req.user_decoded._id },
+				{ user: req.body.user_decoded._id },
 				{
 					$set: {
 						"workspace.webApp": ""
@@ -202,7 +202,7 @@ export default {
 			return {
 				..._returnObj,
 				status: true,
-				webApps: await WebAppModel.find({ user: req.user_decoded._id })
+				webApps: await WebAppModel.find({ user: req.body.user_decoded._id })
 			};
 		}
 		catch (err) {

@@ -1,10 +1,10 @@
 // [IMPORT]
-import validator from "validator";
+import express from "express";
 
 
 // [IMPORT] Personal
 import config from '../s-config';
-import UserModel from '../s-models/User.model';
+import UserModel, { IUser } from '../s-models/User.model';
 
 
 // [REQUIRE]
@@ -20,68 +20,60 @@ let returnObj: any = {
 	executed: true,
 	status: false,
 	message: "",
-	location: '/s-middlewares/Auth'
+	location: '/s-middlewares/Auth',
+	auth: false
 };
 
 
 class Auth {
 	// [Standard]
 	static userToken() {
-		return async (req, res, next) => {
-			// [INIT]
-			let _returnObj: any = {
-				...returnObj,
-				auth: false,
-			};
-
+		return async (req: express.Request, res: express.Response, next: Function) => {
 			// If a token exists --> Validate JWT //
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer " //
 				const tokenBody = req.headers.user_authorization.slice(7);
 
-				if (validator.isJWT(tokenBody)) {
-					// [VERIFY] tokenBody
-					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						if (decoded) {
-							// [INIT] Put decoded in req //
-							req.user_decoded = decoded;
+				// [VERIFY] tokenBody
+				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+					if (err) {
+						res.send({
+							...returnObj,
+							message: `Access denied: JWT Error --> ${err}`,
+						});
+					}
 
-							// [MONGODB] Check verified
-							const user = await UserModel.findOne({
-								_id: decoded._id,
-								verified: true,
-							});
+					if (decoded) {
+						// [INIT] Put decoded in req.body
+						req.body = {
+							...req.body,
+							user_decoded: decoded,
+						};
 
-							if (user) {
-								req.user_decoded.workspace = user.workspace;
-								
-								next();
-							}
-							else {
-								res.send({
-									..._returnObj,
-									message: 'User NOT verified',
-								});
-							}
+						// [MONGODB][findOne][User] Verification required
+						const user = await UserModel.findOne({
+							_id: decoded._id,
+							verified: true,
+						});
+						
+						if (user) {
+							req.body.user_decoded.workspace = user.workspace;
+							
+							// [200] Success
+							next();
 						}
 						else {
 							res.send({
-								..._returnObj,
-								message: `Access denied: JWT Error --> ${err}`,
+								...returnObj,
+								message: 'User NOT verified',
 							});
 						}
-					});
-				}
-				else {
-					res.send({
-						..._returnObj,
-						message: 'Access denied: Not valid JWT',
-					});
-				}
+					}
+				});
 			}
 			else {
 				res.send({
-					..._returnObj,
+					...returnObj,
 					message: 'Access denied: No token passed',
 				});
 			}
@@ -89,69 +81,91 @@ class Auth {
 	}
 
 
-	// [IF-LOGGED] NOT required
+	// [Logged?]
 	static userTokenNotRequired() {
-		return async (req, res, next) => {
+		return async (req: express.Request, res: express.Response, next: Function) => {
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7);
 
-				// If a token exists --> Validate JWT
-				if (tokenBody !== 'undefined') {
-					const decoded = await jwt.verify(tokenBody, secretKey);
-					
-					// [INIT] Put decoded in req
-					req.user_decoded = decoded;
-				}
+				// [VERIFY] tokenBody
+				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+					if (decoded) {
+						// [STORE] decoded in req.body
+						req.body = {
+							...req.body,
+							user_decoded: decoded,
+						}
+						
+						// [MONGODB][findOne][User]
+						const user: IUser = await UserModel.findOne({
+							_id: decoded._id,
+							verified: true
+						});
+						
+						if (user) {
+							// Put workspace in req.body.user_decoded
+							req.body.user_decoded.workspace = user.workspace;
+						}
+					}
+				});
 			}
 			
-			// Since token is not required, go next
+			// Token is NOT required --> procceed
 			next();
 		}
 	}
 
 
-	// [LIMITED] Verification NOT required
+	// [logged~] Verification NOT required
 	static userTokenByPassVerification() {
-		return (req, res, next) => {
-			// [INIT]
-			let _returnObj: any = {
-				...returnObj,
-				auth: false,
-			};
-
-			// If a token exists --> Validate JWT
+		console.log('by');
+		
+		return async (req: express.Request, res: express.Response, next: Function) => {
+			// If a token exists --> Validate JWT //
 			if (req.headers.user_authorization) {
-				// [SLICE] "Bearer "
+				// [SLICE] "Bearer " //
 				const tokenBody = req.headers.user_authorization.slice(7);
 
-				if (validator.isJWT(tokenBody)) {
-					// [VERIFY] tokenBody
-					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						if (decoded) {
-							// [INIT] Put decoded in req
-							req.user_decoded = decoded;
+				// [VERIFY] tokenBody
+				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+					if (err) {
+						res.send({
+							...returnObj,
+							message: `Access denied: JWT Error --> ${err}`,
+						});
+					}
 
+					if (decoded) {
+						// [INIT] Put decoded in req.body
+						req.body = {
+							...req.body,
+							user_decoded: decoded,
+						};
+
+						// [MONGODB][findOne][User] Verification NOT required
+						const user: IUser = await UserModel.findOne({
+							_id: decoded._id
+						});
+						
+						if (user) {
+							req.body.user_decoded.workspace = user.workspace;
+							
+							// [200] Success
 							next();
 						}
 						else {
 							res.send({
-								..._returnObj,
-								message: `Access denied: JWT Error --> ${err}`,
+								...returnObj,
+								message: 'User NOT verified',
 							});
 						}
-					})
-				}
-				else {
-					res.send({
-						..._returnObj,
-						message: 'Access denied: Not valid JWT',
-					});
-				}
+					}
+				});
 			}
 			else {
 				res.send({
-					..._returnObj,
+					...returnObj,
 					message: 'Access denied: No token passed',
 				});
 			}
@@ -159,86 +173,81 @@ class Auth {
 	}
 
 
-	// [API-PRIVATE-KEY]
+	// [Logged] || [api.privateKey]
 	static userTokenOrAPIPrivateKey() {
-		// [INIT]
-		let _returnObj: any = {
-			...returnObj,
-			auth: false,
-		};
-
-		return async (req, res, next) => {
+		return async (req: express.Request, res: express.Response, next: Function) => {
 			// If a token exists --> Validate JWT
 			if (req.headers.user_authorization) {
 				// [SLICE] "Bearer "
 				const tokenBody = req.headers.user_authorization.slice(7)
 
-				if (validator.isJWT(tokenBody)) {
-					// [VERIFY] tokenBody
-					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						if (decoded) {
-							// [INIT] Put decoded in req
-							req.user_decoded = decoded;
+				// [VERIFY] tokenBody
+				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+					if (err) {
+						res.send({
+							...returnObj,
+							message: `Access denied: JWT Error --> ${err}`,
+						});
+					}
 
-							// [MONGODB] Check verified
-							const user = await UserModel.findOne({
-								_id: decoded._id,
-								verified: true,
-							});
+					if (decoded) {
+						// [INIT] Put decoded in req.body
+						req.body = {
+							...req.body,
+							user_decoded: decoded,
+						};
 
-							if (user) {
-								next();
-							}
-							else {
-								res.send({
-									..._returnObj,
-									message: 'User NOT verified',
-								});
-							}
+						// [MONGODB][findOne][User] Verification required
+						const user: IUser = await UserModel.findOne({
+							_id: decoded._id,
+							verified: true,
+						});
+						
+						if (user) {
+							req.body.user_decoded.workspace = user.workspace;
+							
+							// [200] Success
+							next();
 						}
 						else {
 							res.send({
-								..._returnObj,
-								message: `Access denied: JWT Error --> ${err}`,
+								...returnObj,
+								message: 'User NOT verified',
 							});
 						}
-					});
-				}
-				else {
-					res.send({
-						..._returnObj,
-						message: 'Access denied: Not valid JWT',
-					});
-				}
+					}
+				});
 			}
 			// API Private Key
 			else if (req.headers.authorization) {
 				// [MONGODB][READ] Everything after "Bearer "
-				const user = await UserModel.findOne({
+				const user: IUser = await UserModel.findOne({
 					"api.privateKey": req.headers.authorization.slice(7)
 				});
 
 				if (user) {
-					// [INIT] Put decoded in req
-					const decoded = {
-						_id: user._id,
-						email: user.email
-					};
-	
-					req.user_decoded = decoded;
+					// [INIT] Put decoded in req.body
+					req.body = {
+						...req.body,
+						user_decoded: {
+							_id: user._id,
+							email: user.email,
+							workspace: user.workspace
+						}
+					}
 	
 					next();
 				}
 				else {
 					res.send({
-						..._returnObj,
+						...returnObj,
 						message: "Invalid API privateKey"
 					});
 				}
 			}
 			else {
 				res.send({
-					..._returnObj,
+					...returnObj,
 					message: 'Access denied: No token passed',
 				})
 			}

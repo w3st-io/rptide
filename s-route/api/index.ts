@@ -46,14 +46,6 @@ router.post(
 
 
 router.post(
-	"/resend-verification-email",
-	async (req: express.Request, res: express.Response) => {
-		res.send(await h["/resend-verification-email"]({ req }));
-	}
-);
-
-
-router.post(
 	"/request-reset-password",
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h["/request-reset-password"]({ req }));

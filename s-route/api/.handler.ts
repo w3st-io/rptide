@@ -48,15 +48,15 @@ export default {
 
 		try {
 			// [USER-LOGGED]
-			if (req.user_decoded) {
+			if (req.body.user_decoded) {
 				// [MONGODB][User]
 				const user: IUser = await UserModel.findOne({
-					_id: req.user_decoded._id
+					_id: req.body.user_decoded._id
 				}).select("-password -api.publicKey");
 
 				// [MONGODB][WebApp]
 				const webApps: IWebApp[] = await WebAppModel.find({
-					user: req.user_decoded._id
+					user: req.body.user_decoded._id
 				});
 				
 				// [APPEND]
@@ -339,72 +339,7 @@ export default {
 			};
 		}
 	},
-
-	/**
-	 * @notice Resend verification email
-	 * @param req.body.email Email to recover password for
-	*/
-	"/resend-verification-email": async ({ req }: any): Promise<object> => {
-		let _returnObj: any = {
-			executed: true,
-			status: false,
-			location: returnObj.location + "/resent-verification-email",
-			message: "Verification email sent"
-		};
-
-		try {
-			// [VALIDATE]
-			if (!validator.isEmail(req.body.email)) {
-				return {
-					..._returnObj,
-					message: "Invalid params",
-				}
-			}
-
-			// [READ][User] Get User by Email
-			const user: IUser = await UserModel.findOne({ email: req.body.email });
-
-			if (!user) {
-				return {
-					..._returnObj,
-					message: "No User found"
-				};
-			};
-
-			// [READ][VerificationCode] by user_id
-			const verificationCode: IVerificationCode = await VerificationCodeModel.findOne({
-				user: user._id
-			});
-
-			if (!verificationCode) {
-				return {
-					..._returnObj,
-					message: "You have not requested password reset"
-				};
-			}
-			
-			// [SEND-MAIL]
-			mailerUtil.sendVerificationMail(
-				req.body.email,
-				user._id,
-				verificationCode.verificationCode
-			);
-
-			return {
-				..._returnObj,
-				status: true
-			}
-			
-		}
-		catch (err) {
-			return {
-				..._returnObj,
-				executed: false,
-				message: `${err}`
-			}
-		}
-	},
-
+	
 	/**
 	 * @notice Send the email for the password reset
 	 * @param req.body.email Email to recover password for
@@ -444,17 +379,20 @@ export default {
 			}).save()
 
 			// [SEND-MAIL]
-			const sent = await mailerUtil.sendPasswordResetEmail(
+			const attemptSendObj = await mailerUtil.sendPasswordResetEmail(
 				req.body.email,
 				user._id,
 				passwordRecovery.verificationCode
 			);
 
-			if (sent.status) {
-				return {
-					..._returnObj,
-					status: true
-				};
+			if (!attemptSendObj.status) {
+				return attemptSendObj;
+			}
+
+			// [200] Success
+			return {
+				..._returnObj,
+				status: true,
 			}
 		}
 		catch (err) {

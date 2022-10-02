@@ -6,6 +6,8 @@ import validator from "validator";
 // [IMPORT] Personal
 import config from "../../../s-config";
 import UserModel, { IUser } from "../../../s-models/User.model";
+import VerificationCodeModel, { IVerificationCode } from "../../../s-models/VerificationCode.model";
+import mailerUtil from "../../../s-utils/mailerUtil";
 
 
 // [REQUIRE]
@@ -121,7 +123,7 @@ export default {
 		try {
 			// [UPDATE] Password for User
 			const user: IUser = await UserModel.findOneAndUpdate(
-				{ _id: req.user_decoded._id },
+				{ _id: req.body.user_decoded._id },
 				{
 					$set: {
 						"workspace.webApp": req.body.webApp
@@ -152,7 +154,6 @@ export default {
 		}
 	},
 
-
 	/**
 	 * @notice Update user.password
 	 * @param {string} req.body.currentPassword Old password
@@ -178,7 +179,7 @@ export default {
 			}
 
 			// [MONGODB][FIND] user
-			const query: IUser = await UserModel.findOne({ _id: req.user_decoded._id });
+			const query: IUser = await UserModel.findOne({ _id: req.body.user_decoded._id });
 
 			// [VALIDATE-PASSWORD]
 			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
@@ -190,7 +191,7 @@ export default {
 
 			// [MONGODB][UPDATE] user.password
 			await UserModel.findOneAndUpdate(
-				{ _id: req.user_decoded._id },
+				{ _id: req.body.user_decoded._id },
 				{
 					$set: {
 						password: await bcrypt.hash(req.body.password, 10)
@@ -212,7 +213,6 @@ export default {
 		}
 	},
 
-
 	/**
 	 * 
 	 * @notice Find user and generate a new API key
@@ -229,7 +229,7 @@ export default {
 		try {
 			// [UPDATE] Generate new API Key
 			const updatedUser: IUser = await UserModel.findOneAndUpdate(
-				{ _id: req.user_decoded._id },
+				{ _id: req.body.user_decoded._id },
 				{
 					$set: {
 						api: {
@@ -266,13 +266,13 @@ export default {
 		try {
 			// [INTERNAL] Force update 
 			await cycleCheckStripe({
-				user_id: req.user_decoded._id,
+				user_id: req.body.user_decoded._id,
 				force: true
 			})
 
 			// [MONGODB][READ][User]
 			const user: IUser = await UserModel.findOne({
-				_id: req.user_decoded._id
+				_id: req.body.user_decoded._id
 			});
 
 			// [ERROR]
@@ -304,7 +304,7 @@ export default {
 						// [MONGODB][User]
 						await UserModel.updateOne(
 							{
-								_id: req.user_decoded._id
+								_id: req.body.user_decoded._id
 							},
 							{
 								$set: {
@@ -325,7 +325,7 @@ export default {
 						// [MONGODB][user]
 						await UserModel.updateOne(
 							{
-								_id: req.user_decoded._id
+								_id: req.body.user_decoded._id
 							},
 							{
 								$set: {
@@ -348,7 +348,7 @@ export default {
 						// [MONGODB][user] tier
 						await UserModel.updateOne(
 							{
-								_id: req.user_decoded._id
+								_id: req.body.user_decoded._id
 							},
 							{
 								$set: {
@@ -369,7 +369,7 @@ export default {
 						// [MONGODB][user] tier
 						await UserModel.updateOne(
 							{
-								_id: req.user_decoded._id
+								_id: req.body.user_decoded._id
 							},
 							{
 								$set: {
@@ -391,7 +391,7 @@ export default {
 						// [MONGODB][user] tier
 						await UserModel.updateOne(
 							{
-								_id: req.user_decoded._id
+								_id: req.body.user_decoded._id
 							},
 							{
 								$set: {
@@ -414,7 +414,7 @@ export default {
 						// [MONGODB][user] tier
 						await UserModel.updateOne(
 							{
-								_id: req.user_decoded._id
+								_id: req.body.user_decoded._id
 							},
 							{
 								$set: {
@@ -435,7 +435,7 @@ export default {
 						// [MONGODB][user] tier
 						await UserModel.updateOne(
 							{
-								_id: req.user_decoded._id
+								_id: req.body.user_decoded._id
 							},
 							{
 								$set: {
@@ -456,7 +456,7 @@ export default {
 						
 						// [MONGODB][user] tier
 						await UserModel.updateOne(
-							{ _id: req.user_decoded._id },
+							{ _id: req.body.user_decoded._id },
 							{
 								$set: {
 									"stripe.subscription.tier2.subId": result.id
@@ -480,7 +480,7 @@ export default {
 				..._returnObj,
 				status: true,
 				user: await UserModel.findOne({
-					_id: req.user_decoded._id
+					_id: req.body.user_decoded._id
 				}).select("-password -api.publicKey")
 			};
 		}
@@ -512,7 +512,7 @@ export default {
 		try {
 			// [READ][User]
 			const user: IUser = await UserModel.findOne({
-				_id: req.user_decoded._id
+				_id: req.body.user_decoded._id
 			});
 
 			// [API][stripe] Retrieve payment method details if it exists
@@ -561,7 +561,7 @@ export default {
 
 			// [MONGODB][READ][User]
 			const user: IUser = await UserModel.findOne({
-				_id: req.user_decoded._id
+				_id: req.body.user_decoded._id
 			});
 
 			// [API][stripe] Remove previous payment method
@@ -598,7 +598,7 @@ export default {
 
 			// [MONGODB][UPDATE][User] update pmId
 			await UserModel.updateOne(
-				{ _id: req.user_decoded._id },
+				{ _id: req.body.user_decoded._id },
 				{
 					$set: {
 						"stripe.pmId": stripeCreatedPaymentMethod.id
@@ -633,7 +633,7 @@ export default {
 		try {
 			// [MONGODB][READ][User]
 			const user: IUser = await UserModel.findOne({
-				_id: req.user_decoded._id
+				_id: req.body.user_decoded._id
 			});
 
 			// [API][stripe] Remove previous payment method
@@ -643,7 +643,7 @@ export default {
 
 			// [MONGODB][UPDATE][User] pmId
 			await UserModel.updateOne(
-				{ _id: req.user_decoded._id },
+				{ _id: req.body.user_decoded._id },
 				{
 					$set: {
 						"stripe.pmId": "",
@@ -663,6 +663,57 @@ export default {
 				executed: false,
 				message: `${err}`
 			};
+		}
+	},
+
+	/**
+	 * @notice Resend verification email
+	 * @param req.body.email Email to recover password for
+	*/
+	"/resend-verification-email": async ({ req }: any): Promise<object> => {
+		let _returnObj: any = {
+			executed: true,
+			status: false,
+			location: returnObj.location + "/resent-verification-email",
+			message: "Verification email sent"
+		};
+
+		try {
+			// [READ][VerificationCode] by user_id
+			const verificationCode: IVerificationCode = await VerificationCodeModel.findOne({
+				user: req.body.user_decoded._id
+			});
+
+			if (!verificationCode) {
+				return {
+					..._returnObj,
+					message: "No verification proccess found."
+				};
+			}
+			
+			// [SEND-MAIL]
+			const mailerObj = await mailerUtil.sendVerificationMail(
+				req.body.user_decoded.email,
+				req.body.user_decoded._id,
+				verificationCode.verificationCode
+			);
+
+			if (!mailerObj.status) {
+				return mailerObj;
+			}
+
+			// [200] Success
+			return {
+				..._returnObj,
+				status: true
+			}
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: `${err}`
+			}
 		}
 	},
 

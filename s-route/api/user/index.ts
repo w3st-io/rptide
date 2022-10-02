@@ -52,7 +52,6 @@ router.post(
 	}
 );
 
-
 router.post(
 	"/stripe-payment-method-update",
 	Auth.userToken(),
@@ -67,6 +66,14 @@ router.post(
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h["/stripe-payment-method-delete"]({ req }));
+	}
+);
+
+router.post(
+	"/resend-verification-email",
+	Auth.userTokenByPassVerification(),
+	async (req: express.Request, res: express.Response) => {
+		res.send(await h["/resend-verification-email"]({ req }));
 	}
 );
 

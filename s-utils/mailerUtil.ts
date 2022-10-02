@@ -38,7 +38,7 @@ function mail({ to, subject, textContent }) {
 
 	apiInstance.sendTransacEmail(sendSmtpEmail)
 		.then(
-			function (data) { console.log('[SUCCESS]:', data) },
+			function (data) { console.log('[MAIL-SENT]:', data) },
 			function (err) { console.log('Mailer Util --> [ERROR]:', err) }
 		)
 	;

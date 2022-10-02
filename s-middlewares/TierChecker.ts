@@ -15,7 +15,7 @@ export default {
 	webAppLimitCheck: function () {
 		return async (req, res, next) => {
 			await h_user.cycleCheckStripe({
-				user_id: req.user_decoded._id
+				user_id: req.body.user_decoded._id
 			});
 
 			// [INIT]
@@ -23,11 +23,11 @@ export default {
 
 			// [MONGODB][User]
 			const user = await UserModel.findOne({
-				_id: req.user_decoded._id
+				_id: req.body.user_decoded._id
 			});
 
 			const count = await WebAppModel.countDocuments({
-				user: req.user_decoded._id
+				user: req.body.user_decoded._id
 			});
 
 			// [LIMIT-CHECK] Tier 1 //
@@ -65,7 +65,7 @@ export default {
 	productLimitCheck: function () {
 		return async (req, res, next) => {
 			await h_user.cycleCheckStripe({
-				user_id: req.user_decoded._id
+				user_id: req.body.user_decoded._id
 			});
 			
 			// [INIT]
@@ -73,11 +73,11 @@ export default {
 
 			// [MONGODB][User]
 			const user = await UserModel.findOne({
-				_id: req.user_decoded._id
+				_id: req.body.user_decoded._id
 			});
 			
 			const count = await ProductModel.countDocuments({
-				user: req.user_decoded._id
+				user: req.body.user_decoded._id
 			});
 
 			// [LIMIT-CHECK] Tier 1 //
@@ -115,7 +115,7 @@ export default {
 	productOptionLimitCheck: function () {
 		return async (req, res, next) => {
 			await h_user.cycleCheckStripe({
-				user_id: req.user_decoded._id
+				user_id: req.body.user_decoded._id
 			});
 			
 			// [INIT]
@@ -123,11 +123,11 @@ export default {
 
 			// [MONGODB][User]
 			const user = await UserModel.findOne({
-				_id: req.user_decoded._id
+				_id: req.body.user_decoded._id
 			});
 			
 			const count = await ProductOptionModel.countDocuments({
-				user: req.user_decoded._id
+				user: req.body.user_decoded._id
 			});
 
 			// [LIMIT-CHECK] Tier 1 //
