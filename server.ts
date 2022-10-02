@@ -8,16 +8,17 @@ import mongoose, { ConnectOptions } from "mongoose";
 import path from "path";
 
 // [IMPORT] Personal
-import config                  from "./s-config";
-import Functionality           from "./s-middlewares/Functionality";
-import rateLimiter             from "./s-rate-limiters";
-import route_api               from './s-route/api';
-import route_api_product       from "./s-route/api/product";
+import config from "./s-config";
+import Functionality from "./s-middlewares/Functionality";
+import rateLimiter from "./s-rate-limiters";
+import route_api from './s-route/api';
+import route_api_cp from './s-route/api/cp/index';
+import route_api_product from "./s-route/api/product";
 import route_api_productOption from "./s-route/api/product-option";
-import route_api_user          from "./s-route/api/user";
-import route_api_webApp        from "./s-route/api/web-app";
-import route_api_webContent    from "./s-route/api/web-content";
-import socket                  from "./s-socket";
+import route_api_user from "./s-route/api/user";
+import route_api_webApp from "./s-route/api/web-app";
+import route_api_webContent from "./s-route/api/web-content";
+import socket from "./s-socket";
 
 
 // [REQUIRE]
@@ -69,8 +70,8 @@ app
 	.use(history({
 		rewrites: [
 			{
-				from: /^\/api*\/*$/,
-				to: function(context) {
+				from: /^\/api.*$/,
+				to: function (context) {
 					return context.parsedUrl.path
 				}
 			}
@@ -85,6 +86,7 @@ app
 */
 app
 	.use("/api", route_api)
+	.use("/api/cp", route_api_cp)
 	.use("/api/user", Functionality.user(), route_api_user)
 	.use("/api/product", Functionality.user(), route_api_product)
 	.use("/api/product-option", Functionality.user(), route_api_productOption)
