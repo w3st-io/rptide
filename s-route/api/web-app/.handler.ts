@@ -27,7 +27,7 @@ export default {
 	 * @param {String} req.body.webApp.name Name of the WebApp
 	 * @returns {Object}
 	*/
-	create: async (req: express.Request): Promise<object> => {
+	"/create": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -77,7 +77,7 @@ export default {
 	 * @param {String} req.body.webApp._id
 	 * @returns {Object}
 	*/
-	findOne: async (req: express.Request): Promise<object> => {
+	"/find-one": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -103,7 +103,7 @@ export default {
 	 * @param {String} req.body.webApp.name
 	 * @returns {Object}
 	*/
-	findOneAndUpdate: async (req: express.Request): Promise<object> => {
+	"/find-one-and-update": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -150,7 +150,7 @@ export default {
 	 * @notice Find One Web App by _id and user_id
 	 * @param {String} req.body.webApp._id
 	*/
-	deleteOne: async (req: express.Request): Promise<object> => {
+	"/delete-one": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
