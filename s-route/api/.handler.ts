@@ -115,7 +115,7 @@ export default {
 			}
 
 			// [READ][User] Get user by email
-			const user: IUser = await UserModel.findOne({ email: req.body.email }, { lean: false });
+			const user: IUser = await UserModel.findOne({ email: req.body.email });
 			
 			if (!user) {
 				return {
