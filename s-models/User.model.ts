@@ -172,5 +172,25 @@ UserSchema.methods.comparePassword = async function (candidatePassword: string):
 };
 
 
+// When the user registers
+UserSchema.pre(
+	"save",
+	async function (this: IUser, next: Function) {
+		// Replace the password with the hash
+		this.password = await bcrypt.hash(this.password, 10);
+
+		next();
+	}
+);
+
+
+UserSchema.pre("findOneAndUpdate", async function (this: any, next: Function) {
+	// Replace the password with the hash
+	this._update.$set.password = await bcrypt.hash(this._update.$set.password, 10);
+	
+	next();
+});
+
+
 // [MONGOOSE-MODEL]
 export default mongoose.model<IUser>("User", UserSchema);

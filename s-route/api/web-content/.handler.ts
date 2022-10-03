@@ -72,8 +72,6 @@ export default {
 	 * @returns {Object}
 	*/
 	"/find": async (req: express.Request): Promise<object> => {
-		console.log(req.body);
-		
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,

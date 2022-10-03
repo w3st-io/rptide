@@ -1,5 +1,4 @@
 // [IMPORT]
-import bcrypt from "bcryptjs";
 import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import validator from "validator";
@@ -196,7 +195,7 @@ export default {
 			const query: IUser = await UserModel.findOne({ _id: req.body.user_decoded._id });
 
 			// [VALIDATE-PASSWORD]
-			if (!bcrypt.compareSync(req.body.currentPassword, query.password)) {
+			if (!await query.comparePassword(req.body.currentPassword)) {
 				return {
 					..._returnObj,
 					message: "Invalid password",
@@ -208,9 +207,10 @@ export default {
 				{ _id: req.body.user_decoded._id },
 				{
 					$set: {
-						password: await bcrypt.hash(req.body.password, 10)
+						password: req.body.password
 					}
-				}
+				},
+				{ new: true }
 			);
 
 			return {

@@ -1,5 +1,4 @@
 // [IMPORT]
-import bcrypt from "bcryptjs";
 import express from "express";
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
@@ -216,7 +215,7 @@ export default {
 			const user = await new UserModel({
 				_id: new mongoose.Types.ObjectId(),
 				email: req.body.email,
-				password: await bcrypt.hash(req.body.password, 10)
+				password: req.body.password
 			}).save();
 
 			// [MONGODB][SAVE][VerificationCode]
@@ -449,9 +448,10 @@ export default {
 				{ _id: req.body.user_id },
 				{
 					$set: {
-						password: await bcrypt.hash(req.body.password, 10)
+						password: req.body.password
 					}
-				}
+				},
+				{ new: true }
 			);
 
 			// [DELETE][PasswordRecovery]
