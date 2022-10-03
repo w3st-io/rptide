@@ -51,7 +51,7 @@ export default {
 				name: req.body.webApp.name,
 			}).save();
 
-			const results = await WebAppModel.find({
+			const results: IWebApp[] = await WebAppModel.find({
 				user: req.body.user_decoded._id
 			});
 
@@ -125,7 +125,7 @@ export default {
 				{ new: true },
 			);
 
-			const resultWebApp = await WebAppModel.find({
+			const resultWebApp: IWebApp[] = await WebAppModel.find({
 				user: req.body.user_decoded._id
 			});
 
@@ -198,12 +198,16 @@ export default {
 					}
 				}
 			);
+
+			const webApps: IWebApp[] = await WebAppModel.find({
+				user: req.body.user_decoded._id
+			});
 			
 			// [200] Success
 			return {
 				..._returnObj,
 				status: true,
-				webApps: await WebAppModel.find({ user: req.body.user_decoded._id })
+				webApps: webApps
 			};
 		}
 		catch (err) {
