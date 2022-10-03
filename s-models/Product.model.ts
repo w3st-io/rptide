@@ -159,7 +159,7 @@ function validate(product: IProduct) {
 		return {
 			status: false,
 			message: "Invalid price.dollars"
-		}
+		};
 	}
 
 	// [VALIDATE] product.price.cents
@@ -170,7 +170,7 @@ function validate(product: IProduct) {
 		return {
 			status: false,
 			message: "Invalid price.cents"
-		}
+		};
 	}
 
 	// [VALIDATE] product.categories
@@ -187,7 +187,7 @@ function validate(product: IProduct) {
 				return {
 					status: false,
 					message: `Invalid product.categories[${i}]`
-				}
+				};
 			}
 		}
 	}
@@ -256,7 +256,7 @@ function validate(product: IProduct) {
 }
 
 
-ProductSchema.pre("validate", function (this: any, next: any) {
+ProductSchema.pre("validate", function (this: IProduct, next: Function) {
 	const status = validate(this);
 
 	if (status.status == false) {
@@ -264,9 +264,9 @@ ProductSchema.pre("validate", function (this: any, next: any) {
 	}
 
 	next();
-})
+});
 
-ProductSchema.pre("findOneAndUpdate", function (this: any, next: any) {
+ProductSchema.pre("findOneAndUpdate", function (this: any, next: Function) {
 	const status = validate(this._update.$set);
 
 	if (status.status == false) {
@@ -277,4 +277,5 @@ ProductSchema.pre("findOneAndUpdate", function (this: any, next: any) {
 });
 
 
+// [MONGOOSE-MODEL]
 export default mongoose.model<IProduct>("Product", ProductSchema);

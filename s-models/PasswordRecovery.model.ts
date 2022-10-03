@@ -34,6 +34,7 @@ export const PasswordRecoverySchema = new mongoose.Schema({
 });
 
 
+// [MONGOOSE-MODEL]
 export default mongoose.model<IPasswordRecovery>(
 	'PasswordRecovery',
 	PasswordRecoverySchema

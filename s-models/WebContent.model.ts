@@ -375,28 +375,30 @@ function validate(webContent: IWebContent) {
 }
 
 
-WebContentSchema.pre("save", function (this: any, next: any) {
+WebContentSchema.pre("save", function (this: IWebContent, next: Function) {
 	const status = validate(this);
 
 	if (status.status == false) { throw `Error: ${status.message}`; }
 	
 	next();
-})
+});
 
-WebContentSchema.pre("validate", function (this: any, next: any) {
+WebContentSchema.pre("validate", function (this: IWebContent, next: Function) {
 	const status = validate(this);
 
 	if (status.status == false) { throw `Error: ${status.message}`; }
 	
 	next();
-})
+});
 
-WebContentSchema.pre("updateOne", function (this: any, next: any) {
+WebContentSchema.pre("updateOne", function (this: any, next: Function) {
 	const status = validate(this._update.$set);
 
 	if (status.status == false) { throw `Error: ${status.message}`; }
 	
 	next();
-})
+});
 
+
+// [MONGOOSE-MODEL]
 export default mongoose.model<IWebContent>("WebContent", WebContentSchema);

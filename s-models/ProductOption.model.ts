@@ -104,7 +104,7 @@ function validate(productOption: IProductOption) {
 		return {
 			status: false,
 			message: 'Error: Too many variants'
-		}
+		};
 	}
 
 	for (let i = 0; i < productOption.variants.length; i++) {
@@ -113,30 +113,31 @@ function validate(productOption: IProductOption) {
 			return {
 				status: false,
 				message: `Error: Too many images for variants[${i}].images`
-			}
+			};
 		}
 	}
 
-	return { status: true }
+	return { status: true };
 }
 
 
-ProductOptionSchema.pre('validate', function (this: any, next: any) {
+ProductOptionSchema.pre('validate', function (this: IProductOption, next: Function) {
 	const status = validate(this)
 
-	if (status.status == false) { throw `Error: ${status.message}` }
+	if (status.status == false) { throw `Error: ${status.message}`; }
 	
-	next()
-})
+	next();
+});
 
 
-ProductOptionSchema.pre('updateOne', function (this: any, next: any) {
+ProductOptionSchema.pre('updateOne', function (this: any, next: Function) {
 	const status = validate(this._update.$set)
 
-	if (status.status == false) { throw `Error: ${status.message}` }
+	if (status.status == false) { throw `Error: ${status.message}`; }
 	
-	next()
-})
+	next();
+});
 
 
+// [MONGOOSE-MODEL]
 export default mongoose.model<IProductOption>('ProductOption', ProductOptionSchema);

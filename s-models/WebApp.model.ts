@@ -34,4 +34,5 @@ export const WebAppSchema = new mongoose.Schema({
 });
 
 
+// [MONGOOSE-MODEL]
 export default mongoose.model<IWebApp>('WebApp', WebAppSchema);

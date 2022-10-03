@@ -34,4 +34,5 @@ export const VerificationCodeSchema = new mongoose.Schema({
 });
 
 
+// [MONGOOSE-MODEL]
 export default mongoose.model<IVerificationCode>('VerificationCode', VerificationCodeSchema);
