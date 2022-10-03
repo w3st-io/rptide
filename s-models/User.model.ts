@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 const defaultImage = "https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg";
 
 
+// [INTERFACE]
 export interface IUser extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	role: string,

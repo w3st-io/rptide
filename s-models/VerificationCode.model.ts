@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 
 
+// [INTERFACE]
 export interface IVerificationCode extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,

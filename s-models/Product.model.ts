@@ -3,133 +3,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 
 
-// [VALIDATE]
-function validate({ product }) {
-	// [VALIDATE] product.name
-	if (!validator.isAscii(product.name)) {
-		return {
-			status: false,
-			message: "Invalid product.name"
-		}
-	}
-
-	// [VALIDATE] product.description
-	if (product.description) {
-		if (!validator.isAscii(product.description)) {
-			return {
-				status: false,
-				message: "Invalid product.description"
-			};
-		}
-	}
-
-	// [VALIDATE] product.price.dollars
-	if (
-		isNaN(product.price.dollars) ||
-		!validator.isAscii(product.price.dollars) ||
-		product.price.dollars.length < 0
-	) {
-		return {
-			status: false,
-			message: "Invalid price.dollars"
-		}
-	}
-
-	// [VALIDATE] product.price.cents
-	if (
-		isNaN(product.price.cents) ||
-		!validator.isAscii(product.price.cents) ||
-		product.price.cents.length < 0
-	) {
-		return {
-			status: false,
-			message: "Invalid price.cents"
-		}
-	}
-
-	// [VALIDATE] product.categories
-	if (product.categories) {
-		if (product.categories.length > 100) {
-			return {
-				status: false,
-				message: "Too many product.categories (Over 100)"
-			};
-		}
-
-		for (let i = 0; i < product.categories.length; i++) {
-			if (!validator.isAscii(product.categories[i])) {
-				return {
-					status: false,
-					message: `Invalid product.categories[${i}]`
-				}
-			}
-		}
-	}
-	
-	// [VALIDATE] product.images
-	if (product.images) {
-		if (product.images.length > 50) {
-			return {
-				status: false,
-				message: "Error: Too many product.images (Over 50)"
-			};
-		}
-	
-		for (let i = 0; i < product.images.length; i++) {
-			if (!validator.isURL(product.images[i])) {
-				return {
-					status: false,
-					message: `Invalid product.images[${i}]`
-				}
-			}
-		}
-	}
-
-	// [VALIDATE] product.requiredProductOptions
-	if (product.requiredProductOptions) {
-		if (product.requiredProductOptions.length > 100) {
-			return {
-				status: false,
-				message: "Too many product.requiredProductOptions (Over 100)"
-			};
-		}
-	
-		for (let i = 0; i < product.requiredProductOptions.length; i++) {
-			if (!mongoose.isValidObjectId(product.requiredProductOptions[i])) {
-				return {
-					status: false,
-					message: `Invalid product.requiredProductOptions[${i}]`
-				};
-			}
-		}
-	}
-
-	// [VALIDATE] product.optionalProductOptions
-	if (product.optionalProductOptions) {
-		if (product.optionalProductOptions.length > 100) {
-			return {
-				status: false,
-				message: "Too many product.optionalProductOptions (Over 100)"
-			};
-		}
-	
-		for (let i = 0; i < product.optionalProductOptions.length; i++) {
-			if (!mongoose.isValidObjectId(product.optionalProductOptions[i])) {
-				return {
-					status: false,
-					message: `Invalid product.optionalProductOptions[${i}]`
-				};
-			}
-		}
-	}
-
-	// [200] Success
-	return {
-		status: true
-	};
-}
-
-
+// [INTERFACE]
 export interface IProduct extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
@@ -255,8 +129,133 @@ export const ProductSchema = new mongoose.Schema({
 });
 
 
+// [VALIDATE]
+function validate(product: IProduct) {
+	// [VALIDATE] product.name
+	if (!validator.isAscii(product.name)) {
+		return {
+			status: false,
+			message: "Invalid product.name"
+		}
+	}
+
+	// [VALIDATE] product.description
+	if (product.description) {
+		if (!validator.isAscii(product.description)) {
+			return {
+				status: false,
+				message: "Invalid product.description"
+			};
+		}
+	}
+
+	// [VALIDATE] product.price.dollars
+	if (
+		!validator.isAscii(product.price.dollars) ||
+		product.price.dollars.length < 0
+	) {
+		return {
+			status: false,
+			message: "Invalid price.dollars"
+		}
+	}
+
+	// [VALIDATE] product.price.cents
+	if (
+		!validator.isAscii(product.price.cents) ||
+		product.price.cents.length < 0
+	) {
+		return {
+			status: false,
+			message: "Invalid price.cents"
+		}
+	}
+
+	// [VALIDATE] product.categories
+	if (product.categories) {
+		if (product.categories.length > 100) {
+			return {
+				status: false,
+				message: "Too many product.categories (Over 100)"
+			};
+		}
+
+		for (let i = 0; i < product.categories.length; i++) {
+			if (!validator.isAscii(product.categories[i])) {
+				return {
+					status: false,
+					message: `Invalid product.categories[${i}]`
+				}
+			}
+		}
+	}
+	
+	// [VALIDATE] product.images
+	if (product.images) {
+		if (product.images.length > 50) {
+			return {
+				status: false,
+				message: "Error: Too many product.images (Over 50)"
+			};
+		}
+	
+		for (let i = 0; i < product.images.length; i++) {
+			if (!validator.isURL(product.images[i])) {
+				return {
+					status: false,
+					message: `Invalid product.images[${i}]`
+				}
+			}
+		}
+	}
+
+	// [VALIDATE] product.requiredProductOptions
+	if (product.requiredProductOptions) {
+		if (product.requiredProductOptions.length > 100) {
+			return {
+				status: false,
+				message: "Too many product.requiredProductOptions (Over 100)"
+			};
+		}
+	
+		for (let i = 0; i < product.requiredProductOptions.length; i++) {
+			if (!mongoose.isValidObjectId(product.requiredProductOptions[i])) {
+				return {
+					status: false,
+					message: `Invalid product.requiredProductOptions[${i}]`
+				};
+			}
+		}
+	}
+
+	// [VALIDATE] product.optionalProductOptions
+	if (product.optionalProductOptions) {
+		if (product.optionalProductOptions.length > 100) {
+			return {
+				status: false,
+				message: "Too many product.optionalProductOptions (Over 100)"
+			};
+		}
+	
+		for (let i = 0; i < product.optionalProductOptions.length; i++) {
+			if (!mongoose.isValidObjectId(product.optionalProductOptions[i])) {
+				return {
+					status: false,
+					message: `Invalid product.optionalProductOptions[${i}]`
+				};
+			}
+		}
+	}
+
+	// [200] Success
+	return {
+		status: true
+	};
+}
+
+
 ProductSchema.pre("validate", function (this: any, next: any) {
-	const status = validate({ product: this });
+	const status = validate(this);
 
 	if (status.status == false) {
 		throw `${status.message}`;
@@ -266,7 +265,7 @@ ProductSchema.pre("validate", function (this: any, next: any) {
 })
 
 ProductSchema.pre("findOneAndUpdate", function (this: any, next: any) {
-	const status = validate({ product: this._update.$set });
+	const status = validate(this._update.$set);
 
 	if (status.status == false) {
 		throw `${status.message}`;

@@ -2,75 +2,6 @@
 import mongoose from "mongoose";
 
 
-// [VALIDATE]
-function validate({ cleanJSON, tags = [] }) {
-	// [LENGTH-CHECK] cleanJSON.blocks
-	if (cleanJSON.blocks.length > 50) {
-		return {
-			status: false,
-			message: "Too many blocks"
-		};
-	}
-	
-	// [FOR-EACH] cleanJSON.blocks
-	for (let i = 0; i < cleanJSON.blocks.length; i++) {
-		const block = cleanJSON.blocks[i];
-		
-		// [LENGTH-CHECK] List Items
-		if (block.data.items.length > 20) {
-			return {
-				status: false,
-				message: "Too many list-items"
-			};
-		}
-		
-		// content
-		if (block.data.content.length > 0) {
-			// [LENGTH-CHECK] Table ROW //
-			if (block.data.content.length > 20) {
-				return {
-					status: false,
-					message: "Too many rows"
-				};
-			}
-
-			// [LENGTH-CHECK] Table COLUMN //		
-			for (let ii = 0; ii < block.data.content.length; ii++) {
-				const col = block.data.content[ii];
-
-				if (col.length > 20) {
-					return {
-						status: false,
-						message: "Too many columns"
-					};
-				}
-			}
-		}
-
-		// items
-		if (block.data.items) {
-			// [LENGTH-CHECK]
-			if (block.data.items.length > 20) {
-				return {
-					status: false,
-					message: "Too many items"
-				};
-			}
-		}
-	}
-
-	// [LENGTH-CHECK] cleanJSON.blocks
-	if (tags.length > 20) {
-		return {
-			status: false,
-			message: "Too many tags"
-		};
-	}
-
-	return { status: true };
-}
-
-
 export interface IWebContent extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
@@ -127,7 +58,6 @@ export interface IWebContent extends mongoose.Document {
 	},
 	createdTimeStamp: Date
 };
-
 
 export const WebContentSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
@@ -371,11 +301,80 @@ export const WebContentSchema = new mongoose.Schema({
 });
 
 
+// [VALIDATE]
+function validate(webContent: IWebContent) {
+	// [LENGTH-CHECK] cleanJSON.blocks
+	if (webContent.cleanJSON.blocks.length > 50) {
+		return {
+			status: false,
+			message: "Too many blocks"
+		};
+	}
+	
+	// [FOR-EACH] cleanJSON.blocks
+	for (let i = 0; i < webContent.cleanJSON.blocks.length; i++) {
+		const block = webContent.cleanJSON.blocks[i];
+		
+		// [LENGTH-CHECK] List Items
+		if (block.data.items.length > 20) {
+			return {
+				status: false,
+				message: "Too many list-items"
+			};
+		}
+		
+		// [VALIDATE] content
+		if (block.data.content) {
+			// [LENGTH-CHECK] Table ROW
+			if (block.data.content.length > 20) {
+				return {
+					status: false,
+					message: "Too many rows"
+				};
+			}
+
+			// [LENGTH-CHECK] Table COLUMN	
+			for (let ii = 0; ii < block.data.content.length; ii++) {
+				const col = block.data.content[ii];
+
+				if (col.length > 20) {
+					return {
+						status: false,
+						message: "Too many columns"
+					};
+				}
+			}
+		}
+
+		// [VALIDATE] items
+		if (block.data.items) {
+			// [LENGTH-CHECK]
+			if (block.data.items.length > 20) {
+				return {
+					status: false,
+					message: "Too many items"
+				};
+			}
+		}
+	}
+
+	// [VALIDATE] webContent.tags
+	if (webContent.tags) {
+		// [LENGTH-CHECK]
+		if (webContent.tags.length > 20) {
+			return {
+				status: false,
+				message: "Too many tags"
+			};
+		}
+	}
+
+	return { status: true };
+}
+
+
 WebContentSchema.pre("save", function (this: any, next: any) {
-	const status = validate({
-		cleanJSON: this.cleanJSON,
-		tags: this.tags,
-	});
+	const status = validate(this);
 
 	if (status.status == false) { throw `Error: ${status.message}`; }
 	
@@ -383,10 +382,7 @@ WebContentSchema.pre("save", function (this: any, next: any) {
 })
 
 WebContentSchema.pre("validate", function (this: any, next: any) {
-	const status = validate({
-		cleanJSON: this.cleanJSON,
-		tags: this.tags,
-	});
+	const status = validate(this);
 
 	if (status.status == false) { throw `Error: ${status.message}`; }
 	
@@ -394,15 +390,11 @@ WebContentSchema.pre("validate", function (this: any, next: any) {
 })
 
 WebContentSchema.pre("updateOne", function (this: any, next: any) {
-	const status = validate({
-		cleanJSON: this._update.$set.cleanJSON,
-		tags: this._update.$set.tags,
-	});
+	const status = validate(this._update.$set);
 
 	if (status.status == false) { throw `Error: ${status.message}`; }
 	
 	next();
 })
-
 
 export default mongoose.model<IWebContent>("WebContent", WebContentSchema);

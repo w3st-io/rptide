@@ -2,30 +2,7 @@
 import mongoose from "mongoose";
 
 
-// [VALIDATE]
-function validate({ productOption }) {
-	// [LENGTH-CHECK] variants
-	if (productOption.variants.length > 20) {
-		return {
-			status: false,
-			message: 'Error: Too many variants'
-		}
-	}
-
-	for (let i = 0; i < productOption.variants.length; i++) {
-		// [LENGTH-CHECK] variants
-		if (productOption.variants[i].images.length > 5) {
-			return {
-				status: false,
-				message: `Error: Too many images for variants[${i}].images`
-			}
-		}
-	}
-
-	return { status: true }
-}
-
-
+// [INTERFACE]
 export interface IProductOption extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
@@ -119,8 +96,32 @@ export const ProductOptionSchema = new mongoose.Schema({
 });
 
 
+// [VALIDATE]
+function validate(productOption: IProductOption) {
+	// [LENGTH-CHECK] variants
+	if (productOption.variants.length > 20) {
+		return {
+			status: false,
+			message: 'Error: Too many variants'
+		}
+	}
+
+	for (let i = 0; i < productOption.variants.length; i++) {
+		// [LENGTH-CHECK] variants
+		if (productOption.variants[i].images.length > 5) {
+			return {
+				status: false,
+				message: `Error: Too many images for variants[${i}].images`
+			}
+		}
+	}
+
+	return { status: true }
+}
+
+
 ProductOptionSchema.pre('validate', function (this: any, next: any) {
-	const status = validate({ productOption: this })
+	const status = validate(this)
 
 	if (status.status == false) { throw `Error: ${status.message}` }
 	
@@ -129,7 +130,7 @@ ProductOptionSchema.pre('validate', function (this: any, next: any) {
 
 
 ProductOptionSchema.pre('updateOne', function (this: any, next: any) {
-	const status = validate({ productOption: this._update.$set })
+	const status = validate(this._update.$set)
 
 	if (status.status == false) { throw `Error: ${status.message}` }
 	
