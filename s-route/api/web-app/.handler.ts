@@ -36,14 +36,6 @@ export default {
 		};
 
 		try {
-			// [VALIDATE]
-			if (!req.body.webApp.name) {
-				return {
-					..._returnObj,
-					message: "Invalid params"
-				};
-			}
-
 			// [COLLECTION][webApp]
 			const result = await new WebAppModel({
 				_id: new mongoose.Types.ObjectId(),
@@ -89,6 +81,7 @@ export default {
 			_id: req.body.webApp._id,
 		});
 
+		// [200] Success
 		return {
 			..._returnObj,
 			status: true,
@@ -129,6 +122,7 @@ export default {
 				user: req.body.user_decoded._id
 			});
 
+			// [200] Success
 			return {
 				..._returnObj,
 				status: true,

@@ -34,5 +34,22 @@ export const WebAppSchema = new mongoose.Schema({
 });
 
 
+WebAppSchema.pre("validate", function (this: IWebApp, next: Function) {
+	if (!this.name) {
+		throw "Invalid params";
+	}
+
+	next();
+});
+
+WebAppSchema.pre("findOneAndUpdate", function (this: any, next: Function) {
+	if (!this._update.$set.name) {
+		throw "Invalid params";
+	}
+
+	next();
+});
+
+
 // [MONGOOSE-MODEL]
 export default mongoose.model<IWebApp>('WebApp', WebAppSchema);
