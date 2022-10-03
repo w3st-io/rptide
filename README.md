@@ -47,14 +47,7 @@ A Headless Content & Product Management System
 * Increase Post Counts on Page
 * Set encryption key for secrey key in env
 * Create subscription products
-	* Price objects for each will have 1 day trial (24 hour buffer) 
-
-## FILL-DATA should be done in the "collections" file
-
-## ROUTE STRUCTURE
-```
-/< CLASSIFICATION (leave empty for public): "user" or "admin" >/< ITEM  >/:item_related_property/< FUNCTION: (create, read, read-all.. etc) >/:tab/:sort/:limit/:page/:other
-```
+* Price objects for each will have 1 day trial (24 hour buffer) 
 
 ## TODO
 * ADD SCHEDULE SYSTEM!
