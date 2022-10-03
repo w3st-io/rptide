@@ -42,6 +42,7 @@ export interface IUser extends mongoose.Document {
 	createdAt: Date,
 };
 
+
 export const UserSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
@@ -158,5 +159,6 @@ export const UserSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
+
 
 export default mongoose.model<IUser>("User", UserSchema);

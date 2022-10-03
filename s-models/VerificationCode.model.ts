@@ -10,6 +10,7 @@ export interface IVerificationCode extends mongoose.Document {
 	createdAt: Date,
 };
 
+
 export const VerificationCodeSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
@@ -30,5 +31,6 @@ export const VerificationCodeSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
+
 
 export default mongoose.model<IVerificationCode>('VerificationCode', VerificationCodeSchema);

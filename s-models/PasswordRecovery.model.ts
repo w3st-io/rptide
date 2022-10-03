@@ -2,12 +2,14 @@
 import mongoose from "mongoose";
 
 
+// [INTERFACE]
 export interface IPasswordRecovery extends mongoose.Document {
 	_id: mongoose.Schema.Types.ObjectId,
 	user: mongoose.Schema.Types.ObjectId,
 	verificationCode: string,
 	createdAt: Date,
 };
+
 
 export const PasswordRecoverySchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,

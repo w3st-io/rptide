@@ -10,6 +10,7 @@ export interface IWebApp extends mongoose.Document {
 	createdAt: Date,
 };
 
+
 export const WebAppSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
@@ -30,5 +31,6 @@ export const WebAppSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
+
 
 export default mongoose.model<IWebApp>('WebApp', WebAppSchema);

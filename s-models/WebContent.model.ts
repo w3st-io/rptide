@@ -1,4 +1,4 @@
-// [REQUIRE]
+// [IMPORT]
 import mongoose from "mongoose";
 
 
