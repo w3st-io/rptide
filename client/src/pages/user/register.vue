@@ -1,6 +1,6 @@
 <template>
 	<article class="mx-auto my-5 text-light register-terminal">
-		<BCard bg-variant="dark" border-variant="secondary">
+		<BCard bg-variant="dark" border-variant="secondary" class="shadow">
 			<h4 class="mb-3 text-center">Register</h4>
 			<h6 class="mb-3 text-center text-secondary">Join Something Awesome!</h6>
 
