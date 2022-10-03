@@ -173,15 +173,12 @@ UserSchema.methods.comparePassword = async function (candidatePassword: string):
 
 
 // When the user registers
-UserSchema.pre(
-	"save",
-	async function (this: IUser, next: Function) {
-		// Replace the password with the hash
-		this.password = await bcrypt.hash(this.password, 10);
+UserSchema.pre("save", async function (this: IUser, next: Function) {
+	// Replace the password with the hash
+	this.password = await bcrypt.hash(this.password, 10);
 
-		next();
-	}
-);
+	next();
+});
 
 
 UserSchema.pre("findOneAndUpdate", async function (this: any, next: Function) {
