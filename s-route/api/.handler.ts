@@ -116,8 +116,8 @@ export default {
 			}
 
 			// [READ][User] Get user by email
-			const user: IUser = await UserModel.findOne({ email: req.body.email });
-
+			const user: IUser = await UserModel.findOne({ email: req.body.email }, { lean: false });
+			
 			if (!user) {
 				return {
 					..._returnObj,
@@ -126,7 +126,7 @@ export default {
 			}
 
 			// [VALIDATE-PASSWORD]
-			if (!bcrypt.compareSync(req.body.password, user.password)) {
+			if (!await user.comparePassword(req.body.password)) {
 				return {
 					..._returnObj,
 					message: "Invalid email or password"

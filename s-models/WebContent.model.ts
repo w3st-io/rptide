@@ -59,6 +59,8 @@ export interface IWebContent extends mongoose.Document {
 	createdTimeStamp: Date
 };
 
+
+// [SCHEMA]
 export const WebContentSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	

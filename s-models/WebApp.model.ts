@@ -11,6 +11,7 @@ export interface IWebApp extends mongoose.Document {
 };
 
 
+// [SCHEMA]
 export const WebAppSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 

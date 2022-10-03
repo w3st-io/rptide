@@ -1,4 +1,5 @@
 // [IMPORT]
+import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
 
@@ -40,9 +41,11 @@ export interface IUser extends mongoose.Document {
 		webApp: string,
 	},
 	createdAt: Date,
+	comparePassword(candidatePassword: string): Promise<boolean>
 };
 
 
+// [SCHEMA]
 export const UserSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
@@ -159,6 +162,14 @@ export const UserSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
+
+
+// [SCHEMA-METHODS] Compare a candidate password with the user's password
+UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
+	const user = this as IUser;
+  
+	return bcrypt.compareSync(candidatePassword, user.password);
+};
 
 
 export default mongoose.model<IUser>("User", UserSchema);

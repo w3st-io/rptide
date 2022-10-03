@@ -27,6 +27,7 @@ export interface IProduct extends mongoose.Document {
 };
 
 
+// [SCHEMA]
 export const ProductSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
