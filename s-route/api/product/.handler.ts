@@ -17,7 +17,7 @@ let returnObj: any = {
 
 
 export default {
-	create: async (req: express.Request): Promise<object> => {
+	"/create": async (req: express.Request): Promise<object> => {
 		try {
 			// [INIT]
 			let product: IProduct = req.body.product;
@@ -43,8 +43,8 @@ export default {
 					dollars: product.price.dollars,
 					cents: product.price.cents,
 				},
-				categories: product.categories || [],
-				images: product.images || [],
+				categories: product.categories,
+				images: product.images,
 			}).save();
 
 			// [200] Success
@@ -63,37 +63,7 @@ export default {
 		}
 	},
 
-	deleteOne: async (req: express.Request): Promise<object> => {
-		let _returnObj: any = {
-			...returnObj,
-			deleted: false,
-			message: "Product Deleted"
-		};
-
-		try {
-			// [MONGODB][Product][DELETE]
-			const product = await ProductModel.deleteOne({
-				user: req.body.user_decoded._id,
-				_id: req.body.product_id,
-			});
-
-			return {
-				..._returnObj,
-				status: true,
-				deleted: true,
-				deleteProduct: product,
-			};
-		}
-		catch (err) {
-			return {
-				..._returnObj,
-				executed: false,
-				message: `${err}`
-			};
-		}
-	},
-
-	find: async (req: express.Request): Promise<object> => {
+	"/find": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -129,7 +99,7 @@ export default {
 		}
 	},
 
-	findOne: async (req: express.Request): Promise<object> => {
+	"/find-one": async (req: express.Request): Promise<object> => {
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
@@ -166,7 +136,7 @@ export default {
 		}
 	},
 
-	update: async (req: express.Request): Promise<object> => {
+	"/update": async (req: express.Request): Promise<object> => {
 		try {
 			// [INIT]
 			let product: IProduct = req.body.product;
@@ -221,5 +191,35 @@ export default {
 				message: `${err}`
 			};
 		}
-	}
+	},
+
+	"/delete-one": async (req: express.Request): Promise<object> => {
+		let _returnObj: any = {
+			...returnObj,
+			deleted: false,
+			message: "Product Deleted"
+		};
+
+		try {
+			// [MONGODB][Product][DELETE]
+			const product = await ProductModel.deleteOne({
+				user: req.body.user_decoded._id,
+				_id: req.body.product_id,
+			});
+
+			return {
+				..._returnObj,
+				status: true,
+				deleted: true,
+				deleteProduct: product,
+			};
+		}
+		catch (err) {
+			return {
+				..._returnObj,
+				executed: false,
+				message: `${err}`
+			};
+		}
+	},
 }
