@@ -38,7 +38,7 @@
 
 <style lang="scss" scoped>
 	// [IMPORT] Personal
-	@import 'src/assets/styles/style.scss';
+	@import 'src/assets/styles/index.scss';
 
 	.card {
 		@extend .mb-5;

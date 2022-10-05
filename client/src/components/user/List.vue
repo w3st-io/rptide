@@ -77,7 +77,7 @@
 
 <style lang="scss" scoped>
 	// [IMPORT] Personal
-	@import 'src/assets/styles/style.scss';
+	@import 'src/assets/styles/index.scss';
 
 	.list-group-item {
 		&:hover { background-color: rgba(127.5, 127.5, 127.5, 0.4) !important; }

@@ -192,7 +192,7 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'src/assets/styles/style.scss';
+	@import 'src/assets/styles/index.scss';
 
 	.form-control {
 		@extend .bg-dark;

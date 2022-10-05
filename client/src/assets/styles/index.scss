@@ -1,6 +1,11 @@
 // [IMPORT] Personal
+// This adds to bootstrap
 @import './bootstrap-booster.scss';
+// This file overrides bootstrap-booster
 @import './bootstrap-override.scss';
+// Custom styling
 @import './custom.scss';
+// Variables definitions
 @import './variables.scss';
+// Vue Credit Card
 @import './VueCreditCard.scss'

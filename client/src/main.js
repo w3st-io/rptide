@@ -16,7 +16,7 @@ import 'tiny-slider/src/tiny-slider.scss'
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
-import '@/assets/styles/style.scss'
+import '@/assets/styles/index.scss'
 import '@/vee-validation-rules'
 
 
