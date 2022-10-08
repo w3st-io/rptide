@@ -307,18 +307,11 @@ export default {
 
 			// if no cusId 
 			if (user.stripe.cusId == "" || user.stripe.cusId == null) {
-				console.log('run');
-				
-
 				// [API][stripe] Create customer
 				const createdStripeCustomer = await Stripe.customers.create({
 					email: user.email,
 					metadata: { user_id: `${user._id}` },
 				});
-
-				console.log('run');
-				
-				
 
 				// [UPDATE][User]
 				await UserModel.findOneAndUpdate(
