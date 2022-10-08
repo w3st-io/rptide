@@ -182,8 +182,10 @@ UserSchema.pre("save", async function (this: IUser, next: Function) {
 
 
 UserSchema.pre("findOneAndUpdate", async function (this: any, next: Function) {
-	// Replace the password with the hash
-	this._update.$set.password = await bcrypt.hash(this._update.$set.password, 10);
+	if (this._update.$set.password) {
+		// Replace the password with the hash
+		this._update.$set.password = await bcrypt.hash(this._update.$set.password, 10);
+	}
 	
 	next();
 });

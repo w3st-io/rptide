@@ -13,7 +13,6 @@
 		>Web Content</BButton>
 		
 		<BButton
-			v-if="node_env == 'development'"
 			variant="none"
 			pill
 			class="w-100 mb-3"
@@ -25,7 +24,6 @@
 		>Products</BButton>
 
 		<BButton
-			v-if="node_env == 'development'"
 			variant="none"
 			pill
 			class="w-100 mb-3"
