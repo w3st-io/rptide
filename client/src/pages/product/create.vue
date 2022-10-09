@@ -8,6 +8,7 @@
 			v-if="!loading"
 			bg-variant="dark"
 			text-variant="light"
+			border-variant="secondary"
 			class="mb-3 shadow"
 		>
 			<BRow>

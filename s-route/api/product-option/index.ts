@@ -31,6 +31,8 @@ router.post(
 		try {
 			const productOption: IProductOption = req.body;
 
+			console.log(productOption);
+			
 			// [INIT]
 			let variants = [];
 
