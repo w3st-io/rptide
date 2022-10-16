@@ -35,17 +35,26 @@
 </template>
 
 <script>
-	import UserService from "../../services/UserService";
-
+	import axios from "axios";
+	
 	export default {
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: "/api",
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				error: ""
 			}
 		},
 		methods: {
 			async generateApiKey() {
-				const resData = await UserService.s_generateApiKey()
+				const resData = (
+					await this.authAxios.post("/generate-api-key")
+				).data;
 				
 				if (resData.status) {
 					this.$store.state.user.api.privateKey = resData.privateKey;

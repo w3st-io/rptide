@@ -49,12 +49,12 @@
 				localStorage.removeItem("usertoken");
 
 				// [STORE]
-				this.$store.state = {
+				this.$store.replaceState({
 					...this.$store.state,
 					key: this.$store.state.key + 1,
 					user: null,
 					webApps: []
-				};
+				});
 				
 				// [STORE][SOCKET][EMIT]
 				this.$store.state.socket.emit("user-logout");

@@ -2,10 +2,6 @@
 import axios from 'axios';
 
 
-// [IMPORT] Personal
-import store from '@/store';
-
-
 // [INIT]
 const location = '/client/src/services/UserService';
 
@@ -49,22 +45,6 @@ export default {
 				executed: false,
 				status: false,
 				message: `${location}: Error --> ${err}`
-			};
-		}
-	},
-
-
-	s_generateApiKey: async function () {
-		try {
-			const res = await authAxios.post('/generate-api-key');
-			
-			return res.data;
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${err}`
 			};
 		}
 	},

@@ -22,12 +22,18 @@
 </template>
 
 <script>
-	// [IMPORT] Personal
-	import Service from '@/services'
+	import axios from "axios";
 
 	export default {
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: '/api',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				user_id: this.$route.params.user_id,
 				verificationCode: this.$route.params.verification_code,
 				success: '',
@@ -37,13 +43,15 @@
 
 		async created() {
 			try {
-				const returned = (await authAxios.post(
-					'/complete-registration',
-					{
-						user_id: this.user_id,
-						verificationCode: this.verificationCode
-					}
-				)).data
+				const returned = (
+					await this.authAxios.post(
+						'/complete-registration',
+						{
+							user_id: this.user_id,
+							verificationCode: this.verificationCode
+						}
+					)
+				).data
 
 				if (returned.status) {
 					this.success = 'Verified!'
