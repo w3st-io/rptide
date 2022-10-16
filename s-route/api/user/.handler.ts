@@ -5,8 +5,8 @@ import validator from "validator";
 
 // [IMPORT] Personal
 import config from "../../../s-config";
-import UserModel, { IUser } from "../../../s-models/User.model";
-import VerificationCodeModel, { IVerificationCode } from "../../../s-models/VerificationCode.model";
+import UserModel, { IUser } from "../../../s-model/User.model";
+import VerificationCodeModel, { IVerificationCode } from "../../../s-model/VerificationCode.model";
 import mailerUtil from "../../../s-util/mailerUtil";
 
 

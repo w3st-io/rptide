@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 
 
 // [IMPORT] Personal
-import WebAppModel from "../../../s-models/WebApp.model";
-import WebContentModel, { IWebContent } from "../../../s-models/WebContent.model";
+import WebAppModel from "../../../s-model/WebApp.model";
+import WebContentModel, { IWebContent } from "../../../s-model/WebContent.model";
 
 
 // [INIT]

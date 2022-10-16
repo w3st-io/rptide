@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 // [IMPORT] Personal
 import Auth from "../../../s-middleware/Auth";
-import ProductOptionModel, { IProductOption } from "../../../s-models/ProductOption.model";
+import ProductOptionModel, { IProductOption } from "../../../s-model/ProductOption.model";
 import formatterUtil from "../../../s-util/formatterUtil";
 
 

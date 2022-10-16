@@ -4,7 +4,7 @@ import express from "express";
 
 // [IMPORT] Personal
 import config from '../s-config';
-import UserModel, { IUser } from '../s-models/User.model';
+import UserModel, { IUser } from '../s-model/User.model';
 
 
 // [REQUIRE]

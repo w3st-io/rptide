@@ -7,10 +7,10 @@ import validator from "validator";
 // [IMPORT] Personal
 import config from "../../s-config";
 import config_const from "../../s-config/const";
-import PasswordRecoveryModel, { IPasswordRecovery } from "../../s-models/PasswordRecovery.model";
-import VerificationCodeModel, { IVerificationCode } from "../../s-models/VerificationCode.model";
-import UserModel, { IUser } from "../../s-models/User.model";
-import WebAppModel, { IWebApp } from "../../s-models/WebApp.model";
+import PasswordRecoveryModel, { IPasswordRecovery } from "../../s-model/PasswordRecovery.model";
+import VerificationCodeModel, { IVerificationCode } from "../../s-model/VerificationCode.model";
+import UserModel, { IUser } from "../../s-model/User.model";
+import WebAppModel, { IWebApp } from "../../s-model/WebApp.model";
 import mailerUtil from "../../s-util/mailerUtil";
 
 

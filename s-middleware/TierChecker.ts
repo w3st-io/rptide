@@ -3,10 +3,10 @@ import express from 'express';
 
 // [IMPORT] Personal
 import config_const from "../s-config/const";
-import ProductModel from "../s-models/Product.model";
-import ProductOptionModel from "../s-models/ProductOption.model";
-import UserModel, { IUser } from "../s-models/User.model";
-import WebAppModel from "../s-models/WebApp.model";
+import ProductModel from "../s-model/Product.model";
+import ProductOptionModel from "../s-model/ProductOption.model";
+import UserModel, { IUser } from "../s-model/User.model";
+import WebAppModel from "../s-model/WebApp.model";
 import h_user from "../s-route/api/user/.handler";
 
 

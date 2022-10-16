@@ -3,9 +3,9 @@ import express from "express";
 import mongoose from "mongoose";
 
 // [IMPORT] Personal
-import UserModel from "../../../s-models/User.model";
-import WebAppModel, { IWebApp } from "../../../s-models/WebApp.model";
-import WebContentModel from "../../../s-models/WebContent.model";
+import UserModel from "../../../s-model/User.model";
+import WebAppModel, { IWebApp } from "../../../s-model/WebApp.model";
+import WebContentModel from "../../../s-model/WebContent.model";
 
 
 // [REQUIRE] Personal

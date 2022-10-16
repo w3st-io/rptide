@@ -3,7 +3,7 @@ import express from "express";
 import mongoose, { FilterQuery } from "mongoose";
 
 // [IMPORT] Personal
-import ProductModel, { IProduct } from "../../../s-models/Product.model";
+import ProductModel, { IProduct } from "../../../s-model/Product.model";
 import formatterUtil from "../../../s-util/formatterUtil";
 
 
