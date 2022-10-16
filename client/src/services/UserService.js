@@ -33,24 +33,6 @@ export default {
 			};
 		}
 	},
-
-
-	// [LOGOUT]
-	s_logout: async function () {
-		// [TOKEN]
-		localStorage.removeItem('usertoken');
-
-		// [STORE]
-		store.state = {
-			...store.state,
-			key: store.state.key + 1,
-			user: null,
-			webApps: []
-		};
-		
-		// [STORE][SOCKET][EMIT]
-		store.state.socket.emit('user-logout');
-	},
 	
 	
 	/******************* [PASSWORD] *******************/

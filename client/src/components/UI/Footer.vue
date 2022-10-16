@@ -40,15 +40,26 @@
 </template>
 
 <script>
-	import router from '@/router'
-	import UserService from '@/services/UserService'
+	import router from "@/router";
 
 	export default {
 		methods: {
 			logout() {
-				UserService.s_logout()
+				// [TOKEN]
+				localStorage.removeItem("usertoken");
 
-				router.push({ name: 'user_login' })
+				// [STORE]
+				this.$store.state = {
+					...this.$store.state,
+					key: this.$store.state.key + 1,
+					user: null,
+					webApps: []
+				};
+				
+				// [STORE][SOCKET][EMIT]
+				this.$store.state.socket.emit("user-logout");
+
+				router.push({ name: "user_login" })
 			},
 		}
 	}
