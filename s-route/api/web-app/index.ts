@@ -15,7 +15,6 @@ const router = express.Router().use(cors());
 
 router.post(
 	"/create",
-	rateLimiter.post,
 	Auth.userToken(),
 	TierChecker.webAppLimitCheck(),
 	async (req: express.Request, res: express.Response) => {
@@ -26,7 +25,6 @@ router.post(
 
 router.post(
 	"/find-one",
-	rateLimiter.post,
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h["/find-one"](req));
@@ -47,7 +45,6 @@ router.post(
 // [DELETE] Auth Required
 router.post(
 	"/delete-one",
-	rateLimiter.post,
 	Auth.userToken(),
 	async (req: express.Request, res: express.Response) => {
 		res.send(await h["/delete-one"](req));
