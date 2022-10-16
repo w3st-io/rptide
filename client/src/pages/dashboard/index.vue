@@ -41,7 +41,7 @@
 	import Product        from '../../components/dashboard/Product.vue';
 	import ProductOptions from '../../components/dashboard/ProductOptions.vue';
 	import WebContent     from '../../components/dashboard/WebContent.vue';
-	import router         from '../../router/index.js';
+	import router         from '../../router.js';
 
 	export default {
 		data() {
