@@ -155,7 +155,7 @@ class Auth {
 						else {
 							res.send({
 								...returnObj,
-								message: 'User NOT verified',
+								message: 'User not found',
 							});
 						}
 					}
