@@ -91,6 +91,9 @@
 </template>
 
 <script>
+	// [IMPORT]
+	import axios from "axios";
+
 	// [IMPORT] Personal
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
@@ -126,7 +129,7 @@
 					this.submitted = true
 
 					const resData = (
-						await authAxios.post('/update/password', {
+						await this.authAxios.post('/update/password', {
 							currentPassword: this.formData.currentPassword,
 							password: this.formData.password
 						})

@@ -92,12 +92,12 @@
 
 <script>
 	// [IMPORT]
-	import { LogInIcon } from 'vue-feather-icons'
+	import axios from "axios";
+	import { LogInIcon } from "vue-feather-icons"
 
 	// [IMPORT] Personal
-	import Alert from '@/components/inform/Alert'
-	import router from '@/router'
-	import service from '@/services'
+	import Alert from "@/components/inform/Alert"
+	import router from "@/router"
 
 	// [EXPORT]
 	export default {
@@ -108,17 +108,23 @@
 
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: "/api",
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				submitted: false,
-				email: '',
-				password: '',
-				resData: '',
-				error: '',
+				email: "",
+				password: "",
+				error: "",
 			}
 		},
 
 		created: async function() {
 			// [REDIRECT] Logged
-			if (localStorage.usertoken) { router.push({ name: '/' }) }
+			if (localStorage.usertoken) { router.push({ name: "/" }) }
 		},
 
 		methods: {
@@ -126,24 +132,35 @@
 				try {
 					// [VALIDATE]
 					if (!this.email || !this.password)  {
-						this.error = 'Fields are required'
+						this.error = "Fields are required"
 						return
 					}
 
-					// [LOGIN]
-					this.resData = await service.s_login(
-						this.email,
-						this.password
-					)
+					const resData = await this.authAxios.post("/login", {
+						email: this.email,
+						password: this.password
+					});
+			
+					if (resData.data.validation) {
+						// [LOCAL-STORAGE] usertoken
+						localStorage.setItem("usertoken", resData.data.token);
 
-					console.log(this.resData);
+						// [STORE]
+						this.$store.replaceState({
+							...this.$store.state,
+							user: resData.data.user,
+							webApps: resData.data.webApps,
+							key: this.store.state.key + 1
+						});
+					}
 					
 					// Check Validation Status
-					if (
-						this.resData.status == true &&
-						this.resData.validation == true
-					) { router.go(-1) }
-					else { this.error = this.resData.message }
+					if (resData.data.validation == true) {
+						router.go(-1);
+					}
+					else {
+						this.error = resData.data.message
+					}
 				}
 				catch (err) { this.error = err }
 			},

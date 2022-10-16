@@ -77,10 +77,12 @@
 </template>
 
 <script>
+	// [IMPORT]
+	import axios from "axios";
+
 	// [IMPORT] Personal
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import Service from '@/services'
 
 	// [EXPORT]
 	export default {
@@ -90,6 +92,12 @@
 
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: '/api',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
 				formData: {
 					email: '',
 					password: '',
@@ -108,14 +116,16 @@
 		methods: {
 			async register() {
 				try {
-					this.data = await Service.s_register({
-						email: this.formData.email,
-						password: this.formData.password,
-					})
+					const res = (
+						await this.authAxios.post('/register', {
+							email: this.formData.email,
+							password: this.formData.password,
+						})
+					).data
 
 					// Check Status
-					if (this.data.created) { router.push({ name: 'user_registered' }) }
-					else { this.error = this.data.message }
+					if (res.created) { router.push({ name: 'user_registered' }) }
+					else { this.error = res.message }
 				}
 				catch (err) { this.error = err }
 			},

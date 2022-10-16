@@ -2,10 +2,6 @@
 import axios from 'axios';
 
 
-// [IMPORT] Personal
-import store from '@/store';
-
-
 // [INIT]
 const location = '/client/src/services';
 
@@ -20,52 +16,6 @@ const authAxios = axios.create({
 
 
 export default {
-	/******************* [USER-LOGIN-LOGOUT-REGISTER] *******************/
-	// [LOGIN]
-	s_login: async function (email, password) {
-		try {
-			const { data } = await authAxios.post('/login', { email, password });
-			
-			if (data.validation) {
-				// [LOCAL-STORAGE] usertoken
-				localStorage.setItem('usertoken', data.token);
-
-				// [STORE]
-				// user
-				store.state.user = data.user;
-				// webApps
-				store.state.webApps = data.webApps;
-				// key
-				store.state.key++;
-			}
-	
-			return data;
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			};
-		}
-	},
-
-
-	// [REGISTER]
-	s_register: async function ({ email, password }) {
-		try {
-			return (await authAxios.post('/register', { email, password })).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-
-
 	s_requestResetPassword: async function (email) {
 		try {
 			return (await authAxios.post('/request-reset-password', { email })).data
