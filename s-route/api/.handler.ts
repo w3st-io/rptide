@@ -98,24 +98,21 @@ export default {
 		};
 
 		try {
+			const userInput: {
+				email: string,
+				password: string
+			} = req.body;
+
 			// [VALIDATE] email
-			if (!validator.isEmail(req.body.email)) {
+			if (!validator.isEmail(userInput.email)) {
 				return {
 					..._returnObj,
 					message: "Invalid email",
 				};
 			}
-				
-			// [VALIDATE] password
-			if (!validator.isAscii(req.body.password)) {
-				return {
-					..._returnObj,
-					message: "Invalid password",
-				};
-			}
 
 			// [READ][User] Get user by email
-			const user: IUser = await UserModel.findOne({ email: req.body.email });
+			const user: IUser = await UserModel.findOne({ email: userInput.email });
 			
 			if (!user) {
 				return {
@@ -125,7 +122,7 @@ export default {
 			}
 
 			// [VALIDATE-PASSWORD]
-			if (!await user.comparePassword(req.body.password)) {
+			if (!await user.comparePassword(userInput.password)) {
 				return {
 					..._returnObj,
 					message: "Invalid email or password"
@@ -146,8 +143,10 @@ export default {
 			const webApps: IWebApp[] = await WebAppModel.find({ user: user._id });
 
 			const cleanUser: IUser = await UserModel.findOne(
-				{ email: req.body.email }
-			).select("-password -api.publicKey");
+					{ email: userInput.email }
+				)
+				.select("-password -api.publicKey")
+			;
 
 			// [200] Success
 			return {

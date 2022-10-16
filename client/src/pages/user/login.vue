@@ -122,11 +122,6 @@
 			}
 		},
 
-		created: async function() {
-			// [REDIRECT] Logged
-			if (localStorage.usertoken) { router.push({ name: "/" }) }
-		},
-
 		methods: {
 			async login() {
 				try {
@@ -164,6 +159,11 @@
 				}
 				catch (err) { this.error = err }
 			},
+		},
+
+		created: async function () {
+			// [REDIRECT] Logged
+			if (localStorage.usertoken) { router.push({ name: "/" }) }
 		}
 	}
 </script>
