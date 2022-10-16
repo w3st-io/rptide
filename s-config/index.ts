@@ -8,13 +8,11 @@ export default {
 	
 	// [APP]
 	app: {
+		// [SAFE-MODE]
 		safeMode: process.env.APP__SAFE_MODE || true,
 
 		// [MONGODB]
 		mongoURI: process.env.APP__MONGO_URI || '',
-		
-		// [CUSTOM-HOME]
-		customHome: process.env.APP__CUSTOM_HOME || 'false',
 		
 		// [SECRET]
 		secretKey: process.env.APP__SECRET_KEY || 'secret',
