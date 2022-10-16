@@ -825,7 +825,6 @@ import { ArrowLeftCircleIcon } from 'vue-feather-icons'
 import Confirm from '@/components/popups/Confirm'
 import Alert from '@/components/inform/Alert'
 import router from '@/router'
-import ProductService from '@/services/ProductService'
 
 export default {
 	data() {
@@ -921,7 +920,10 @@ export default {
 			this.product.optionalProductOptions = optionalProductOptions
 
 
-			this.resData = await ProductService.s_update({ product: this.product })
+			this.resData = (
+				await this.authAxios.post('/update', { product: this.product })
+			).data;
+
 
 			if (this.resData.status) { this.product = this.resData.updatedProduct }
 			else { this.error = this.resData.message }
@@ -970,10 +972,12 @@ export default {
 		},
 
 		async deleteProduct() {
-			console.log(this.product);
-			this.resData = await ProductService.s_delete({
-				product_id: this.product._id
-			})
+			this.resData = (
+				await this.authAxios.post('/delete-one', {
+					product_id: this.product._id
+				})
+			).data;
+
 
 			this.showConfirm = false
 

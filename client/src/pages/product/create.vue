@@ -122,9 +122,10 @@
 </template>
 
 <script>
-	import Alert          from '../../components/inform/Alert';
-	import ProductService from '../../services/ProductService';
-	import router         from '../../router';
+	import axios from "axios";
+
+	import Alert from "../../components/inform/Alert";
+	import router from "../../router";
 
 	export default {
 		components: {
@@ -133,18 +134,25 @@
 
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: "/api/product",
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				loading: true,
 				resData: {},
-				error: '',
-				message: 'We do not support uploading images yet. please provide a URL for images.',
+				error: "",
+				message: "We do not support uploading images yet. please provide a URL for images.",
 
 				product: {
-					name: '',
+					name: "",
 					price: {
-						dollars: '0',
-						cents: '0',
+						dollars: "0",
+						cents: "0",
 					},
-					description: '',
+					description: "",
 					categories: [],
 					images: [],
 				},
@@ -153,24 +161,22 @@
 
 		methods: {
 			async submitForm() {
-				this.resData = await ProductService.s_create({
-					product: this.product
-				})
+				const res = (
+					await this.authAxios.post("/create", { product: this.product })
+				).data;
 
-				if (this.resData.status) {
+				if (res.status) {
 					router.push({
-						name: 'dashboard',
+						name: "dashboard",
 						params: {
-							tab: 'product',
+							tab: "product",
 							sort: 0,
 							limit: 5,
 							page: 1,
 						}
 					})
 				}
-				else {
-					console.log(this.resData);
-					this.error = this.resData.message }
+				else { this.error = res.message }
 			},
 		},
 
@@ -181,7 +187,7 @@
 </script>
 
 <style lang="scss" scoped>
-	@import 'src/assets/styles/index.scss';
+	@import "src/assets/styles/index.scss";
 	
 	.input-style {
 		@extend .form-control;
