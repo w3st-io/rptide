@@ -16,14 +16,14 @@
 
 <script>
 	// [IMPORT]
-	import axios from 'axios';
+	import axios from "axios";
 
 	// [IMPORT] Personal
-	import Footer from './components/UI/Footer';
-	import NavBar from './components/UI/NavBar';
+	import Footer from "./components/UI/Footer";
+	import NavBar from "./components/UI/NavBar";
 
 	export default {
-		name: 'App',
+		name: "App",
 
 		components: {
 			Footer,
@@ -33,7 +33,7 @@
 		data() {
 			return {
 				authAxios: axios.create({
-					baseURL: '/api',
+					baseURL: "/api",
 					headers: {
 						user_authorization: `Bearer ${localStorage.usertoken}`,
 					}
@@ -45,23 +45,18 @@
 			async initializeApp() {
 				this.$store.state.loading = true;
 
-				const res = (await this.authAxios.get('/')).data;
+				const res = (await this.authAxios.get("/")).data;
 
 				if (res.status) {
 					// [LOCAL-STORAGE]
-					localStorage.setItem('node_env', res.node_env);
+					localStorage.setItem("node_env", res.node_env);
 
-					this.$store.state.limit = res.limit;
-						
-					// [STORE] user
-					if (res.user) {
-						this.$store.state.user = res.user;
-					}
-
-					// [STORE] webApps
-					if (res.webApps) {
-						this.$store.state.webApps = res.webApps;
-					}
+					this.$store.replaceState({
+						...this.$store.state,
+						limit: res.limit,
+						user: res.user || null,
+						webApps: res.webApps || []
+					});
 				}
 
 				this.$store.state.loading = false;

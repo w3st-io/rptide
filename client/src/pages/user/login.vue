@@ -148,9 +148,9 @@
 						// [STORE]
 						this.$store.replaceState({
 							...this.$store.state,
+							key: this.$store.state.key + 1,
 							user: resData.data.user,
-							webApps: resData.data.webApps,
-							key: this.store.state.key + 1
+							webApps: resData.data.webApps
 						});
 					}
 					
