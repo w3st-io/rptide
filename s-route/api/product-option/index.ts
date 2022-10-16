@@ -4,9 +4,9 @@ import express from "express";
 import mongoose from "mongoose";
 
 // [IMPORT] Personal
-import Auth from "../../../s-middlewares/Auth";
+import Auth from "../../../s-middleware/Auth";
 import ProductOptionModel, { IProductOption } from "../../../s-models/ProductOption.model";
-import formatterUtil from "../../../s-utils/formatterUtil";
+import formatterUtil from "../../../s-util/formatterUtil";
 
 
 // [EXPRESS + USE]

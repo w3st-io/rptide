@@ -9,7 +9,7 @@ import path from "path";
 
 // [IMPORT] Personal
 import config from "./s-config";
-import Functionality from "./s-middlewares/Functionality";
+import Functionality from "./s-middleware/Functionality";
 import rateLimiter from "./s-rate-limiter";
 import route_api from './s-route/api';
 import route_api_product from "./s-route/api/product";

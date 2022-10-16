@@ -4,7 +4,7 @@ import mongoose, { FilterQuery } from "mongoose";
 
 // [IMPORT] Personal
 import ProductModel, { IProduct } from "../../../s-models/Product.model";
-import formatterUtil from "../../../s-utils/formatterUtil";
+import formatterUtil from "../../../s-util/formatterUtil";
 
 
 // [INIT]

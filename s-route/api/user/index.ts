@@ -4,8 +4,8 @@ import express from "express";
 
 // [IMPORT] Personal
 import h from "./.handler";
-import Auth from "../../../s-middlewares/Auth";
-import Functionality from "../../../s-middlewares/Functionality";
+import Auth from "../../../s-middleware/Auth";
+import Functionality from "../../../s-middleware/Functionality";
 
 
 // [EXPRESS + USE]

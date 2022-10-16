@@ -4,7 +4,7 @@ import express from "express";
 
 // [IMPORT] Personal
 import h from "./.handler";
-import Auth from "../../s-middlewares/Auth";
+import Auth from "../../s-middleware/Auth";
 
 
 // [EXPRESS + USE]

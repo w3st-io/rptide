@@ -20,7 +20,7 @@ let returnObj: any = {
 	executed: true,
 	status: false,
 	message: "",
-	location: '/s-middlewares/Auth',
+	location: '/s-middleware/Auth',
 	auth: false
 };
 

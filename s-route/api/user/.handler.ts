@@ -7,7 +7,7 @@ import validator from "validator";
 import config from "../../../s-config";
 import UserModel, { IUser } from "../../../s-models/User.model";
 import VerificationCodeModel, { IVerificationCode } from "../../../s-models/VerificationCode.model";
-import mailerUtil from "../../../s-utils/mailerUtil";
+import mailerUtil from "../../../s-util/mailerUtil";
 
 
 // [REQUIRE]

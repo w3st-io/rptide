@@ -11,7 +11,7 @@ import PasswordRecoveryModel, { IPasswordRecovery } from "../../s-models/Passwor
 import VerificationCodeModel, { IVerificationCode } from "../../s-models/VerificationCode.model";
 import UserModel, { IUser } from "../../s-models/User.model";
 import WebAppModel, { IWebApp } from "../../s-models/WebApp.model";
-import mailerUtil from "../../s-utils/mailerUtil";
+import mailerUtil from "../../s-util/mailerUtil";
 
 
 // [REQUIRE]

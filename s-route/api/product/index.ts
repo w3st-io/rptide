@@ -4,8 +4,8 @@ import express from "express";
 
 // [IMPORT] Personal
 import h from './.handler';
-import Auth from "../../../s-middlewares/Auth";
-import TierChecker from '../../../s-middlewares/TierChecker';
+import Auth from "../../../s-middleware/Auth";
+import TierChecker from '../../../s-middleware/TierChecker';
 
 
 // [EXPRESS + USE]
