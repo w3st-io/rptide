@@ -94,7 +94,6 @@
 	// [IMPORT] Personal
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import UserService from '@/services/UserService'
 
 	// [EXPORT]
 	export default {
@@ -104,8 +103,14 @@
 
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: '/api/user',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				submitted: false,
-				resData: '',
 				message: '',
 				formData: {
 					currentPassword: '',
@@ -120,14 +125,16 @@
 				try {
 					this.submitted = true
 
-					this.resData = await UserService.s_update_password(
-						this.formData.currentPassword,
-						this.formData.password
-					)
+					const resData = (
+						await authAxios.post('/update/password', {
+							currentPassword: this.formData.currentPassword,
+							password: this.formData.password
+						})
+					).data
 
-					this.message = this.resData.message
+					this.message = resData.message
 
-					if (this.resData.status) {
+					if (resData.status) {
 						this.submitted = true
 						setTimeout(
 							() => {
@@ -140,8 +147,6 @@
 				catch (err) { this.message = err }
 				
 				this.submitted = false
-				
-				console.log('resData:', this.resData)
 			},
 		},
 	}
