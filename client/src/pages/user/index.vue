@@ -30,12 +30,12 @@
 
 <script>
 	// [IMPORT] Personal
-	import MyCard                  from '../../components/stripe/MyCard.vue';
-	import APIKeys                 from '../../components/user/APIKeys.vue';
-	import TierSelector            from '../../components/user/TierSelector.vue';
-	import UpdatePassword          from '../../components/user/UpdatePassword.vue';
-	import VerificationCodeEmailer from '../../components/user/VerificationCodeEmailer.vue';
-	import router                  from '../../router';
+	import MyCard                  from "../../components/stripe/MyCard.vue";
+	import APIKeys                 from "../../components/user/APIKeys.vue";
+	import TierSelector            from "../../components/user/TierSelector.vue";
+	import UpdatePassword          from "../../components/user/UpdatePassword.vue";
+	import VerificationCodeEmailer from "../../components/user/VerificationCodeEmailer.vue";
+	import router                  from "../../router";
 
 	export default {
 		components: {
@@ -47,12 +47,12 @@
 		},
 
 		methods: {
-			redirectPasswordChange() { router.push({ name: 'password_change' }); }
+			redirectPasswordChange() { router.push({ name: "password_change" }); }
 		},
 
 		async created() {
 			// [REDIRECT] Not Log Required
-			if (!localStorage.usertoken) { router.push({ name: 'user_login' }); }
+			if (!localStorage.usertoken) { router.push({ name: "user_login" }); }
 		},
 	}
 </script>
