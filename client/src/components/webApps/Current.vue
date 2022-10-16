@@ -21,30 +21,40 @@
 </template>
 
 <script>
-	import router from '@/router';
+	import axios from "axios";
 
-	import UserService from '../../services/UserService';
+	import router from "@/router";
 
 	export default {
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: '/api/user',
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				currentWebApp: this.$store.state.user.workspace.webApp,
+				
 				resData: {},
 			}
 		},
 
 		methods: {
 			async selectOrganization() {
-				this.resData = await UserService.s_update_workspaceWebApp(
-					this.currentWebApp
-				);
+				this.resData = (
+					await this.authAxios.post('/update/workspace--web-app', {
+						webApp: this.currentWebApp
+					})
+				).data;
 
 				this.$store.state.user.workspace.webApp = this.currentWebApp;
 
 				router.push({
-					name: 'dashboard',
+					name: "dashboard",
 					params: {
-						tab: 'web-content',
+						tab: "web-content",
 						sort: parseInt(this.$route.params.sort) || 0,
 						limit: parseInt(this.$route.params.limit) || 5,
 						page: parseInt(this.$route.params.page) || 1,

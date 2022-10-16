@@ -16,21 +16,6 @@ const authAxios = axios.create({
 
 
 export default {
-	// [UPDATE] Auth Required
-	s_update_workspaceWebApp: async function (webApp) {
-		try {
-			return (await authAxios.post('/update/workspace--web-app', { webApp })).data;
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			};
-		}
-	},
-	
-	
 	/******************* [PASSWORD] *******************/
 	s_update_password: async function (currentPassword, password) {
 		try {
