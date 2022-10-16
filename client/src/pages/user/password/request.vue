@@ -71,12 +71,13 @@
 </template>
 
 <script>
-	// [IMPORT] Personal
-	import Alert from '@/components/inform/Alert'
-	import router from '@/router'
-	import Service from '@/services'
+	// [IMPORT]
+	import axios from "axios";
 
-	// [EXPORT]
+	// [IMPORT] Personal
+	import Alert from "@/components/inform/Alert"
+	import router from "@/router"
+
 	export default {
 		components: {
 			Alert,
@@ -84,17 +85,22 @@
 
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: "/api",
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
 				submitted: false,
-				email: '',
-				data: '',
-				success: '',
-				error: '',
+				email: "",
+				success: "",
+				error: "",
 			}
 		},
 
 		async created() {
 			// [REDIRECT] Log Required
-			if (localStorage.usertoken) { router.push({ name: 'user_profile' }) }
+			if (localStorage.usertoken) { router.push({ name: "user_profile" }) }
 		},
 
 		methods: {
@@ -102,17 +108,21 @@
 				try {
 					this.submitted = true
 
-					this.data = await Service.s_requestResetPassword(this.email)
+					const res = (
+						await this.authAxios.post("/request-reset-password", {
+							email: this.email
+						})
+					).data;
 
-					if (!this.data.status || this.data.existance) {
-						this.error = this.data.message
+					if (!res.status || res.existance) {
+						this.error = res.message
 
 						this.submitted = false
 					}
 					else {
-						this.success = this.data.message
+						this.success = res.message
 
-						setTimeout(() => { router.push({ name: 'user_login' }) }, 1500)
+						setTimeout(() => { router.push({ name: "user_login" }) }, 1500)
 					}
 				}
 				catch (err) { this.error = err }
