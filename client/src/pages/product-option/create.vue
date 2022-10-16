@@ -181,13 +181,20 @@
 </template>
 
 <script>
-	import ProductOptionService from '@/services/ProductOptionService'
+	import axios from "axios";
 
 	export default {
 		data() {
 			return {
+				authAxios: axios.create({
+					baseURL: "/api/product-option",
+					headers: {
+						user_authorization: `Bearer ${localStorage.usertoken}`,
+					}
+				}),
+
 				productOption: {
-					name: '',
+					name: "",
 					variants: [],
 				}
 			}
@@ -196,7 +203,7 @@
 		methods: {
 			addProductVariant() {
 				this.productOption.variants.push({
-					name: '',
+					name: "",
 					price: {
 						dollars: 0,
 						cents: 0,
@@ -205,11 +212,11 @@
 			},
 
 			async submitForm() {
-				this.resData = await ProductOptionService.s_create({
-					productOption: this.productOption
-				})
+				const res = await this.authAxios.post('/create', this.productOption);
 
-				console.log(this.resData);
+				if (res.data.status) {
+					console.log("success");
+				}
 			},
 		},
 	}
