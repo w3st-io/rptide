@@ -41,30 +41,28 @@
 			};
 		},
 
-		methods: {
-			async initializeApp() {
-				this.$store.state.loading = true;
-
-				const res = (await this.authAxios.get("/")).data;
-
-				if (res.status) {
-					// [LOCAL-STORAGE]
-					localStorage.setItem("node_env", res.node_env);
-
-					this.$store.replaceState({
-						...this.$store.state,
-						limit: res.limit,
-						user: res.user || null,
-						webApps: res.webApps || []
-					});
-				}
-
-				this.$store.state.loading = false;
-			},
-		},
-
 		async created() {
-			await this.initializeApp();
+			// [LOADING]
+			this.$store.state.loading = true;
+
+			// [API-REQ]
+			const res = (await this.authAxios.get("/")).data;
+
+			if (res.status) {
+				// [LOCAL-STORAGE]
+				localStorage.setItem("node_env", res.node_env);
+
+				// [STORE]
+				this.$store.replaceState({
+					...this.$store.state,
+					limit: res.limit,
+					user: res.user || null,
+					webApps: res.webApps || []
+				});
+			}
+
+			// [!LOADING]
+			this.$store.state.loading = false;
 		},
 	}
 </script>
