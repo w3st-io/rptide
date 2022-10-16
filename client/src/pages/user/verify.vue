@@ -37,10 +37,13 @@
 
 		async created() {
 			try {
-				const returned = await Service.s_completeRegistration(
-					this.user_id,
-					this.verificationCode
-				)
+				const returned = (await authAxios.post(
+					'/complete-registration',
+					{
+						user_id: this.user_id,
+						verificationCode: this.verificationCode
+					}
+				)).data
 
 				if (returned.status) {
 					this.success = 'Verified!'

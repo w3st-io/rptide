@@ -66,26 +66,6 @@ export default {
 	},
 
 
-	
-	s_completeRegistration: async function (user_id, verificationCode) {
-		try {
-			const res = await authAxios.post(
-				'/complete-registration',
-				{ user_id, verificationCode }
-			)
-			
-			return res.data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `${location}: Error --> ${err}`
-			}
-		}
-	},
-
-
 	s_requestResetPassword: async function (email) {
 		try {
 			return (await authAxios.post('/request-reset-password', { email })).data

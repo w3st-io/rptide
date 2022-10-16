@@ -44,6 +44,11 @@ export interface IUser extends mongoose.Document {
 	comparePassword(candidatePassword: string): Promise<boolean>
 };
 
+export interface IUserCompleteRegistrationForm {
+	user_id: mongoose.Schema.Types.ObjectId,
+	verificationCode: string
+};
+
 
 // [SCHEMA]
 export const UserSchema = new mongoose.Schema({

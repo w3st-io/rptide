@@ -9,7 +9,7 @@ import config from "../../s-config";
 import config_const from "../../s-config/const";
 import PasswordRecoveryModel, { IPasswordRecovery } from "../../s-model/PasswordRecovery.model";
 import VerificationCodeModel, { IVerificationCode } from "../../s-model/VerificationCode.model";
-import UserModel, { IUser } from "../../s-model/User.model";
+import UserModel, { IUser, IUserCompleteRegistrationForm } from "../../s-model/User.model";
 import WebAppModel, { IWebApp } from "../../s-model/WebApp.model";
 import mailerUtil from "../../s-util/mailerUtil";
 
@@ -261,28 +261,15 @@ export default {
 			location: returnObj.location + "/complete-registration",
 			message: "Completed registration"
 		};
-
+		
 		try {
-			// [VALIDATE] user_id
-			if (!mongoose.isValidObjectId(req.body.user_id)) {
-				return {
-					..._returnObj,
-					message: "Invalid user_id"
-				};
-			}
-
-			// [VALIDATE] verificationCode
-			if (!validator.isAscii(req.body.verificationCode)) {
-				return {
-					..._returnObj,
-					message: "Invalid verfication code"
-				};
-			}
+			// [INIT] const
+			const formInput: IUserCompleteRegistrationForm = req.body;
 			
 			// [EXISTANCE][VerificationCode]
 			const queryResult: IVerificationCode = await VerificationCodeModel.findOne({
-				user: req.body.user_id,
-				verificationCode: req.body.verificationCode
+				user: formInput.user_id,
+				verificationCode: formInput.verificationCode
 			});
 
 			// [NOTHING-FOUND]
@@ -294,9 +281,10 @@ export default {
 			}
 
 			// [MONGODB][READ] User
-			const user: IUser = await UserModel.findOne({ _id: req.body.user_id })
+			const user: IUser = await UserModel.findOne({ _id: formInput.user_id })
 				.select("-password -api.publicKey")
-			.exec();
+				.exec()
+			;
 
 			if (!user) {
 				return {
@@ -315,7 +303,7 @@ export default {
 
 				// [UPDATE][User]
 				await UserModel.findOneAndUpdate(
-					{ _id: req.body.user_id },
+					{ _id: formInput.user_id },
 					{
 						$set: {
 							verified: true,
