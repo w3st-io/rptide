@@ -208,7 +208,7 @@
 						dollars: 0,
 						cents: 0,
 					},
-				})
+				});
 			},
 
 			async submitForm() {

@@ -21,7 +21,7 @@
 
 <script>
 	// [IMPORT]
-	import { MailIcon } from 'vue-feather-icons'
+	import { MailIcon } from "vue-feather-icons";
 
 	export default {
 		components: {

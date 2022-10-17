@@ -818,38 +818,33 @@
 
 <script>
 // [IMPORT]
-import axios from 'axios'
-import { ArrowLeftCircleIcon } from 'vue-feather-icons'
+import axios from "axios";
+import { ArrowLeftCircleIcon } from "vue-feather-icons";
 
 // [IMPORT] Personal
-import Confirm from '@/components/popups/Confirm'
-import Alert from '@/components/inform/Alert'
-import router from '@/router'
+import Confirm from "@/components/popups/Confirm";
+import Alert from "@/components/inform/Alert";
+import router from "@/router";
 
 export default {
 	data() {
 		return {
 			// [AUTH-AXIOS]
 			authAxios: axios.create({
-				baseURL: '/api/product',
+				baseURL: "/api/product",
 				headers: {
 					user_authorization: `Bearer ${localStorage.usertoken}`
 				}
 			}),
-
-			resData: {},
 			loading: true,
-			error: '',
-			message: 'We do not support uploading images yet. please provide a URL for images.',
-
-			showConfirm: false,
-
+			error: "",
+			message: "We do not support uploading images yet. please provide a URL for images.",
 			product: {},
 			productOptions: [],
 			focusedImg: 0,
 			selectedRequiredProductOption: null,
 			selectedOptionalProductOption: null,
-
+			showConfirm: false,
 			edit: {
 				name: false,
 				price: false,
@@ -869,126 +864,124 @@ export default {
 	},
 
 	methods: {
-		async getPageData() {
-			this.loading = true
-
-			this.resData = (
-				await this.authAxios.post('/find-one', {
-					product_id: this.$route.params.product_id
-				})
-			).data
-
-			if (this.resData.status) {
-				this.product = this.resData.product
-				this.productOptions = this.resData.productOptions
-			}
-			else { this.error = this.resData.message }
-
-			this.loading = false
-		},
-
 		async updateProduct() {
 			// [INIT]
-			let requiredProductOptions = []
-			let optionalProductOptions = []
+			let requiredProductOptions = [];
+			let optionalProductOptions = [];
 
 			// [HIDE]
-			this.edit.images = false
-			this.edit.name = false
-			this.edit.description = false
-			this.edit.price = false
-			this.edit.categories = false
-			this.edit.requiredProductOptions = false
-			this.edit.optionalProductOptions = false
+			this.edit = {
+				name: false,
+				price: false,
+				description: false,
+				images: false,
+				categories: false,
+				requiredProductOptions: false,
+				optionalProductOptions: false,
+			};
 			
 			// [REQUIRED-PRODUCT-ADDITIONS]
 			for (let i = 0; i < this.product.requiredProductOptions.length; i++) {
-				const rpa = this.product.requiredProductOptions[i]
+				const rpa = this.product.requiredProductOptions[i];
 				
-				requiredProductOptions.push(rpa._id)
+				requiredProductOptions.push(rpa._id);
 			}
 
-			this.product.requiredProductOptions = requiredProductOptions
+			this.product.requiredProductOptions = requiredProductOptions;
 
 			// [OPTIONAL-PRODUCT-ADDITIONS]
 			for (let i = 0; i < this.product.optionalProductOptions.length; i++) {
-				const rpa = this.product.optionalProductOptions[i]
+				const rpa = this.product.optionalProductOptions[i];
 				
-				optionalProductOptions.push(rpa._id)
+				optionalProductOptions.push(rpa._id);
 			}
 
-			this.product.optionalProductOptions = optionalProductOptions
+			this.product.optionalProductOptions = optionalProductOptions;
 
 
-			this.resData = (
-				await this.authAxios.post('/update', { product: this.product })
+			const resData = (
+				await this.authAxios.post("/update", { product: this.product })
 			).data;
 
 
-			if (this.resData.status) { this.product = this.resData.updatedProduct }
-			else { this.error = this.resData.message }
+			if (resData.status) { this.product = resData.updatedProduct; }
+			else { this.error = resData.message; }
 		},
 
 		async addRequiredPA() {
 			if (this.selectedRequiredProductOption) {
 				this.product.requiredProductOptions.push(
 					this.selectedRequiredProductOption
-				)
+				);
 
-				await this.updateProduct()
+				await this.updateProduct();
 			}
-			else { this.error = 'You must select a Product Option' }
+			else { this.error = "You must select a Product Option"; }
 		},
 
 		async addOptionalPA() {
 			if (this.selectedOptionalProductOption) {
 				this.product.optionalProductOptions.push(
 					this.selectedOptionalProductOption
-				)
+				);
 
-				await this.updateProduct()
+				await this.updateProduct();
 			}
-			else { this.error = 'You must select a Product Option' }
+			else { this.error = "You must select a Product Option"; }
 		},
 		
 		async removeRequiredPA(pa) {
-			const i = this.product.requiredProductOptions.indexOf(pa)
+			const i = this.product.requiredProductOptions.indexOf(pa);
 			
 			if (i > -1) {
-				this.product.requiredProductOptions.splice(i, 1)
+				this.product.requiredProductOptions.splice(i, 1);
 			}
 
-			await this.updateProduct()
+			await this.updateProduct();
 		},
 
 		async removeOptionalPA(pa) {
-			const i = this.product.optionalProductOptions.indexOf(pa)
+			const i = this.product.optionalProductOptions.indexOf(pa);
 			
 			if (i > -1) {
-				this.product.optionalProductOptions.splice(i, 1)
+				this.product.optionalProductOptions.splice(i, 1);
 			}
 
-			await this.updateProduct()
+			await this.updateProduct();
 		},
 
 		async deleteProduct() {
-			this.resData = (
-				await this.authAxios.post('/delete-one', {
+			const resData = (
+				await this.authAxios.post("/delete-one", {
 					product_id: this.product._id
 				})
 			).data;
 
 
-			this.showConfirm = false
+			this.showConfirm = false;
 
-			if (this.resData.status) {
-				router.push('/dashboard/product/0/5/1')
+			if (resData.status) {
+				router.push("/dashboard/product/0/5/1");
 			}
 		},
 	},
 
 	async created() {
-		await this.getPageData()
+		this.loading = true;
+
+		const resData = (
+			await this.authAxios.post("/find-one", {
+				product_id: this.$route.params.product_id
+			})
+		).data;
+
+		if (resData.status) {
+			this.product = resData.product;
+			this.productOptions = resData.productOptions;
+		}
+		else { this.error = resData.message; }
+
+		this.loading = false;
 	},
 }
 </script>

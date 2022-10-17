@@ -51,14 +51,16 @@
 							verificationCode: this.verificationCode
 						}
 					)
-				).data
+				).data;
 
 				if (returned.status) {
-					this.success = 'Verified!'
+					this.success = 'Verified!';
 				}
-				else { this.error = returned.message }
+				else {
+					this.error = returned.message;
+				}
 			}
-			catch (err) { this.error = err }
+			catch (err) { this.error = err; }
 		},
 	}
 </script>

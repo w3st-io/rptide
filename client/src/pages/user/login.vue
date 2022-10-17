@@ -93,11 +93,11 @@
 <script>
 	// [IMPORT]
 	import axios from "axios";
-	import { LogInIcon } from "vue-feather-icons"
+	import { LogInIcon } from "vue-feather-icons";
 
 	// [IMPORT] Personal
-	import Alert from "@/components/inform/Alert"
-	import router from "@/router"
+	import Alert from "@/components/inform/Alert";
+	import router from "@/router";
 
 	// [EXPORT]
 	export default {
@@ -127,8 +127,8 @@
 				try {
 					// [VALIDATE]
 					if (!this.email || !this.password)  {
-						this.error = "Fields are required"
-						return
+						this.error = "Fields are required";
+						return;
 					}
 
 					const resData = await this.authAxios.post("/login", {
@@ -154,16 +154,20 @@
 						router.go(-1);
 					}
 					else {
-						this.error = resData.data.message
+						this.error = resData.data.message;
 					}
 				}
-				catch (err) { this.error = err }
+				catch (err) {
+					this.error = err;
+				}
 			},
 		},
 
 		created: async function () {
 			// [REDIRECT] Logged
-			if (localStorage.usertoken) { router.push({ name: "/" }) }
+			if (localStorage.usertoken) {
+				router.push({ name: "/" });
+			}
 		}
 	}
 </script>

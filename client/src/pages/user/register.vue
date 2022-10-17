@@ -81,8 +81,8 @@
 	import axios from "axios";
 
 	// [IMPORT] Personal
-	import Alert from '@/components/inform/Alert'
-	import router from '@/router'
+	import Alert from '@/components/inform/Alert';
+	import router from '@/router';
 
 	// [EXPORT]
 	export default {
@@ -110,7 +110,7 @@
 
 		async created() {
 			// [REDIRECT] Log Required
-			if (localStorage.usertoken) { router.push({ name: '/' }) }
+			if (localStorage.usertoken) { router.push({ name: '/' }); }
 		},
 
 		methods: {
@@ -121,13 +121,13 @@
 							email: this.formData.email,
 							password: this.formData.password,
 						})
-					).data
+					).data;
 
 					// Check Status
-					if (res.created) { router.push({ name: 'user_registered' }) }
-					else { this.error = res.message }
+					if (res.created) { router.push({ name: 'user_registered' }); }
+					else { this.error = res.message; }
 				}
-				catch (err) { this.error = err }
+				catch (err) { this.error = err; }
 			},
 		}
 	}
