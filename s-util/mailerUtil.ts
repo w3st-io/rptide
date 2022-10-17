@@ -118,7 +118,7 @@ export default {
 					<h3>
 						If you did not request to change your password please ignore this email
 					</h3>
-					<a href="${config.app.baseURL.client}/user/password/reset/${user_id}/${VCode}">
+					<a href="${config.app.baseURL.client}/password/reset/${user_id}/${VCode}">
 						<button>Click to Reset Password</button>
 					</a>
 				`

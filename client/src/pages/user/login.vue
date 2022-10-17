@@ -67,7 +67,7 @@
 								type="submit"
 							>Login</BButton>
 						</form>
-						<RouterLink to="/user/password/request" class="text-primary">
+						<RouterLink to="/password/request" class="text-primary">
 							<u>Forgot password?</u>
 						</RouterLink>
 					</ValidationObserver>

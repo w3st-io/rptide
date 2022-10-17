@@ -13,6 +13,9 @@ import dashboard from '@/pages/dashboard';
 import documentation from '@/pages/documentation';
 // Email
 import emailSent from '@/pages/email-sent';
+// Password
+import password_request from '@/pages/password/request';
+import password_reset from '@/pages/password/reset';
 // Product
 import product_create from '@/pages/product/create';
 import product_read from '@/pages/product/read';
@@ -21,8 +24,6 @@ import productOption_create from '@/pages/product-option/create';
 // User
 import user from '@/pages/user';
 import user_login from '@/pages/user/login';
-import user_password_request from '@/pages/user/password/request';
-import user_password_reset from '@/pages/user/password/reset';
 import user_verify from '@/pages/user/verify';
 import user_register from '@/pages/user/register';
 import user_registered from '@/pages/user/registered';
@@ -74,6 +75,25 @@ const router = new Router ({
 				auth: true,
 				title: 'Email Sent'
 			},
+		},
+		// Password
+		{
+			path: '/password/request',
+			name: 'password_request',
+			component: password_request,
+			meta: {
+				auth: true,
+				title: 'Request for Password Reset'
+			}
+		},
+		{
+			path: '/password/reset/:user_id/:verification_code',
+			name: 'password_reset',
+			component: password_reset,
+			meta: {
+				auth: true,
+				title: 'Reset Password'
+			}
 		},
 		// Product
 		{
@@ -131,24 +151,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Login'
-			}
-		},
-		{
-			path: '/user/password/request',
-			name: 'user_request',
-			component: user_password_request,
-			meta: {
-				auth: true,
-				title: 'Request for Password Reset'
-			}
-		},
-		{
-			path: '/user/password/reset/:user_id/:verification_code',
-			name: 'user_password_reset',
-			component: user_password_reset,
-			meta: {
-				auth: true,
-				title: 'Reset Password'
 			}
 		},
 		{
