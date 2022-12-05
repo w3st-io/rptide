@@ -52,6 +52,7 @@
 				// [LOCAL-STORAGE]
 				localStorage.setItem("node_env", res.node_env);
 
+				// Destroy token if a user wasnt returned
 				if (!res.user) localStorage.setItem("usertoken", "");
 
 				// [STORE]
