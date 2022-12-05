@@ -2,7 +2,6 @@
 import aos from "aos";
 import { BootstrapVue } from "bootstrap-vue";
 import Viewer from "v-viewer";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
 import Vue from "vue";
 import Editor from "vue-editor-js/src/index";
 import VueHeadful from "vue-headful";
@@ -32,8 +31,6 @@ Vue
 // [GLOBAL-COMPONENTS]
 Vue
 	.component("VueHeadful", VueHeadful)
-	.component("ValidationObserver", ValidationObserver)
-	.component("ValidationProvider", ValidationProvider)
 ;
 
 

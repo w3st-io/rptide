@@ -47,6 +47,8 @@ export default {
 		};
 
 		try {
+			console.log(req.body.user_decoded);
+			
 			// [USER-LOGGED]
 			if (req.body.user_decoded) {
 				// [MONGODB][User]

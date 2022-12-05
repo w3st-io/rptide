@@ -93,6 +93,7 @@
 <script>
 	// [IMPORT]
 	import axios from "axios";
+	import { ValidationObserver, ValidationProvider } from "vee-validate";
 	import { LogInIcon } from "vue-feather-icons";
 
 	// [IMPORT] Personal
@@ -104,6 +105,8 @@
 		components: {
 			LogInIcon,
 			Alert,
+			ValidationObserver,
+			ValidationProvider
 		},
 
 		data() {
@@ -135,6 +138,8 @@
 						email: this.email,
 						password: this.password
 					});
+
+					console.log(resData);
 			
 					if (resData.data.validation) {
 						// [LOCAL-STORAGE] usertoken

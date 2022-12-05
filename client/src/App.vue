@@ -52,6 +52,8 @@
 				// [LOCAL-STORAGE]
 				localStorage.setItem("node_env", res.node_env);
 
+				if (!res.user) localStorage.setItem("usertoken", "");
+
 				// [STORE]
 				this.$store.replaceState({
 					...this.$store.state,

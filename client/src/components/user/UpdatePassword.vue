@@ -93,6 +93,7 @@
 <script>
 	// [IMPORT]
 	import axios from "axios";
+	import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 	// [IMPORT] Personal
 	import Alert from '@/components/inform/Alert'
@@ -102,6 +103,8 @@
 	export default {
 		components: {
 			Alert,
+			ValidationObserver,
+			ValidationProvider
 		},
 
 		data() {
