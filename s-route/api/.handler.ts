@@ -43,7 +43,8 @@ export default {
 			...returnObj,
 			node_env: config.nodeENV,
 			limit: config_const.limit,
-			location: returnObj.location + ""
+			location: returnObj.location + "",
+			__dirname: __dirname
 		};
 
 		try {
