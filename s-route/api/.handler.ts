@@ -204,7 +204,7 @@ export default {
 			// [VALIDATE] req.body.password
 			if (
 				!validator.isAscii(req.body.password) ||
-				req.body.password < 8 ||
+				req.body.password.length < 8 ||
 				req.body.password.length > 500
 			) {
 				return {
