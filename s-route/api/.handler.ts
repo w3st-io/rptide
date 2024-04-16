@@ -91,7 +91,8 @@ export default {
 	 * @param {string} req.body.password Password for account
 	 * @returns {string} Object containing token (JWT token)
 	*/
-	"/login": async (req: express.Request): Promise<object> => {
+	"/login": async (req: express.Request): Promise<object> =>
+	{
 		// [INIT]
 		let _returnObj: any = {
 			...returnObj,
